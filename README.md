@@ -50,12 +50,14 @@ This repository contains all the java programming assignments for the CSE1007 la
     * Iterate over the maps and display the key-value pairs stored in them
     * Given a student name, fetch the names of all those who teach him/her.
     * if the elements of h1 are:
+
     | Stud name | Courses registered       |
     | ----------| -------------------------|
     | A         | Python, Math, C          |
     | B         | C, C++                   |
     | C         | C++, Physics, Chemistry  |
     * And if the elements of h2 are:
+    
     | Course Name | Faculty      |
     | ------------| -------------|
     | Python      | 111          |
