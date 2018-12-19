@@ -1,8 +1,4 @@
 /**
- * 
- */
-
-/**
  * @author jacobjohn
  *
  */
