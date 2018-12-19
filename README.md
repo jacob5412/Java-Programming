@@ -25,6 +25,7 @@ This repository contains all the java programming assignments for the CSE1007 la
     >Eg., For the equation, 2NaOH + H2SO4 -> Na2SO4+ 2H2O,  the O/P  should be as follows: (1) Reactants are 2 moles of NaOH,  1 mole of H2SO4. (2) Products are 1 mole of Na2SO4 and 2 moles of H2O.
 3. Write a program to demonstrate the knowledge of students in Inheritance.
     > Eg: Assume that a bank maintains two kinds of accounts for customers, one called as savings account and the other as current account. The savings account provides compound interest and withdrawal facilities but no cheque book facility. The current account provides cheque book facility but no interest. Current account holders should maintain a minimum balance and if the balance falls below this level, a service charge is imposed.
+    
     Create a class account that stores customer name, account number and type of account. From this derive the classes cur_acct and sav_acct to make them more specific to their requirements. Include necessary member functions in order to achieve the following tasks :
     * Accept deposit from a customer and update the balance.
     * Display the balance
