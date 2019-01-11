@@ -73,17 +73,17 @@ public class StringHandle {
         if(reactant.length > 1) {
         		for(i = 0; i < reactant.length; i++)
         		{
-        			if(i == 0)
-        				System.out.print(rmoles[i] + " moles of " + Coefficient.removeCoefficient(reactant[i]));
+                    if(i == 0)
+        				System.out.print(rmoles[i] + " mole/s of " + Coefficient.removeCoefficient(reactant[i]));
         			else if(i == reactant.length-1)
-        				System.out.print(" and " + rmoles[i] + " moles of " 
+        				System.out.print(" and " + rmoles[i] + " mole/s of " 
         						+ Coefficient.removeCoefficient(reactant[i]));
         			else
-        				System.out.print(", " + rmoles[i] + " moles of " + Coefficient.removeCoefficient(reactant[i]));
+        				System.out.print(", " + rmoles[i] + " mole/s of " + Coefficient.removeCoefficient(reactant[i]));
         		}
         }
         else {
-        		System.out.print(rmoles[0] + " moles of " 
+        		System.out.print(rmoles[0] + " mole/s of " 
         				+ Coefficient.removeCoefficient(reactant[0]));
         }
         System.out.println();
@@ -91,14 +91,14 @@ public class StringHandle {
         if (product.length > 1) {
             for (i = 0; i < product.length; i++) {
                 if (i == 0)
-                    System.out.print(pmoles[i] + " moles of " + Coefficient.removeCoefficient(product[i]));
+                    System.out.print(pmoles[i] + " mole/s of " + Coefficient.removeCoefficient(product[i]));
                 else if (i == product.length - 1)
-                    System.out.print(" and " + pmoles[i] + " moles of " + Coefficient.removeCoefficient(product[i]));
+                    System.out.print(" and " + pmoles[i] + " mole/s of " + Coefficient.removeCoefficient(product[i]));
                 else
-                    System.out.print(", " + pmoles[i] + " moles of " + Coefficient.removeCoefficient(product[i]));
+                    System.out.print(", " + pmoles[i] + " mole/s of " + Coefficient.removeCoefficient(product[i]));
             }
         } else {
-            System.out.print(pmoles[0] + " moles of " + Coefficient.removeCoefficient(product[0]));
+            System.out.print(pmoles[0] + " mole/s of " + Coefficient.removeCoefficient(product[0]));
         }
     }
 }
