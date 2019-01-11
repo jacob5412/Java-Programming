@@ -24,7 +24,7 @@ This repository contains all the java programming assignments for the CSE1007 la
     * Check for the minimum balance, impose penalty, necessary, and update the balance.
 
 ## Assignment 3
-1. Write a program to demonstrate the knowledge of students in working with user-defined packages and sub-packages. 
+1. Write a program to demonstrate the knowledge of students in working with user-defined packages and sub-packages. [TwinsPrime](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment3/src/assignment3/TwinsPrime.java)[Prime](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment3/src/primespackage/Prime.java)
     >Eg., Within the package named ‘primespackage’, define a class Primes which includes a method checkForPrime() for checking if the given number is prime or not. Define another class named TwinPrimes outside of this package which will display all the pairs of prime numbers whose difference is 2. (Eg, within the range 1 to 10, all possible twin prime numbers are (3,5), (5,7)). The TwinPrimes class should make use of the checkForPrime() method in the Primes class.
 2. Write a program to demonstrate the knowledge of students in Java Exception handling.
     >Eg., Read the Register Number and Mobile Number of a student. If the Register Number does not contain exactly 9 characters or if the Mobile Number does not contain exactly 10 characters, throw an IllegalArgumentException.  If the Mobile Number contains any character other than a digit, raise a NumberFormatException. If the Register Number contains any character other than digits and alphabets, throw a NoSuchElementException. If they are valid, print the message ‘valid’ else ‘invalid’

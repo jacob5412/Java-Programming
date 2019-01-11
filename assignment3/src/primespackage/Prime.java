@@ -1,3 +1,7 @@
+/*
+ * Jacob John
+ */
+
 package primespackage;
 
 public class Prime {
