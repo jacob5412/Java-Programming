@@ -13,7 +13,7 @@ public class multiDim {
         // input for each batch
         Scanner sc = new Scanner(System.in);
         for(i = 0; i < arr.length; i++){
-            System.out.print("Enter number of students for batch" + (i+1) + ": ");
+            System.out.print("Enter number of students for batch " + (i+1) + ": ");
             t = sc.nextDouble();
             arr[i] = new int[(int)Math.ceil(t/4)];
             for(j = 0; j < arr[i].length; j++)
@@ -25,6 +25,7 @@ public class multiDim {
                 t = t - 4;
             }
         }
+        sc.close();
   
         // Displaying the values of 2D Jagged array 
         int cfour = 0;
