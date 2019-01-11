@@ -22,7 +22,7 @@ public class TwinsPrime {
 		System.out.println("Twin prime numbers are: ");
 		//checking twins prime
 		for(i = n1; i <= n2; i++) {
-			if(Prime.checkPrime(i) & Prime.checkPrime(i+2))
+			if(Prime.checkPrime(i) & Prime.checkPrime(i+2) & i > 1)
 			{
 				System.out.println("(" + i + "," + (i+2) + ")");
 			}
