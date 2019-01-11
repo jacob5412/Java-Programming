@@ -1,3 +1,7 @@
+/*
+Jacob John
+*/
+
 package assignment2;
 import java.util.Scanner;
 
