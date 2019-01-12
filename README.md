@@ -3,7 +3,7 @@
 This repository contains all the java programming assignments for the CSE1007 lab as of Winter'19.
 
 ## Lab Uploads
-* [Surprise Assessment (Encryption)]()
+* [Surprise Assessment (Encryption)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_1.pdf)
 * [Assessment 1 (Questions 1-4)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_1.pdf) 
 
 ## Assignment 1
