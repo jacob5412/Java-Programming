@@ -2,6 +2,10 @@
 
 This repository contains all the java programming assignments for the CSE1007 lab as of Winter'19.
 
+## Lab Uploads
+* [Surprise Assessment (Encryption)]()
+* [Assessment 1 (Questions 1-4)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_1.pdf) 
+
 ## Assignment 1
 1. WAP for finding the max and min among three numbers. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment1/src/minMaxThree.java)
 2. WAP, which takes two integer operands and one operator from the user, performs the operation and then prints the result. (Consider the operators `+, - ,*, /, %` and use `switch` Statement) [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment1/src/calculator.java)
