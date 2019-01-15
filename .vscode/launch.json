@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - TwinsPrime",
+            "request": "launch",
+            "mainClass": "assignment3.TwinsPrime",
+            "projectName": "assignment3 (2)"
+        }
+    ]
+}
