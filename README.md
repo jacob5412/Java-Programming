@@ -81,22 +81,23 @@ This repository contains all the java programming assignments for the CSE1007 la
 3. Create a class StudentGrade with member determineGrade( ) that accepts register number (String) and marks (float-type) of a student in all courses he has registered for a particular semester. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/StudentGradeMain.java)
 4. Write a program to define a static method sum_Squares( ) to find the sum of the squares of the first 'n' natural numbers and a non-static method square_Sum( ) to find the square of the sum of those 'n' natural numbers. Invoke these methods frommain( ) method to evaluate the difference between the values returned by them. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/SquareSum.java)
 5. The following list gives the amount of rainfall (in cms) recorded at a particular place for 12 month.
-Store these values in an array. Find the average rainfall and display the count of the number of months in which the rainfall is more than the average.
+Store these values in an array. Find the average rainfall and display the count of the number of months in which the rainfall is more than the average. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/RainMain.java)
     >10.2, 11.9, 8.0, 11.2, 10.8, 6.9, 8.2, 11.5, 10.4, 8.7, 7.8, 7.5.
-[Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/RainMain.java)
 6. Write a program to print the following patterns using loops. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Pattern.java)
-```
-1 2 3 4 5 6 7
-  2 3 4 5 6 7
-    3 4 5 6 7
-      4 5 6 7
-        5 6 7
-          6 7
-            7
-          6 7
-        5 6 7
-      4 5 6 7
-    3 4 5 6 7
-  2 3 4 5 6 7
-1 2 3 4 5 6 7
-```
+        ```
+        1 2 3 4 5 6 7
+          2 3 4 5 6 7
+            3 4 5 6 7
+              4 5 6 7
+                5 6 7
+                  6 7
+                    7
+                  6 7
+                5 6 7
+              4 5 6 7
+            3 4 5 6 7
+          2 3 4 5 6 7
+        1 2 3 4 5 6 7
+        ```
+7. Write a program called NumberGuess to play the number guessing game. The program shall generate a random number between 0 and 99. The player inputs his/her guess and the program shall response with "Too higher", "Too lower" or "Congratulations! You got it.." accordingly. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/NumberGuess.java)
+8. Create a class Film with string objects which stores name, language and lead_actor and category (action/drama/fiction/comedy). Also include an integer data member that stores the duration of the film. Include parameterized constructor, default constructor and accessory functions to film class. Film objects can be initialized either using a constructor or accessor functions. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/FilmMain.java)
