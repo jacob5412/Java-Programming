@@ -74,3 +74,28 @@ This repository contains all the java programming assignments for the CSE1007 la
     >Eg: Client sends user name and password to JSP on the Server. Server receives, validates and sends back the validation result to client as response.
 2. Write a program to demonstrate the knowledge of students in JSP.
     >Eg: Create a JSP page for an online multiple choice test. The questions are randomly selected from a database and displayed on the screen. The choices are displayed using radio buttons. When the user clicks on next, the next question is displayed. When the user clicks on submit, display the total score on the screen.
+
+## Extra Questions (Practice)
+1. Write a program to accept an integer number and separate the digits with a $ sign. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/separateInt.java)
+2. Write a program to continuously read input values from the user. The program should terminate if exactly three String values have been inputted. Display the count of integer values and float values entered so far. Also display the average of all integer values and all float values individually.[Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/ThreeInputs.java)
+3. Create a class StudentGrade with member determineGrade( ) that accepts register number (String) and marks (float-type) of a student in all courses he has registered for a particular semester. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/StudentGradeMain.java)
+4. Write a program to define a static method sum_Squares( ) to find the sum of the squares of the first 'n' natural numbers and a non-static method square_Sum( ) to find the square of the sum of those 'n' natural numbers. Invoke these methods frommain( ) method to evaluate the difference between the values returned by them. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/SquareSum.java)
+5. The following list gives the amount of rainfall (in cms) recorded at a particular place for 12 month.
+Store these values in an array. Find the average rainfall and display the count of the number of months in which the rainfall is more than the average. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/RainMain.java)
+> 10.2, 11.9, 8.0, 11.2, 10.8, 6.9, 8.2, 11.5, 10.4, 8.7, 7.8, 7.5.
+6. Write a program to print the following patterns using loops. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Pattern.java)
+```
+1 2 3 4 5 6 7
+  2 3 4 5 6 7
+    3 4 5 6 7
+      4 5 6 7
+        5 6 7
+          6 7
+            7
+          6 7
+        5 6 7
+      4 5 6 7
+    3 4 5 6 7
+  2 3 4 5 6 7
+1 2 3 4 5 6 7
+```
