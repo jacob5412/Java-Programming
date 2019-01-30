@@ -5,6 +5,7 @@ This repository contains all the java programming assignments for the CSE1007 la
 ## Lab Uploads
 * [Surprise Assessment (Encryption)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_1.pdf)
 * [Assessment 1 (Questions 1-4)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_1.pdf) 
+* [CAT 1](https://github.com/jacobjohn2016/Java-Programming/blob/master/CAT1/java_CAT_1.pdf)
 
 ## Assignment 1
 1. WAP for finding the max and min among three numbers. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment1/src/minMaxThree.java)
