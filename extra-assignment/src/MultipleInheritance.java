@@ -18,7 +18,7 @@ interface PI2
 }
 
 // Implementation class code 
-class Test implements PI1, PI2
+class MultipleInheritance implements PI1, PI2
 {
     // Overriding default show method
     public void show()
@@ -34,7 +34,7 @@ class Test implements PI1, PI2
 
     public static void main(String args[])
     {
-        Test d = new Test();
+        MultipleInheritance d = new MultipleInheritance();
         d.show();
     }
 } 
