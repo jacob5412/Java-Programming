@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class MultiThreadVote {
     public static void main(String[] args) {
-        Vector votevec = new Vector();   // creating a vote array for 240 votes
+        Vector votevec = new Vector(240);   // creating a vote array for 240 votes
 
         Vote a = new Vote(1, votevec);
         a.start();
