@@ -118,5 +118,5 @@ O/P:    TTT
 </p>
 Include data members and member functions as given in the table below.
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/2.png" width="500" alt="specifications">
+  <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/2.png" width="750" alt="specifications">
 </p>
