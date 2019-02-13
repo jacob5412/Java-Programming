@@ -103,3 +103,10 @@ Store these values in an array. Find the average rainfall and display the count 
 7. Write a program called NumberGuess to play the number guessing game. The program shall generate a random number between 0 and 99. The player inputs his/her guess and the program shall response with "Too higher", "Too lower" or "Congratulations! You got it.." accordingly. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/NumberGuess.java)
 8. Create a class Film with string objects which stores name, language and lead_actor and category (action/drama/fiction/comedy). Also include an integer data member that stores the duration of the film. Include parameterized constructor, default constructor and accessory functions to film class. Film objects can be initialized either using a constructor or accessor functions. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/FilmMain.java)
 9. Demonstrating multiple inheritance in Java. [Source](https://www.geeksforgeeks.org/java-and-multiple-inheritance/) [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/MultipleInheritance.java)
+10. Write a program to demonstrate the knowledge of students in advanced concepts of Java string handling.
+    >Eg., (Bioinformatics: finding genes) Biologists use a sequence of letters A, C, T, and G to model a genome. A gene is a substring of a genome that starts after a triplet ATG and ends before a triplet *TAG, TAA, or TGA*. Furthermore, the length of a gene string is a multiple of 3 and the gene does not contain any of the triplets ATG, TAG, TAA, and TGA. Write a program that prompts the user to enter a genome and displays all genes in the genome. If no gene is found in the input sequence, displays no gene. Here are the sample runs: done
+```
+Enter a genome string: TTATGTTTTAAGGATGGGGCGTTAGTT
+O/P:    TTT
+        GGGCGT
+```
