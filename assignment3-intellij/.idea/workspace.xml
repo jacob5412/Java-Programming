@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a94d171-5e1a-4f41-b4a9-086b0d16aba6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../assignment4/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assignment4/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assignment4/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assignment4/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assignment4/assignment4.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../assignment4/src/Donor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../extra-assignment/src/AmusementParks.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../extra-assignment/src/Genes.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../extra-assignment/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../extra-assignment/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,12 +33,12 @@
     <favorites_list name="assignment3-intellij" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/elections/Vote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="5" column="30" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
+            <state relative-caret-position="330">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -52,8 +49,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/elections/count.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="64">
-              <caret line="4" selection-start-line="4" selection-end-line="5" />
+            <state relative-caret-position="217">
+              <caret line="15" column="12" lean-forward="true" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -61,8 +58,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MultiThreadVote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+            <state relative-caret-position="224">
+              <caret line="14" column="38" lean-forward="true" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -102,8 +99,8 @@
         <option value="$PROJECT_DIR$/src/elections/MultiThreadCount.java" />
         <option value="$PROJECT_DIR$/src/elections/MultiThreads.java" />
         <option value="$PROJECT_DIR$/src/elections/MultiThreadVote.java" />
-        <option value="$PROJECT_DIR$/src/elections/Vote.java" />
         <option value="$PROJECT_DIR$/src/elections/count.java" />
+        <option value="$PROJECT_DIR$/src/elections/Vote.java" />
       </list>
     </option>
   </component>
@@ -120,6 +117,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -153,14 +151,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550046279003" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550046282325" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -240,18 +237,19 @@
       <workItem from="1549423663954" duration="1955000" />
       <workItem from="1549428607917" duration="1343000" />
       <workItem from="1549507527927" duration="23000" />
-      <workItem from="1550026051835" duration="7206000" />
+      <workItem from="1550026051835" duration="7223000" />
+      <workItem from="1550057280652" duration="1196000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11930000" />
+    <option name="totallyTimeSpent" value="13143000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="723" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49918434" visible="true" weight="0.22294022" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49918434" visible="true" weight="0.22617124" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -260,7 +258,7 @@
       <window_info id="Favorites" order="6" sideWeight="0.5008157" side_tool="true" weight="0.20355412" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32894737" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6486268" visible="true" weight="0.32730263" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.64781904" weight="0.32730263" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39967373" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -269,7 +267,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.3513732" side_tool="true" visible="true" weight="0.32730263" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.35218093" side_tool="true" visible="true" weight="0.32730263" />
       <window_info anchor="bottom" id="Messages" order="12" weight="0.32894737" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -330,8 +328,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/elections/Vote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="5" column="30" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
+        <state relative-caret-position="330">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -340,15 +338,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/elections/count.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="4" selection-start-line="4" selection-end-line="5" />
+        <state relative-caret-position="217">
+          <caret line="15" column="12" lean-forward="true" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MultiThreadVote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="8" column="38" selection-start-line="8" selection-start-column="38" selection-end-line="8" selection-end-column="38" />
+        <state relative-caret-position="224">
+          <caret line="14" column="38" lean-forward="true" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
