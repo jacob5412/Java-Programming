@@ -52,6 +52,6 @@ class Bill extends inPatient{
 public class Hospital {
     public static void main(String[] args) {
         Patient b = new Bill();
-        
+        // add code here
     }
 }
