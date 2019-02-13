@@ -116,7 +116,7 @@ O/P:    TTT
 <p align="center">
   <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/1.png" width="250" alt="class diagram">
 </p>
-Include data members and member functions as given in the table below.
+    Include data members and member functions as given in the table below.
 <p align="center">
   <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/2.png" width="750" alt="specifications">
 </p>
