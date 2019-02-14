@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dedc202e-c927-424d-b107-96dc0e7f19bf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../assignment3-intellij/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment3-intellij/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="dedc202e-c927-424d-b107-96dc0e7f19bf" name="Default Changelist" comment="Updated Donor Program">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/donations.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment4/Donor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment4/Donor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Donor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Donor.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,7 +16,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Donor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-879">
+            <state relative-caret-position="-506">
               <caret line="21" column="43" lean-forward="true" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
             </state>
           </provider>
@@ -80,7 +75,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550125030573" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550125179276" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -124,18 +119,32 @@
       <workItem from="1550034539480" duration="1206000" />
       <workItem from="1550057281487" duration="33000" />
       <workItem from="1550120363179" duration="1340000" />
-      <workItem from="1550122177476" duration="2768000" />
+      <workItem from="1550122177476" duration="3019000" />
     </task>
+    <task id="LOCAL-00001" summary="Updated Donor Program">
+      <created>1550125026703</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1550125026703</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Updated Donor Program">
+      <created>1550125117364</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1550125117364</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5347000" />
+    <option name="totallyTimeSpent" value="5598000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="25" width="1855" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26036483" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26036483" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -144,7 +153,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32829374" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.40280777" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.40280777" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -154,7 +163,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="12" weight="0.32937366" />
+      <window_info active="true" anchor="bottom" id="Messages" order="12" visible="true" weight="0.32937366" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -168,6 +177,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated Donor Program" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Donor Program" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Donor.class">
@@ -186,7 +199,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Donor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-879">
+        <state relative-caret-position="-506">
           <caret line="21" column="43" lean-forward="true" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
         </state>
       </provider>
