@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ExcepHandle",
+            "request": "launch",
+            "mainClass": "ExcepHandle",
+            "console": "externalTerminal",
+            "stopOnEntry": false,
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - MultiThreadVote",
+            "request": "launch",
+            "mainClass": "MultiThreadVote"
+        }
+    ]
+}

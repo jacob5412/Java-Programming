@@ -35,7 +35,7 @@ public class ExcepHandle{
         Scanner sc = new Scanner(System.in);
         String reg = sc.nextLine();
         String no = sc.nextLine();
-
+        sc.close();
         validate(reg, no);
         System.out.println("Valid");
     }
