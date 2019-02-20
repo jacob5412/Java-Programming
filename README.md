@@ -3,9 +3,10 @@
 This repository contains all the java programming assignments for the CSE1007 lab as of Winter'19.
 
 ## Lab Uploads
-* [Surprise Assessment (Encryption)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_1.pdf)
+* [Surprise Assessment 1 (Encryption)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_1.pdf)
 * [Assessment 1 (Questions 1-4)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_1.pdf)
 * [CAT 1](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/java_CAT_1.pdf)
+* [Surprise Assessment 2 (Exception Handling)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_2.pdf)
 
 ## Assignment 1
 1. WAP for finding the max and min among three numbers. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment1/src/minMaxThree.java)
@@ -120,3 +121,5 @@ O/P:    TTT
 <p align="center">
   <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/2.png" width="750" alt="specifications">
 </p>
+
+12. Create Exception class called BookQuantityNotAvailableException and use it in the class called “Store” which is described by its bookId title, author, price and quantityAvailable. Include a method called purchase() taking the purchase quantity as a parameter and update the quantityAvailable appropriately. Create a package containing the Store and a Exception class. Write a java program to test the working of the Store class. [Book]() [Store]()

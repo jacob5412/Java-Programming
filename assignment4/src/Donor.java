@@ -1,6 +1,4 @@
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
@@ -101,6 +99,16 @@ public class Donor {
         byte c[] = outputstream.toByteArray();
         fos.write(c);                                          // writing byte array to file
         fos.close();
+
+
+        // reading data from file
+        FileInputStream fis = new FileInputStream("donations.txt");
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(c);
+        while(fis.read() != -1){
+            inputStream.read(fis.read());
+        }
+        fis.close();
+
     }
 }
 
