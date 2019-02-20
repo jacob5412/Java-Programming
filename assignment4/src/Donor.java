@@ -4,6 +4,9 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -102,13 +105,38 @@ public class Donor {
 
 
         // reading data from file
-        FileInputStream fis = new FileInputStream("donations.txt");
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(c);
-        while(fis.read() != -1){
-            inputStream.read(fis.read());
-        }
-        fis.close();
+        byte[] fileContent = Files.readAllBytes(Paths.get("donations.txt"));
+        String fileInput = new String(fileContent);
+        String[] content = fileInput.split("\n");
+        Date dt2;
+        String[] fileDate, fileGrp;
+        SimpleDateFormat ft2 = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
+        LocalDate current = LocalDate.now();
 
+        for(i = 5; i < content.length; i += 8){
+            fileGrp = content[i].split(": ");
+            fileDate = content[i+1].split(": ");
+            try {
+                dt2 = ft2.parse(fileDate[1]);
+                DateTime dt3 = new DateTime(dt2);
+                LocalDate dt1 = new LocalDate(dt3);
+                Period p = new Period(dt1, current);
+
+                // if more than 6 months and blood group is A+, print details
+                System.out.println("\n" + "Donors who haven't donated in 6 months and \"A+\"" + "\n");
+                if((p.getMonths() > 6 | p.getYears() >= 1) && fileGrp[1].equals("A+"))
+                {
+                    System.out.println(content[i-3]); // name
+                    System.out.println(content[i-2]); // address
+                    System.out.println(content[i-1]); // contact
+                    System.out.println(content[i]);   // blood group
+                    System.out.println(content[i+1]); // date
+                    System.out.println("\n");
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
 

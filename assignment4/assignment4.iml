@@ -7,5 +7,21 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/joda-time-2.4" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/joda-time-2.4" />
+          <root url="file://$MODULE_DIR$/joda-time-2.4/src/example" />
+          <root url="file://$MODULE_DIR$/joda-time-2.4/src/main/java" />
+          <root url="file://$MODULE_DIR$/joda-time-2.4/src/test/java" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/joda-time-2.4" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/joda-time-2.4" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
   </component>
 </module>
