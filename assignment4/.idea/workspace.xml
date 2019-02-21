@@ -3,13 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="dedc202e-c927-424d-b107-96dc0e7f19bf" name="Default Changelist" comment="">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/assignment4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/assignment4.iml" afterDir="false" />
 =======
+=======
+>>>>>>> parent of bc5579b... Update workspace.xml
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignment4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/assignment4.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/donations.txt" beforeDir="false" afterPath="$PROJECT_DIR$/donations.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/assignment4/Donor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment4/Donor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Donor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Donor.java" afterDir="false" />
+<<<<<<< HEAD
+>>>>>>> parent of bc5579b... Update workspace.xml
+=======
 >>>>>>> parent of bc5579b... Update workspace.xml
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -25,9 +31,12 @@
         <entry file="file://$PROJECT_DIR$/src/Donor.java">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state relative-caret-position="105">
               <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
 =======
+=======
+>>>>>>> parent of bc5579b... Update workspace.xml
             <state relative-caret-position="260">
               <caret line="132" column="61" selection-start-line="132" selection-start-column="61" selection-end-line="132" selection-end-column="61" />
               <folding>
@@ -106,7 +115,11 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550741087566" />
+=======
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550640835712" />
+>>>>>>> parent of bc5579b... Update workspace.xml
 =======
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550640835712" />
 >>>>>>> parent of bc5579b... Update workspace.xml
@@ -159,8 +172,12 @@
       <workItem from="1550122177476" duration="3403000" />
       <workItem from="1550630623306" duration="941000" />
 <<<<<<< HEAD
+<<<<<<< HEAD
       <workItem from="1550633741651" duration="5463000" />
       <workItem from="1550741009680" duration="103000" />
+=======
+      <workItem from="1550633741651" duration="5421000" />
+>>>>>>> parent of bc5579b... Update workspace.xml
 =======
       <workItem from="1550633741651" duration="5421000" />
 >>>>>>> parent of bc5579b... Update workspace.xml
@@ -198,16 +215,22 @@
   </component>
   <component name="TimeTrackingManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="13112000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="724" extended-state="6" />
 =======
+=======
+>>>>>>> parent of bc5579b... Update workspace.xml
     <option name="totallyTimeSpent" value="12967000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="723" extended-state="6" />
     <editor active="true" />
+<<<<<<< HEAD
+>>>>>>> parent of bc5579b... Update workspace.xml
+=======
 >>>>>>> parent of bc5579b... Update workspace.xml
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26979" />
@@ -281,9 +304,12 @@
     <entry file="file://$PROJECT_DIR$/src/Donor.java">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <state relative-caret-position="105">
           <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
 =======
+=======
+>>>>>>> parent of bc5579b... Update workspace.xml
         <state relative-caret-position="260">
           <caret line="132" column="61" selection-start-line="132" selection-start-column="61" selection-end-line="132" selection-end-column="61" />
           <folding>
