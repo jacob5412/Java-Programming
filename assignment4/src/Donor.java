@@ -116,6 +116,8 @@ public class Donor {
         for(i = 5; i < content.length; i += 8){
             fileGrp = content[i].split(": ");
             fileDate = content[i+1].split(": ");
+
+            System.out.println("\n" + "Donors who haven't donated in 6 months and \"A+\"" + "\n");
             try {
                 dt2 = ft2.parse(fileDate[1]);
                 DateTime dt3 = new DateTime(dt2);
@@ -123,7 +125,7 @@ public class Donor {
                 Period p = new Period(dt1, current);
 
                 // if more than 6 months and blood group is A+, print details
-                System.out.println("\n" + "Donors who haven't donated in 6 months and \"A+\"" + "\n");
+
                 if((p.getMonths() > 6 | p.getYears() >= 1) && fileGrp[1].equals("A+"))
                 {
                     System.out.println(content[i-3]); // name

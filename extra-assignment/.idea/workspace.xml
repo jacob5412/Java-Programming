@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94bb04da-a9a3-42f1-99d3-749dacca060c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Library/Book.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Store.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MultipleInterfaces.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment4/out/production/assignment4/Donor.class" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/out/production/assignment4/Donor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../assignment4/assignment4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/assignment4.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../assignment4/donations.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/donations.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../assignment4/src/Donor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/src/Donor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,7 +19,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -63,6 +61,7 @@
         <option value="$PROJECT_DIR$/src/Library/Library.java" />
         <option value="$PROJECT_DIR$/src/Store.java" />
         <option value="$PROJECT_DIR$/src/Library/Book.java" />
+        <option value="$PROJECT_DIR$/src/MultipleInterfaces.java" />
       </list>
     </option>
   </component>
@@ -77,8 +76,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -101,8 +98,13 @@
               <item name="extra-assignment" type="b2602c69:ProjectViewProjectNode" />
               <item name="extra-assignment" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Library" type="462c0819:PsiDirectoryNode" />
-              <item name="Book.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+              <item name="MultipleInheritance.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
+            <path>
+              <item name="extra-assignment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="extra-assignment" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="MultipleInterfaces.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
             </path>
             <path>
               <item name="extra-assignment" type="b2602c69:ProjectViewProjectNode" />
@@ -118,12 +120,14 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550633721575" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550819551915" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -141,7 +145,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Store">
+  <component name="RunManager" selected="Application.MultipleInterfaces">
     <configuration name="AmusementParks" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="AmusementParks" />
       <module name="extra-assignment" />
@@ -163,6 +167,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MultipleInterfaces" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MultipleInterfaces" />
+      <module name="extra-assignment" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Store" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Store" />
       <module name="extra-assignment" />
@@ -170,20 +181,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Test" />
-      <module name="extra-assignment" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MultipleInterfaces" />
+        <item itemvalue="Application.MultipleInheritance" />
         <item itemvalue="Application.Store" />
         <item itemvalue="Application.AmusementParks" />
         <item itemvalue="Application.Genes" />
-        <item itemvalue="Application.MultipleInheritance" />
-        <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
   </component>
@@ -211,16 +215,17 @@
       <workItem from="1550057317236" duration="4884000" />
       <workItem from="1550120047886" duration="100000" />
       <workItem from="1550631595471" duration="721000" />
+      <workItem from="1550818013193" duration="1816000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33811000" />
+    <option name="totallyTimeSpent" value="35627000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="723" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="726" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30533117" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3101777" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -229,7 +234,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32894737" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3569079" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.24222586" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -340,19 +345,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MultipleInheritance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="25" column="45" lean-forward="true" selection-start-line="25" selection-start-column="45" selection-end-line="25" selection-end-column="45" />
-          <folding>
-            <element signature="e#157#158#0" expanded="true" />
-            <element signature="e#206#207#0" expanded="true" />
-            <element signature="e#276#277#0" expanded="true" />
-            <element signature="e#325#326#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/AmusementParks.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
@@ -404,6 +396,32 @@
           <folding>
             <element signature="e#106#107#0" expanded="true" />
             <element signature="e#130#131#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MultipleInterfaces.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#31#32#0" expanded="true" />
+            <element signature="e#67#68#0" expanded="true" />
+            <element signature="e#106#107#0" expanded="true" />
+            <element signature="e#142#143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MultipleInheritance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="22" column="37" lean-forward="true" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+          <folding>
+            <element signature="e#157#158#0" expanded="true" />
+            <element signature="e#206#207#0" expanded="true" />
+            <element signature="e#276#277#0" expanded="true" />
+            <element signature="e#325#326#0" expanded="true" />
           </folding>
         </state>
       </provider>

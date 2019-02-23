@@ -1,8 +1,16 @@
 Donor 1
 ----------------
 Name: Jacob
-Address: 10
-Contact: 10
+Address: VIT
+Contact: 9183491
 Blood Group: A+
 Date: Sun Oct 10 00:00:00 IST 2010
+
+Donor 2
+----------------
+Name: Venkat
+Address: VIT
+Contact: 9183498
+Blood Group: B+
+Date: Sun Oct 21 00:00:00 IST 2018
 
