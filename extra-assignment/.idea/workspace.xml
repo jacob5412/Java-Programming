@@ -4,13 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/Genes.java" line="21" mnemonic="7" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94bb04da-a9a3-42f1-99d3-749dacca060c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/MultipleInterfaces.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment4/assignment4.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/assignment4.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment4/donations.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/donations.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment4/src/Donor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/src/Donor.java" afterDir="false" />
-    </list>
+    <list default="true" id="94bb04da-a9a3-42f1-99d3-749dacca060c" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -120,8 +114,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -216,16 +210,17 @@
       <workItem from="1550120047886" duration="100000" />
       <workItem from="1550631595471" duration="721000" />
       <workItem from="1550818013193" duration="1816000" />
+      <workItem from="1551061524833" duration="45000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35627000" />
+    <option name="totallyTimeSpent" value="35672000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="726" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3101777" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31502423" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
