@@ -1,57 +1,98 @@
-class Patient{
-    int id, age;
-    String name, addr, num;
-    char sex;
-    public void getData(int id, int age, String name, String addr, String num, char sex){
-        this.id = id;
-        this.age = age;
-        this.name = name;
-        this.addr = addr;
-        this.num = num;
-        this.sex = sex;
+import java.util.*;
+
+class Patient {
+    String pid, name, age, gender, address, mobnumber;
+
+    void getData() {
+        Scanner sc = new Scanner(System.in);
+        pid = sc.nextLine();
+        sc.nextLine();
+        name = sc.nextLine();
+        sc.nextLine();
+        age = sc.nextLine();
+        sc.nextLine();
+        gender = sc.nextLine();
+        sc.nextLine();
+        address = sc.nextLine();
+        sc.nextLine();
+        mobnumber = sc.nextLine();
     }
-    public void displayData(){
-        System.out.println(id + "\n" + name + "\n" + age + "\n" + addr + "\n" + num + "\n" + sex);
+
+    void displayData() {
+        System.out.println(pid);
+        System.out.println(name);
+        System.out.println(age);
+        System.out.println(gender);
+        System.out.println(address);
+        System.out.println(mobnumber);
     }
 }
 
-class inPatient extends Patient{
-    int room, numdays;
-    float consfee, testfee, rent;
-    String admitdate, dischargedate;
-    public void getData(int room, float consfee, float testfee, int numdays, float rent, String admitdate, String dischargedate){
-        this.room = room;
-        this.consfee = consfee;
-        this.testfee = testfee;
-        this.numdays = numdays;
-        this.rent = rent;
-        this.admitdate = admitdate;
-        this.dischargedate = dischargedate;
-    }
-    public void displayData(){
-        System.out.println(room + "\n" + consfee + "\n" + testfee + "\n" + numdays + "\n" + admitdate + "\n" + dischargedate + "\n" + rent);
+class In_patient extends Patient {
+    String roomnumber;
+    double consultationfee, testfee;
+    String doa, dischargedate;
+    int numberofdays;
+    double roomrent;
+
+    void getData() {
+        super.getData();
+        Scanner sc = new Scanner(System.in);
+        roomnumber = sc.nextLine();
+        sc.nextLine();
+        consultationfee = sc.nextDouble();
+        sc.nextLine();
+        testfee = sc.nextDouble();
+        sc.nextLine();
+        doa = sc.nextLine();
+        sc.nextLine();
+        dischargedate = sc.nextLine();
+        sc.nextLine();
+        numberofdays = sc.nextInt();
+        sc.nextLine();
+        roomrent = sc.nextDouble();
     }
 
+    void displayData() {
+        super.displayData();
+        System.out.println(roomnumber);
+        System.out.println(consultationfee);
+        System.out.println(testfee);
+        System.out.println(doa);
+        System.out.println(dischargedate);
+        System.out.println(numberofdays);
+        System.out.println(roomrent);
+    }
 }
 
-class Bill extends inPatient{
-    String billdate;
-    float amt;
-    public void getData(String billdate, float amt){
-        this.billdate = billdate;
-        this.amt = amt;
+class Bill extends In_patient {
+    String dateofbill;
+    double totalamt;
+
+    void getData() {
+        super.getData();
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter date of bill");
+        dateofbill = sc.nextLine();
     }
-    public void displayData(){
-        System.out.println(billdate + "\n" + amt);
+
+    void displayData() {
+        super.displayData();
+        System.out.println(dateofbill);
     }
-    public void calculateTotalBillAmount(){
-        System.out.println(rent*numdays + consfee + testfee + amt);
+
+    void calculateTotalBillAmount() {
+        totalamt = consultationfee + testfee + (numberofdays * roomrent);
+        System.out.println("Total amt is : " + totalamt);
     }
 }
 
-public class Hospital {
-    public static void main(String[] args) {
-        Patient b = new Bill();
-        // add code here
+class Hospital {
+    public static void main(String args[]) {
+        Bill bill1 = new Bill();
+        bill1.getData();
+        bill1.displayData();
+        bill1.calculateTotalBillAmount();
     }
 }
