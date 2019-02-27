@@ -1,8 +1,0 @@
-Donor 1
-----------------
-Name: Jacob
-Address: VIT
-Contact: 191024
-Blood Group: A+
-Date: Wed Oct 10 00:00:00 IST 2012
-
