@@ -8,6 +8,7 @@ This repository contains all the java programming assignments for the CSE1007 la
 * [CAT 1](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/java_CAT_1.pdf)
 * [Surprise Assessment 2 (Exception Handling)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_2.pdf)
 * [Assessment 2 (Questions 5-7)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_2.pdf)
+* [CAT 2](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/java_CAT_2.pdf)
 
 ## Assignment 1
 1. WAP for finding the max and min among three numbers. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment1/src/minMaxThree.java)
@@ -124,3 +125,7 @@ O/P:    TTT
 </p>
 
 12. Create Exception class called BookQuantityNotAvailableException and use it in the class called “Store” which is described by its bookId title, author, price and quantityAvailable. Include a method called purchase() taking the purchase quantity as a parameter and update the quantityAvailable appropriately. Create a package containing the Store and a Exception class. Write a java program to test the working of the Store class. [Book](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Library/Book.java) [Store](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Store.java)
+
+13. You are required to compute the power of a number by implementing a calculator. Create a class MyCalculator which consists of a single method `long power(int, int)`. This method takes two integers, n and p, as parameters and finds n<sup>p</sup>. If either n or p is negative, then the method must throw an exception which says "n and p should not be negative". Also, if both n and p are zero, then the method must throw an exception which says " n and p should not be zero " Complete the function power in `class MyCalculator` and return the appropriate result after the power operation or an appropriate exception as detailed above.
+    
+14. Write a Java program to Print alternate numbers using 2 Threads.
