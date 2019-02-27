@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3b846d9-36e5-4a25-a6c8-ed3b478fdb46" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/AlternateNumbers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/HashStudents.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MyCalculator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CAT2/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CAT2/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CAT2/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CAT2/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CAT2/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CAT2/CAT2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CAT2/src/AlternateNumbers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CAT2/src/MyCalculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/donations.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../extra-assignment/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../extra-assignment/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,11 +45,26 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AlternateNumbers.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="35" column="27" selection-end-line="60" />
+              <folding>
+                <element signature="e#1222#1326#0" expanded="true" />
+                <element signature="e#1325#1326#0" expanded="true" />
+                <element signature="e#1344#1447#0" expanded="true" />
+                <element signature="e#1446#1447#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MyCalculator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="14" column="13" lean-forward="true" selection-end-line="36" />
+            <state relative-caret-position="77">
+              <caret line="13" column="9" lean-forward="true" selection-end-line="36" />
               <folding>
                 <element signature="e#0#1053#0" expanded="true" />
               </folding>
@@ -100,6 +118,12 @@
               <item name="assignment4" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="assignment4" type="b2602c69:ProjectViewProjectNode" />
+              <item name="assignment4" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="AlternateNumbers.java" type="529ef68f:ClassesTreeStructureProvider$PsiClassOwnerTreeNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -110,7 +134,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551238183067" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551238344395" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -181,12 +205,12 @@
       <workItem from="1550817988042" duration="24000" />
       <workItem from="1551062050426" duration="619000" />
       <workItem from="1551204153454" duration="39000" />
-      <workItem from="1551234700666" duration="3144000" />
+      <workItem from="1551234700666" duration="3464000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5424000" />
+    <option name="totallyTimeSpent" value="5744000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="726" extended-state="6" />
@@ -251,21 +275,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AlternateNumbers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="29" column="63" selection-end-line="60" />
-          <folding>
-            <element signature="e#135#136#0" expanded="true" />
-            <element signature="e#165#166#0" expanded="true" />
-            <element signature="e#1188#1277#1" expanded="true" />
-            <element signature="e#1276#1277#0" expanded="true" />
-            <element signature="e#1301#1405#1" expanded="true" />
-            <element signature="e#1404#1405#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/HashStudents.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
@@ -276,10 +285,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/AlternateNumbers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="35" column="27" selection-end-line="60" />
+          <folding>
+            <element signature="e#1222#1326#0" expanded="true" />
+            <element signature="e#1325#1326#0" expanded="true" />
+            <element signature="e#1344#1447#0" expanded="true" />
+            <element signature="e#1446#1447#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/MyCalculator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="14" column="13" lean-forward="true" selection-end-line="36" />
+        <state relative-caret-position="77">
+          <caret line="13" column="9" lean-forward="true" selection-end-line="36" />
           <folding>
             <element signature="e#0#1053#0" expanded="true" />
           </folding>
