@@ -5,6 +5,15 @@
  * functions to film class. Film objects can be initialized either using a constructor or accessor functions.
  */
 
+/*
+ * Create a class Film with string objects which stores name, language and lead_actor and
+ * category (action/drama/fiction/comedy). Also include an integer data member that stores the
+ * duration of the film. Include parameterized constructor, default constructor and accessory
+ * functions to film class. Film objects can be initialized either using a constructor or accessor functions.
+ */
+
+import java.util.Vector;
+
 class Film{
     String name;
     String language;
@@ -32,49 +41,57 @@ class Film{
 public class FilmMain {
     public static void main(String[] args) {
 
-        Film[] films = new Film[4];
+        Film films;
+        Vector<Film> Films = new Vector();
 
-        films[0] = new Film();
-        films[0].name = "Terminator";
-        films[0].language = "English";
-        films[0].lead_actor = "Arnold";
-        films[0].duration = 10;
-        films[0].category = "Action";
+        films = new Film();
+        films.name = "Terminator";
+        films.language = "English";
+        films.lead_actor = "Arnold";
+        films.duration = 10;
+        films.category = "Action";
+        Films.add(films);
 
-        films[1] = new Film();
-        films[1].name = "Terminator 2";
-        films[1].language = "English";
-        films[1].lead_actor = "Arnold";
-        films[1].duration = 20;
-        films[1].category = "Action";
+        films = new Film();
+        films.name = "Terminator 2";
+        films.language = "English";
+        films.lead_actor = "Arnold";
+        films.duration = 20;
+        films.category = "Action";
+        Films.add(films);
 
-        films[2] = new Film();
-        films[2].name = "Robot 1";
-        films[2].language = "Tamil";
-        films[2].lead_actor = "Rajini";
-        films[2].duration = 10;
-        films[2].category = "Comedy";
+        films = new Film();
+        films.name = "Robot 1";
+        films.language = "Tamil";
+        films.lead_actor = "Rajini";
+        films.duration = 10;
+        films.category = "Comedy";
+        Films.add(films);
 
-        films[3] = new Film();
-        films[3].name = "Robot 2";
-        films[3].language = "Tamil";
-        films[3].lead_actor = "Rajini";
-        films[3].duration = 30;
-        films[3].category = "Comedy";
+        films = new Film();
+        films.name = "Robot 2";
+        films.language = "Tamil";
+        films.lead_actor = "Rajini";
+        films.duration = 30;
+        films.category = "Comedy";
+        Films.add(films);
 
         int min = 9999999;
         int imin = 0;
 
         for(int i = 0; i < 4; i++){
-            if(films[i].lead_actor.equals("Arnold"))
-                if(films[i].duration < min){
-                    min = films[i].duration;
+            films = Films.get(i);
+            if(films.lead_actor.equals("Arnold"))
+                if(films.duration < min){
+                    min = films.duration;
                     imin = i;
                 }
-            if(films[i].category.equals("Comedy"))
-                System.out.println(films[i].name + " is a Comedy movie");
+            if(films.category.equals("Comedy"))
+                System.out.println(films.name + " is a Comedy movie");
         }
 
-        System.out.println("Shortest Arnold film is " + films[imin].name + " and duration: " + min);
+        films = Films.get(imin);
+        System.out.println("Shortest Arnold film is " + films.name + " and duration: " + min);
     }
 }
+
