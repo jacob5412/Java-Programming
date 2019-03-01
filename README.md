@@ -133,8 +133,7 @@ O/P:    TTT
 
 ## Contributions
 * Initial Author - [jacobjohn2016](github.com/jacobjohn2016)
-* Secondary Author - [varunreddy24](github.com/varunreddy24)
-
-### Specific Contributions
-* Mariam
+* [varunreddy24](github.com/varunreddy24)
+    - [Extra Questions (Practice)](#extra-questions-practice) - Question 8
+* [Mariamsvarkey](github.com/Mariamsvarkey)
     - [Extra Questions (Practice)](#extra-questions-practice) - Question 12
