@@ -115,6 +115,7 @@ O/P:    TTT
 ```
 11. Write a program to demonstrate the knowledge of students in creation of abstract classes and working with abstract methods. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/AmusementParks.java)
     >Eg., Define an abstract class ‘Themepark’ and inherit 2 classes ‘Queensland’ and ‘Wonderla’ from the abstract class. In both the theme parks, the entrance fee for adults is Rs. 500 and for children it is Rs. 300. If a family buys ‘n’ adult tickets and ‘m’ children tickets, define a method in the abstract class to calculate the total cost. Also, declare an abstract method playGame() which must be redefined in the subclasses. In Queensland, there are a total of 30 games. Hence create a Boolean array named ‘Games’ of size 30 which initially stores false values for all the elements. If the player enters any game code that has already been played, a warning message should be displayed and the user should be asked for another choice.  In Wonderla, there are a total of 40 different games. Thus create an integer array with 40 elements. Here, the games can be replayed, until the user wants to quit. Finally display the total count of games that were repeated and count of the games which were not played at all. 
+    
 12. Write a program to demonstrate the knowledge of students in working with Inheritance. Create classes to implement the following hierarchy. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Hospital.java)
 <p align="center">
   <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/1.png" width="250" alt="class diagram">
@@ -124,8 +125,16 @@ O/P:    TTT
   <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/2.png" width="750" alt="specifications">
 </p>
 
-12. Create Exception class called BookQuantityNotAvailableException and use it in the class called “Store” which is described by its bookId title, author, price and quantityAvailable. Include a method called purchase() taking the purchase quantity as a parameter and update the quantityAvailable appropriately. Create a package containing the Store and a Exception class. Write a java program to test the working of the Store class. [Book](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Library/Book.java) [Store](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Store.java)
+13. Create Exception class called BookQuantityNotAvailableException and use it in the class called “Store” which is described by its bookId title, author, price and quantityAvailable. Include a method called purchase() taking the purchase quantity as a parameter and update the quantityAvailable appropriately. Create a package containing the Store and a Exception class. Write a java program to test the working of the Store class. [Book](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Library/Book.java) [Store](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Store.java)
 
-13. You are required to compute the power of a number by implementing a calculator. Create a class MyCalculator which consists of a single method `long power(int, int)`. This method takes two integers, n and p, as parameters and finds n<sup>p</sup>. If either n or p is negative, then the method must throw an exception which says "n and p should not be negative". Also, if both n and p are zero, then the method must throw an exception which says " n and p should not be zero " Complete the function power in `class MyCalculator` and return the appropriate result after the power operation or an appropriate exception as detailed above. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/CAT2/src/MyCalculator.java)
+14. You are required to compute the power of a number by implementing a calculator. Create a class MyCalculator which consists of a single method `long power(int, int)`. This method takes two integers, n and p, as parameters and finds n<sup>p</sup>. If either n or p is negative, then the method must throw an exception which says "n and p should not be negative". Also, if both n and p are zero, then the method must throw an exception which says " n and p should not be zero " Complete the function power in `class MyCalculator` and return the appropriate result after the power operation or an appropriate exception as detailed above. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/CAT2/src/MyCalculator.java)
     
-14. Write a Java program to Print alternate numbers using 2 Threads. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/CAT2/src/AlternateNumbers.java)
+15. Write a Java program to Print alternate numbers using 2 Threads. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/CAT2/src/AlternateNumbers.java)
+
+## Contributions
+* Initial Author - [jacobjohn2016](github.com/jacobjohn2016)
+* Secondary Author - [varunreddy24](github.com/varunreddy24)
+
+### Specific Contributions
+* Mariam
+    - [Extra Questions (Practice)](#Extra Questions (Practice)) - Question 12
