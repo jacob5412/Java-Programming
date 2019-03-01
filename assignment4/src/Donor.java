@@ -59,7 +59,7 @@ public class Donor {
             arr[i].bldgrp = "";
             m = r.matcher(arr[i].bldgrp);
             while(!m.find()){
-                System.out.print("Blood Group: ");
+                System.out.print("Blood Group (only A or B or O or AB [+|-] (all caps): ");
                 arr[i].bldgrp = sc.nextLine();
                 m = r.matcher(arr[i].bldgrp);
             }
@@ -93,7 +93,7 @@ public class Donor {
             outputstream.write("Blood Group: ".getBytes());
             outputstream.write(arr[i].bldgrp.getBytes());
             outputstream.write("\n".getBytes());
-            outputstream.write("Date: ".getBytes());
+            outputstream.write("Date (MM-dd-yyyy): ".getBytes());
             outputstream.write(arr[i].date.toString().getBytes());
             outputstream.write("\n".getBytes());
             outputstream.write("\n".getBytes());
