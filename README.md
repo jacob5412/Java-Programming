@@ -131,12 +131,16 @@ O/P:    TTT
     
 15. Write a Java program to Print alternate numbers using 2 Threads. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/CAT2/src/AlternateNumbers.java)
 
+16. Write a program to generate the Tribonacci sequence. (Tribonacci numbers are a sequence of
+numbers `T(n)` similar to Fibonacci numbers, except that a number is formed by adding the three
+previous numbers, i.e., `T(n)=T(n-1)+T(n-2)+T(n-3), T(1)=T(2)=1, and T(3)=2`). [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Tribonacci.java)
+
 ## Contributions
 * Initial Author - [jacobjohn2016](github.com/jacobjohn2016)
 * [varunreddy24](github.com/varunreddy24)
     - [Extra Questions (Practice)](#extra-questions-practice) - Question 8
 * [Mariamsvarkey](github.com/Mariamsvarkey)
-    - [Extra Questions (Practice)](#extra-questions-practice) - Question 12
+    - [Extra Questions (Practice)](#extra-questions-practice) - Question 16
 
 ## Contact
 Feel free to send me an e-mail anytime at <kapsjacob@gmail.com>.
