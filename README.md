@@ -145,4 +145,4 @@ previous numbers, i.e., `T(n)=T(n-1)+T(n-2)+T(n-3), T(1)=T(2)=1, and T(3)=2`). [
     - [Extra Questions (Practice)](#extra-questions-practice) - Question 16
 
 ## Contact
-Feel free to send me an e-mail anytime at <kapsjacob@gmail.com>.
+Drop an e-mail at <kapsjacob@gmail.com> for help.
