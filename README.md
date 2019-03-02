@@ -119,13 +119,13 @@ O/P:    TTT
     >Eg., Define an abstract class ‘Themepark’ and inherit 2 classes ‘Queensland’ and ‘Wonderla’ from the abstract class. In both the theme parks, the entrance fee for adults is Rs. 500 and for children it is Rs. 300. If a family buys ‘n’ adult tickets and ‘m’ children tickets, define a method in the abstract class to calculate the total cost. Also, declare an abstract method playGame() which must be redefined in the subclasses. In Queensland, there are a total of 30 games. Hence create a Boolean array named ‘Games’ of size 30 which initially stores false values for all the elements. If the player enters any game code that has already been played, a warning message should be displayed and the user should be asked for another choice.  In Wonderla, there are a total of 40 different games. Thus create an integer array with 40 elements. Here, the games can be replayed, until the user wants to quit. Finally display the total count of games that were repeated and count of the games which were not played at all. 
     
 12. Write a program to demonstrate the knowledge of students in working with Inheritance. Create classes to implement the following hierarchy. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Hospital.java)
-<p align="center">
-  <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/1.png" width="250" alt="class diagram">
-</p>
+    <p align="center">
+      <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/1.png" width="250" alt="class diagram">
+    </p>
     Include data members and member functions as given in the table below.
-<p align="center">
-  <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/2.png" width="750" alt="specifications">
-</p>
+    <p align="center">
+      <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/2.png" width="750"       alt="specifications">
+    </p>
 
 13. Create Exception class called BookQuantityNotAvailableException and use it in the class called “Store” which is described by its bookId title, author, price and quantityAvailable. Include a method called purchase() taking the purchase quantity as a parameter and update the quantityAvailable appropriately. Create a package containing the Store and a Exception class. Write a java program to test the working of the Store class. [Book](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Library/Book.java) [Store](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Store.java)
 
