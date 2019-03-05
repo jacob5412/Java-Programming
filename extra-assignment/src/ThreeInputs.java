@@ -5,8 +5,9 @@
  * Also display the average of all integer values and all float values individually.
  */
 
-import java.util.*;
-import java.util.regex.*;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class Check {
     public static boolean CheckInt(float n){
