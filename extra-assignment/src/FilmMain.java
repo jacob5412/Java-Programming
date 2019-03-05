@@ -5,13 +5,6 @@
  * functions to film class. Film objects can be initialized either using a constructor or accessor functions.
  */
 
-/*
- * Create a class Film with string objects which stores name, language and lead_actor and
- * category (action/drama/fiction/comedy). Also include an integer data member that stores the
- * duration of the film. Include parameterized constructor, default constructor and accessory
- * functions to film class. Film objects can be initialized either using a constructor or accessor functions.
- */
-
 import java.util.Vector;
 
 class Film{
