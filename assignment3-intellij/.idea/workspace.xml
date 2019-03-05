@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a94d171-5e1a-4f41-b4a9-086b0d16aba6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment3-intellij/ExcepHandle.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment3-intellij/ExcepHandle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment3-intellij/MultiThreadVote.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment3-intellij/MultiThreadVote.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment3-intellij/elections/Vote.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment3-intellij/elections/Vote.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment3-intellij/elections/count.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment3-intellij/elections/count.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment3-intellij/hello.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment3-intellij/hello.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/assignment3-intellij/hello2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/assignment3-intellij/hello2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/elections/count.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/elections/count.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../extra-assignment/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../extra-assignment/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -69,9 +62,9 @@
         <option value="$PROJECT_DIR$/src/elections/MultiThreadCount.java" />
         <option value="$PROJECT_DIR$/src/elections/MultiThreads.java" />
         <option value="$PROJECT_DIR$/src/elections/MultiThreadVote.java" />
-        <option value="$PROJECT_DIR$/src/elections/count.java" />
         <option value="$PROJECT_DIR$/src/elections/Vote.java" />
         <option value="$PROJECT_DIR$/src/MultiThreadVote.java" />
+        <option value="$PROJECT_DIR$/src/elections/count.java" />
       </list>
     </option>
   </component>
@@ -88,8 +81,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -123,12 +114,14 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551062014324" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551798745893" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -146,7 +139,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.ExcepHandle">
+  <component name="RunManager" selected="Application.MultiThreadVote">
     <configuration name="ExcepHandle" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ExcepHandle" />
       <module name="assignment3-intellij" />
@@ -184,8 +177,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ExcepHandle" />
         <item itemvalue="Application.MultiThreadVote" />
+        <item itemvalue="Application.ExcepHandle" />
         <item itemvalue="Application.MultiThreadCount" />
         <item itemvalue="Application.MultiThreads" />
         <item itemvalue="Application.hello" />
@@ -214,6 +207,7 @@
       <workItem from="1550122040045" duration="136000" />
       <workItem from="1551061606589" duration="32000" />
       <workItem from="1551061655418" duration="389000" />
+      <workItem from="1551798710189" duration="496000" />
     </task>
     <task id="LOCAL-00001" summary="reverted to 240">
       <created>1550088143630</created>
@@ -226,12 +220,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13801000" />
+    <option name="totallyTimeSpent" value="14297000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="726" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49918434" visible="true" weight="0.23828755" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49918434" visible="true" weight="0.24232633" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -240,7 +234,7 @@
       <window_info id="Favorites" order="6" sideWeight="0.5008157" side_tool="true" weight="0.20355412" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32894737" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6462036" weight="0.32569557" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6453958" weight="0.32569557" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39967373" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -249,7 +243,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.4983845" weight="0.3289689" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.35379645" side_tool="true" visible="true" weight="0.32569557" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.3546042" side_tool="true" visible="true" weight="0.32569557" />
       <window_info anchor="bottom" id="Messages" order="12" weight="0.32894737" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -300,13 +294,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/elections/count.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../assignment4/out/production/assignment4/Donor.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="721">
@@ -317,9 +304,19 @@
     <entry file="file://$PROJECT_DIR$/../assignment4/donations.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/ExcepHandle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/MultiThreadVote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
+        <state relative-caret-position="-531">
           <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -327,13 +324,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ExcepHandle.java">
+    <entry file="file://$PROJECT_DIR$/src/elections/count.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="13" column="41" selection-start-line="13" selection-start-column="41" selection-end-line="13" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="237">
+          <caret line="19" column="9" lean-forward="true" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
         </state>
       </provider>
     </entry>

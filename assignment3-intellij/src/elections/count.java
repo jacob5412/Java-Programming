@@ -13,15 +13,10 @@ public class count extends Thread{
     }
 
     public void run(){
-        try{
-            for(i = 0; i < vec.capacity(); i++){
-                if(vec.elementAt(i).equals(k))              // check if elements match
-                    count++;
+        for(i = 0; i < vec.capacity(); i++){
+            if(vec.elementAt(i).equals(k))              // check if elements match
+                count++;
 
-            }
-        }
-        catch(Exception e){
-            System.out.println(e);
         }
     }
 }
