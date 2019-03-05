@@ -35,7 +35,7 @@ public class FilmMain {
     public static void main(String[] args) {
 
         Film films;
-        Vector<Film> Films = new Vector();
+        Vector<Film> Films = new Vector<Film>();
 
         films = new Film();
         films.name = "Terminator";
