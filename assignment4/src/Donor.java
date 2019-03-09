@@ -65,7 +65,7 @@ public class Donor {
             }
             boolean flag = false;
             while(!flag){
-                System.out.print("Date: ");
+                System.out.print("Date (MM-dd-yyyy): ");
                 temp = sc.nextLine();
                 try {
                     arr[i].date = ft.parse(temp);

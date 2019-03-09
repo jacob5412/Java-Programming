@@ -2,7 +2,7 @@ Donor 1
 ----------------
 Name: Jacob
 Address: VIT
-Contact: 19341983
+Contact: 1010
 Blood Group: A+
 Date (MM-dd-yyyy): Sun Oct 10 00:00:00 IST 2010
 

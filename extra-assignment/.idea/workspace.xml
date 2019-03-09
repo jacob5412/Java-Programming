@@ -4,11 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/src/Genes.java" line="21" mnemonic="7" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94bb04da-a9a3-42f1-99d3-749dacca060c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../assignment3-intellij/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment3-intellij/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment3-intellij/out/production/assignment3-intellij/elections/count.class" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment3-intellij/out/production/assignment3-intellij/elections/count.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment3-intellij/src/elections/count.java" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment3-intellij/src/elections/count.java" afterDir="false" />
-    </list>
+    <list default="true" id="94bb04da-a9a3-42f1-99d3-749dacca060c" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -106,8 +102,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -203,16 +199,17 @@
       <workItem from="1551751709309" duration="229000" />
       <workItem from="1551751972954" duration="4397000" />
       <workItem from="1551798685035" duration="522000" />
+      <workItem from="1552154976154" duration="22000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41924000" />
+    <option name="totallyTimeSpent" value="41946000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="727" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="726" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.35702747" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.36268175" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
