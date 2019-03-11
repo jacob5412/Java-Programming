@@ -65,21 +65,28 @@ This repository contains all the java programming assignments for the CSE1007 la
         | C           | 333          |
         | C++         | 444          |
     * For the student “B”, faculty should be displayed as 333 and 444.
-3. Write a program to demonstrate the knowledge of students in GUI programming using JavaFX.
 
 ## Assignment 5
-1. Write a program to demonstrate the knowledge of students in JDBC.
-    >Eg: Create a student table with fields roll number, name, percentage. Insert values in the table. Display all the details of the student table in a tabular format on the screen.
-2. Write a program to demonstrate the knowledge of students in Servlet programming.
-    >Eg., Write a servlet which counts how many times a user has visited a web page. If the user is visiting the page for the first time, display a welcome message. If the user is re-visiting the page, display the number of times visited. (Use cookies)
-3. Write a program to demonstrate the knowledge of students in handling HTTP Request and Response.
-    >Eg: Write a program to create a shopping mall. User must be allowed to do purchase from two pages. Each page should have a page total. The third page should display a bill, which consists of a page total of whatever the purchase has been done and print the total. (Use HttpSession)
+1. Write a program to demonstrate the knowledge of students in creating and deploying applets.
+    >Eg., Draw a ball, filled with default color. Move the ball from top to bottom of the window continuously with its color changed for every one second. The new color of the ball for the next second should be obtained by adding 20 to the current value of Red component, for the second time by adding 20 to the blue component, and for the third time by adding 20 to the blue component, till all reach the final limit 225, after which the process should be repeated with the default color.
+2. Write a program to demonstrate the knowledge of students in Java Network Programming.
+    > Eg., Develop a UDP based client-server application to notify the client about the integrity of data sent from its side. 
+3. Write a program to demonstrate the knowledge of students in Remote method invocation.
+    > Eg., Develop an RMI application to invoke a remote method that takes two numbers and returns true if one number is an exact multiple of the other and false otherwise.
+    ```
+    Sample test cases:
+    -------------------
+    5 and 25 -> true
+    26 and 13 -> true
+    4 and 18 -> false
+    ```
 
 ## Assignment 6
-1. Write a program to demonstrate the knowledge of students in JSP.
-    >Eg: Client sends user name and password to JSP on the Server. Server receives, validates and sends back the validation result to client as response.
-2. Write a program to demonstrate the knowledge of students in JSP.
-    >Eg: Create a JSP page for an online multiple choice test. The questions are randomly selected from a database and displayed on the screen. The choices are displayed using radio buttons. When the user clicks on next, the next question is displayed. When the user clicks on submit, display the total score on the screen.
+1. Write a program to demonstrate the knowledge of students in Servlet programming.
+    >Eg., Assume two cookies are created whenever a VIT student visits the VIT webpage-one for his/her name and the other for his campus. For subsequent visits, he/she should be greeted with the message similar to the one below.
+    ```
+    “Hi Ajay from Chennai Campus!!”.
+    ```
 
 ## Extra Questions (Practice)
 1. Write a program to accept an integer number and separate the digits with a $ sign. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/separateInt.java)
