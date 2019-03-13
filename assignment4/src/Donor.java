@@ -1,25 +1,36 @@
 import java.io.*;
+// import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import org.joda.time.LocalDate;
-import org.joda.time.DateTime;
+// import org.joda.time.DateTime;
 import org.joda.time.Period;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Donor {
+public class Donor implements Serializable{
     String name,addr,contact,bldgrp;
     Date date;
 
     public static void main(String[] args) throws IOException{
-        int n, i;
+
+        // arraylist for retrieving and adding donors
+        ArrayList<Donor> ad = new ArrayList<Donor>();
+
+        int n, i; // counter variables
+
+        // format for date and time
         SimpleDateFormat ft = new SimpleDateFormat("MM-dd-yyyy");
         String temp;
+
+        // patten for blood group
         String pattern = "[A|B|O|AB][+|-]";
         Matcher m;
         Pattern r = Pattern.compile(pattern);
@@ -30,45 +41,42 @@ public class Donor {
         }
         catch(NoSuchFileException e)
         {
-            System.out.println("No such file/directory exists");
+            System.out.println("Error: No such file/directory exists");
         }
         catch(IOException e)
         {
-            System.out.println("Invalid permissions.");
+            System.out.println("Error: Invalid permissions.");
         }
-        System.out.println("Deletion successful.");
+        System.out.println("Success: Deletion successful.");
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter number of donors: ");
         n = sc.nextInt();
         sc.nextLine();
-        Donor arr[] = new Donor[n];                                // creating array of n donors
-
-        ByteArrayOutputStream outputstream = new ByteArrayOutputStream();
-        FileOutputStream fos = new FileOutputStream("donations.txt");    // creating file to write to
-
+        Donor d;
+        System.out.println("----------------------");
         for(i = 0; i < n; i++){
-            arr[i] = new Donor();                                  // initializing new donor
+            d = new Donor();                                // initializing new donor
             //taking input from user
             System.out.print("Name: ");
-            arr[i].name = sc.nextLine();
+            d.name = sc.nextLine();
             System.out.print("Address: ");
-            arr[i].addr = sc.nextLine();
+            d.addr = sc.nextLine();
             System.out.print("Contact: ");
-            arr[i].contact = sc.nextLine();
-            arr[i].bldgrp = "";
-            m = r.matcher(arr[i].bldgrp);
+            d.contact = sc.nextLine();
+            d.bldgrp = "";
+            m = r.matcher(d.bldgrp);
             while(!m.find()){
                 System.out.print("Blood Group (only A or B or O or AB [+|-] (all caps): ");
-                arr[i].bldgrp = sc.nextLine();
-                m = r.matcher(arr[i].bldgrp);
+                d.bldgrp = sc.nextLine();
+                m = r.matcher(d.bldgrp);
             }
             boolean flag = false;
             while(!flag){
                 System.out.print("Date (MM-dd-yyyy): ");
                 temp = sc.nextLine();
                 try {
-                    arr[i].date = ft.parse(temp);
+                    d.date = ft.parse(temp);
                     flag = true;
                 } catch (ParseException e) {
                     flag = false;
@@ -77,66 +85,61 @@ public class Donor {
             }
 
 
-            // concatenating all properties in donor object
-            // and converting to a byte stream
-            outputstream.write(("Donor " + (i+1) + "\n").getBytes());
-            outputstream.write("----------------\n".getBytes());
-            outputstream.write("Name: ".getBytes());
-            outputstream.write(arr[i].name.getBytes());
-            outputstream.write("\n".getBytes());
-            outputstream.write("Address: ".getBytes());
-            outputstream.write(arr[i].addr.getBytes());
-            outputstream.write("\n".getBytes());
-            outputstream.write("Contact: ".getBytes());
-            outputstream.write(arr[i].contact.getBytes());
-            outputstream.write("\n".getBytes());
-            outputstream.write("Blood Group: ".getBytes());
-            outputstream.write(arr[i].bldgrp.getBytes());
-            outputstream.write("\n".getBytes());
-            outputstream.write("Date (MM-dd-yyyy): ".getBytes());
-            outputstream.write(arr[i].date.toString().getBytes());
-            outputstream.write("\n".getBytes());
-            outputstream.write("\n".getBytes());
+            // adding donor object to array list
+            ad.add(d);
         }
-        // create a byte array to be written
-        byte c[] = outputstream.toByteArray();
-        fos.write(c);                                          // writing byte array to file
-        fos.close();
+        try{
+            FileOutputStream fos = new FileOutputStream("donations.txt");    // creating file to write to
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            // serialization
+            oos.writeObject(ad);
+            oos.close();
+            fos.close();
+            System.out.println("Success: File successfully written");
+        }catch (IOException ioe)
+        {
+            ioe.printStackTrace();
+        }
 
 
         // reading data from file
-        byte[] fileContent = Files.readAllBytes(Paths.get("donations.txt"));
-        String fileInput = new String(fileContent);
-        String[] content = fileInput.split("\n");
-        Date dt2;
-        String[] fileDate, fileGrp;
-        SimpleDateFormat ft2 = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
+        ad.clear();
+        FileInputStream fis = new FileInputStream("donations.txt");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        try{
+            ad = (ArrayList<Donor>)ois.readObject();
+        }catch (ClassNotFoundException e){
+            System.out.println(e);
+        }
+
+        // defining current time and period
+        LocalDate donor_date;
         LocalDate current = LocalDate.now();
+        Period p;
 
-        for(i = 5; i < content.length; i += 8){
-            fileGrp = content[i].split(": ");
-            fileDate = content[i+1].split(": ");
+        System.out.println("---------------------------------------------");
+        System.out.println("---------------------------------------------");
+        // iterating through the arraylist
+        System.out.println("\n" + "Donors who haven't donated in 6 months and \"A+\"" + "\n");
+        Iterator<Donor> itr = ad.iterator();
+        i = 0;
+        while(itr.hasNext()){
+            d = new Donor();
+            d = (Donor)itr.next();
+            donor_date = new LocalDate(d.date);
+            p = new Period(donor_date,current);
 
-            System.out.println("\n" + "Donors who haven't donated in 6 months and \"A+\"" + "\n");
-            try {
-                dt2 = ft2.parse(fileDate[1]);
-                DateTime dt3 = new DateTime(dt2);
-                LocalDate dt1 = new LocalDate(dt3);
-                Period p = new Period(dt1, current);
-
-                // if more than 6 months and blood group is A+, print details
-
-                if((p.getMonths() > 6 | p.getYears() >= 1) && fileGrp[1].equals("A+"))
-                {
-                    System.out.println(content[i-3]); // name
-                    System.out.println(content[i-2]); // address
-                    System.out.println(content[i-1]); // contact
-                    System.out.println(content[i]);   // blood group
-                    System.out.println(content[i+1]); // date
-                    System.out.println("\n");
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+            // if more than 6 months and blood group is A+, print details
+            if((p.getMonths() > 6 | p.getYears() >= 1) && d.bldgrp.equals("A+"))
+            {
+                System.out.println("Donor " + (i+1));
+                System.out.println("----------------------");
+                System.out.println(d.name);    // name
+                System.out.println(d.addr);    // address
+                System.out.println(d.contact); // contact
+                System.out.println(d.bldgrp);  // blood group
+                System.out.println(d.date);    // date
+                System.out.println("\n");
             }
         }
     }
