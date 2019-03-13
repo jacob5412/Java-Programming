@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a94d171-5e1a-4f41-b4a9-086b0d16aba6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment4/donations.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/donations.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment4/out/production/assignment4/Donor.class" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/out/production/assignment4/Donor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment4/src/Donor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/src/Donor.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -213,7 +209,7 @@
       <workItem from="1551798710189" duration="496000" />
       <workItem from="1552154974849" duration="124000" />
       <workItem from="1552325903691" duration="466000" />
-      <workItem from="1552449154580" duration="586000" />
+      <workItem from="1552449154580" duration="590000" />
     </task>
     <task id="LOCAL-00001" summary="reverted to 240">
       <created>1550088143630</created>
@@ -226,11 +222,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15473000" />
+    <option name="totallyTimeSpent" value="15477000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="725" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49918434" visible="true" weight="0.25444266" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
