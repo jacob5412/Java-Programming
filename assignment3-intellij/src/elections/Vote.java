@@ -21,11 +21,11 @@ public class Vote extends Thread{
         {
             // while voting print id
             while(vec.size() < 240) {               // ensure size of vote vector is below 240
-                System.out.println("Thread " + this.getId() + " is Voting");
+                System.out.println(this.getName() + " is Voting");
                 vec.add(v);
 
                 s = rand.nextInt((max - min) + 1) + min;
-                System.out.println("Thread " + this.getId() + " is sleeping for " + s);
+                System.out.println(this.getName() + " is sleeping for " + s);
                 Thread.sleep(s);                    // create random delay between threads
             }
 
