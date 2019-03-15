@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9a94d171-5e1a-4f41-b4a9-086b0d16aba6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/elections/Vote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/elections/Vote.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../assignment4/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="9a94d171-5e1a-4f41-b4a9-086b0d16aba6" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,12 +27,12 @@
     <favorites_list name="assignment3-intellij" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MultiThreadVote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="944">
-              <caret line="59" column="9" lean-forward="true" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
+            <state relative-caret-position="333">
+              <caret line="59" column="9" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -46,7 +43,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/elections/count.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
+            <state relative-caret-position="304">
               <caret line="19" column="9" lean-forward="true" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
             </state>
           </provider>
@@ -55,7 +52,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/elections/Vote.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
+            <state relative-caret-position="416">
               <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -122,28 +119,6 @@
             <path>
               <item name="assignment3-intellij" type="b2602c69:ProjectViewProjectNode" />
               <item name="assignment3-intellij" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="assignment3-intellij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="assignment3-intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="assignment3-intellij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="assignment3-intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="assignment3-intellij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="assignment3-intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="assignment3-intellij" type="b2602c69:ProjectViewProjectNode" />
-              <item name="assignment3-intellij" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="elections" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -246,6 +221,7 @@
       <workItem from="1552325903691" duration="466000" />
       <workItem from="1552449154580" duration="590000" />
       <workItem from="1552540572349" duration="257000" />
+      <workItem from="1552633112939" duration="2000" />
     </task>
     <task id="LOCAL-00001" summary="reverted to 240">
       <created>1550088143630</created>
@@ -258,12 +234,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15734000" />
+    <option name="totallyTimeSpent" value="15736000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="725" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49918434" visible="true" weight="0.2584814" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49918434" visible="true" weight="0.2625202" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -342,10 +319,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/elections/Vote.java">
+    <entry file="file://$PROJECT_DIR$/src/MultiThreadVote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
-          <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
+        <state relative-caret-position="333">
+          <caret line="59" column="9" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -354,15 +331,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/elections/count.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
+        <state relative-caret-position="304">
           <caret line="19" column="9" lean-forward="true" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MultiThreadVote.java">
+    <entry file="file://$PROJECT_DIR$/src/elections/Vote.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="944">
-          <caret line="59" column="9" lean-forward="true" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="9" />
+        <state relative-caret-position="416">
+          <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
