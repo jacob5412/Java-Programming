@@ -7,9 +7,6 @@ public class BatchProcessingExample {
         String myDatabase = "JavaJDBC";
         final String url = "jdbc:mysql://" + serverName + "/" + myDatabase;
 
-        // initializing ResultSet
-        ResultSet rs = null;
-
         // username and password
         final String username = "root";
         final String password = "MyNewPass";
@@ -38,15 +35,6 @@ public class BatchProcessingExample {
 
         } catch(SQLException e){
             System.out.println("Error: Couldn't connect to database " + e);
-        }
-        finally{
-            if(rs != null){
-                try{
-                    rs.close();
-                } catch(SQLException e){
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }
