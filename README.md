@@ -102,6 +102,8 @@ This repository contains all the java programming assignments for the CSE1007 la
 1. [Client Program](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/FirstClient.java): Sends request and a message.
 2. [Server Program](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/FirstServer.java): Listens on port and prints message to console.
 
+## [Digital Assignment](https://github.com/jacobjohn2016/Java-Programming/tree/master/Digital-Assignment)
+
 ## Extra Questions (Practice)
 1. Write a program to accept an integer number and separate the digits with a $ sign. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/separateInt.java)
 2. Write a program to continuously read input values from the user. The program should terminate if exactly three String values have been inputted. Display the count of integer values and float values entered so far. Also display the average of all integer values and all float values individually.[Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/ThreeInputs.java)
