@@ -1,0 +1,6 @@
+opennlp.morfologik.builder
+opennlp.morfologik.cmdline
+opennlp.morfologik.cmdline.builder
+opennlp.morfologik.lemmatizer
+opennlp.morfologik.tagdict
+opennlp.morfologik.util

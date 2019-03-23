@@ -1,0 +1,128 @@
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Apache OpenNLP Readme</title>
+    <style>
+/*
+Change default font.
+*/
+html {
+  font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;
+}
+/*
+Format code.
+*/
+code,kbd,pre,samp {
+  font-family:Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+code {
+  padding:0;font-size:inherit;color:inherit;white-space:pre-wrap;background-color:transparent;border-radius:0;
+}
+code {
+  padding:2px 4px;font-size:90%;color:#c7254e;background-color:#f9f2f4;border-radius:4px;
+}
+/*
+This hides the first paragraph in the page, which contains badges.
+*/
+p > a > img {
+  display: none;
+}
+    </style>
+</head>
+<body>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<h1>Welcome to Apache OpenNLP!</h1>
+<p><a href="https://travis-ci.org/apache/opennlp"><img src="https://api.travis-ci.org/apache/opennlp.svg?branch=master" alt="Build Status" /></a> <a href="https://coveralls.io/github/apache/opennlp?branch=master"><img src="https://coveralls.io/repos/github/apache/opennlp/badge.svg?branch=master" alt="Coverage Status" /></a> <a href="https://maven-badges.herokuapp.com/maven-central/org.apache.opennlp/opennlp"><img src="https://maven-badges.herokuapp.com/maven-central/org.apache.opennlp/opennlp/badge.svg?style=plastic" alt="Maven Central" /></a> <a href="http://opennlp.apache.org/docs/index.html"><img src="https://img.shields.io/:docs-latest-green.svg" alt="Documentation Status" /></a> <a href="https://raw.githubusercontent.com/apache/opennlp/master/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202-blue.svg" alt="GitHub license" /></a> <a href="https://twitter.com/ApacheOpenNLP"><img src="https://img.shields.io/twitter/follow/ApacheOpennlp.svg?style=social" alt="Twitter Follow" /></a></p>
+<p>The Apache OpenNLP library is a machine learning based toolkit for the processing of natural language text.</p>
+<p>This toolkit is written completely in Java and provides support for common NLP tasks, such as tokenization,  sentence segmentation, part-of-speech tagging, named entity extraction, chunking, parsing,  coreference resolution, language detection and more!</p>
+<p>These tasks are usually required to build more advanced text processing services.</p>
+<p>The goal of the OpenNLP project is to be a mature toolkit for the above mentioned tasks.</p>
+<p>An additional goal is to provide a large number of pre-built models for a variety of languages, as well as the annotated text resources that those models are derived from.</p>
+<p>Presently, OpenNLP includes common classifiers such as Maximum Entropy, Perceptron and Naive Bayes.</p>
+<p>OpenNLP can be used both programmatically through its Java API or from a terminal through its CLI. OpenNLP API can be easily plugged into distributed streaming data pipelines like Apache Flink, Apache NiFi, Apache Spark.</p>
+<h2>Useful Links</h2>
+<p>For additional information, visit the <a href="http://opennlp.apache.org/">OpenNLP Home Page</a></p>
+<p>You can use OpenNLP with any language, demo models are provided <a href="http://opennlp.sourceforge.net/models-1.5/">here</a>.</p>
+<p>The models are fully compatible with the latest release, they can be used for testing or getting started. </p>
+<p>Please train your own models for all other use cases.</p>
+<p>Documentation, including JavaDocs, code usage and command-line interface examples are available <a href="http://opennlp.apache.org/docs/">here</a></p>
+<p>You can also follow our <a href="http://opennlp.apache.org/mailing-lists.html">mailing lists</a> for news and updates.</p>
+<h2>Overview</h2>
+<p>Currently the library has different packages:</p>
+<ul>
+  <li><code>opennlp-tools</code> : The core toolkit.</li>
+  <li><code>opennlp-uima</code> : A set of <a href="https://uima.apache.org">Apache UIMA</a> annotators.</li>
+  <li><code>opennlp-brat-annotator</code> : A set of annotators for <a href="http://brat.nlplab.org/">BRAT</a></li>
+  <li><code>opennlp-morfologik-addon</code> : An addon for Morfologik</li>
+  <li><code>opennlp-sandbox</code>: Other projects in progress are found in the <a href="https://github.com/apache/opennlp-sandbox">sandbox</a></li>
+</ul>
+<h2>Getting Started</h2>
+<p>You can import the core toolkit directly from Maven, SBT or Gradle:</p>
+<h4>Maven</h4>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.opennlp&lt;/groupId&gt;
+    &lt;artifactId&gt;opennlp-tools&lt;/artifactId&gt;
+    &lt;version&gt;1.9.1&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h4>SBT</h4>
+<pre><code>libraryDependencies += &quot;org.apache.opennlp&quot; % &quot;opennlp-tools&quot; % &quot;1.9.1&quot;
+</code></pre>
+<h4>Gradle</h4>
+<pre><code>compile group: &quot;org.apache.opennlp&quot;, name: &quot;opennlp-tools&quot;, version: &quot;1.9.1&quot;
+</code></pre>
+<p>For more details please check our <a href="http://opennlp.apache.org/docs/">documentation</a></p>
+<h2>Building OpenNLP</h2>
+<p>At least JDK 8 and Maven 3.3.9 are required to build the library.</p>
+<p>After cloning the repository go into the destination directory and run:</p>
+<pre><code>mvn install
+</code></pre>
+<h2>Contributing</h2>
+<p>The Apache OpenNLP project is developed by volunteers and is always looking for new contributors to work on all parts of the project. Every contribution is welcome and needed to make it better. A contribution can be anything from a small documentation typo fix to a new component.</p>
+<p>If you would like to get involved please follow the instructions <a href="https://github.com/apache/opennlp/blob/master/.github/CONTRIBUTING.md">here</a></p><h2><a name="report.issues">How to Report Issues</a></h2>
+<p>
+    The Apache OpenNLP project uses JIRA for issue tracking.  Please report any
+    issues you find at
+    <a href="http://issues.apache.org/jira/browse/opennlp">http://issues.apache.org/jira/browse/opennlp</a>
+</p>
+
+<h2><a name="list.issues">List of JIRA Issues Fixed in this Release</a></h2>
+<p>
+    Click <a href="issuesFixed/jira-report.html">issuesFixed/jira-report.html</a> for the list of
+    issues fixed in this release.
+</p>
+
+</body>
+</html>
