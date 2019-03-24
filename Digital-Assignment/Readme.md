@@ -2,6 +2,8 @@
 
 Develop Java Programs implementing 10 new concepts/features/Topics (not in our syllabus).
 
+[Final uploaded file](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/16BCE2205_Digital_assignment.pdf)
+
 ## Sending Email in Java through Gmail Server
 * [Code](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/SendEmail.java)
 * [Source](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/SendEmail.java)
