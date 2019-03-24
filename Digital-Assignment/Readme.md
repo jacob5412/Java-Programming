@@ -12,13 +12,8 @@ Develop Java Programs implementing 10 new concepts/features/Topics (not in our s
   3. **Resolving Authentication failure**: Click on [this link](https://www.google.com/settings/security/lesssecureapps) and click on turn on radio button to allow users to send mail from unknown location.
 
 ## Language Detection using OpenNLP
-* Code - [LanguageDetectorMain.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/languagedetector/LanguageDetectorMain.java), [LanguageMapper.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/languagedetector/LanguageMapper.java)
+* Code - [LanguageDetectorMain.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/OpenNLP/languagedetector/LanguageDetectorMain.java), [LanguageMapper.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/OpenNLP/languagedetector/LanguageMapper.java)
 * [Source](https://github.com/Ruthwik/Language-Detection)
 * [`.jar` files](https://github.com/jacobjohn2016/Java-Programming/tree/master/Digital-Assignment/apache-opennlp-1.9.1/lib)
 * The Apache OpenNLP library is a machine learning based toolkit for the processing of natural language text. It supports the most common NLP tasks, such as language detection, tokenization, sentence segmentation, part-of-speech tagging, named entity extraction, chunking, parsing and coreference resolution.
 * This model is trained for and works well with longer texts that have at least 2 sentences or more from the same language.
-
-## Face Detection using OpenCV
-* [Code](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/FaceDetector.java)
-* [Source](https://www.geeksforgeeks.org/image-processing-java-set-9-face-detection/)
-* [`.jar` files](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/opencv-3.2.0-1.jar)
