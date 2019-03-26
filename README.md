@@ -102,6 +102,11 @@ This repository contains all the java programming assignments for the CSE1007 la
 1. [Client Program](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/FirstClient.java): Sends request and a message.
 2. [Server Program](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/FirstServer.java): Listens on port and prints message to console.
 
+## [Servlet Programming Introduction](https://github.com/jacobjohn2016/Java-Programming/tree/master/BeginnersBookDemo)
+1. [Hello.html](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/WebContent/Hello.html): This is the input form
+2. [HelloFormPost.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/src/HelloFormPost.java): Servlet for getting form data and displaying.
+3. [web.xml](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/WebContent/WEB-INF/web.xml): For mapping servlet URL.
+
 ## [Digital Assignment](https://github.com/jacobjohn2016/Java-Programming/tree/master/Digital-Assignment)
 * [File Upload](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/16BCE2205_Digital_assignment.pdf)
 
