@@ -104,8 +104,11 @@ This repository contains all the java programming assignments for the CSE1007 la
 2. [Batch Processing](https://github.com/jacobjohn2016/Java-Programming/blob/master/JDBC-Practice/src/BatchProcessingExample.java): Executing queries as batches.
 
 ## [Socket Programming Introduction](https://github.com/jacobjohn2016/Java-Programming/tree/master/Socket-Programming)
+**Note:** Always run server program before client.
 1. [Client Program](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/FirstClient.java): Sends request and a message.
 2. [Server Program](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/FirstServer.java): Listens on port and prints message to console.
+3. [Client Program for simple chat application](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/MyClient1.java)
+4. [Server Program for simple chat application](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/MyServer1.java)
 
 ## [Servlet Programming Introduction](https://github.com/jacobjohn2016/Java-Programming/tree/master/BeginnersBookDemo)
 1. [Hello.html](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/WebContent/Hello.html): This is the input form
