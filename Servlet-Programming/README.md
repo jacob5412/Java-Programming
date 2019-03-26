@@ -1,7 +1,5 @@
 # Servlet Programming
 
-This repository contains all the java programming assignments for the CSE1007 lab as of Winter'19.
-
 Write a program to demonstrate the knowledge of students in Servlet programming.
 >Eg., Assume two cookies are created whenever a VIT student visits the VIT webpage-one for his/her name and the other for his campus. For subsequent visits, he/she should be greeted with the message similar to the one below.
 ```
