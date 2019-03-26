@@ -13,7 +13,32 @@ Write a program to demonstrate the knowledge of students in Servlet programming.
 * [ReadCookies.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Servlet-Programming/src/ReadCookies.java): Reading Cookies Servlet
 * [DeleteCookies.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Servlet-Programming/src/DeleteCookies.java): Deleting Cookies Servlet.
 
-
+## Initial Landing
 <p align="center">
-    <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/4-donors-output.png" alt="Donors output" width="600">
+    <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Servlet-Programming/Screenshots/1.png" alt="1" width="600">
+</p>
+
+## Filling out form data
+<p align="center">
+    <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Servlet-Programming/Screenshots/2.png" alt="2" width="600">
+</p>
+
+## Setting Cookies
+<p align="center">
+    <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Servlet-Programming/Screenshots/3.png" alt="3" width="600">
+</p>
+
+## Reading Cookies
+<p align="center">
+    <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Servlet-Programming/Screenshots/4.png" alt="4" width="600">
+</p>
+
+## Deleting Cookies
+<p align="center">
+    <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Servlet-Programming/Screenshots/5.png" alt="5" width="600">
+</p>
+
+## Reading deleted Cookies
+<p align="center">
+    <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Servlet-Programming/Screenshots/6.png" alt="6" width="600">
 </p>
