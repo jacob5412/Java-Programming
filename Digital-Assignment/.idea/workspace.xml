@@ -3,7 +3,21 @@
   <component name="ChangeListManager">
     <list default="true" id="a85e6947-50e1-48d1-aeff-31309ccd04db" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Weka/Cluster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Weka/Cluster.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Weka/WekaTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Weka/WekaTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Java-Programming.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/Socket-Programming.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/out/production/Socket-Programming/FirstClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/out/production/Socket-Programming/FirstServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/src/FirstClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Socket-Programming/src/FirstServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../maven-example.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pom.xml" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/../target/" />
@@ -52,10 +66,10 @@
         <option value="$PROJECT_DIR$/src/OpenNLP/Tokenization/TokenizerMEProbs.java" />
         <option value="$PROJECT_DIR$/src/Weka/WekaTest.java" />
         <option value="$PROJECT_DIR$/src/Weka/KNN.java" />
-        <option value="$PROJECT_DIR$/src/Weka/Cluster.java" />
         <option value="$PROJECT_DIR$/src/ApacheCommons/StatsExample.java" />
         <option value="$PROJECT_DIR$/src/AdvancedMath/Stats.java" />
         <option value="$PROJECT_DIR$/src/AdvancedMath/Analysis.java" />
+        <option value="$PROJECT_DIR$/src/Weka/Cluster.java" />
       </list>
     </option>
   </component>
@@ -87,35 +101,68 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="Digital-Assignment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java-Programming" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Digital-Assignment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java-Programming" type="462c0819:PsiDirectoryNode" />
               <item name="Digital-Assignment" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Digital-Assignment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Java-Programming" type="462c0819:PsiDirectoryNode" />
-              <item name="extra-assignment" type="462c0819:PsiDirectoryNode" />
+              <item name="Digital-Assignment" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Digital-Assignment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Digital-Assignment" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="AdvancedMath" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Digital-Assignment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Digital-Assignment" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="jdmp" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Digital-Assignment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Digital-Assignment" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="OpenNLP" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Digital-Assignment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Digital-Assignment" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="OpenNLP" type="462c0819:PsiDirectoryNode" />
+              <item name="languagedetector" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Digital-Assignment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Digital-Assignment" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="OpenNLP" type="462c0819:PsiDirectoryNode" />
+              <item name="Tokenization" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Digital-Assignment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Digital-Assignment" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Weka" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553411746456" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553563737474" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -136,7 +183,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.NaiveBayesClassificationExample">
+  <component name="RunManager" selected="Application.Cluster">
     <configuration name="Cluster" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Weka.Cluster" />
       <module name="Digital-Assignment" />
@@ -205,10 +252,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Cluster" />
         <item itemvalue="Application.NaiveBayesClassificationExample" />
         <item itemvalue="Application.LinearRegressionClassificationExample" />
         <item itemvalue="Application.WekaTest" />
-        <item itemvalue="Application.Cluster" />
         <item itemvalue="Application.TokenizerMEProbs" />
       </list>
     </recent_temporary>
@@ -229,16 +276,18 @@
       <workItem from="1553404557854" duration="3876000" />
       <workItem from="1553408834887" duration="31000" />
       <workItem from="1553408896235" duration="2726000" />
+      <workItem from="1553510910016" duration="2000" />
+      <workItem from="1553563705299" duration="46000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17758000" />
+    <option name="totallyTimeSpent" value="17806000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="741" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26979" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27786753" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -384,20 +433,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Weka/WekaTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="9" column="35" lean-forward="true" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Weka/Cluster.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jdmp/NaiveBayesClassificationExample.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="275">
@@ -415,6 +450,23 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Weka/Cluster.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="9" column="22" lean-forward="true" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Weka/WekaTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
         </state>
       </provider>
     </entry>

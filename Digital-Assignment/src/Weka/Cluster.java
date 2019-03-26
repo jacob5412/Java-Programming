@@ -1,11 +1,11 @@
 package Weka;
 
+import weka.clusterers.SimpleKMeans;
+import weka.core.Instances;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-
-import weka.clusterers.SimpleKMeans;
-import weka.core.Instances;
 
 public class Cluster {
 
