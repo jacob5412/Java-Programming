@@ -6,7 +6,7 @@ Develop Java Programs implementing 10 new concepts/features/Topics (not in our s
 
 ## Sending Email in Java through Gmail Server
 * [Code](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/SendEmail.java)
-* [Source](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/SendEmail.java)
+* [Source](https://www.javatpoint.com/java-mail-api-tutorial)
 * [`.jar` files](https://www.javatpoint.com/src/mail/mailactivation.zip)
 * Steps:
   1. **Get the session object:** The `javax.mail.Session` class provides two methods to get the object of session, `Session.getDefaultInstance()` method and `Session.getInstance()` method. 
