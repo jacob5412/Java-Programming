@@ -75,6 +75,9 @@ This repository contains all the java programming assignments for the CSE1007 la
 ## Assignment 5
 1. Write a program to demonstrate the knowledge of students in creating and deploying applets. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/Applets/src/myApplet.java)
     >Eg., Draw a ball, filled with default color. Move the ball from top to bottom of the window continuously with its color changed for every one second. The new color of the ball for the next second should be obtained by adding 20 to the current value of Red component, for the second time by adding 20 to the blue component, and for the third time by adding 20 to the blue component, till all reach the final limit 225, after which the process should be repeated with the default color.
+    <p align="center">
+      <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/4-applets.png" alt="Applets" width="600">
+    </p>
 2. Write a program to demonstrate the knowledge of students in Java Network Programming.
     * [udpBaseServer_2.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/udpBaseServer_2.java): Server side
       1. `Run` this **first**
