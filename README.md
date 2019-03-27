@@ -88,6 +88,10 @@ This repository contains all the java programming assignments for the CSE1007 la
       4. Wait for checksum to be calculated and sent
     > Eg., Develop a UDP based client-server application to notify the client about the integrity of data sent from its side. Use checksum to do this.
 3. Write a program to demonstrate the knowledge of students in Remote method invocation.
+    * [Modder.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/RMI/src/Multiples/Modder.java): Remote Interface
+    * [ModderRemote.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/RMI/src/Multiples/ModderRemote.java): Provide the implementation of the remote interface
+    * [MyServer.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/RMI/src/Multiples/MyServer.java): Create and run server application
+    * [MyClient.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/RMI/src/Multiples/MyClient.java): Create and run client application
     > Eg., Develop an RMI application to invoke a remote method that takes two numbers and returns true if one number is an exact multiple of the other and false otherwise.
     ```
     Sample test cases:
