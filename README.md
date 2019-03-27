@@ -105,13 +105,13 @@ This repository contains all the java programming assignments for the CSE1007 la
     4 and 18 -> false
     ```
     * Client:
-    <p align="center">
-      <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/6-CS-C.png" alt="CS Client" width="600">
-    </p>
+        <p align="center">
+        <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/6-CS-C.png" alt="CS Client" width="600">
+        </p>
     * Server:
-    <p align="center">
-      <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/6-CS-S.png" alt="CS Server" width="600">
-    </p>
+        <p align="center">
+        <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/6-CS-S.png" alt="CS Server" width="600">
+        </p>
 
 ## [Assignment 6](https://github.com/jacobjohn2016/Java-Programming/tree/master/Servlet-Programming)
 1. Write a program to demonstrate the knowledge of students in Servlet programming.
