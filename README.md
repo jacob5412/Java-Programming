@@ -76,6 +76,16 @@ This repository contains all the java programming assignments for the CSE1007 la
 1. Write a program to demonstrate the knowledge of students in creating and deploying applets.
     >Eg., Draw a ball, filled with default color. Move the ball from top to bottom of the window continuously with its color changed for every one second. The new color of the ball for the next second should be obtained by adding 20 to the current value of Red component, for the second time by adding 20 to the blue component, and for the third time by adding 20 to the blue component, till all reach the final limit 225, after which the process should be repeated with the default color.
 2. Write a program to demonstrate the knowledge of students in Java Network Programming.
+    * [udpBaseServer_2.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/udpBaseServer_2.java): Server side
+      1. `Run` this **first**
+      2. Wait for client to send data
+      3. Will Calculate checksum on received data
+      4. Displays "Success" or "Failure" accordingly
+    * [udpBaseClient_2.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/udpBaseClient_2.java): Client side
+      1. `Run` this **next**
+      2. Input the number of data to be send
+      3. Enter data line by line
+      4. Wait for checksum to be calculated and sent
     > Eg., Develop a UDP based client-server application to notify the client about the integrity of data sent from its side. Use checksum to do this.
 3. Write a program to demonstrate the knowledge of students in Remote method invocation.
     > Eg., Develop an RMI application to invoke a remote method that takes two numbers and returns true if one number is an exact multiple of the other and false otherwise.
