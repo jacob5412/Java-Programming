@@ -212,5 +212,4 @@ previous numbers, i.e., `T(n)=T(n-1)+T(n-2)+T(n-3), T(1)=T(2)=1, and T(3)=2`). [
     - [Extra Questions (Practice)](#extra-questions-practice) - Question 16
 
 ## Contact
-* Drop an e-mail at <kapsjacob@gmail.com> for help.
-* Or Whatsapp me at: <a href="tel:+918523996672">tel:+91 85239 96672</a>
+Drop an e-mail at <kapsjacob@gmail.com> for help.
