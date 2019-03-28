@@ -84,7 +84,7 @@ The Apache Commons Mathematics Library. Jar files here - [`.jar` files](https://
 * [Source](https://www.programcreek.com/2013/01/a-simple-machine-learning-example-in-java/)
 * [Dataset](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/resources/weather.txt)
 
-## JDMP
+### JDMP
 * The [Java Data Mining Package (JDMP)](https://jdmp.org/) is an open source Java library for data analysis and machine learning. It facilitates the access to data sources and machine learning algorithms (e.g. clustering, regression, classification, graphical models, optimization) and provides visualization modules. JDMP provides a number of algorithms and tools, but also interfaces to other machine learning and data mining packages (Weka, LibLinear, Elasticsearch, LibSVM, Mallet, Lucene, Octave).
 * [`.jar` file](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/jdmp-complete-0.3.0.jar)
 * [`.jar` file](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/ujmp-complete-0.3.0.jar)
