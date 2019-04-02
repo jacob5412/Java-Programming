@@ -206,7 +206,10 @@ previous numbers, i.e., `T(n)=T(n-1)+T(n-2)+T(n-3), T(1)=T(2)=1, and T(3)=2`). [
 
 17. Student volunteers from three batches of B.Tech are selected to ensure the smooth conduct of a Technical event. Assume that only 4 volunteers from batch1, 3 volunteers from batch2, 1 volunteer from batch3 are selected. Create a 2-D ragged array of strings to store their register numbers batch wise. The first row stores register numbers of the volunteers in batch1, second row – batch2 and so forth. Use for-each loop to traverse the array elements.[Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/FAT-Practice/src/volunteers.java)
 
-18. 
+18. An ISBN (International Standard Book Number) consists of 10 digits d1d2d3d4d5d6d7d8d9d10. The last digit d10 is a checksum, which is calculated from the other nine digits using the following formula: `(d1 * 1 + d2 * 2 + d3 * 3 + d4 * 4 + d5 * 5 + d6 * 6 + d7 * 7 + d8 * 8 + d9 * 9)% 11`.
+    * If the checksum is 10, the last digit is denoted X according to the ISBN convention. For the input 013601267, the program should display 0136012671.
+    * Define a package ‘Package1’ with the class ‘NumberManipulation’ which contains an integer array (size 9) as its instance variable and two methods `extractDigits( )` and `findLastDigit( )`. The `extractDigits( )` method must take an integer number as argument and extract the individual digits of the number and store them in the 9-element integer array. The method `findLastDigit( )` should find out the 10th digit using the above formula and return it.
+    * Define a main class outside of the package created above and read the 9-digit number as a String. Throw a user defined exception "InvalidInputException" if the length of the input String is not exactly 9 digits and prompt the user to enter the input again. If valid, convert the input into integer and pass it to the method `extractDigits( )` and also invoke `findLastDigit( )` method which would return the last digit. If the last digit is 10, append ‘X’ to the original string else append the digit itself’ and display the ISBN number.
 
 ## Contributions
 * Initial Author - [jacobjohn2016](github.com/jacobjohn2016)
