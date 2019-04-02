@@ -204,6 +204,8 @@ O/P:    TTT
 numbers `T(n)` similar to Fibonacci numbers, except that a number is formed by adding the three
 previous numbers, i.e., `T(n)=T(n-1)+T(n-2)+T(n-3), T(1)=T(2)=1, and T(3)=2`). [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Tribonacci.java)
 
+17. Student volunteers from three batches of B.Tech are selected to ensure the smooth conduct of a Technical event. Assume that only 4 volunteers from batch1, 3 volunteers from batch2, 1 volunteer from batch3 are selected. Create a 2-D ragged array of strings to store their register numbers batch wise. The first row stores register numbers of the volunteers in batch1, second row – batch2 and so forth. Use for-each loop to traverse the array elements.
+
 ## Contributions
 * Initial Author - [jacobjohn2016](github.com/jacobjohn2016)
 * [varunreddy24](github.com/varunreddy24)
