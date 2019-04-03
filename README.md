@@ -40,10 +40,11 @@ This repository contains all the java programming assignments for the CSE1007 la
     >Eg., Three students A, B and C of B.Tech- II year contest for the PR election. With the total strength of 240 students in II year, simulate the vote casting by generating 240 random numbers (1 for student A, 2 for B and 3 for C) and store them in an array. Create four threads to equally share the task of counting the number of votes cast for all the three candidates. Use synchronized method or synchronized block to update the three count variables. The main thread should receive the final vote count for all three contestants and hence decide the PR based on the values received.
 
 ## Assignment 4
-1. Write a program to demonstrate the knowledge of students in File handling. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment4/src/Donor.java) 
+1. Write a program to demonstrate the knowledge of students in File handling. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/FAT-Practice/src/Donations.java)
     > Eg., Define a class ‘Donor’ to store the below mentioned details of  a blood donor.  Name, age, Address, Contact number, blood group, date of last donation Create ‘n’ objects of this class for all the regular donors at Vellore. Write these objects to a file. Read these objects from the file and display only those donors’ details whose blood group is ‘A+ve’ and had not donated for the recent six months.
-
-    _Please refer [instructions on how to run](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment4/JodaTimeDonor.md) if you do not know how to add the [jodatime](https://github.com/JodaOrg/joda-time/releases) jar files to your system._
+    
+    [Alternative Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment4/src/Donor.java): 
+    _If you're running the "alternative ans", then please refer [instructions on how to run](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment4/JodaTimeDonor.md) if you do not know how to add the [jodatime](https://github.com/JodaOrg/joda-time/releases) jar files to your system._
     </p>
     Or copy the output below:
     <p align="center">
