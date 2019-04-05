@@ -9,6 +9,7 @@ This repository contains all the java programming assignments for the CSE1007 la
 * [Surprise Assessment 2 (Exception Handling)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_2.pdf)
 * [Assessment 2 (Questions 5-8)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_2.pdf)
 * [CAT 2](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/java_CAT_2.pdf)
+* [Assessment 3 (Last questions)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_3.pdf)
 
 ## Assignment 1
 1. WAP for finding the max and min among three numbers. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment1/src/minMaxThree.java)
