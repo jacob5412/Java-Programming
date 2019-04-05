@@ -18,7 +18,7 @@ public class Register extends HttpServlet {
 		try{
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/JavaJDBC?autoReconnect=true&useSSL=false","root","MyNewPass");
-                out.print("Connected successfully!");
+                out.print("Connected successfully!</br>");
 		PreparedStatement ps=con.prepareStatement("insert into registeruser values(?,?,?,?)");
 		ps.setString(1,n);
 		ps.setString(2,p);

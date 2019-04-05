@@ -28,11 +28,13 @@ The Apache Commons Mathematics Library. Jar files here - [`.jar` files](https://
 * Root Finding:
   * A root is a value where a function has the value of 0. Commons-Math includes implementation of several root-finding algorithms.
   * Here, we try to find the root of *v -> (v * v) – 2* :
-    ```{Java}
+  
+    ``` java
     UnivariateFunction function = v -> Math.pow(v, 2) - 2;
     UnivariateSolver solver = new BracketingNthOrderBrentSolver(1.0e-12, 1.0e-8, 5);
     double c = solver.solve(100, function, -10.0, 10.0, 0);
     ```
+    
   * First, we start by defining the function, then we define the solver, and we set the desired accuracy. Finally, we call the solve() API.
   * The root-finding operation will be performed using several iterations, so it’s a matter of finding a compromise between execution time and accuracy.
 * Calculating integrals:
@@ -45,25 +47,30 @@ The Apache Commons Mathematics Library. Jar files here - [`.jar` files](https://
   * We start by defining a function, we choose an integrator among the available integration solutions existing, we set the desired accuracy, and finally, we integrate.
 * Linear Algebra:
   * If we have a linear system of equations under the form AX = B where A is a matrix of real numbers, and B a vector of real numbers – Commons Math provides structures to represent both the matrix and the vector, and also provide solvers to find the value of X:
-    ```{Java}
+  
+    ``` java
     RealMatrix a = new Array2DRowRealMatrix(new double[][] { { 2, 3, -2 }, { -1, 7, 6 }, { 4, -3, -5 } },false);
     RealVector b = new ArrayRealVector(new double[] { 1, -2, 1 }, false); 
     DecompositionSolver solver = new LUDecomposition(a).getSolver();
     RealVector solution = solver.solve(b);
     ```
+
   * The case is pretty straightforward: we define a matrix a from an array of array of doubles, and a vector b from an array of a vector.
   * Then, we create an LUDecomposition which provides a solver for equations under the form AX = B. As its name states it, LUDecomposition relies on the LU decomposition, and thus works only with square matrices.
   * For other matrices, different solvers exist, usually solving the equation using the least square method.
+
 ### Statistics and Probrabilities
 * [Code](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/AdvancedMath/Stats.java)
 * The package `org.apache.commons.math3.stat` provides several tools for statistical computations.
 * In core Java, `Math.random()` can be used for generating random values, but these values are uniformly distributed between 0 and 1.
 * Sometimes, we want to produce a random value using a more complex distribution. For this, we can use the framework provided by `org.apache.commons.math3.distribution.`
 * Here is how to generate random values according to the normal distribution with the mean of 10 and the standard deviation of 3:
-    ```{Java}
+* 
+    ``` java
     NormalDistribution normalDistribution = new NormalDistribution(10, 3);
     double randomValue = normalDistribution.sample();
     ```
+
 * Or we can obtain the probability *P(X = x)* of getting a value for discrete distributions, or the cumulative probability *P(X <= x)* for continuous distributions.
 
 ## Tokenization using Apache OpenNLP

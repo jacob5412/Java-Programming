@@ -146,7 +146,7 @@ This repository contains all the java programming assignments for the CSE1007 la
 2. [HelloFormPost.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/src/HelloFormPost.java): Servlet for getting form data and displaying.
 3. [web.xml](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/WebContent/WEB-INF/web.xml): For mapping servlet URL.
 
-## [Digital Assignment](https://github.com/jacobjohn2016/Java-Programming/tree/master/Digital-Assignment)
+## [Digital Assignment](https://jacobjohn2016.github.io/Java-Programming/Digital-Assignment/)
 * [File Upload](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/16BCE2205_Digital_assignment.pdf)
 
 ## Extra Questions (Practice)
