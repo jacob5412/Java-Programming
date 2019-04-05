@@ -101,6 +101,7 @@ This repository contains all the java programming assignments for the CSE1007 la
     * [MyServer.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/RMI/src/Multiples/MyServer.java): Create and run server application
     * [MyClient.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/RMI/src/Multiples/MyClient.java): Create and run client application
     > Eg., Develop an RMI application to invoke a remote method that takes two numbers and returns true if one number is an exact multiple of the other and false otherwise.
+
     ```
     Sample test cases:
     -------------------
@@ -108,6 +109,7 @@ This repository contains all the java programming assignments for the CSE1007 la
     26 and 13 -> true
     4 and 18 -> false
     ```
+
     * Client:
         <p align="center">
         <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/6-CS-C.png" alt="CS Client" width="600">
@@ -120,9 +122,11 @@ This repository contains all the java programming assignments for the CSE1007 la
 ## Assignment 6
 1. Write a program to demonstrate the knowledge of students in Servlet programming.
     >Eg., Assume two cookies are created whenever a VIT student visits the VIT webpage-one for his/her name and the other for his campus. For subsequent visits, he/she should be greeted with the message similar to the one below.
+
     ```
     “Hi Ajay from Chennai Campus!!”.
     ```
+
     * [output](https://github.com/jacobjohn2016/Java-Programming/tree/master/Servlet-Programming)
     * [web.xml](https://github.com/jacobjohn2016/Java-Programming/blob/master/Servlet-Programming/WebContent/WEB-INF/web.xml): File for mapping URL
     * [Hello.html](https://github.com/jacobjohn2016/Java-Programming/blob/master/Servlet-Programming/WebContent/Hello.html): Initial html landing page. **Run this file on the server**.
@@ -158,6 +162,7 @@ This repository contains all the java programming assignments for the CSE1007 la
 Store these values in an array. Find the average rainfall and display the count of the number of months in which the rainfall is more than the average. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/RainMain.java)
     >10.2, 11.9, 8.0, 11.2, 10.8, 6.9, 8.2, 11.5, 10.4, 8.7, 7.8, 7.5.
 6. Write a program to print the following patterns using loops. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Pattern.java)
+
 ```
 1 2 3 4 5 6 7
   2 3 4 5 6 7
@@ -173,10 +178,11 @@ Store these values in an array. Find the average rainfall and display the count 
   2 3 4 5 6 7
 1 2 3 4 5 6 7
 ```
-7. Write a program called NumberGuess to play the number guessing game. The program shall generate a random number between 0 and 99. The player inputs his/her guess and the program shall response with "Too higher", "Too lower" or "Congratulations! You got it.." accordingly. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/NumberGuess.java)
-8. Create a class Film with string objects which stores name, language and lead_actor and category (action/drama/fiction/comedy). Also include an integer data member that stores the duration of the film. Include parameterized constructor, default constructor and accessory functions to film class. Film objects can be initialized either using a constructor or accessor functions. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/FilmMain.java)
-9. Demonstrating multiple inheritance in Java. [Source](https://www.geeksforgeeks.org/java-and-multiple-inheritance/) [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/MultipleInheritance.java)
-10. Write a program to demonstrate the knowledge of students in advanced concepts of Java string handling. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Genes.java)
+
+1. Write a program called NumberGuess to play the number guessing game. The program shall generate a random number between 0 and 99. The player inputs his/her guess and the program shall response with "Too higher", "Too lower" or "Congratulations! You got it.." accordingly. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/NumberGuess.java)
+2. Create a class Film with string objects which stores name, language and lead_actor and category (action/drama/fiction/comedy). Also include an integer data member that stores the duration of the film. Include parameterized constructor, default constructor and accessory functions to film class. Film objects can be initialized either using a constructor or accessor functions. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/FilmMain.java)
+3. Demonstrating multiple inheritance in Java. [Source](https://www.geeksforgeeks.org/java-and-multiple-inheritance/) [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/MultipleInheritance.java)
+4.  Write a program to demonstrate the knowledge of students in advanced concepts of Java string handling. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/Genes.java)
     >Eg., (Bioinformatics: finding genes) Biologists use a sequence of letters A, C, T, and G to model a genome. A gene is a substring of a genome that starts after a triplet ATG and ends before a triplet *TAG, TAA, or TGA*. Furthermore, the length of a gene string is a multiple of 3 and the gene does not contain any of the triplets ATG, TAG, TAA, and TGA. Write a program that prompts the user to enter a genome and displays all genes in the genome. If no gene is found in the input sequence, displays no gene. Here are the sample runs: done
 ```
 Enter a genome string: TTATGTTTTAAGGATGGGGCGTTAGTT
