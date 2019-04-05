@@ -46,12 +46,13 @@ This repository contains all the java programming assignments for the CSE1007 la
     
     [Alternative Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment4/src/Donor.java): 
     _If you're running the "alternative ans", then please refer [instructions on how to run](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment4/JodaTimeDonor.md) if you do not know how to add the [jodatime](https://github.com/JodaOrg/joda-time/releases) jar files to your system._
-    </p>
+
     Or copy the output below:
+
     <p align="center">
-      <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/3-donors-output.png" alt="Donors output" width="600">
+    <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/Images/3-donors-output.png" alt="Donors output" width="600">
     </p>
-    
+
 2. Write a program to demonstrate the knowledge of students in working with Java collection framework. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/FAT-Practice/src/MapsPractice.java)
     > Eg., Assume only a maximum of 3 courses can be registered by a student for week end semester classes.  Create a hashmap ‘h1’ with ‘n’ key-value pairs where keys are the names of students and values are the courses registered by them. Create another hashmap ‘h2’ with ‘m’key-value pairs where keys are the names of courses offered for B.Tech and values are the names of faculty handling the courses. Write appropriate code to:
     * Add or remove a student from h1
