@@ -129,7 +129,7 @@ This repository contains all the java programming assignments for the CSE1007 la
     “Hi Ajay from Chennai Campus!!”.
     ```
 
-    * [output](https://github.com/jacobjohn2016/Java-Programming/tree/master/Servlet-Programming)
+    * [output](https://jacobjohn2016.github.io/Java-Programming/Servlet-Programming/)
     * [web.xml](https://github.com/jacobjohn2016/Java-Programming/blob/master/Servlet-Programming/WebContent/WEB-INF/web.xml): File for mapping URL
     * [Hello.html](https://github.com/jacobjohn2016/Java-Programming/blob/master/Servlet-Programming/WebContent/Hello.html): Initial html landing page. **Run this file on the server**.
     * [HelloForm.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/Servlet-Programming/src/HelloForm.java): Intilializing cookies
