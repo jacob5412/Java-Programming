@@ -147,10 +147,16 @@ This repository contains all the java programming assignments for the CSE1007 la
 3. [Client Program for simple chat application](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/MyClient1.java)
 4. [Server Program for simple chat application](https://github.com/jacobjohn2016/Java-Programming/blob/master/Socket-Programming/src/MyServer1.java)
 
-## [Servlet Programming Introduction](https://github.com/jacobjohn2016/Java-Programming/tree/master/BeginnersBookDemo)
+## [Servlet Programming - Introduction](https://github.com/jacobjohn2016/Java-Programming/tree/master/BeginnersBookDemo)
 1. [Hello.html](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/WebContent/Hello.html): This is the input form
 2. [HelloFormPost.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/src/HelloFormPost.java): Servlet for getting form data and displaying.
 3. [web.xml](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/WebContent/WEB-INF/web.xml): For mapping servlet URL.
+
+## [Servlet Programming - Login with Database](https://github.com/jacobjohn2016/Java-Programming/tree/master/LoginLogout/LoginLogoutDB)
+1. [index.html](https://github.com/jacobjohn2016/Java-Programming/blob/master/LoginLogout/LoginLogoutDB/web/index.html): input form
+2. [FirstServlet.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/LoginLogout/LoginLogoutDB/src/java/FirstServlet.java): authenticates the username and password
+3. [WelcomeServlet.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/LoginLogout/LoginLogoutDB/src/java/WelcomeServlet.java): displays welcome message to registered user
+4. [web.xml](https://github.com/jacobjohn2016/Java-Programming/blob/master/LoginLogout/LoginLogoutDB/web/WEB-INF/web.xml): For mapping servlet files to URL.
 
 ## [Digital Assignment](https://jacobjohn2016.github.io/Java-Programming/Digital-Assignment/)
 * [File Upload](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/16BCE2205_Digital_assignment.pdf)
