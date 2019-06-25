@@ -1,6 +1,4 @@
 theme: jekyll-theme-cayman
 highlighter: rouge
 title: CSE1007 Java Programming
-description: This repository contains all the java programming assignments for the CSE1007 lab as of Winter'19.
-github:
-  another_url: https://github.com/jacobjohn2016
+description: Programming assignments for the CSE1007 lab of Winter'19
