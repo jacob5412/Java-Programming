@@ -146,6 +146,9 @@ This repository contains all the java programming assignments for the CSE1007 la
 3. [web.xml](https://github.com/jacobjohn2016/Java-Programming/blob/master/BeginnersBookDemo/WebContent/WEB-INF/web.xml): For mapping servlet URL.
 
 ## [Servlet Programming - Login with Database](https://github.com/jacobjohn2016/Java-Programming/tree/master/LoginLogout/LoginLogoutDB)
+
+_Recommended IDE_ is Netbeans. I wasn't able to link the database successfull with neither Eclipse nor IntelliJ.
+
 1. [index.html](https://github.com/jacobjohn2016/Java-Programming/blob/master/LoginLogout/LoginLogoutDB/web/index.html): input form
 2. [FirstServlet.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/LoginLogout/LoginLogoutDB/src/java/FirstServlet.java): authenticates the username and password
 3. [WelcomeServlet.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/LoginLogout/LoginLogoutDB/src/java/WelcomeServlet.java): displays welcome message to registered user
