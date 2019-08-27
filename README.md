@@ -4,6 +4,15 @@
 
 This repository contains all the java programming assignments for the CSE1007 lab as of Winter'19.
 
+## Lab Uploads
+* [Surprise Assessment 1 (Encryption)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_1.pdf)
+* [Assessment 1 (Questions 1-4)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_1.pdf)
+* [CAT 1](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/java_CAT_1.pdf)
+* [Surprise Assessment 2 (Exception Handling)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_2.pdf)
+* [Assessment 2 (Questions 5-8)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_2.pdf)
+* [CAT 2](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/java_CAT_2.pdf)
+* [Assessment 3 (Last questions)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_3.pdf)
+
 ## Assignment 1
 1. WAP for finding the max and min among three numbers. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment1/src/minMaxThree.java)
 2. WAP, which takes two integer operands and one operator from the user, performs the operation and then prints the result. (Consider the operators `+, - ,*, /, %` and use `switch` Statement) [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment1/src/calculator.java)
@@ -156,15 +165,6 @@ _Recommended IDE_ is Netbeans. I wasn't able to link the database successfully w
 
 ## [Digital Assignment](https://jacobjohn2016.github.io/Java-Programming/Digital-Assignment/)
 * [File Upload](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/16BCE2205_Digital_assignment.pdf)
-
-## Lab Uploads
-* [Surprise Assessment 1 (Encryption)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_1.pdf)
-* [Assessment 1 (Questions 1-4)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_1.pdf)
-* [CAT 1](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/java_CAT_1.pdf)
-* [Surprise Assessment 2 (Exception Handling)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_2.pdf)
-* [Assessment 2 (Questions 5-8)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_2.pdf)
-* [CAT 2](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/java_CAT_2.pdf)
-* [Assessment 3 (Last questions)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/assessment_3.pdf)
 
 ## Extra Questions (Practice)
 1. Write a program to accept an integer number and separate the digits with a $ sign. [Ans](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/separateInt.java)
