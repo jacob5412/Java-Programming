@@ -1,8 +1,8 @@
-# Java Programming
+# Java Programming: A-Z
 
 [Webpage](https://jacobjohn2016.github.io/Java-Programming/)
 
-This repository contains all the java programming assignments for the CSE1007 lab as of Winter'19.
+This repository contains all the java programming assignments for the CSE1007 lab as of Winter'19. It contains simple programs all the way to very advanced ones for practice. This repo also includes specific instructions on how to execute certain programs.
 
 ## Lab Uploads
 * [Surprise Assessment 1 (Encryption)](https://github.com/jacobjohn2016/Java-Programming/blob/master/final_uploads/surprise_assessment_1.pdf)
