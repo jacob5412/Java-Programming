@@ -233,6 +233,13 @@ previous numbers, i.e., `T(n)=T(n-1)+T(n-2)+T(n-3), T(1)=T(2)=1, and T(3)=2`). [
 
 19. VIT honors its employees with 100% attendance in an academic year with a certificate of appreciation. Assume there are 2000 employees. Create an array to store their attendance percentage. The array can be populated with random numbers. Create two threads so that thread1 determines the total count of employees eligible for certificate in the first half of the array and thread2 in second half of the array. The `main( )` has to wait till both the threads complete their task and arrive at a final count indicating the total number of employees eligible for the certificate of appreciation. [VIThonors.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/FAT-Practice/src/VITHonors.java)
 
+20. Write a function that merges two sorted arrays in descending order. This code will take the following inputs in the sequence mentioned here: 
+    * The size of the first sorted array.
+    * The size of the second sorted array.
+    * Elements of the first sorted array.
+    * Elements of the second sorted array.
+[merge_sorted_arrays.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/merge_sorted_arrays.java)
+
 ## Contributions
 * Initial Author - [jacobjohn2016](github.com/jacobjohn2016)
 * [varunreddy24](github.com/varunreddy24)
