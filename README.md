@@ -1,4 +1,4 @@
-# Java Programming: A-Z
+# Java Programming
 
 [Webpage](https://jacobjohn2016.github.io/Java-Programming/)
 
