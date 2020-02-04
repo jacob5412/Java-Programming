@@ -240,6 +240,13 @@ previous numbers, i.e., `T(n)=T(n-1)+T(n-2)+T(n-3), T(1)=T(2)=1, and T(3)=2`). [
     * Elements of the second sorted array.
 [merge_sorted_arrays.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/merge_sorted_arrays.java)
 
+21. Find the first positive integer `M` (where `1 <= M <= N`) such that when `M` is used as the array index, the result from the array is the the integer `M` itself. i.e. `A[M] = M`
+    * With a known length `N`
+    * The array is sorted in an ascending order
+    * The array holds distinct integers (i.e. there are no repeating numbers)
+    * The array is 1-indexed, i.e. the first element is stored in `A[1]` (not `A[0]`)
+[binay_index_search.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/extra-assignment/src/binay_index_search.java)
+
 ## Contributions
 * Initial Author - [jacobjohn2016](github.com/jacobjohn2016)
 * [varunreddy24](github.com/varunreddy24)
