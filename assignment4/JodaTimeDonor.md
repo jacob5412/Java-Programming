@@ -1,6 +1,6 @@
 # Running the `donor.java` file
 
-Link for code - [Donor.java](https://github.com/jacobjohn2016/Java-Programming/blob/master/assignment4/src/Donor.java)
+Link for code - [Donor.java](https://github.com/jacob5412/Java-Programming/blob/master/assignment4/src/Donor.java)
 
 ## Question
 Write a program to demonstrate the knowledge of students in File handling
@@ -22,7 +22,7 @@ if code compiled ok you are good to go
 **OR**
 
 _[Source for instructions](https://stackoverflow.com/questions/3280353/how-to-import-a-jar-in-eclipse)_
-You can add the jar files in this [folder](https://github.com/jacobjohn2016/Java-Programming/tree/master/assignment4/joda-time-2.4) manually.
+You can add the jar files in this [folder](https://github.com/jacob5412/Java-Programming/tree/master/assignment4/joda-time-2.4) manually.
 1. You can add a jar in Eclipse by right-clicking on the `Project -> Build
    Path -> Configure Build Path`. Under Libraries tab, click Add Jars or Add External JARs and give the Jar. A quick demo [here](http://tech.bragboy.com/2016/01/quick-way-to-import-jar-in-eclipse.html).
     <p align="center">
