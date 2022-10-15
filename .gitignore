@@ -32,3 +32,5 @@ replay_pid*
 /LoginLogout/WebApplication1/nbproject/private/
 /LoginLogout/LoginLogoutDB/build/
 .vscode
+.idea
+
