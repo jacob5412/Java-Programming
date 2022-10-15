@@ -20,8 +20,8 @@ class Donor implements Serializable {
     }
 
     public void display() {
-        System.out.println("name:" + name + ",address:" + address + ",bgroup:" + bgroup +
-                ",dold:" + dold + ",age:" + age);
+        System.out.println("\nname: " + name + ", address: " + address + ", bgroup: " + bgroup +
+                ", dold: " + dold + ", age: " + age);
     }
 }
 
