@@ -15,11 +15,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Donor implements Serializable{
-    String name,addr,contact,bldgrp;
+public class Donor implements Serializable {
+    String name, addr, contact, bldgrp;
     Date date;
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
 
         // arraylist for retrieving and adding donors
         ArrayList<Donor> ad = new ArrayList<Donor>();
@@ -36,15 +36,11 @@ public class Donor implements Serializable{
         Pattern r = Pattern.compile(pattern);
 
         // delete existing file first
-        try{
+        try {
             Files.deleteIfExists(Paths.get("donations.txt"));
-        }
-        catch(NoSuchFileException e)
-        {
+        } catch (NoSuchFileException e) {
             System.out.println("Error: No such file/directory exists");
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             System.out.println("Error: Invalid permissions.");
         }
         System.out.println("Success: Deletion successful.");
@@ -55,9 +51,9 @@ public class Donor implements Serializable{
         sc.nextLine();
         Donor d;
         System.out.println("----------------------");
-        for(i = 0; i < n; i++){
-            d = new Donor();                                // initializing new donor
-            //taking input from user
+        for (i = 0; i < n; i++) {
+            d = new Donor(); // initializing new donor
+            // taking input from user
             System.out.print("Name: ");
             d.name = sc.nextLine();
             System.out.print("Address: ");
@@ -66,13 +62,13 @@ public class Donor implements Serializable{
             d.contact = sc.nextLine();
             d.bldgrp = "";
             m = r.matcher(d.bldgrp);
-            while(!m.find()){
+            while (!m.find()) {
                 System.out.print("Blood Group (only A or B or O or AB [+|-] (all caps): ");
                 d.bldgrp = sc.nextLine();
                 m = r.matcher(d.bldgrp);
             }
             boolean flag = false;
-            while(!flag){
+            while (!flag) {
                 System.out.print("Date (MM-dd-yyyy): ");
                 temp = sc.nextLine();
                 try {
@@ -84,31 +80,28 @@ public class Donor implements Serializable{
                 }
             }
 
-
             // adding donor object to array list
             ad.add(d);
         }
-        try{
-            FileOutputStream fos = new FileOutputStream("donations.txt");    // creating file to write to
+        try {
+            FileOutputStream fos = new FileOutputStream("donations.txt"); // creating file to write to
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             // serialization
             oos.writeObject(ad);
             oos.close();
             fos.close();
             System.out.println("Success: File successfully written");
-        }catch (IOException ioe)
-        {
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
 
         // reading data from file
         ad.clear();
         FileInputStream fis = new FileInputStream("donations.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
-        try{
-            ad = (ArrayList<Donor>)ois.readObject();
-        }catch (ClassNotFoundException e){
+        try {
+            ad = (ArrayList<Donor>) ois.readObject();
+        } catch (ClassNotFoundException e) {
             System.out.println(e);
         }
 
@@ -123,26 +116,23 @@ public class Donor implements Serializable{
         System.out.println("\n" + "Donors who haven't donated in 6 months and \"A+\"" + "\n");
         Iterator<Donor> itr = ad.iterator();
         i = 0;
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             d = new Donor();
-            d = (Donor)itr.next();
+            d = (Donor) itr.next();
             donor_date = new LocalDate(d.date);
-            p = new Period(donor_date,current);
+            p = new Period(donor_date, current);
 
             // if more than 6 months and blood group is A+, print details
-            if((p.getMonths() > 6 | p.getYears() >= 1) && d.bldgrp.equals("A+"))
-            {
-                System.out.println("Donor " + (i+1));
+            if ((p.getMonths() > 6 | p.getYears() >= 1) && d.bldgrp.equals("A+")) {
+                System.out.println("Donor " + (i + 1));
                 System.out.println("----------------------");
-                System.out.println(d.name);    // name
-                System.out.println(d.addr);    // address
+                System.out.println(d.name); // name
+                System.out.println(d.addr); // address
                 System.out.println(d.contact); // contact
-                System.out.println(d.bldgrp);  // blood group
-                System.out.println(d.date);    // date
+                System.out.println(d.bldgrp); // blood group
+                System.out.println(d.date); // date
                 System.out.println("\n");
             }
         }
     }
 }
-
-

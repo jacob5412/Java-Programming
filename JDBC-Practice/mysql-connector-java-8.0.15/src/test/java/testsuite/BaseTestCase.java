@@ -68,7 +68,8 @@ import com.mysql.cj.util.Util;
 import junit.framework.TestCase;
 
 /**
- * Base class for all test cases. Creates connections, statements, etc. and closes them.
+ * Base class for all test cases. Creates connections, statements, etc. and
+ * closes them.
  */
 public abstract class BaseTestCase extends TestCase {
 
@@ -79,17 +80,21 @@ public abstract class BaseTestCase extends TestCase {
     protected boolean DISABLED_testBug5136 = true; // TODO disabled for unknown reason
     protected boolean DISABLED_testBug65503 = true; // TODO disabled for unknown reason
     protected boolean DISABLED_testContention = true; // TODO disabled for unknown reason
-    protected boolean DISABLED_testBug3620new = true; // TODO this test is working in c/J 5.1 but fails here; disabled for later analysis
-    protected boolean DISABLED_testBug5874 = true; // TODO this test is working in c/J 5.1 but fails here; disabled for later analysis
+    protected boolean DISABLED_testBug3620new = true; // TODO this test is working in c/J 5.1 but fails here; disabled
+                                                      // for later analysis
+    protected boolean DISABLED_testBug5874 = true; // TODO this test is working in c/J 5.1 but fails here; disabled for
+                                                   // later analysis
 
     /**
-     * JDBC URL, initialized from com.mysql.cj.testsuite.url system property, or defaults to jdbc:mysql:///test and its connection URL.
+     * JDBC URL, initialized from com.mysql.cj.testsuite.url system property, or
+     * defaults to jdbc:mysql:///test and its connection URL.
      */
     public static String dbUrl = "jdbc:mysql:///test";
     protected static ConnectionUrl mainConnectionUrl = null;
 
     /**
-     * JDBC URL, initialized from com.mysql.cj.testsuite.url.openssl system property and its connection URL
+     * JDBC URL, initialized from com.mysql.cj.testsuite.url.openssl system property
+     * and its connection URL
      */
     protected static String sha256Url = null;
     protected static ConnectionUrl sha256ConnectionUrl = null;
@@ -146,7 +151,7 @@ public abstract class BaseTestCase extends TestCase {
      * Creates a new BaseTestCase object.
      * 
      * @param name
-     *            The name of the JUnit test case
+     *             The name of the JUnit test case
      */
     public BaseTestCase(String name) {
         super(name);
@@ -168,11 +173,13 @@ public abstract class BaseTestCase extends TestCase {
         }
     }
 
-    protected void createSchemaObject(String objectType, String objectName, String columnsAndOtherStuff) throws SQLException {
+    protected void createSchemaObject(String objectType, String objectName, String columnsAndOtherStuff)
+            throws SQLException {
         createSchemaObject(this.stmt, objectType, objectName, columnsAndOtherStuff);
     }
 
-    protected void createSchemaObject(Statement st, String objectType, String objectName, String columnsAndOtherStuff) throws SQLException {
+    protected void createSchemaObject(Statement st, String objectType, String objectName, String columnsAndOtherStuff)
+            throws SQLException {
         if (st != null) {
             this.createdObjects.add(new String[] { objectType, objectName });
             try {
@@ -183,7 +190,8 @@ public abstract class BaseTestCase extends TestCase {
                     throw ex;
                 }
             }
-            StringBuilder createSql = new StringBuilder(objectName.length() + objectType.length() + columnsAndOtherStuff.length() + 10);
+            StringBuilder createSql = new StringBuilder(
+                    objectName.length() + objectType.length() + columnsAndOtherStuff.length() + 10);
             createSql.append("CREATE  ");
             createSql.append(objectType);
             createSql.append(" ");
@@ -195,8 +203,10 @@ public abstract class BaseTestCase extends TestCase {
                 st.executeUpdate(createSql.toString());
             } catch (SQLException sqlEx) {
                 if ("42S01".equals(sqlEx.getSQLState())) {
-                    System.err.println("WARN: Stale mysqld table cache preventing table creation - flushing tables and trying again");
-                    st.executeUpdate("FLUSH TABLES"); // some bug in 5.1 on the mac causes tables to not disappear from the cache
+                    System.err.println(
+                            "WARN: Stale mysqld table cache preventing table creation - flushing tables and trying again");
+                    st.executeUpdate("FLUSH TABLES"); // some bug in 5.1 on the mac causes tables to not disappear from
+                                                      // the cache
                     st.executeUpdate(createSql.toString());
                 } else {
                     throw sqlEx;
@@ -245,7 +255,8 @@ public abstract class BaseTestCase extends TestCase {
         createTable(this.stmt, tableName, columnsAndOtherStuff);
     }
 
-    protected void createTable(Statement st, String tableName, String columnsAndOtherStuff, String engine) throws SQLException {
+    protected void createTable(Statement st, String tableName, String columnsAndOtherStuff, String engine)
+            throws SQLException {
         createSchemaObject(st, "TABLE", tableName, columnsAndOtherStuff + " ENGINE = " + engine);
     }
 
@@ -315,7 +326,8 @@ public abstract class BaseTestCase extends TestCase {
 
     protected void dropSchemaObject(Statement st, String objectType, String objectName) throws SQLException {
         if (st != null) {
-            if (!objectType.equalsIgnoreCase("USER") || ((JdbcConnection) st.getConnection()).getSession().versionMeetsMinimum(5, 7, 8)) {
+            if (!objectType.equalsIgnoreCase("USER")
+                    || ((JdbcConnection) st.getConnection()).getSession().versionMeetsMinimum(5, 7, 8)) {
                 st.executeUpdate("DROP " + objectType + " IF EXISTS " + objectName);
             } else {
                 st.executeUpdate("DROP " + objectType + " " + objectName);
@@ -371,8 +383,8 @@ public abstract class BaseTestCase extends TestCase {
      * Returns a new connection with the given properties
      * 
      * @param props
-     *            the properties to use (the URL will come from the standard for
-     *            this testcase).
+     *              the properties to use (the URL will come from the standard for
+     *              this testcase).
      * 
      * @return a new connection using the given properties.
      * 
@@ -424,12 +436,12 @@ public abstract class BaseTestCase extends TestCase {
      * Returns the named MySQL variable from the currently connected server.
      * 
      * @param variableName
-     *            the name of the variable to return
+     *                     the name of the variable to return
      * 
      * @return the value of the given variable, or NULL if it doesn't exist
      * 
      * @throws SQLException
-     *             if an error occurs
+     *                      if an error occurs
      */
     protected String getMysqlVariable(String variableName) throws SQLException {
         return getMysqlVariable(this.conn, variableName);
@@ -442,7 +454,7 @@ public abstract class BaseTestCase extends TestCase {
      * @return properties parsed from com.mysql.jdbc.testsuite.url
      * 
      * @throws SQLException
-     *             if parsing fails
+     *                      if parsing fails
      */
     protected Properties getPropertiesFromTestsuiteUrl() throws SQLException {
         return getPropertiesFromUrl(mainConnectionUrl);
@@ -471,13 +483,17 @@ public abstract class BaseTestCase extends TestCase {
     }
 
     /**
-     * Some tests build connections strings for internal usage but, in order for them to work, they may require some connection properties set in the main test
+     * Some tests build connections strings for internal usage but, in order for
+     * them to work, they may require some connection properties set in the main
+     * test
      * suite URL. For example 'serverTimezone' is one of those properties.
      * 
      * @param props
-     *            the Properties object where to add the missing connection properties
+     *              the Properties object where to add the missing connection
+     *              properties
      * @return
-     *         the modified Properties objects or a new one if <code>props</code> is <code>null</code>
+     *         the modified Properties objects or a new one if <code>props</code> is
+     *         <code>null</code>
      */
     protected Properties appendRequiredProperties(Properties props) {
         if (props == null) {
@@ -487,7 +503,8 @@ public abstract class BaseTestCase extends TestCase {
         // Add 'serverTimezone' if set in test suite URL and missing from props.
         String propKey = PropertyKey.serverTimezone.getKeyName();
         String origTzValue = null;
-        if (!props.containsKey(propKey) && (origTzValue = mainConnectionUrl.getOriginalProperties().get(propKey)) != null) {
+        if (!props.containsKey(propKey)
+                && (origTzValue = mainConnectionUrl.getOriginalProperties().get(propKey)) != null) {
             props.setProperty(propKey, origTzValue);
         }
 
@@ -521,7 +538,8 @@ public abstract class BaseTestCase extends TestCase {
         props.remove(PropertyKey.DBNAME.getKeyName());
         removeHostRelatedProps(props);
 
-        final StringBuilder urlBuilder = new StringBuilder("jdbc:mysql://").append(host).append(":").append(port).append("/?");
+        final StringBuilder urlBuilder = new StringBuilder("jdbc:mysql://").append(host).append(":").append(port)
+                .append("/?");
 
         Enumeration<Object> keyEnum = props.keys();
         while (keyEnum.hasMoreElements()) {
@@ -583,7 +601,8 @@ public abstract class BaseTestCase extends TestCase {
     }
 
     protected Object getSingleValue(String tableName, String columnName, String whereClause) throws SQLException {
-        return getSingleValueWithQuery("SELECT " + columnName + " FROM " + tableName + ((whereClause == null) ? "" : " " + whereClause));
+        return getSingleValueWithQuery(
+                "SELECT " + columnName + " FROM " + tableName + ((whereClause == null) ? "" : " " + whereClause));
     }
 
     protected Object getSingleValueWithQuery(String query) throws SQLException {
@@ -630,7 +649,7 @@ public abstract class BaseTestCase extends TestCase {
      * run/not-run certain tests
      * 
      * @param propName
-     *            the property name to check for
+     *                 the property name to check for
      * 
      * @return true if the property is defined.
      */
@@ -648,7 +667,7 @@ public abstract class BaseTestCase extends TestCase {
      * Creates resources used by all tests.
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     @Override
     public void setUp() throws Exception {
@@ -658,7 +677,8 @@ public abstract class BaseTestCase extends TestCase {
         this.createdObjects = new ArrayList<>();
 
         Properties props = new Properties();
-        props.setProperty(PropertyKey.useSSL.getKeyName(), "false"); // testsuite is built upon non-SSL default connection
+        props.setProperty(PropertyKey.useSSL.getKeyName(), "false"); // testsuite is built upon non-SSL default
+                                                                     // connection
         props.setProperty(PropertyKey.allowPublicKeyRetrieval.getKeyName(), "true");
         this.conn = DriverManager.getConnection(dbUrl, props);
 
@@ -674,7 +694,8 @@ public abstract class BaseTestCase extends TestCase {
                 this.rs.next();
                 logDebug("Connected to " + this.rs.getString(1));
             } else {
-                logDebug("Connected to " + this.conn.getMetaData().getDatabaseProductName() + " / " + this.conn.getMetaData().getDatabaseProductVersion());
+                logDebug("Connected to " + this.conn.getMetaData().getDatabaseProductName() + " / "
+                        + this.conn.getMetaData().getDatabaseProductVersion());
             }
         } finally {
             if (this.rs != null) {
@@ -727,7 +748,8 @@ public abstract class BaseTestCase extends TestCase {
         }
 
         if (System.getProperty(PropertyDefinitions.SYSP_testsuite_retainArtifacts) == null) {
-            Statement st = this.conn == null || this.conn.isClosed() ? getNewConnection().createStatement() : this.conn.createStatement();
+            Statement st = this.conn == null || this.conn.isClosed() ? getNewConnection().createStatement()
+                    : this.conn.createStatement();
             Statement sha256st;
             if (this.sha256Conn == null || this.sha256Conn.isClosed()) {
                 Connection c = getNewSha256Connection();
@@ -796,14 +818,14 @@ public abstract class BaseTestCase extends TestCase {
      * minimum
      * 
      * @param major
-     *            the major version to meet
+     *              the major version to meet
      * @param minor
-     *            the minor version to meet
+     *              the minor version to meet
      * 
      * @return boolean if the major/minor is met
      * 
      * @throws SQLException
-     *             if an error occurs.
+     *                      if an error occurs.
      */
     protected boolean versionMeetsMinimum(int major, int minor) throws SQLException {
         return versionMeetsMinimum(major, minor, 0);
@@ -814,14 +836,14 @@ public abstract class BaseTestCase extends TestCase {
      * minimum
      * 
      * @param major
-     *            the major version to meet
+     *              the major version to meet
      * @param minor
-     *            the minor version to meet
+     *              the minor version to meet
      * 
      * @return boolean if the major/minor is met
      * 
      * @throws SQLException
-     *             if an error occurs.
+     *                      if an error occurs.
      */
     protected boolean versionMeetsMinimum(int major, int minor, int subminor) throws SQLException {
         return (((JdbcConnection) this.conn).getSession().versionMeetsMinimum(major, minor, subminor));
@@ -927,13 +949,16 @@ public abstract class BaseTestCase extends TestCase {
                 }
 
                 if (controlObj instanceof Float) {
-                    assertEquals("Float comparison failed, see last row: \n" + rsAsString.toString(), ((Float) controlObj).floatValue(),
+                    assertEquals("Float comparison failed, see last row: \n" + rsAsString.toString(),
+                            ((Float) controlObj).floatValue(),
                             ((Float) testObj).floatValue(), 0.1);
                 } else if (controlObj instanceof Double) {
-                    assertEquals("Double comparison failed, see last row: \n" + rsAsString.toString(), ((Double) controlObj).doubleValue(),
+                    assertEquals("Double comparison failed, see last row: \n" + rsAsString.toString(),
+                            ((Double) controlObj).doubleValue(),
                             ((Double) testObj).doubleValue(), 0.1);
                 } else {
-                    assertEquals("Value comparison failed, see last row: \n" + rsAsString.toString(), controlObj, testObj);
+                    assertEquals("Value comparison failed, see last row: \n" + rsAsString.toString(), controlObj,
+                            testObj);
                 }
             }
         }
@@ -957,15 +982,18 @@ public abstract class BaseTestCase extends TestCase {
         return assertThrows("", throwable, null, testRoutine);
     }
 
-    protected static <EX extends Throwable> EX assertThrows(String message, Class<EX> throwable, Callable<?> testRoutine) {
+    protected static <EX extends Throwable> EX assertThrows(String message, Class<EX> throwable,
+            Callable<?> testRoutine) {
         return assertThrows(message, throwable, null, testRoutine);
     }
 
-    protected static <EX extends Throwable> EX assertThrows(Class<EX> throwable, String msgMatchesRegex, Callable<?> testRoutine) {
+    protected static <EX extends Throwable> EX assertThrows(Class<EX> throwable, String msgMatchesRegex,
+            Callable<?> testRoutine) {
         return assertThrows("", throwable, msgMatchesRegex, testRoutine);
     }
 
-    protected static <EX extends Throwable> EX assertThrows(String message, Class<EX> throwable, String msgMatchesRegex, Callable<?> testRoutine) {
+    protected static <EX extends Throwable> EX assertThrows(String message, Class<EX> throwable, String msgMatchesRegex,
+            Callable<?> testRoutine) {
         if (message.length() > 0) {
             message += " ";
         }
@@ -973,12 +1001,14 @@ public abstract class BaseTestCase extends TestCase {
             testRoutine.call();
         } catch (Throwable t) {
             if (!throwable.isAssignableFrom(t.getClass())) {
-                fail(message + "expected exception of type '" + throwable.getName() + "' but instead a exception of type '" + t.getClass().getName()
+                fail(message + "expected exception of type '" + throwable.getName()
+                        + "' but instead a exception of type '" + t.getClass().getName()
                         + "' was thrown.");
             }
 
             if (msgMatchesRegex != null && !t.getMessage().matches(msgMatchesRegex)) {
-                fail(message + "the error message «" + t.getMessage() + "» was expected to match «" + msgMatchesRegex + "».");
+                fail(message + "the error message «" + t.getMessage() + "» was expected to match «" + msgMatchesRegex
+                        + "».");
             }
 
             return throwable.cast(t);
@@ -997,14 +1027,21 @@ public abstract class BaseTestCase extends TestCase {
     }
 
     /**
-     * Asserts the most recent history of connection attempts from the global data in UnreliableSocketFactory.
+     * Asserts the most recent history of connection attempts from the global data
+     * in UnreliableSocketFactory.
      * 
      * @param expectedConnectionsHistory
-     *            The list of expected events. Use UnreliableSocketFactory.getHostConnectedStatus(String), UnreliableSocketFactory.getHostFailedStatus(String)
-     *            and UnreliableSocketFactory.getHostUnknownStatus(String) to build proper syntax for host+status identification.
+     *                                   The list of expected events. Use
+     *                                   UnreliableSocketFactory.getHostConnectedStatus(String),
+     *                                   UnreliableSocketFactory.getHostFailedStatus(String)
+     *                                   and
+     *                                   UnreliableSocketFactory.getHostUnknownStatus(String)
+     *                                   to build proper syntax for host+status
+     *                                   identification.
      */
     protected static void assertConnectionsHistory(String... expectedConnectionsHistory) {
-        List<String> actualConnectionsHistory = UnreliableSocketFactory.getHostsFromLastConnections(expectedConnectionsHistory.length);
+        List<String> actualConnectionsHistory = UnreliableSocketFactory
+                .getHostsFromLastConnections(expectedConnectionsHistory.length);
 
         int i = 1;
         String delimiter = "";
@@ -1026,7 +1063,8 @@ public abstract class BaseTestCase extends TestCase {
     }
 
     /*
-     * Set default values for primitives. (prevents NPE in Java 1.4 when calling via reflection)
+     * Set default values for primitives. (prevents NPE in Java 1.4 when calling via
+     * reflection)
      */
     protected void fillPrimitiveDefaults(Class<?> types[], Object vals[], int count) {
         for (int i = 0; i < count; ++i) {
@@ -1079,7 +1117,8 @@ public abstract class BaseTestCase extends TestCase {
 
     protected Connection getMasterSlaveReplicationConnection(Properties props) throws SQLException {
         String replicationUrl = getMasterSlaveUrl(ConnectionUrl.Type.REPLICATION_CONNECTION.getScheme());
-        Connection replConn = new NonRegisteringDriver().connect(replicationUrl, getHostFreePropertiesFromTestsuiteUrl(props));
+        Connection replConn = new NonRegisteringDriver().connect(replicationUrl,
+                getHostFreePropertiesFromTestsuiteUrl(props));
         return replConn;
     }
 
@@ -1093,7 +1132,8 @@ public abstract class BaseTestCase extends TestCase {
         return String.format("%s//%s,%s/", protocol, hostPortPair, hostPortPair);
     }
 
-    protected Connection getLoadBalancedConnection(int customHostLocation, String customHost, Properties props) throws SQLException {
+    protected Connection getLoadBalancedConnection(int customHostLocation, String customHost, Properties props)
+            throws SQLException {
         if (customHostLocation > 3) {
             throw new IllegalArgumentException();
         }
@@ -1118,7 +1158,8 @@ public abstract class BaseTestCase extends TestCase {
             hostsString.add(getEncodedHostPortPairFromTestsuiteUrl());
         }
 
-        Connection lbConn = DriverManager.getConnection(ConnectionUrl.Type.LOADBALANCE_CONNECTION.getScheme() + "//" + hostsString, urlProps);
+        Connection lbConn = DriverManager
+                .getConnection(ConnectionUrl.Type.LOADBALANCE_CONNECTION.getScheme() + "//" + hostsString, urlProps);
         return lbConn;
     }
 
@@ -1146,7 +1187,8 @@ public abstract class BaseTestCase extends TestCase {
         return ConnectionUrlParser.parseHostPortPair(host).left;
     }
 
-    protected Connection getUnreliableMultiHostConnection(String haMode, String[] hostNames, Properties props, Set<String> downedHosts) throws Exception {
+    protected Connection getUnreliableMultiHostConnection(String haMode, String[] hostNames, Properties props,
+            Set<String> downedHosts) throws Exception {
         if (downedHosts == null) {
             downedHosts = new HashSet<>();
         }
@@ -1180,14 +1222,17 @@ public abstract class BaseTestCase extends TestCase {
             haMode += ":";
         }
 
-        return getConnectionWithProps(ConnectionUrl.Type.FAILOVER_CONNECTION.getScheme() + haMode + "//" + hostString.toString() + "/" + db, props);
+        return getConnectionWithProps(
+                ConnectionUrl.Type.FAILOVER_CONNECTION.getScheme() + haMode + "//" + hostString.toString() + "/" + db,
+                props);
     }
 
     protected Connection getUnreliableFailoverConnection(String[] hostNames, Properties props) throws Exception {
         return getUnreliableFailoverConnection(hostNames, props, null);
     }
 
-    protected Connection getUnreliableFailoverConnection(String[] hostNames, Properties props, Set<String> downedHosts) throws Exception {
+    protected Connection getUnreliableFailoverConnection(String[] hostNames, Properties props, Set<String> downedHosts)
+            throws Exception {
         return getUnreliableMultiHostConnection(null, hostNames, props, downedHosts);
     }
 
@@ -1195,15 +1240,18 @@ public abstract class BaseTestCase extends TestCase {
         return getUnreliableLoadBalancedConnection(hostNames, props, null);
     }
 
-    protected Connection getUnreliableLoadBalancedConnection(String[] hostNames, Properties props, Set<String> downedHosts) throws Exception {
+    protected Connection getUnreliableLoadBalancedConnection(String[] hostNames, Properties props,
+            Set<String> downedHosts) throws Exception {
         return getUnreliableMultiHostConnection("loadbalance", hostNames, props, downedHosts);
     }
 
-    protected ReplicationConnection getUnreliableReplicationConnection(String[] hostNames, Properties props) throws Exception {
+    protected ReplicationConnection getUnreliableReplicationConnection(String[] hostNames, Properties props)
+            throws Exception {
         return getUnreliableReplicationConnection(hostNames, props, null);
     }
 
-    protected ReplicationConnection getUnreliableReplicationConnection(String[] hostNames, Properties props, Set<String> downedHosts) throws Exception {
+    protected ReplicationConnection getUnreliableReplicationConnection(String[] hostNames, Properties props,
+            Set<String> downedHosts) throws Exception {
         return (ReplicationConnection) getUnreliableMultiHostConnection("replication", hostNames, props, downedHosts);
     }
 
@@ -1221,7 +1269,8 @@ public abstract class BaseTestCase extends TestCase {
         }
 
         public String getAddress(boolean withTrailingPort) {
-            return "address=(protocol=tcp)(host=" + this.hostName + ")(port=" + this.port + ")(type=" + this.serverType + ")"
+            return "address=(protocol=tcp)(host=" + this.hostName + ")(port=" + this.port + ")(type=" + this.serverType
+                    + ")"
                     + (withTrailingPort ? (":" + this.port) : "");
         }
 
@@ -1234,7 +1283,8 @@ public abstract class BaseTestCase extends TestCase {
         }
     }
 
-    protected ReplicationConnection getUnreliableReplicationConnection(Set<MockConnectionConfiguration> configs, Properties props) throws Exception {
+    protected ReplicationConnection getUnreliableReplicationConnection(Set<MockConnectionConfiguration> configs,
+            Properties props) throws Exception {
         props = getHostFreePropertiesFromTestsuiteUrl(props);
         props.setProperty(PropertyKey.socketFactory.getKeyName(), "testsuite.UnreliableSocketFactory");
 
@@ -1260,7 +1310,8 @@ public abstract class BaseTestCase extends TestCase {
             }
         }
 
-        return (ReplicationConnection) getConnectionWithProps(ConnectionUrl.Type.REPLICATION_CONNECTION.getScheme() + "//" + hostString.toString() + "/" + db,
+        return (ReplicationConnection) getConnectionWithProps(
+                ConnectionUrl.Type.REPLICATION_CONNECTION.getScheme() + "//" + hostString.toString() + "/" + db,
                 props);
     }
 

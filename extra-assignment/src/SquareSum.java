@@ -7,19 +7,19 @@
 
 import java.util.*;
 
-class SumDigits{
-    public static int sum_Squares(int n){
+class SumDigits {
+    public static int sum_Squares(int n) {
         int i, sum = 0;
-        for(i = 1; i <= n; i++)
-            sum += i*i;
+        for (i = 1; i <= n; i++)
+            sum += i * i;
         return sum;
     }
 
-    public int square_Sum(int n){
+    public int square_Sum(int n) {
         int i, sum = 0;
-        for(i = 1; i <= n; i++)
+        for (i = 1; i <= n; i++)
             sum += i;
-        return sum*sum;
+        return sum * sum;
     }
 }
 
@@ -30,6 +30,7 @@ public class SquareSum {
         int num = sc.nextInt();
 
         System.out.println("Sum of squares of " + num + " using static method is " + SumDigits.sum_Squares(num));
-        System.out.println("Square of sum of  " + num + " using non-static method is " + new SumDigits().square_Sum(num));
+        System.out
+                .println("Square of sum of  " + num + " using non-static method is " + new SumDigits().square_Sum(num));
     }
 }

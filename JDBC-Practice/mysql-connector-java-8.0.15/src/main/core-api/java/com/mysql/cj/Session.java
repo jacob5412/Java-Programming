@@ -44,8 +44,10 @@ import com.mysql.cj.protocol.ServerSession;
 import com.mysql.cj.result.Row;
 
 /**
- * {@link Session} exposes logical level which user API uses internally to call {@link Protocol} methods.
- * It's a higher-level abstraction than MySQL server session ({@link ServerSession}). {@link Protocol} and {@link ServerSession} methods
+ * {@link Session} exposes logical level which user API uses internally to call
+ * {@link Protocol} methods.
+ * It's a higher-level abstraction than MySQL server session
+ * ({@link ServerSession}). {@link Protocol} and {@link ServerSession} methods
  * should never be used directly from user API.
  * 
  */
@@ -59,11 +61,11 @@ public interface Session {
      * Re-authenticates as the given user and password
      * 
      * @param userName
-     *            DB user name
+     *                 DB user name
      * @param password
-     *            DB user password
+     *                 DB user password
      * @param database
-     *            database name
+     *                 database name
      * 
      */
     void changeUser(String userName, String password, String database);
@@ -88,11 +90,11 @@ public interface Session {
      * minimums?
      * 
      * @param major
-     *            major version number
+     *                 major version number
      * @param minor
-     *            minor version number
+     *                 minor version number
      * @param subminor
-     *            sub-minor version number
+     *                 sub-minor version number
      * @return true if current server version equal or higher than provided one
      */
     boolean versionMeetsMinimum(int major, int minor, int subminor);
@@ -119,7 +121,7 @@ public interface Session {
      * Add listener for this session status changes.
      * 
      * @param l
-     *            {@link SessionEventListener} instance.
+     *          {@link SessionEventListener} instance.
      */
     void addListener(SessionEventListener l);
 
@@ -127,7 +129,7 @@ public interface Session {
      * Remove session listener.
      * 
      * @param l
-     *            {@link SessionEventListener} instance.
+     *          {@link SessionEventListener} instance.
      */
     void removeListener(SessionEventListener l);
 
@@ -145,5 +147,6 @@ public interface Session {
 
     DataStoreMetadata getDataStoreMetadata();
 
-    <M extends Message, RES_T, R> RES_T query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow, Collector<R, ?, RES_T> collector);
+    <M extends Message, RES_T, R> RES_T query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow,
+            Collector<R, ?, RES_T> collector);
 }

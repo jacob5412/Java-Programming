@@ -11,9 +11,9 @@ public class minMaxThree {
 		System.out.print("Enter third number: ");
 		int n3 = in.nextInt();
 
-		if(n1 > n2 & n1 > n3)
+		if (n1 > n2 & n1 > n3)
 			System.out.println("Max is " + n1);
-		else if(n2 > n1 & n2 > n3)
+		else if (n2 > n1 & n2 > n3)
 			System.out.println("Max is " + n2);
 		else
 			System.out.println("Max is " + n3);

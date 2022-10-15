@@ -1,15 +1,15 @@
-class A{
+class A {
     int a;
 
-    void print(){
+    void print() {
         System.out.println(a);
     }
 }
 
-class B extends A{
+class B extends A {
     int b;
 
-    void print(){
+    void print() {
         System.out.println(b);
     }
 }

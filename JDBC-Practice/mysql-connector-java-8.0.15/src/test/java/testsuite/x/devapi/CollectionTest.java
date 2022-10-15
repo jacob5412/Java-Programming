@@ -68,18 +68,21 @@ public class CollectionTest extends BaseCollectionTestCase {
             this.collection.add("{'c':'c'}".replaceAll("'", "\"")).execute();
         }
         assertEquals(3, this.collection.count());
-        assertEquals(3, ((JsonNumber) this.collection.find().fields("COUNT(*) as cnt").execute().fetchOne().get("cnt")).getInteger().intValue());
+        assertEquals(3, ((JsonNumber) this.collection.find().fields("COUNT(*) as cnt").execute().fetchOne().get("cnt"))
+                .getInteger().intValue());
 
         // test "not exists" message
         String collName = "testExists";
         dropCollection(collName);
         Collection coll = this.schema.getCollection(collName);
-        assertThrows(XProtocolError.class, "Collection '" + collName + "' does not exist in schema '" + this.schema.getName() + "'", new Callable<Void>() {
-            public Void call() throws Exception {
-                coll.count();
-                return null;
-            }
-        });
+        assertThrows(XProtocolError.class,
+                "Collection '" + collName + "' does not exist in schema '" + this.schema.getName() + "'",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        coll.count();
+                        return null;
+                    }
+                });
     }
 
     @Test
@@ -123,7 +126,8 @@ public class CollectionTest extends BaseCollectionTestCase {
     @Test(expected = WrongArgumentException.class)
     public void getNonExistentCollectionWithRequireExistsShouldThrow() {
         if (!this.isSetForXTests) {
-            throw new WrongArgumentException("Throw WrongArgumentException as expected, but test was ignored because of missed configuration.");
+            throw new WrongArgumentException(
+                    "Throw WrongArgumentException as expected, but test was ignored because of missed configuration.");
         }
         String collName = "testRequireExists";
         dropCollection(collName);
@@ -159,12 +163,14 @@ public class CollectionTest extends BaseCollectionTestCase {
 
         // FR1_1 Create an index on a single field.
         this.collection.createIndex("myIndex", new DbDocImpl().add("fields", new JsonArray()
-                .addValue(new DbDocImpl().add("field", new JsonString().setValue("$.myField")).add("type", new JsonString().setValue("TEXT(200)")))));
+                .addValue(new DbDocImpl().add("field", new JsonString().setValue("$.myField")).add("type",
+                        new JsonString().setValue("TEXT(200)")))));
         validateIndex("myIndex", this.collectionName, "t200", false, false, false, 1, 200);
         this.collection.dropIndex("myIndex");
 
         // FR1_2 Create an index on a single field with all the possibles options.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(5)\", \"required\": true}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(5)\", \"required\": true}]}");
         validateIndex("myIndex", this.collectionName, "t5", false, true, false, 1, 5);
         this.collection.dropIndex("myIndex");
 
@@ -190,7 +196,8 @@ public class CollectionTest extends BaseCollectionTestCase {
         validateIndex("myIndex", this.collectionName, "gj", false, true, false, 1, 32);
         this.collection.dropIndex("myIndex");
 
-        // FR1_6 Create an index using a geojson datatype field with all the possibles options.
+        // FR1_6 Create an index using a geojson datatype field with all the possibles
+        // options.
         this.collection.createIndex("myIndex",
                 "{\"fields\": [{\"field\": \"$.myGeoJsonField\", \"type\": \"GEOJSON\", \"required\": true, \"options\": 2, \"srid\": 4326}], \"type\":\"SPATIAL\"}");
         validateIndex("myIndex", this.collectionName, "gj", false, true, false, 1, 32);
@@ -217,7 +224,8 @@ public class CollectionTest extends BaseCollectionTestCase {
         this.collection.dropIndex("myIndex");
 
         // FR1_11 Create an index using a numeric field.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"NUMERIC UNSIGNED\"}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"NUMERIC UNSIGNED\"}]}");
         validateIndex("myIndex", this.collectionName, "xn_u", false, false, true, 1, null);
         this.collection.dropIndex("myIndex");
 
@@ -227,68 +235,81 @@ public class CollectionTest extends BaseCollectionTestCase {
         this.collection.dropIndex("myIndex");
 
         // FR1_13 Create an index using a double field.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"DOUBLE UNSIGNED\"}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"DOUBLE UNSIGNED\"}]}");
         validateIndex("myIndex", this.collectionName, "fd_u", false, false, true, 1, null);
         this.collection.dropIndex("myIndex");
 
         // FR1_14 Create an index using a float field.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"FLOAT UNSIGNED\"}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"FLOAT UNSIGNED\"}]}");
         validateIndex("myIndex", this.collectionName, "f_u", false, false, true, 1, null);
         this.collection.dropIndex("myIndex");
 
         // FR1_15 Create an index using a real field.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"REAL UNSIGNED\"}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"REAL UNSIGNED\"}]}");
         validateIndex("myIndex", this.collectionName, "fr_u", false, false, true, 1, null);
         this.collection.dropIndex("myIndex");
 
         // FR1_16 Create an index using a bigint field.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"BIGINT UNSIGNED\"}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"BIGINT UNSIGNED\"}]}");
         validateIndex("myIndex", this.collectionName, "ib_u", false, false, true, 1, null);
         this.collection.dropIndex("myIndex");
 
         // FR1_17 Create an index using a integer field.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"INTEGER UNSIGNED\"}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"INTEGER UNSIGNED\"}]}");
         validateIndex("myIndex", this.collectionName, "i_u", false, false, true, 1, null);
         this.collection.dropIndex("myIndex");
 
         // FR1_18 Create an index using a mediumint field.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"MEDIUMINT UNSIGNED\"}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"MEDIUMINT UNSIGNED\"}]}");
         validateIndex("myIndex", this.collectionName, "im_u", false, false, true, 1, null);
         this.collection.dropIndex("myIndex");
 
         // FR1_19 Create an index using a smallint field.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"SMALLINT UNSIGNED\"}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"SMALLINT UNSIGNED\"}]}");
         validateIndex("myIndex", this.collectionName, "is_u", false, false, true, 1, null);
         this.collection.dropIndex("myIndex");
 
         // FR1_20 Create an index using a tinyint field.
-        this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TINYINT UNSIGNED\"}]}");
+        this.collection.createIndex("myIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TINYINT UNSIGNED\"}]}");
         validateIndex("myIndex", this.collectionName, "it_u", false, false, true, 1, null);
         this.collection.dropIndex("myIndex");
 
         // FR5_2 Create an index with the name of an index that already exists.
-        CollectionTest.this.collection.createIndex("myUniqueIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"INT\"}]}");
-        assertThrows(XProtocolError.class, "ERROR 1061 \\(42000\\) Duplicate key name 'myUniqueIndex'", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myUniqueIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"INT\"}]}");
-                return null;
-            }
-        });
+        CollectionTest.this.collection.createIndex("myUniqueIndex",
+                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"INT\"}]}");
+        assertThrows(XProtocolError.class, "ERROR 1061 \\(42000\\) Duplicate key name 'myUniqueIndex'",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myUniqueIndex",
+                                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"INT\"}]}");
+                        return null;
+                    }
+                });
         this.collection.dropIndex("myUniqueIndex");
 
-        // FR5_4 Create an index where its definition is a JSON document but its structure is not valid.
+        // FR5_4 Create an index where its definition is a JSON document but its
+        // structure is not valid.
         assertThrows(XDevAPIError.class, "Index definition does not contain fields.", new Callable<Void>() {
             public Void call() throws Exception {
                 CollectionTest.this.collection.createIndex("myIndex", "{\"type\": \"INDEX\"}");
                 return null;
             }
         });
-        assertThrows(XDevAPIError.class, "Index definition 'fields' member must be an array of index fields.", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex", "{\"fields\": 123}");
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Index definition 'fields' member must be an array of index fields.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myIndex", "{\"fields\": 123}");
+                        return null;
+                    }
+                });
         assertThrows(XDevAPIError.class, "Index field definition must be a JSON document.", new Callable<Void>() {
             public Void call() throws Exception {
                 CollectionTest.this.collection.createIndex("myIndex", "{\"fields\": [123]}");
@@ -315,7 +336,8 @@ public class CollectionTest extends BaseCollectionTestCase {
         });
         assertThrows(XDevAPIError.class, "Index type must be a string.", new Callable<Void>() {
             public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": 123}]}");
+                CollectionTest.this.collection.createIndex("myIndex",
+                        "{\"fields\": [{\"field\": \"$.myField\", \"type\": 123}]}");
                 return null;
             }
         });
@@ -340,46 +362,56 @@ public class CollectionTest extends BaseCollectionTestCase {
                 return null;
             }
         });
-        assertThrows(XDevAPIError.class, "Wrong index type 'SPTIAL'. Must be 'INDEX' or 'SPATIAL'.", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(5)\"}], \"type\":\"SPTIAL\"}");
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Wrong index type 'SPTIAL'. Must be 'INDEX' or 'SPATIAL'.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myIndex",
+                                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(5)\"}], \"type\":\"SPTIAL\"}");
+                        return null;
+                    }
+                });
         assertThrows(XDevAPIError.class, "Index type must be a string.", new Callable<Void>() {
             public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(5)\"}], \"type\":123}");
+                CollectionTest.this.collection.createIndex("myIndex",
+                        "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(5)\"}], \"type\":123}");
                 return null;
             }
         });
 
         // FR5_6 Create a 'SPATIAL' index with "required" flag set to false.
-        assertThrows(XProtocolError.class, "ERROR 5117 \\(HY000\\) GEOJSON index requires 'constraint.required: TRUE", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex",
-                        "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"GEOJSON\", \"required\": false, \"options\": 2, \"srid\": 4326}], \"type\":\"SPATIAL\"}");
-                return null;
-            }
-        });
+        assertThrows(XProtocolError.class, "ERROR 5117 \\(HY000\\) GEOJSON index requires 'constraint.required: TRUE",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myIndex",
+                                "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"GEOJSON\", \"required\": false, \"options\": 2, \"srid\": 4326}], \"type\":\"SPATIAL\"}");
+                        return null;
+                    }
+                });
 
         // FR5_8 Create an index specifying geojson options for non geojson data type.
-        assertThrows(XDevAPIError.class, "Index field 'options' member should not be used for field types other than GEOJSON.", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex",
-                        "{\"fields\": [{\"field\": \"$.myGeoJsonField\", \"type\": \"TEXT(10)\", \"required\": true, \"options\": 2, \"srid\": 4326}]}");
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Index field 'srid' member should not be used for field types other than GEOJSON.", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex",
-                        "{\"fields\": [{\"field\": \"$.myGeoJsonField\", \"type\": \"TEXT(10)\", \"required\": true, \"srid\": 4326}]}");
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class,
+                "Index field 'options' member should not be used for field types other than GEOJSON.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myIndex",
+                                "{\"fields\": [{\"field\": \"$.myGeoJsonField\", \"type\": \"TEXT(10)\", \"required\": true, \"options\": 2, \"srid\": 4326}]}");
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class,
+                "Index field 'srid' member should not be used for field types other than GEOJSON.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myIndex",
+                                "{\"fields\": [{\"field\": \"$.myGeoJsonField\", \"type\": \"TEXT(10)\", \"required\": true, \"srid\": 4326}]}");
+                        return null;
+                    }
+                });
 
-        // ET_2 Create an index specifying SPATIAL as the index type for a non spatial data type
-        assertThrows(XProtocolError.class, "ERROR 3106 \\(HY000\\) 'Spatial index on virtual generated column' is not supported for generated columns.",
+        // ET_2 Create an index specifying SPATIAL as the index type for a non spatial
+        // data type
+        assertThrows(XProtocolError.class,
+                "ERROR 3106 \\(HY000\\) 'Spatial index on virtual generated column' is not supported for generated columns.",
                 new Callable<Void>() {
                     public Void call() throws Exception {
                         CollectionTest.this.collection.createIndex("myIndex",
@@ -395,8 +427,10 @@ public class CollectionTest extends BaseCollectionTestCase {
             validateIndex("myIndex", this.collectionName, "gj", false, true, false, 1, 32);
             this.collection.dropIndex("myIndex");
         } else {
-            // ET_3 Create an index specifying INDEX as the index type for a spatial data type
-            assertThrows(XProtocolError.class, "ERROR 1170 \\(42000\\) BLOB/TEXT column .+_gj_r_.+ used in key specification without a key length",
+            // ET_3 Create an index specifying INDEX as the index type for a spatial data
+            // type
+            assertThrows(XProtocolError.class,
+                    "ERROR 1170 \\(42000\\) BLOB/TEXT column .+_gj_r_.+ used in key specification without a key length",
                     new Callable<Void>() {
                         public Void call() throws Exception {
                             CollectionTest.this.collection.createIndex("myIndex",
@@ -410,41 +444,47 @@ public class CollectionTest extends BaseCollectionTestCase {
         // NPE checks
         assertThrows(XDevAPIError.class, "Parameter 'indexName' must not be null or empty.", new Callable<Void>() {
             public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex(null, "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(200)\"}]}");
+                CollectionTest.this.collection.createIndex(null,
+                        "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(200)\"}]}");
                 return null;
             }
         });
         assertThrows(XDevAPIError.class, "Parameter 'indexName' must not be null or empty.", new Callable<Void>() {
             public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex(" ", "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(200)\"}]}");
+                CollectionTest.this.collection.createIndex(" ",
+                        "{\"fields\": [{\"field\": \"$.myField\", \"type\": \"TEXT(200)\"}]}");
                 return null;
             }
         });
-        assertThrows(XDevAPIError.class, "Parameter 'jsonIndexDefinition' must not be null or empty.", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex", (String) null);
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Parameter 'jsonIndexDefinition' must not be null or empty.", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex", "");
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Parameter 'indexDefinition' must not be null or empty.", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex", (DbDoc) null);
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Parameter 'jsonIndexDefinition' must not be null or empty.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myIndex", (String) null);
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Parameter 'jsonIndexDefinition' must not be null or empty.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myIndex", "");
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Parameter 'indexDefinition' must not be null or empty.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myIndex", (DbDoc) null);
+                        return null;
+                    }
+                });
 
-        assertThrows(XDevAPIError.class, "The 'somekey' field is not allowed in indexDefinition.", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionTest.this.collection.createIndex("myIndex", "{\"somekey\": 123}");
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "The 'somekey' field is not allowed in indexDefinition.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionTest.this.collection.createIndex("myIndex", "{\"somekey\": 123}");
+                        return null;
+                    }
+                });
         assertThrows(XDevAPIError.class, "The 'somefield' field is not allowed in indexField.", new Callable<Void>() {
             public Void call() throws Exception {
                 CollectionTest.this.collection.createIndex("myIndex", "{\"fields\": [{\"somefield\": 123}]}");
@@ -463,7 +503,8 @@ public class CollectionTest extends BaseCollectionTestCase {
         this.collection.dropIndex("non_existing_idx");
     }
 
-    private void validateIndex(String keydName, String collName, String dataType, boolean unique, boolean required, boolean isUnsigned, int sequence,
+    private void validateIndex(String keydName, String collName, String dataType, boolean unique, boolean required,
+            boolean isUnsigned, int sequence,
             Integer length) throws Exception {
         boolean indexFound = false;
 
@@ -480,9 +521,10 @@ public class CollectionTest extends BaseCollectionTestCase {
                 assertEquals(collName.toUpperCase(), row.getString("Table").toUpperCase());
                 assertEquals(unique ? "0" : "1", row.getString("Non_unique"));
                 String[] columnNameTokens = row.getString("Column_name").toString().split("_");
-                assertEquals(dataType, isUnsigned ? columnNameTokens[1] + "_" + columnNameTokens[2] : columnNameTokens[1]);
+                assertEquals(dataType,
+                        isUnsigned ? columnNameTokens[1] + "_" + columnNameTokens[2] : columnNameTokens[1]);
 
-                //assertEquals("", row.getString("Collation")); // TODO enable when applicable
+                // assertEquals("", row.getString("Collation")); // TODO enable when applicable
                 assertEquals(length == null ? 0 : length.intValue(), row.getInt("Sub_part"));
                 assertEquals(required ? "" : "YES", row.getString("Null"));
                 break;

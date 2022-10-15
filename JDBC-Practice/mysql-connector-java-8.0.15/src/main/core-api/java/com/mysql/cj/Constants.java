@@ -47,7 +47,8 @@ public class Constants {
 
     public final static byte[] SLASH_STAR_SPACE_AS_BYTES = new byte[] { (byte) '/', (byte) '*', (byte) ' ' };
 
-    public final static byte[] SPACE_STAR_SLASH_SPACE_AS_BYTES = new byte[] { (byte) ' ', (byte) '*', (byte) '/', (byte) ' ' };
+    public final static byte[] SPACE_STAR_SLASH_SPACE_AS_BYTES = new byte[] { (byte) ' ', (byte) '*', (byte) '/',
+            (byte) ' ' };
 
     public static final String JVM_VENDOR = System.getProperty(PropertyDefinitions.SYSP_java_vendor);
     public static final String JVM_VERSION = System.getProperty(PropertyDefinitions.SYSP_java_version);

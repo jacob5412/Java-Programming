@@ -37,7 +37,7 @@ _[Source for instructions](https://stackoverflow.com/questions/1051640/correct-w
 2. Click File from the toolbar on IntelliJ IDEA
 3. Project Structure (`CTRL + SHIFT + ALT + S` on Windows/Linux, `⌘ (CMD) + ;` on Mac OS X)
    <p align="center">
-    <img src="https://raw.githubusercontent.com/jacobjohn2016/Java-Programming/master/assignment4/intelliJ-project-structure.png" width="750" alt="instructions">
+    <img src="https://raw.githubusercontent.com/jacob5412/Java-Programming/master/assignment4/intelliJ-project-structure.png" width="750" alt="instructions">
     </p>
 4. Select Modules at the left panel
 5. Dependencies tab

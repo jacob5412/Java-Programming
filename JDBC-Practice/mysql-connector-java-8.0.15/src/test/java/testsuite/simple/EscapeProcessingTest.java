@@ -45,7 +45,7 @@ public class EscapeProcessingTest extends BaseTestCase {
      * Constructor for EscapeProcessingTest.
      * 
      * @param name
-     *            the test to run
+     *             the test to run
      */
     public EscapeProcessingTest(String name) {
         super(name);
@@ -55,18 +55,22 @@ public class EscapeProcessingTest extends BaseTestCase {
      * Tests the escape processing functionality
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testEscapeProcessing() throws Exception {
         String results = "select dayname (abs(now())),   -- Today    \n" //
-                + "           '1997-05-24',  -- a date                    \n" + "           '10:30:29',  -- a time                     \n"
+                + "           '1997-05-24',  -- a date                    \n"
+                + "           '10:30:29',  -- a time                     \n"
                 + (versionMeetsMinimum(5, 6, 4) ? "           '1997-05-24 10:30:29.123', -- a timestamp  \n"
                         : "           '1997-05-24 10:30:29', -- a timestamp  \n")
-                + "          '{string data with { or } will not be altered'   \n" + "--  Also note that you can safely include { and } in comments";
+                + "          '{string data with { or } will not be altered'   \n"
+                + "--  Also note that you can safely include { and } in comments";
 
         String exSql = "select {fn dayname ({fn abs({fn now()})})},   -- Today    \n" //
-                + "           {d '1997-05-24'},  -- a date                    \n" + "           {t '10:30:29' },  -- a time                     \n"
-                + "           {ts '1997-05-24 10:30:29.123'}, -- a timestamp  \n" + "          '{string data with { or } will not be altered'   \n"
+                + "           {d '1997-05-24'},  -- a date                    \n"
+                + "           {t '10:30:29' },  -- a time                     \n"
+                + "           {ts '1997-05-24 10:30:29.123'}, -- a timestamp  \n"
+                + "          '{string data with { or } will not be altered'   \n"
                 + "--  Also note that you can safely include { and } in comments";
 
         String escapedSql = this.conn.nativeSQL(exSql);
@@ -88,10 +92,11 @@ public class EscapeProcessingTest extends BaseTestCase {
      * JDBC-4.0 spec will allow either SQL_ or not for type in {fn convert ...}
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testConvertEscape() throws Exception {
-        assertEquals(this.conn.nativeSQL("{fn convert(abcd, SQL_INTEGER)}"), this.conn.nativeSQL("{fn convert(abcd, INTEGER)}"));
+        assertEquals(this.conn.nativeSQL("{fn convert(abcd, SQL_INTEGER)}"),
+                this.conn.nativeSQL("{fn convert(abcd, INTEGER)}"));
     }
 
     /**
@@ -99,7 +104,7 @@ public class EscapeProcessingTest extends BaseTestCase {
      * wrt. timezones
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testTimestampConversion() throws Exception {
         TimeZone currentTimezone = TimeZone.getDefault();
@@ -129,24 +134,28 @@ public class EscapeProcessingTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#51313 - Escape processing is confused by multiple backslashes.
+     * Tests fix for BUG#51313 - Escape processing is confused by multiple
+     * backslashes.
      * 
      * @throws Exception
      */
     public void testBug51313() throws Exception {
         this.stmt = this.conn.createStatement();
 
-        this.rs = this.stmt.executeQuery("SELECT {fn lcase('My{fn UCASE(sql)}} -- DATABASE')}, {fn ucase({fn lcase('SERVER')})}"
-                + " -- {escape } processing test\n -- this {fn ucase('comment') is in line 2\r\n"
-                + " -- this in line 3, and previous escape sequence was malformed\n");
+        this.rs = this.stmt
+                .executeQuery("SELECT {fn lcase('My{fn UCASE(sql)}} -- DATABASE')}, {fn ucase({fn lcase('SERVER')})}"
+                        + " -- {escape } processing test\n -- this {fn ucase('comment') is in line 2\r\n"
+                        + " -- this in line 3, and previous escape sequence was malformed\n");
         assertTrue(this.rs.next());
         assertEquals("my{fn ucase(sql)}} -- database", this.rs.getString(1));
         assertEquals("SERVER", this.rs.getString(2));
         this.rs.close();
 
-        this.rs = this.stmt.executeQuery("SELECT 'MySQL \\\\\\' testing {long \\\\\\' escape -- { \\\\\\' sequences \\\\\\' } } with escape processing '");
+        this.rs = this.stmt.executeQuery(
+                "SELECT 'MySQL \\\\\\' testing {long \\\\\\' escape -- { \\\\\\' sequences \\\\\\' } } with escape processing '");
         assertTrue(this.rs.next());
-        assertEquals("MySQL \\\' testing {long \\\' escape -- { \\\' sequences \\\' } } with escape processing ", this.rs.getString(1));
+        assertEquals("MySQL \\\' testing {long \\\' escape -- { \\\' sequences \\\' } } with escape processing ",
+                this.rs.getString(1));
         this.rs.close();
 
         this.rs = this.stmt.executeQuery("SELECT 'MySQL \\'', '{ testing doubled -- } ''\\\\\\''' quotes '");

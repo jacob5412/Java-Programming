@@ -8,7 +8,7 @@ of the Store class.*/
 import Library.Book;
 
 public class Store {
-    public static void main(String args[]){
+    public static void main(String args[]) {
 
         Book b1 = new Book();
         b1.id = "1";
@@ -17,16 +17,14 @@ public class Store {
         b1.price = 250;
         b1.quant = 10;
 
-        try{
+        try {
             b1.purchase(11);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
-        try{
+        try {
             b1.purchase(9);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
 

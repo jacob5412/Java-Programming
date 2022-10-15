@@ -113,8 +113,11 @@ public class SessionTest extends DevApiBaseTestCase {
         }
 
         try {
-            // Create user with mysql_native_password authentication plugin as it can be used with any of the authentication mechanisms.
-            this.session.sql("CREATE USER IF NOT EXISTS 'testUserN'@'%' IDENTIFIED WITH mysql_native_password BY 'testUserN'").execute();
+            // Create user with mysql_native_password authentication plugin as it can be
+            // used with any of the authentication mechanisms.
+            this.session.sql(
+                    "CREATE USER IF NOT EXISTS 'testUserN'@'%' IDENTIFIED WITH mysql_native_password BY 'testUserN'")
+                    .execute();
             this.session.sql("GRANT SELECT ON *.* TO 'testUserN'@'%'").execute();
 
             final String testSchemaName = getRandomTestSchemaName();
@@ -123,21 +126,26 @@ public class SessionTest extends DevApiBaseTestCase {
             final SessionFactory testSessionFactory = new SessionFactory();
             final String testUriPattern = "mysqlx://testUserN:testUserN@%s:%s/%s?xdevapi.auth=%s";
 
-            // Check if the default schema is correctly sent when using different authentication mechanisms.
-            String[] authMechs = mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.4")) ? new String[] { "PLAIN", "MYSQL41", "SHA256_MEMORY" }
+            // Check if the default schema is correctly sent when using different
+            // authentication mechanisms.
+            String[] authMechs = mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.4"))
+                    ? new String[] { "PLAIN", "MYSQL41", "SHA256_MEMORY" }
                     : new String[] { "PLAIN", "MYSQL41" };
             for (String authMech : authMechs) {
-                final String testCase = "Testing default schema provided in authentication mecanism '" + authMech + "'.";
+                final String testCase = "Testing default schema provided in authentication mecanism '" + authMech
+                        + "'.";
 
                 // Test using a connection String.
-                final String testUri = String.format(testUriPattern, getTestHost(), getTestPort(), testSchemaName, authMech);
+                final String testUri = String.format(testUriPattern, getTestHost(), getTestPort(), testSchemaName,
+                        authMech);
 
                 Session testSession = testSessionFactory.getSession(testUri);
                 assertTrue(testCase, testSession.getUri().contains("/" + testSchemaName + "?"));
                 assertEquals(testCase, testSchemaName, testSession.getDefaultSchemaName());
                 assertNotNull(testCase, testSession.getDefaultSchema());
                 assertEquals(testCase, testSchemaName, testSession.getDefaultSchema().getName());
-                assertEquals(testCase, testSchemaName, testSession.sql("SELECT database()").execute().fetchOne().getString(0));
+                assertEquals(testCase, testSchemaName,
+                        testSession.sql("SELECT database()").execute().fetchOne().getString(0));
                 testSession.close();
 
                 // Test using a properties map.
@@ -154,7 +162,8 @@ public class SessionTest extends DevApiBaseTestCase {
                 assertEquals(testCase, testSchemaName, testSession.getDefaultSchemaName());
                 assertNotNull(testCase, testSession.getDefaultSchema());
                 assertEquals(testCase, testSchemaName, testSession.getDefaultSchema().getName());
-                assertEquals(testCase, testSchemaName, testSession.sql("SELECT database()").execute().fetchOne().getString(0));
+                assertEquals(testCase, testSchemaName,
+                        testSession.sql("SELECT database()").execute().fetchOne().getString(0));
                 testSession.close();
             }
         } finally {
@@ -169,8 +178,11 @@ public class SessionTest extends DevApiBaseTestCase {
         }
 
         try {
-            // Create user with mysql_native_password authentication plugin as it can be used with any of the authentication mechanisms.
-            this.session.sql("CREATE USER IF NOT EXISTS 'testUserN'@'%' IDENTIFIED WITH mysql_native_password BY 'testUserN'").execute();
+            // Create user with mysql_native_password authentication plugin as it can be
+            // used with any of the authentication mechanisms.
+            this.session.sql(
+                    "CREATE USER IF NOT EXISTS 'testUserN'@'%' IDENTIFIED WITH mysql_native_password BY 'testUserN'")
+                    .execute();
             this.session.sql("GRANT SELECT ON *.* TO 'testUserN'@'%'").execute();
 
             final SessionFactory testSessionFactory = new SessionFactory();
@@ -178,14 +190,17 @@ public class SessionTest extends DevApiBaseTestCase {
             final String testUriPattern2 = "mysqlx://testUserN:testUserN@%s:%s?xdevapi.auth=%s";
             final String testUriPattern3 = "mysqlx://testUserN:testUserN@address=(host=%s)(port=%s)(xdevapi.auth=%s)";
 
-            // Check if not setting a default schema works correctly when using different authentication mechanisms.
-            String[] authMechs = mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.4")) ? new String[] { "PLAIN", "MYSQL41", "SHA256_MEMORY" }
+            // Check if not setting a default schema works correctly when using different
+            // authentication mechanisms.
+            String[] authMechs = mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.4"))
+                    ? new String[] { "PLAIN", "MYSQL41", "SHA256_MEMORY" }
                     : new String[] { "PLAIN", "MYSQL41" };
             for (String authMech : authMechs) {
                 for (String testUriPattern : new String[] { testUriPattern1, testUriPattern2, testUriPattern3 }) {
                     // Test using a connection String.
                     final String testUri = String.format(testUriPattern, getTestHost(), getTestPort(), authMech);
-                    final String testCase = "Testing no default schema with authentication mecanism '" + authMech + "' and URI '" + testUri + "'.";
+                    final String testCase = "Testing no default schema with authentication mecanism '" + authMech
+                            + "' and URI '" + testUri + "'.";
 
                     Session testSession = testSessionFactory.getSession(testUri);
                     assertTrue(testCase, testSession.getUri().contains("/?"));
@@ -223,8 +238,11 @@ public class SessionTest extends DevApiBaseTestCase {
         }
 
         try {
-            // Create user with mysql_native_password authentication plugin as it can be used with any of the authentication mechanisms.
-            this.session.sql("CREATE USER IF NOT EXISTS 'testUserN'@'%' IDENTIFIED WITH mysql_native_password BY 'testUserN'").execute();
+            // Create user with mysql_native_password authentication plugin as it can be
+            // used with any of the authentication mechanisms.
+            this.session.sql(
+                    "CREATE USER IF NOT EXISTS 'testUserN'@'%' IDENTIFIED WITH mysql_native_password BY 'testUserN'")
+                    .execute();
             this.session.sql("GRANT SELECT ON *.* TO 'testUserN'@'%'").execute();
 
             final String testSchemaName = getRandomTestSchemaName();
@@ -232,19 +250,24 @@ public class SessionTest extends DevApiBaseTestCase {
             final SessionFactory testSessionFactory = new SessionFactory();
             final String testUriPattern = "mysqlx://testUserN:testUserN@%s:%s/%s?xdevapi.auth=%s";
 
-            // Check if the default schema is correctly sent when using different authentication mechanisms.
-            String[] authMechs = mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.4")) ? new String[] { "PLAIN", "MYSQL41", "SHA256_MEMORY" }
+            // Check if the default schema is correctly sent when using different
+            // authentication mechanisms.
+            String[] authMechs = mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.4"))
+                    ? new String[] { "PLAIN", "MYSQL41", "SHA256_MEMORY" }
                     : new String[] { "PLAIN", "MYSQL41" };
             for (String authMech : authMechs) {
-                final String testCase = "Testing missing default schema provided in authentication mecanism '" + authMech + "'.";
+                final String testCase = "Testing missing default schema provided in authentication mecanism '"
+                        + authMech + "'.";
 
                 // Test using a connection String.
-                final String testUri = String.format(testUriPattern, getTestHost(), getTestPort(), testSchemaName, authMech);
+                final String testUri = String.format(testUriPattern, getTestHost(), getTestPort(), testSchemaName,
+                        authMech);
 
-                assertThrows(testCase, XProtocolError.class, "ERROR \\d{4} \\(HY000\\) Unknown database '" + testSchemaName + "'", () -> {
-                    testSessionFactory.getSession(testUri);
-                    return null;
-                });
+                assertThrows(testCase, XProtocolError.class,
+                        "ERROR \\d{4} \\(HY000\\) Unknown database '" + testSchemaName + "'", () -> {
+                            testSessionFactory.getSession(testUri);
+                            return null;
+                        });
 
                 // Test using a properties map.
                 final Properties testProps = new Properties();
@@ -255,10 +278,11 @@ public class SessionTest extends DevApiBaseTestCase {
                 testProps.setProperty(PropertyKey.DBNAME.getKeyName(), testSchemaName);
                 testProps.setProperty(PropertyKey.xdevapiAuth.getKeyName(), authMech);
 
-                assertThrows(testCase, XProtocolError.class, "ERROR \\d{4} \\(HY000\\) Unknown database '" + testSchemaName + "'", () -> {
-                    testSessionFactory.getSession(testUri);
-                    return null;
-                });
+                assertThrows(testCase, XProtocolError.class,
+                        "ERROR \\d{4} \\(HY000\\) Unknown database '" + testSchemaName + "'", () -> {
+                            testSessionFactory.getSession(testUri);
+                            return null;
+                        });
             }
         } finally {
             this.session.sql("DROP USER IF EXISTS testUserN").execute();
@@ -349,7 +373,7 @@ public class SessionTest extends DevApiBaseTestCase {
      * Tests fix for Bug#21690043, CONNECT FAILS WHEN PASSWORD IS BLANK.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     @Test
     public void testBug21690043() {
@@ -390,12 +414,13 @@ public class SessionTest extends DevApiBaseTestCase {
         assertEquals("3", r.getString("3"));
         assertFalse(res.hasNext());
 
-        assertThrows(XDevAPIError.class, "Method getAutoIncrementValue\\(\\) is allowed only for insert statements.", new Callable<Void>() {
-            public Void call() throws Exception {
-                assertEquals(null, res.getAutoIncrementValue());
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Method getAutoIncrementValue\\(\\) is allowed only for insert statements.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        assertEquals(null, res.getAutoIncrementValue());
+                        return null;
+                    }
+                });
     }
 
     @Test
@@ -411,8 +436,9 @@ public class SessionTest extends DevApiBaseTestCase {
         assertEquals(0, res.getWarningsCount());
         assertFalse(res.getWarnings().hasNext());
 
-        // TODO SqlUpdateResult throws FeatureNotAvailableException("Not a multi-result");
-        //res.nextResult();
+        // TODO SqlUpdateResult throws FeatureNotAvailableException("Not a
+        // multi-result");
+        // res.nextResult();
 
         assertThrows(FeatureNotAvailableException.class, "No data", new Callable<Void>() {
             public Void call() throws Exception {
@@ -526,7 +552,8 @@ public class SessionTest extends DevApiBaseTestCase {
     }
 
     /**
-     * Tests fix for Bug #27652379, NPE FROM GETSESSION(PROPERTIES) WHEN HOST PARAMETER IS GIVEN IN SMALL LETTER.
+     * Tests fix for Bug #27652379, NPE FROM GETSESSION(PROPERTIES) WHEN HOST
+     * PARAMETER IS GIVEN IN SMALL LETTER.
      */
     @Test
     public void testBug27652379() throws Exception {
@@ -598,7 +625,8 @@ public class SessionTest extends DevApiBaseTestCase {
         if (!url.contains("?")) {
             url += "?";
         }
-        Session sess = this.fact.getSession(url + makeParam(PropertyKey.serverTimezone, "Asia/Calcutta") + makeParam(PropertyKey.serverConfigCacheFactory, ""));
+        Session sess = this.fact.getSession(url + makeParam(PropertyKey.serverTimezone, "Asia/Calcutta")
+                + makeParam(PropertyKey.serverConfigCacheFactory, ""));
 
         String uri = sess.getUri();
         assertTrue(uri.contains("serverTimezone=Asia/Calcutta"));
@@ -618,102 +646,116 @@ public class SessionTest extends DevApiBaseTestCase {
         final Properties props = new Properties();
 
         /*
-         * UT8/1: Verify that setting an incorrect value in the client options defined in the Pooling options in the HLS throw an exception with the expected
+         * UT8/1: Verify that setting an incorrect value in the client options defined
+         * in the Pooling options in the HLS throw an exception with the expected
          * message.
          */
         // pooling.enabled
         props.clear();
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.enabled' does not support value 'sure'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                props.setProperty(ClientProperty.POOLING_ENABLED.getKeyName(), "sure");
-                cf.getClient(url, props);
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.enabled' does not support value 'sure'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                cf.getClient(url, "{\"pooling\": {\"enabled\": \"sure\"}}");
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.enabled' does not support value 'sure'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        props.setProperty(ClientProperty.POOLING_ENABLED.getKeyName(), "sure");
+                        cf.getClient(url, props);
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.enabled' does not support value 'sure'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        cf.getClient(url, "{\"pooling\": {\"enabled\": \"sure\"}}");
+                        return null;
+                    }
+                });
         // pooling.maxSize
         props.clear();
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxSize' does not support value '0'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                props.setProperty(ClientProperty.POOLING_MAX_SIZE.getKeyName(), "0");
-                cf.getClient(url, props);
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxSize' does not support value '0'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                cf.getClient(url, "{\"pooling\": {\"maxSize\": 0}}");
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxSize' does not support value 'one'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                cf.getClient(url, "{\"pooling\": {\"maxSize\": \"one\"}}");
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxSize' does not support value '0'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        props.setProperty(ClientProperty.POOLING_MAX_SIZE.getKeyName(), "0");
+                        cf.getClient(url, props);
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxSize' does not support value '0'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        cf.getClient(url, "{\"pooling\": {\"maxSize\": 0}}");
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxSize' does not support value 'one'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        cf.getClient(url, "{\"pooling\": {\"maxSize\": \"one\"}}");
+                        return null;
+                    }
+                });
         // pooling.maxIdleTime
         props.clear();
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxIdleTime' does not support value '-1'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                props.setProperty(ClientProperty.POOLING_MAX_IDLE_TIME.getKeyName(), "-1");
-                cf.getClient(url, props);
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxIdleTime' does not support value '-1'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                cf.getClient(url, "{\"pooling\": {\"maxIdleTime\": -1}}");
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxIdleTime' does not support value 'one'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                cf.getClient(url, "{\"pooling\": {\"maxIdleTime\": \"one\"}}");
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxIdleTime' does not support value '-1'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        props.setProperty(ClientProperty.POOLING_MAX_IDLE_TIME.getKeyName(), "-1");
+                        cf.getClient(url, props);
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxIdleTime' does not support value '-1'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        cf.getClient(url, "{\"pooling\": {\"maxIdleTime\": -1}}");
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.maxIdleTime' does not support value 'one'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        cf.getClient(url, "{\"pooling\": {\"maxIdleTime\": \"one\"}}");
+                        return null;
+                    }
+                });
         // pooling.queueTimeout
         props.clear();
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.queueTimeout' does not support value '-1'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                props.setProperty(ClientProperty.POOLING_QUEUE_TIMEOUT.getKeyName(), "-1");
-                cf.getClient(url, props);
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.queueTimeout' does not support value '-1'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                cf.getClient(url, "{\"pooling\": {\"queueTimeout\": -1}}");
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.queueTimeout' does not support value 'one'\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                cf.getClient(url, "{\"pooling\": {\"queueTimeout\": \"one\"}}");
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.queueTimeout' does not support value '-1'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        props.setProperty(ClientProperty.POOLING_QUEUE_TIMEOUT.getKeyName(), "-1");
+                        cf.getClient(url, props);
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.queueTimeout' does not support value '-1'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        cf.getClient(url, "{\"pooling\": {\"queueTimeout\": -1}}");
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.queueTimeout' does not support value 'one'\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        cf.getClient(url, "{\"pooling\": {\"queueTimeout\": \"one\"}}");
+                        return null;
+                    }
+                });
         // Unknown pooling option.
         props.clear();
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.foo' is not recognized as valid\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                props.setProperty("pooling.foo", "bar");
-                cf.getClient(url, props);
-                return null;
-            }
-        });
-        assertThrows(XDevAPIError.class, "Client option 'pooling\\.foo' is not recognized as valid\\.", new Callable<Void>() {
-            public Void call() throws Exception {
-                cf.getClient(url, "{\"pooling\": {\"foo\": \"bar\"}}");
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.foo' is not recognized as valid\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        props.setProperty("pooling.foo", "bar");
+                        cf.getClient(url, props);
+                        return null;
+                    }
+                });
+        assertThrows(XDevAPIError.class, "Client option 'pooling\\.foo' is not recognized as valid\\.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        cf.getClient(url, "{\"pooling\": {\"foo\": \"bar\"}}");
+                        return null;
+                    }
+                });
         // Unknown clientProps option.
         props.clear();
         assertThrows(XDevAPIError.class, "Client option 'foo' is not recognized as valid\\.", new Callable<Void>() {
@@ -731,7 +773,8 @@ public class SessionTest extends DevApiBaseTestCase {
         });
 
         /*
-         * UT9/1: Verify that when no pooling properties passed their values set to defaults: pooling.maxSize=25, pooling.maxIdleTime=0, pooling.queueTimeout=0.
+         * UT9/1: Verify that when no pooling properties passed their values set to
+         * defaults: pooling.maxSize=25, pooling.maxIdleTime=0, pooling.queueTimeout=0.
          */
         props.clear();
         testPooledSessions_checkClientProperties(cf.getClient(this.baseUrl, props), 25, 0, 0);
@@ -740,7 +783,8 @@ public class SessionTest extends DevApiBaseTestCase {
         testPooledSessions_checkClientProperties(cf.getClient(this.baseUrl, (String) null), 25, 0, 0);
 
         /*
-         * UT9/2: Verify that when all pooling properties passed via Properties object the Client is configured according to their values.
+         * UT9/2: Verify that when all pooling properties passed via Properties object
+         * the Client is configured according to their values.
          */
         props.setProperty(ClientProperty.POOLING_ENABLED.getKeyName(), "true");
         props.setProperty(ClientProperty.POOLING_MAX_SIZE.getKeyName(), "5");
@@ -749,14 +793,18 @@ public class SessionTest extends DevApiBaseTestCase {
         testPooledSessions_checkClientProperties(cf.getClient(this.baseUrl, props), 5, 6, 7);
 
         /*
-         * UT9/3: Verify that when all pooling properties passed via json string ({"pooling" : {"enabled" : true, "maxSize" : 8, "maxIdleTime" : 9,
+         * UT9/3: Verify that when all pooling properties passed via json string
+         * ({"pooling" : {"enabled" : true, "maxSize" : 8, "maxIdleTime" : 9,
          * "queueTimeout" : 10} }) the Client is configured according to their values.
          */
         testPooledSessions_checkClientProperties(
-                cf.getClient(this.baseUrl, "{\"pooling\" : {\"enabled\" : true, \"maxSize\" : 8, \"maxIdleTime\" : 9, \"queueTimeout\" : 10} }"), 8, 9, 10);
+                cf.getClient(this.baseUrl,
+                        "{\"pooling\" : {\"enabled\" : true, \"maxSize\" : 8, \"maxIdleTime\" : 9, \"queueTimeout\" : 10} }"),
+                8, 9, 10);
 
         /*
-         * UT3/2: Start a client with pooling enabled, call Client.getSession() twice and verify that the objects returned are different and the internal
+         * UT3/2: Start a client with pooling enabled, call Client.getSession() twice
+         * and verify that the objects returned are different and the internal
          * connection instances are different too.
          */
         Client cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": true}}");
@@ -770,8 +818,10 @@ public class SessionTest extends DevApiBaseTestCase {
         cli0.close();
 
         /*
-         * UT3/3: Start a client with pooling enabled, call Client.getSession() twice, closing the first session before getting the second one, and verify that
-         * the objects returned are different and that the internal connection instances are the same.
+         * UT3/3: Start a client with pooling enabled, call Client.getSession() twice,
+         * closing the first session before getting the second one, and verify that
+         * the objects returned are different and that the internal connection instances
+         * are the same.
          */
         cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": true}}");
         s0 = cli0.getSession();
@@ -783,7 +833,8 @@ public class SessionTest extends DevApiBaseTestCase {
         cli0.close();
 
         /*
-         * UT3/4: Start a client with pooling disabled, call Client.getSession() twice and verify that the objects returned are different and the internal
+         * UT3/4: Start a client with pooling disabled, call Client.getSession() twice
+         * and verify that the objects returned are different and the internal
          * connection instances are different too.
          */
         cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": false}}");
@@ -794,8 +845,10 @@ public class SessionTest extends DevApiBaseTestCase {
         cli0.close();
 
         /*
-         * UT3/5: Start a client with pooling disabled, call Client.getSession() twice, closing the first session before getting the second one, and verify that
-         * the objects returned are different and that the internal connection instances are different too.
+         * UT3/5: Start a client with pooling disabled, call Client.getSession() twice,
+         * closing the first session before getting the second one, and verify that
+         * the objects returned are different and that the internal connection instances
+         * are different too.
          */
         cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": false}}");
         s0 = cli0.getSession();
@@ -806,8 +859,10 @@ public class SessionTest extends DevApiBaseTestCase {
         cli0.close();
 
         /*
-         * UT5/1: Having a full pool and queueTimeout = 0, verify that a new Client.getSession() waits until a Session is released.
-         * UT6/1: Verify that that a client object can not open/create more sessions that the specified in the maxSize option.
+         * UT5/1: Having a full pool and queueTimeout = 0, verify that a new
+         * Client.getSession() waits until a Session is released.
+         * UT6/1: Verify that that a client object can not open/create more sessions
+         * that the specified in the maxSize option.
          */
         props.setProperty(ClientProperty.POOLING_MAX_SIZE.getKeyName(), "3");
         props.setProperty(ClientProperty.POOLING_MAX_IDLE_TIME.getKeyName(), "1000");
@@ -816,11 +871,13 @@ public class SessionTest extends DevApiBaseTestCase {
         s1 = cli1.getSession();
         Session s2 = cli1.getSession();
         Session s3 = cli1.getSession();
-        testPooledSessions_assertFailureTimeout(cli1, 1000, 2000, XDevAPIError.class, "Session can not be obtained within 1000 milliseconds.");
+        testPooledSessions_assertFailureTimeout(cli1, 1000, 2000, XDevAPIError.class,
+                "Session can not be obtained within 1000 milliseconds.");
         cli1.close();
 
         /*
-         * UT12/1: Having a pool with a single connection, close the Session, get another Session with Client.getSession(). Verify that the received Session
+         * UT12/1: Having a pool with a single connection, close the Session, get
+         * another Session with Client.getSession(). Verify that the received Session
          * object is new and uses the same internal connection (MysqlxSession) instance.
          */
         cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": true, \"maxSize\" : 1}}");
@@ -833,8 +890,10 @@ public class SessionTest extends DevApiBaseTestCase {
         cli0.close();
 
         /*
-         * UT12/2: Having a pool with a number of connections greater than 1 and lower than maxPoolSize, close on Session, get another Session with
-         * Client.getSession(). Verify that the received Session object is new and uses the same internal connection (MysqlxSession) instance.
+         * UT12/2: Having a pool with a number of connections greater than 1 and lower
+         * than maxPoolSize, close on Session, get another Session with
+         * Client.getSession(). Verify that the received Session object is new and uses
+         * the same internal connection (MysqlxSession) instance.
          */
         cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": true, \"maxSize\" : 3}}");
         s0 = cli0.getSession();
@@ -846,8 +905,10 @@ public class SessionTest extends DevApiBaseTestCase {
         cli0.close();
 
         /*
-         * UT12/3: Having a full pool with all sessions in active state, close one Session, get another Session with Client.getSession(). Verify that the
-         * received Session object is new and uses the same internal connection (MysqlxSession) instance.
+         * UT12/3: Having a full pool with all sessions in active state, close one
+         * Session, get another Session with Client.getSession(). Verify that the
+         * received Session object is new and uses the same internal connection
+         * (MysqlxSession) instance.
          */
         cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": true, \"maxSize\" : 3}}");
         s0 = cli0.getSession();
@@ -861,10 +922,13 @@ public class SessionTest extends DevApiBaseTestCase {
         cli0.close();
 
         /*
-         * UT11/2: Having a pool with a single idle connection and maxIdleTime = n, verify that after n milliseconds a Client.getSession() call will remove all
-         * expired sessions from pool and return a new Session object that uses a new MysqlxSession instance.
+         * UT11/2: Having a pool with a single idle connection and maxIdleTime = n,
+         * verify that after n milliseconds a Client.getSession() call will remove all
+         * expired sessions from pool and return a new Session object that uses a new
+         * MysqlxSession instance.
          */
-        cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": true, \"maxSize\" : 3, \"maxIdleTime\" : 1000}}");
+        cli0 = cf.getClient(this.baseUrl,
+                "{\"pooling\": {\"enabled\": true, \"maxSize\" : 3, \"maxIdleTime\" : 1000}}");
         s0 = cli0.getSession();
         s0.close();
         Thread.sleep(2000);
@@ -877,7 +941,8 @@ public class SessionTest extends DevApiBaseTestCase {
         assertTrue(((BlockingQueue<PooledXProtocol>) fIdleSessions.get(cli0)).isEmpty());
 
         /*
-         * UT4/1: Verify that all idle and active sessions are closed after Client.close() call.
+         * UT4/1: Verify that all idle and active sessions are closed after
+         * Client.close() call.
          */
         cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": true, \"maxSize\" : 3}}");
         s0 = cli0.getSession();
@@ -902,7 +967,8 @@ public class SessionTest extends DevApiBaseTestCase {
         });
 
         /*
-         * UT4/2: Verify that after Client was closed the Client.getSession() throws an XDevAPIError with the message "Client is closed."
+         * UT4/2: Verify that after Client was closed the Client.getSession() throws an
+         * XDevAPIError with the message "Client is closed."
          */
         Client cli2 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": true}}");
         cli2.close();
@@ -914,8 +980,10 @@ public class SessionTest extends DevApiBaseTestCase {
         });
 
         /*
-         * UT11/1: Having a pool with a single active and maxIdleTime = 0, verify that if closing the session then after any long inactivity time a new Session
-         * object returned by Client.getSession() uses the same internal MysqlxSession object.
+         * UT11/1: Having a pool with a single active and maxIdleTime = 0, verify that
+         * if closing the session then after any long inactivity time a new Session
+         * object returned by Client.getSession() uses the same internal MysqlxSession
+         * object.
          */
         props.setProperty(ClientProperty.POOLING_MAX_SIZE.getKeyName(), "2");
         props.setProperty(ClientProperty.POOLING_MAX_IDLE_TIME.getKeyName(), "0");
@@ -933,7 +1001,8 @@ public class SessionTest extends DevApiBaseTestCase {
         cli3.close();
 
         /*
-         * UT5/1: Having a full pool and queueTimeout = 0, verify that a new Client.getSession() waits until a Session is released.
+         * UT5/1: Having a full pool and queueTimeout = 0, verify that a new
+         * Client.getSession() waits until a Session is released.
          */
         props.setProperty(ClientProperty.POOLING_MAX_SIZE.getKeyName(), "2");
         props.setProperty(ClientProperty.POOLING_MAX_IDLE_TIME.getKeyName(), "1000");
@@ -964,22 +1033,29 @@ public class SessionTest extends DevApiBaseTestCase {
         assertEquals(fProtocol.get(((SessionImpl) s1).getSession()), fProtocol.get(((SessionImpl) s6).getSession()));
 
         /*
-         * TS10_2 Verify that RuntimProperty objects are reset to initial values when Session returned to pool.
+         * TS10_2 Verify that RuntimProperty objects are reset to initial values when
+         * Session returned to pool.
          */
         assertEquals(2, ((Set<WeakReference<PooledXProtocol>>) fActiveSessions.get(cli3)).size());
-        ((SessionImpl) s1).getSession().getPropertySet().getStringProperty(PropertyKey.connectionAttributes).setValue("orig:s1");
+        ((SessionImpl) s1).getSession().getPropertySet().getStringProperty(PropertyKey.connectionAttributes)
+                .setValue("orig:s1");
         s1.close();
         assertEquals(1, ((Set<WeakReference<PooledXProtocol>>) fActiveSessions.get(cli3)).size());
         s2 = cli3.getSession();
         s2.sql("SELECT 1").execute();
         assertEquals(fProtocol.get(((SessionImpl) s1).getSession()), fProtocol.get(((SessionImpl) s2).getSession()));
-        assertNotEquals("orig:s1", ((SessionImpl) s1).getSession().getPropertySet().getStringProperty(PropertyKey.connectionAttributes).getValue());
-        assertEquals(((SessionImpl) s1).getSession().getPropertySet().getStringProperty(PropertyKey.connectionAttributes).getInitialValue(),
-                ((SessionImpl) s1).getSession().getPropertySet().getStringProperty(PropertyKey.connectionAttributes).getValue());
+        assertNotEquals("orig:s1", ((SessionImpl) s1).getSession().getPropertySet()
+                .getStringProperty(PropertyKey.connectionAttributes).getValue());
+        assertEquals(
+                ((SessionImpl) s1).getSession().getPropertySet().getStringProperty(PropertyKey.connectionAttributes)
+                        .getInitialValue(),
+                ((SessionImpl) s1).getSession().getPropertySet().getStringProperty(PropertyKey.connectionAttributes)
+                        .getValue());
 
         /*
          * TODO: Add when xplugin is ready
-         * UT10/1: Get the max sessions allowed in the pool, create the same variables and temp tables in all the sessions. Then close all the sessions and get
+         * UT10/1: Get the max sessions allowed in the pool, create the same variables
+         * and temp tables in all the sessions. Then close all the sessions and get
          * a new one: the variables and the temp tables must not exist.
          */
         cli0 = cf.getClient(this.baseUrl, "{\"pooling\": {\"enabled\": true, \"maxSize\" : 2}}");
@@ -1037,7 +1113,8 @@ public class SessionTest extends DevApiBaseTestCase {
         cli0.close();
     }
 
-    private void testPooledSessions_checkClientProperties(Client cli, int maxSize, int maxIdleTime, int queueTimeout) throws Exception {
+    private void testPooledSessions_checkClientProperties(Client cli, int maxSize, int maxIdleTime, int queueTimeout)
+            throws Exception {
         Field f = ClientImpl.class.getDeclaredField("maxSize");
         f.setAccessible(true);
         assertEquals(maxSize, f.get(cli));
@@ -1051,12 +1128,14 @@ public class SessionTest extends DevApiBaseTestCase {
         assertEquals(queueTimeout, f.get(cli));
     }
 
-    private <EX extends Throwable> void testPooledSessions_assertFailureTimeout(Client cli, int expLowLimit, int expUpLimit, Class<EX> throwable,
+    private <EX extends Throwable> void testPooledSessions_assertFailureTimeout(Client cli, int expLowLimit,
+            int expUpLimit, Class<EX> throwable,
             String message) {
         long begin = System.currentTimeMillis();
         assertThrows(throwable, message, () -> cli.getSession());
         long end = System.currentTimeMillis() - begin;
-        assertTrue("Expected: " + expLowLimit + ".." + expUpLimit + ". Got " + end, end >= expLowLimit && end < expUpLimit);
+        assertTrue("Expected: " + expLowLimit + ".." + expUpLimit + ". Got " + end,
+                end >= expLowLimit && end < expUpLimit);
     }
 
     @Test
@@ -1071,7 +1150,10 @@ public class SessionTest extends DevApiBaseTestCase {
         Row r = res.next();
         int mysqlxMaxConnections = r.getInt(0);
         int mysqlWorkerThreadsActive = Integer.parseInt(r.getString(1));
-        this.session.sql("SET @@global.mysqlx_max_connections=" + (mysqlWorkerThreadsActive + 2)).execute(); // allow only 2 additional connections
+        this.session.sql("SET @@global.mysqlx_max_connections=" + (mysqlWorkerThreadsActive + 2)).execute(); // allow
+                                                                                                             // only 2
+                                                                                                             // additional
+                                                                                                             // connections
 
         Properties props = new Properties();
         props.setProperty(ClientProperty.POOLING_ENABLED.getKeyName(), "true");
@@ -1108,19 +1190,26 @@ public class SessionTest extends DevApiBaseTestCase {
         }
 
         for (String path : new String[] { null, "\\\\.\\pipe\\MySQL80" }) {
-            String url = this.baseUrl + makeParam(PropertyKey.socketFactory, "com.mysql.cj.protocol.NamedPipeSocketFactory");
+            String url = this.baseUrl
+                    + makeParam(PropertyKey.socketFactory, "com.mysql.cj.protocol.NamedPipeSocketFactory");
             if (path != null) {
                 url += makeParam(PropertyKey.PATH, path);
             }
             try {
                 this.fact.getSession(url);
-                fail("The named-pipe connection attempt must fail with " + (path != null ? path : "default") + " path.");
+                fail("The named-pipe connection attempt must fail with " + (path != null ? path : "default")
+                        + " path.");
             } catch (Exception e) {
-                if (e instanceof CJCommunicationsException && e.getCause() != null && e.getCause() instanceof FileNotFoundException
-                        && ((path == null ? "\\\\.\\pipe\\MySQL" : path) + " (The system cannot find the file specified)").equals(e.getCause().getMessage())) {
+                if (e instanceof CJCommunicationsException && e.getCause() != null
+                        && e.getCause() instanceof FileNotFoundException
+                        && ((path == null ? "\\\\.\\pipe\\MySQL" : path)
+                                + " (The system cannot find the file specified)").equals(e.getCause().getMessage())) {
                     continue;
-                } else if (e instanceof XProtocolError && "ASSERTION FAILED: Unknown message type: 10 (server messages mapping: null)".equals(e.getMessage())) {
-                    // if named pipes are enabled on server then we expect this error because the pipe is bound to legacy protocol
+                } else if (e instanceof XProtocolError
+                        && "ASSERTION FAILED: Unknown message type: 10 (server messages mapping: null)"
+                                .equals(e.getMessage())) {
+                    // if named pipes are enabled on server then we expect this error because the
+                    // pipe is bound to legacy protocol
                     continue;
                 }
                 throw e;

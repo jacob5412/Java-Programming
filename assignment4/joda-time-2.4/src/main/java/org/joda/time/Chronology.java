@@ -15,7 +15,6 @@
  */
 package org.joda.time;
 
-
 /**
  * Chronology provides access to the individual date time fields for a
  * chronological calendar system.
@@ -25,6 +24,7 @@ package org.joda.time;
  * factory methods on the chronology subclass in the chrono package.
  * <p>
  * For example, to obtain the current time in the coptic calendar system:
+ * 
  * <pre>
  * DateTime dt = new DateTime(CopticChronology.getInstance());
  * </pre>
@@ -35,7 +35,8 @@ package org.joda.time;
  * <li>GJ - Historically accurate calendar with Julian followed by Gregorian
  * <li>Gregorian - The Gregorian calendar system used for all time (proleptic)
  * <li>Julian - The Julian calendar system used for all time (proleptic)
- * <li>Buddhist - The Buddhist calendar system which is an offset in years from GJ
+ * <li>Buddhist - The Buddhist calendar system which is an offset in years from
+ * GJ
  * <li>Coptic - The Coptic calendar system which defines 30 day months
  * <li>Ethiopic - The Ethiopic calendar system which defines 30 day months
  * </ul>
@@ -78,7 +79,7 @@ public abstract class Chronology {
      * @return a version of this chronology that ignores time zones
      */
     public abstract Chronology withUTC();
-    
+
     /**
      * Returns an instance of this Chronology that operates in any time zone.
      *
@@ -97,9 +98,9 @@ public abstract class Chronology {
      * determine the result. Subclasses are encouraged to provide a more
      * efficient implementation.
      *
-     * @param year year to use
+     * @param year        year to use
      * @param monthOfYear month to use
-     * @param dayOfMonth day of month to use
+     * @param dayOfMonth  day of month to use
      * @param millisOfDay millisecond to use
      * @return millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the values are invalid
@@ -116,19 +117,19 @@ public abstract class Chronology {
      * determine the result. Subclasses are encouraged to provide a more
      * efficient implementation.
      *
-     * @param year year to use
-     * @param monthOfYear month to use
-     * @param dayOfMonth day of month to use
-     * @param hourOfDay hour to use
-     * @param minuteOfHour minute to use
+     * @param year           year to use
+     * @param monthOfYear    month to use
+     * @param dayOfMonth     day of month to use
+     * @param hourOfDay      hour to use
+     * @param minuteOfHour   minute to use
      * @param secondOfMinute second to use
      * @param millisOfSecond millisecond to use
      * @return millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the values are invalid
      */
     public abstract long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,
-                           int hourOfDay, int minuteOfHour,
-                           int secondOfMinute, int millisOfSecond);
+            int hourOfDay, int minuteOfHour,
+            int secondOfMinute, int millisOfSecond);
 
     /**
      * Returns a datetime millisecond instant, from from the given instant,
@@ -140,23 +141,23 @@ public abstract class Chronology {
      * determine the result. Subclasses are encouraged to provide a more
      * efficient implementation.
      *
-     * @param instant instant to start from
-     * @param hourOfDay hour to use
-     * @param minuteOfHour minute to use
+     * @param instant        instant to start from
+     * @param hourOfDay      hour to use
+     * @param minuteOfHour   minute to use
      * @param secondOfMinute second to use
      * @param millisOfSecond millisecond to use
      * @return millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the values are invalid
      */
     public abstract long getDateTimeMillis(long instant,
-                           int hourOfDay, int minuteOfHour,
-                           int secondOfMinute, int millisOfSecond);
+            int hourOfDay, int minuteOfHour,
+            int secondOfMinute, int millisOfSecond);
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Validates whether the values are valid for the fields of a partial instant.
      *
-     * @param partial  the partial instant to validate
+     * @param partial the partial instant to validate
      * @param values  the values to validate, not null, match fields in partial
      * @throws IllegalArgumentException if the instant is invalid
      */
@@ -165,8 +166,8 @@ public abstract class Chronology {
     /**
      * Gets the values of a partial from an instant.
      *
-     * @param partial  the partial instant to use
-     * @param instant  the instant to query
+     * @param partial the partial instant to use
+     * @param instant the instant to query
      * @return the values of this partial extracted from the instant
      */
     public abstract int[] get(ReadablePartial partial, long instant);
@@ -174,19 +175,19 @@ public abstract class Chronology {
     /**
      * Sets the partial into the instant.
      *
-     * @param partial  the partial instant to use
-     * @param instant  the instant to update
+     * @param partial the partial instant to use
+     * @param instant the instant to update
      * @return the updated instant
      */
     public abstract long set(ReadablePartial partial, long instant);
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the values of a period from an interval.
      *
-     * @param period  the period instant to use
-     * @param startInstant  the start instant of an interval to query
-     * @param endInstant  the start instant of an interval to query
+     * @param period       the period instant to use
+     * @param startInstant the start instant of an interval to query
+     * @param endInstant   the start instant of an interval to query
      * @return the values of the period extracted from the interval
      */
     public abstract int[] get(ReadablePeriod period, long startInstant, long endInstant);
@@ -194,8 +195,8 @@ public abstract class Chronology {
     /**
      * Gets the values of a period from an interval.
      *
-     * @param period  the period instant to use
-     * @param duration  the duration to query
+     * @param period   the period instant to use
+     * @param duration the duration to query
      * @return the values of the period extracted from the duration
      */
     public abstract int[] get(ReadablePeriod period, long duration);
@@ -204,25 +205,25 @@ public abstract class Chronology {
      * Adds the period to the instant, specifying the number of times to add.
      *
      * @param period  the period to add, null means add nothing
-     * @param instant  the instant to add to
+     * @param instant the instant to add to
      * @param scalar  the number of times to add
      * @return the updated instant
      */
     public abstract long add(ReadablePeriod period, long instant, int scalar);
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Adds the duration to the instant, specifying the number of times to add.
      *
      * @param instant  the instant to add to
-     * @param duration  the duration to add
-     * @param scalar  the number of times to add
+     * @param duration the duration to add
+     * @param scalar   the number of times to add
      * @return the updated instant
      */
     public abstract long add(long instant, long duration, int scalar);
 
     // Millis
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the millis duration field for this chronology.
      * 
@@ -245,7 +246,7 @@ public abstract class Chronology {
     public abstract DateTimeField millisOfDay();
 
     // Second
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the seconds duration field for this chronology.
      * 
@@ -268,7 +269,7 @@ public abstract class Chronology {
     public abstract DateTimeField secondOfDay();
 
     // Minute
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the minutes duration field for this chronology.
      * 
@@ -291,7 +292,7 @@ public abstract class Chronology {
     public abstract DateTimeField minuteOfDay();
 
     // Hour
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the hours duration field for this chronology.
      * 
@@ -314,7 +315,7 @@ public abstract class Chronology {
     public abstract DateTimeField clockhourOfDay();
 
     // Halfday
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the halfdays duration field for this chronology.
      * 
@@ -344,7 +345,7 @@ public abstract class Chronology {
     public abstract DateTimeField halfdayOfDay();
 
     // Day
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the days duration field for this chronology.
      * 
@@ -355,7 +356,8 @@ public abstract class Chronology {
     /**
      * Get the day of week field for this chronology.
      *
-     * <p>DayOfWeek values are defined in {@link DateTimeConstants}.
+     * <p>
+     * DayOfWeek values are defined in {@link DateTimeConstants}.
      * They use the ISO definitions, where 1 is Monday and 7 is Sunday.
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
@@ -377,7 +379,7 @@ public abstract class Chronology {
     public abstract DateTimeField dayOfYear();
 
     // Week
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the weeks duration field for this chronology.
      * 
@@ -393,7 +395,7 @@ public abstract class Chronology {
     public abstract DateTimeField weekOfWeekyear();
 
     // Weekyear
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the weekyears duration field for this chronology.
      * 
@@ -413,10 +415,10 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
-    public abstract  DateTimeField weekyearOfCentury();
+    public abstract DateTimeField weekyearOfCentury();
 
     // Month
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the months duration field for this chronology.
      * 
@@ -432,7 +434,7 @@ public abstract class Chronology {
     public abstract DateTimeField monthOfYear();
 
     // Year
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the years duration field for this chronology.
      * 
@@ -462,7 +464,7 @@ public abstract class Chronology {
     public abstract DateTimeField yearOfCentury();
 
     // Century
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the centuries duration field for this chronology.
      * 
@@ -478,7 +480,7 @@ public abstract class Chronology {
     public abstract DateTimeField centuryOfEra();
 
     // Era
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the eras duration field for this chronology.
      * 
@@ -493,7 +495,7 @@ public abstract class Chronology {
      */
     public abstract DateTimeField era();
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets a debugging toString.
      * 

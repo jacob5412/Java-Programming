@@ -89,7 +89,8 @@ public class CollectionFindTest extends BaseCollectionTestCase {
         if (!this.isSetForXTests) {
             return;
         }
-        // TODO: the "1" is coming back from the server as a string. checking with xplugin team if this is ok
+        // TODO: the "1" is coming back from the server as a string. checking with
+        // xplugin team if this is ok
         this.collection.add("{\"_id\":\"the_id\",\"g\":1}").execute();
 
         DocResult docs = this.collection.find().fields("$._id as _id, $.g as g, 1 + 1 as q").execute();
@@ -132,9 +133,11 @@ public class CollectionFindTest extends BaseCollectionTestCase {
         try {
             this.collection.add("{\"_id\": \"1\"}").execute();
             DocResult docs = this.collection.find().fields(expr(
-                    mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.13")) ? "{'X':cast(pow(2,63) as signed)+1}" : "{'X':1-cast(pow(2,63) as signed)}"))
+                    mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.13")) ? "{'X':cast(pow(2,63) as signed)+1}"
+                            : "{'X':1-cast(pow(2,63) as signed)}"))
                     .execute();
-            docs.next(); // we are getting valid data from xplugin before the error, need this call to force the error
+            docs.next(); // we are getting valid data from xplugin before the error, need this call to
+                         // force the error
             fail("Statement should raise an error");
         } catch (XProtocolError err) {
             assertEquals(MysqlErrorNumbers.ER_DATA_OUT_OF_RANGE, err.getErrorCode());
@@ -275,7 +278,8 @@ public class CollectionFindTest extends BaseCollectionTestCase {
         }
 
         if (!mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.5"))) {
-            this.collection.add("{\"_id\": \"1\", \"x1\":31, \"x2\":13, \"x3\":8, \"x4\":\"18446744073709551614\"}").execute(); // Requires manual _id.
+            this.collection.add("{\"_id\": \"1\", \"x1\":31, \"x2\":13, \"x3\":8, \"x4\":\"18446744073709551614\"}")
+                    .execute(); // Requires manual _id.
         } else {
             this.collection.add("{\"x1\":31, \"x2\":13, \"x3\":8, \"x4\":\"18446744073709551614\"}").execute();
         }
@@ -303,7 +307,8 @@ public class CollectionFindTest extends BaseCollectionTestCase {
             return;
         }
         if (!mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.5"))) {
-            this.collection.add("{\"_id\": \"1\", \"aDate\":\"2000-01-01\", \"aDatetime\":\"2000-01-01 12:00:01\"}").execute(); // Requires manual _id.
+            this.collection.add("{\"_id\": \"1\", \"aDate\":\"2000-01-01\", \"aDatetime\":\"2000-01-01 12:00:01\"}")
+                    .execute(); // Requires manual _id.
         } else {
             this.collection.add("{\"aDate\":\"2000-01-01\", \"aDatetime\":\"2000-01-01 12:00:01\"}").execute();
         }
@@ -328,19 +333,23 @@ public class CollectionFindTest extends BaseCollectionTestCase {
         docs.next();
         docs = this.collection.find("$.aDate - interval 1 year = '1999-01-01'").execute();
         docs.next();
-        docs = this.collection.find("$.aDatetime + interval '3.1000000' second_microsecond = '2000-01-01 12:00:05'").execute();
+        docs = this.collection.find("$.aDatetime + interval '3.1000000' second_microsecond = '2000-01-01 12:00:05'")
+                .execute();
         docs.next();
-        docs = this.collection.find("$.aDatetime + interval '1:1.1' minute_microsecond = '2000-01-01 12:01:02.100000'").execute();
+        docs = this.collection.find("$.aDatetime + interval '1:1.1' minute_microsecond = '2000-01-01 12:01:02.100000'")
+                .execute();
         docs.next();
         docs = this.collection.find("$.aDatetime + interval '1:1' minute_second = '2000-01-01 12:01:02'").execute();
         docs.next();
-        docs = this.collection.find("$.aDatetime + interval '1:1:1.1' hour_microsecond = '2000-01-01 13:01:02.100000'").execute();
+        docs = this.collection.find("$.aDatetime + interval '1:1:1.1' hour_microsecond = '2000-01-01 13:01:02.100000'")
+                .execute();
         docs.next();
         docs = this.collection.find("$.aDatetime + interval '1:1:1' hour_second = '2000-01-01 13:01:02'").execute();
         docs.next();
         docs = this.collection.find("$.aDatetime + interval '1:1' hour_minute = '2000-01-01 13:01:01'").execute();
         docs.next();
-        docs = this.collection.find("$.aDatetime + interval '2 3:4:5.600' day_microsecond = '2000-01-03 15:04:06.600000'").execute();
+        docs = this.collection
+                .find("$.aDatetime + interval '2 3:4:5.600' day_microsecond = '2000-01-03 15:04:06.600000'").execute();
         docs.next();
         docs = this.collection.find("$.aDatetime + interval '2 3:4:5' day_second = '2000-01-03 15:04:06'").execute();
         docs.next();
@@ -353,20 +362,24 @@ public class CollectionFindTest extends BaseCollectionTestCase {
     }
 
     @Test
-    // these are important to test the "operator" (BETWEEN/REGEXP/etc) to function representation in the protocol
+    // these are important to test the "operator" (BETWEEN/REGEXP/etc) to function
+    // representation in the protocol
     public void testIlriExpressions() {
         if (!this.isSetForXTests) {
             return;
         }
         if (!mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.5"))) {
-            this.collection.add("{\"_id\": \"1\", \"a\":\"some text with 5432\", \"b\":\"100\", \"c\":true}").execute(); // Requires manual _id.
+            this.collection.add("{\"_id\": \"1\", \"a\":\"some text with 5432\", \"b\":\"100\", \"c\":true}").execute(); // Requires
+                                                                                                                         // manual
+                                                                                                                         // _id.
         } else {
             this.collection.add("{\"a\":\"some text with 5432\", \"b\":\"100\", \"c\":true}").execute();
         }
 
         DocResult docs;
 
-        // TODO: this is a known problem on the server with JSON value types (with IS NULL too)
+        // TODO: this is a known problem on the server with JSON value types (with IS
+        // NULL too)
         // docs = this.collection.find("$.c IS TRUE AND $.c IS NOT FALSE").execute();
         // docs.next();
 
@@ -503,7 +516,8 @@ public class CollectionFindTest extends BaseCollectionTestCase {
             session2.startTransaction();
             col2.find("_id = '2'").lockShared().execute(); // should return immediately
 
-            CompletableFuture<DocResult> res1 = col2.find("_id = '1'").lockShared().executeAsync(); // should return immediately
+            CompletableFuture<DocResult> res1 = col2.find("_id = '1'").lockShared().executeAsync(); // should return
+                                                                                                    // immediately
             res1.get(5, TimeUnit.SECONDS);
             assertTrue(res1.isDone());
 
@@ -537,7 +551,8 @@ public class CollectionFindTest extends BaseCollectionTestCase {
             session2.startTransaction();
             col2.find("_id = '2'").lockExclusive().execute(); // should return immediately
             col2.find("_id = '3'").lockShared().execute(); // should return immediately
-            CompletableFuture<DocResult> res3 = col2.find("_id = '1'").lockExclusive().executeAsync(); // session2 should block
+            CompletableFuture<DocResult> res3 = col2.find("_id = '1'").lockExclusive().executeAsync(); // session2
+                                                                                                       // should block
             assertThrows(TimeoutException.class, new Callable<Void>() {
                 public Void call() throws Exception {
                     res3.get(5, TimeUnit.SECONDS);
@@ -556,7 +571,8 @@ public class CollectionFindTest extends BaseCollectionTestCase {
 
             session2.startTransaction();
             col2.find("_id = '2'").lockExclusive().execute(); // should return immediately
-            CompletableFuture<DocResult> res4 = col2.find("_id = '1'").lockExclusive().executeAsync(); // session2 should block
+            CompletableFuture<DocResult> res4 = col2.find("_id = '1'").lockExclusive().executeAsync(); // session2
+                                                                                                       // should block
             assertThrows(TimeoutException.class, new Callable<Void>() {
                 public Void call() throws Exception {
                     res4.get(5, TimeUnit.SECONDS);
@@ -586,10 +602,12 @@ public class CollectionFindTest extends BaseCollectionTestCase {
             return;
         }
 
-        Function<DocResult, List<String>> asStringList = rr -> rr.fetchAll().stream().map(d -> ((JsonString) d.get("_id")).getString())
+        Function<DocResult, List<String>> asStringList = rr -> rr.fetchAll().stream()
+                .map(d -> ((JsonString) d.get("_id")).getString())
                 .collect(Collectors.toList());
 
-        this.collection.add("{\"_id\":\"1\", \"a\":1}").add("{\"_id\":\"2\", \"a\":1}").add("{\"_id\":\"3\", \"a\":1}").execute();
+        this.collection.add("{\"_id\":\"1\", \"a\":1}").add("{\"_id\":\"2\", \"a\":1}").add("{\"_id\":\"3\", \"a\":1}")
+                .execute();
 
         Session session1 = null;
         Session session2 = null;
@@ -917,13 +935,13 @@ public class CollectionFindTest extends BaseCollectionTestCase {
 
         // Result:
         // age_group | cnt
-        // 11        | 2   <-- filtered out by where
-        // 12        | 2   <-- filtered out by limit
-        // 13        | 1   <-- filtered out by having
-        // 14        | 2   * second row in result
-        // 15        | 2   * first row in result
-        // 16        | 1   <-- filtered out by having
-        // 17        | 2   <-- filtered out by offset
+        // 11 | 2 <-- filtered out by where
+        // 12 | 2 <-- filtered out by limit
+        // 13 | 1 <-- filtered out by having
+        // 14 | 2 * second row in result
+        // 15 | 2 * first row in result
+        // 16 | 1 <-- filtered out by having
+        // 17 | 2 <-- filtered out by offset
         DocResult res = this.collection.find("age > 11 and 1 < 2 and 40 between 30 and 900") //
                 .fields("age as age_group, count(name) as cnt, something as something") //
                 .groupBy("something, age") //

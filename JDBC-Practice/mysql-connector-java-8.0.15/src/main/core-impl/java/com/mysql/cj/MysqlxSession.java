@@ -94,7 +94,8 @@ public class MysqlxSession extends CoreSession {
             Function<ColumnDefinition, BiFunction<RowList, Supplier<StatementExecuteOk>, T>> resultCtor) {
         this.protocol.send(((XMessageBuilder) this.messageBuilder).buildFind(filterParams), 0);
         ColumnDefinition metadata = this.protocol.readMetadata();
-        T res = resultCtor.apply(metadata).apply(((XProtocol) this.protocol).getRowInputStream(metadata), this.protocol::readQueryResult);
+        T res = resultCtor.apply(metadata).apply(((XProtocol) this.protocol).getRowInputStream(metadata),
+                this.protocol::readQueryResult);
         this.protocol.setCurrentResultStreamer(res);
         return res;
     }
@@ -126,7 +127,8 @@ public class MysqlxSession extends CoreSession {
                 return null;
             } else if (((XProtocol) this.protocol).isSqlResultPending()) {
                 ColumnDefinition metadata = this.protocol.readMetadata();
-                return new SqlDataResult(metadata, this.protocol.getServerSession().getDefaultTimeZone(), this.protocol.getRowInputStream(metadata), okReader);
+                return new SqlDataResult(metadata, this.protocol.getServerSession().getDefaultTimeZone(),
+                        this.protocol.getRowInputStream(metadata), okReader);
             } else {
                 readLastResult[0] = true;
                 return new SqlUpdateResult(this.protocol.readQueryResult());

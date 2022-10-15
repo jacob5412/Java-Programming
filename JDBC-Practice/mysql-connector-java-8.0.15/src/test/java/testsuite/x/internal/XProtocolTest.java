@@ -103,22 +103,26 @@ public class XProtocolTest extends InternalXBaseTestCase {
             return;
         }
         try {
-            this.protocol.send(this.messageBuilder.buildCreateCollection(getTestDatabase(), "testCreateAndDropCollection"), 0);
+            this.protocol.send(
+                    this.messageBuilder.buildCreateCollection(getTestDatabase(), "testCreateAndDropCollection"), 0);
             this.protocol.readQueryResult();
         } catch (XProtocolError err) {
             // leftovers, clean them up now
             if (err.getErrorCode() == MysqlErrorNumbers.ER_TABLE_EXISTS_ERROR) {
-                this.protocol.send(this.messageBuilder.buildDropCollection(getTestDatabase(), "testCreateAndDropCollection"), 0);
+                this.protocol.send(
+                        this.messageBuilder.buildDropCollection(getTestDatabase(), "testCreateAndDropCollection"), 0);
                 this.protocol.readQueryResult();
                 // try again
-                this.protocol.send(this.messageBuilder.buildCreateCollection(getTestDatabase(), "testCreateAndDropCollection"), 0);
+                this.protocol.send(
+                        this.messageBuilder.buildCreateCollection(getTestDatabase(), "testCreateAndDropCollection"), 0);
                 this.protocol.readQueryResult();
             } else {
                 throw err;
             }
         }
         // we don't verify the existence. That's the job of the server/xplugin
-        this.protocol.send(this.messageBuilder.buildDropCollection(getTestDatabase(), "testCreateAndDropCollection"), 0);
+        this.protocol.send(this.messageBuilder.buildDropCollection(getTestDatabase(), "testCreateAndDropCollection"),
+                0);
         this.protocol.readQueryResult();
     }
 
@@ -148,7 +152,9 @@ public class XProtocolTest extends InternalXBaseTestCase {
             return;
         }
         this.protocol.send(this.messageBuilder
-                .buildSqlStatement("select 'x' as a_string, 42 as a_long, 7.6 as a_decimal union select 'y' as a_string, 11 as a_long, .1111 as a_decimal"), 0);
+                .buildSqlStatement(
+                        "select 'x' as a_string, 42 as a_long, 7.6 as a_decimal union select 'y' as a_string, 11 as a_long, .1111 as a_decimal"),
+                0);
         assertTrue(this.protocol.hasResults());
         ColumnDefinition metadata = this.protocol.readMetadata();
         assertEquals(3, metadata.getFields().length);
@@ -167,7 +173,8 @@ public class XProtocolTest extends InternalXBaseTestCase {
         value = r.getValue(1, new StringValueFactory());
         assertEquals("42", value);
         value = r.getValue(2, new StringValueFactory());
-        assertEquals("7.6000", value); // TODO: zeroes ok here??? scale is adjusted to 4 due to ".1111" value in RS? not happening in decimal test down below
+        assertEquals("7.6000", value); // TODO: zeroes ok here??? scale is adjusted to 4 due to ".1111" value in RS?
+                                       // not happening in decimal test down below
 
         // second row
         assertTrue(rowInputStream.hasNext());
@@ -184,7 +191,8 @@ public class XProtocolTest extends InternalXBaseTestCase {
     }
 
     /**
-     * This tests that all types are decoded correctly. We retrieve them all as strings which happens after the decoding step. This is an exhaustive types of
+     * This tests that all types are decoded correctly. We retrieve them all as
+     * strings which happens after the decoding step. This is an exhaustive types of
      * type decoding and metadata from the server.
      */
     @Test
@@ -203,7 +211,9 @@ public class XProtocolTest extends InternalXBaseTestCase {
         this.protocol.send(this.messageBuilder.buildSqlStatement(testTable + ")"), 0);
         this.protocol.readQueryResult();
         this.protocol.send(
-                this.messageBuilder.buildSqlStatement("insert into xprotocol_types_test values ('2.42', 'xyz,def', 'enum value a', 9223372036854775808)"), 0);
+                this.messageBuilder.buildSqlStatement(
+                        "insert into xprotocol_types_test values ('2.42', 'xyz,def', 'enum value a', 9223372036854775808)"),
+                0);
         this.protocol.readQueryResult();
 
         Map<String, BiConsumer<ColumnDefinition, Row>> tests = new HashMap<>();
@@ -293,7 +303,8 @@ public class XProtocolTest extends InternalXBaseTestCase {
     }
 
     /**
-     * Test DML that is executed with <i>StmtExecute</i> and does not return a result set.
+     * Test DML that is executed with <i>StmtExecute</i> and does not return a
+     * result set.
      */
     @Test
     public void testSqlDml() {
@@ -305,13 +316,16 @@ public class XProtocolTest extends InternalXBaseTestCase {
         StatementExecuteOk response = this.protocol.readQueryResult();
         assertEquals(0, response.getRowsAffected());
 
-        this.protocol.send(this.messageBuilder.buildSqlStatement("create table mysqlx_sqlDmlTest (w int primary key auto_increment, x int) auto_increment = 7"),
+        this.protocol.send(
+                this.messageBuilder.buildSqlStatement(
+                        "create table mysqlx_sqlDmlTest (w int primary key auto_increment, x int) auto_increment = 7"),
                 0);
         assertFalse(this.protocol.hasResults());
         response = this.protocol.readQueryResult();
         assertEquals(0, response.getRowsAffected());
 
-        this.protocol.send(this.messageBuilder.buildSqlStatement("insert into mysqlx_sqlDmlTest (x) values (44),(29)"), 0);
+        this.protocol.send(this.messageBuilder.buildSqlStatement("insert into mysqlx_sqlDmlTest (x) values (44),(29)"),
+                0);
         assertFalse(this.protocol.hasResults());
         response = this.protocol.readQueryResult();
         assertEquals(2, response.getRowsAffected());
@@ -329,8 +343,10 @@ public class XProtocolTest extends InternalXBaseTestCase {
         }
         String collName = createTempTestCollection(this.protocol);
 
-        String json = "{'_id': '85983efc2a9a11e5b345feff819cdc9f', 'testVal': 1, 'insertedBy': 'Jess'}".replaceAll("'", "\"");
-        this.protocol.send(this.messageBuilder.buildDocInsert(getTestDatabase(), collName, Arrays.asList(new String[] { json }), false), 0);
+        String json = "{'_id': '85983efc2a9a11e5b345feff819cdc9f', 'testVal': 1, 'insertedBy': 'Jess'}".replaceAll("'",
+                "\"");
+        this.protocol.send(this.messageBuilder.buildDocInsert(getTestDatabase(), collName,
+                Arrays.asList(new String[] { json }), false), 0);
         this.protocol.readQueryResult();
 
         FilterParams filterParams = new DocFilterParams(getTestDatabase(), collName);
@@ -381,14 +397,17 @@ public class XProtocolTest extends InternalXBaseTestCase {
         }
         String collName = createTempTestCollection(this.protocol);
 
-        String json = "{'_id': '85983efc2a9a11e5b345feff819cdc9f', 'testVal': '1', 'insertedBy': 'Jess'}".replaceAll("'", "\"");
-        this.protocol.send(this.messageBuilder.buildDocInsert(getTestDatabase(), collName, Arrays.asList(new String[] { json }), false), 0);
+        String json = "{'_id': '85983efc2a9a11e5b345feff819cdc9f', 'testVal': '1', 'insertedBy': 'Jess'}"
+                .replaceAll("'", "\"");
+        this.protocol.send(this.messageBuilder.buildDocInsert(getTestDatabase(), collName,
+                Arrays.asList(new String[] { json }), false), 0);
         this.protocol.readQueryResult();
 
         List<UpdateSpec> updates = new ArrayList<>();
         updates.add(new UpdateSpec(UpdateType.ITEM_SET, "$.a").setValue("lemon"));
         updates.add(new UpdateSpec(UpdateType.ITEM_REMOVE, "$.insertedBy"));
-        this.protocol.send(this.messageBuilder.buildDocUpdate(new DocFilterParams(getTestDatabase(), collName), updates), 0);
+        this.protocol
+                .send(this.messageBuilder.buildDocUpdate(new DocFilterParams(getTestDatabase(), collName), updates), 0);
         this.protocol.readQueryResult();
 
         // verify
@@ -396,7 +415,8 @@ public class XProtocolTest extends InternalXBaseTestCase {
         ColumnDefinition metadata = this.protocol.readMetadata();
         Iterator<Row> ris = this.protocol.getRowInputStream(metadata);
         Row r = ris.next();
-        assertEquals("{\"a\": \"lemon\", \"_id\": \"85983efc2a9a11e5b345feff819cdc9f\", \"testVal\": \"1\"}", r.getValue(0, new StringValueFactory()));
+        assertEquals("{\"a\": \"lemon\", \"_id\": \"85983efc2a9a11e5b345feff819cdc9f\", \"testVal\": \"1\"}",
+                r.getValue(0, new StringValueFactory()));
         this.protocol.readQueryResult();
     }
 
@@ -407,7 +427,8 @@ public class XProtocolTest extends InternalXBaseTestCase {
         }
         this.protocol.send(this.messageBuilder.buildSqlStatement("drop table if exists tableInsert"), 0);
         this.protocol.readQueryResult();
-        this.protocol.send(this.messageBuilder.buildSqlStatement("create table tableInsert (x int, y varchar(20), z decimal(10, 2))"), 0);
+        this.protocol.send(this.messageBuilder
+                .buildSqlStatement("create table tableInsert (x int, y varchar(20), z decimal(10, 2))"), 0);
         this.protocol.readQueryResult();
         InsertParams insertParams = new InsertParams();
         insertParams.setProjection(new String[] { "z", "x", "y" });
@@ -462,7 +483,8 @@ public class XProtocolTest extends InternalXBaseTestCase {
         if (!this.isSetForXTests) {
             return;
         }
-        this.protocol.send(this.messageBuilder.buildDisableNotices("warnings"), 0); // TODO currently only "warnings" are allowed to be disabled
+        this.protocol.send(this.messageBuilder.buildDisableNotices("warnings"), 0); // TODO currently only "warnings"
+                                                                                    // are allowed to be disabled
         this.protocol.readQueryResult();
 
         this.protocol.send(this.messageBuilder.buildSqlStatement("select CAST('abc' as CHAR(1))"), 0);
@@ -470,7 +492,8 @@ public class XProtocolTest extends InternalXBaseTestCase {
         StatementExecuteOk ok = this.protocol.readQueryResult();
         assertEquals(0, ok.getWarnings().size());
 
-        // "produced_message" are already enabled, they're used here to check that multiple parameters are sent correctly
+        // "produced_message" are already enabled, they're used here to check that
+        // multiple parameters are sent correctly
         this.protocol.send(this.messageBuilder.buildEnableNotices("produced_message", "warnings"), 0);
 
         this.protocol.readQueryResult();
@@ -482,7 +505,8 @@ public class XProtocolTest extends InternalXBaseTestCase {
     }
 
     /**
-     * This is a development method that will print a detailed result set for any command sent.
+     * This is a development method that will print a detailed result set for any
+     * command sent.
      */
     @Test
     public void testResultSet() {
@@ -505,7 +529,8 @@ public class XProtocolTest extends InternalXBaseTestCase {
         ris.forEachRemaining(r -> {
             System.err.println("***************** row ****************");
             for (int i = 0; i < metadata.getFields().length; ++i) {
-                System.err.println(metadata.getFields()[i].getColumnLabel() + ": " + r.getValue(i, new StringValueFactory()));
+                System.err.println(
+                        metadata.getFields()[i].getColumnLabel() + ": " + r.getValue(i, new StringValueFactory()));
             }
         });
 

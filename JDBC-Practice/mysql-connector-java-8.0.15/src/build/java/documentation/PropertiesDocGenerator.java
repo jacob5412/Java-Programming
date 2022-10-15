@@ -37,7 +37,8 @@ import com.mysql.cj.conf.PropertyDefinition;
 import com.mysql.cj.conf.PropertyDefinitions;
 
 /**
- * Creates docbook table of connection properties from ConnectionProperties class.
+ * Creates docbook table of connection properties from ConnectionProperties
+ * class.
  */
 public class PropertiesDocGenerator {
 
@@ -109,7 +110,8 @@ public class PropertiesDocGenerator {
                     xmlBuf.append("\">\n");
                     xmlBuf.append("    ");
                     String escapedDescription = pdef.getDescription();
-                    escapedDescription = escapedDescription.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+                    escapedDescription = escapedDescription.replace("&", "&amp;").replace("<", "&lt;").replace(">",
+                            "&gt;");
 
                     xmlBuf.append(escapedDescription);
                     xmlBuf.append("\n  </Property>");

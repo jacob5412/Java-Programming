@@ -36,23 +36,20 @@ public class TestInstant_Constructors extends TestCase {
 
     private static final DateTimeZone PARIS = DateTimeZone.forID("Europe/Paris");
     private static final DateTimeZone LONDON = DateTimeZone.forID("Europe/London");
-    
+
     // 1970-06-09
-    private long TEST_TIME_NOW =
-            (31L + 28L + 31L + 30L + 31L + 9L -1L) * DateTimeConstants.MILLIS_PER_DAY;
-            
+    private long TEST_TIME_NOW = (31L + 28L + 31L + 30L + 31L + 9L - 1L) * DateTimeConstants.MILLIS_PER_DAY;
+
     // 1970-04-05
-    private long TEST_TIME1 =
-        (31L + 28L + 31L + 6L -1L) * DateTimeConstants.MILLIS_PER_DAY
-        + 12L * DateTimeConstants.MILLIS_PER_HOUR
-        + 24L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
+    private long TEST_TIME1 = (31L + 28L + 31L + 6L - 1L) * DateTimeConstants.MILLIS_PER_DAY
+            + 12L * DateTimeConstants.MILLIS_PER_HOUR
+            + 24L * DateTimeConstants.MILLIS_PER_MINUTE;
+
     // 1971-05-06
-    private long TEST_TIME2 =
-        (365L + 31L + 28L + 31L + 30L + 7L -1L) * DateTimeConstants.MILLIS_PER_DAY
-        + 14L * DateTimeConstants.MILLIS_PER_HOUR
-        + 28L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
+    private long TEST_TIME2 = (365L + 31L + 28L + 31L + 30L + 7L - 1L) * DateTimeConstants.MILLIS_PER_DAY
+            + 14L * DateTimeConstants.MILLIS_PER_HOUR
+            + 28L * DateTimeConstants.MILLIS_PER_MINUTE;
+
     private DateTimeZone zone = null;
     private Locale locale = null;
 
@@ -85,7 +82,7 @@ public class TestInstant_Constructors extends TestCase {
         zone = null;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test now ()
      */
@@ -95,18 +92,22 @@ public class TestInstant_Constructors extends TestCase {
         assertEquals(TEST_TIME_NOW, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testParse_noFormatter() throws Throwable {
-        assertEquals(new DateTime(2010, 6, 30, 0, 20, ISOChronology.getInstance(LONDON)).toInstant(), Instant.parse("2010-06-30T01:20+02:00"));
-        assertEquals(new DateTime(2010, 1, 2, 14, 50, ISOChronology.getInstance(LONDON)).toInstant(), Instant.parse("2010-002T14:50"));
+        assertEquals(new DateTime(2010, 6, 30, 0, 20, ISOChronology.getInstance(LONDON)).toInstant(),
+                Instant.parse("2010-06-30T01:20+02:00"));
+        assertEquals(new DateTime(2010, 1, 2, 14, 50, ISOChronology.getInstance(LONDON)).toInstant(),
+                Instant.parse("2010-002T14:50"));
     }
 
     public void testParse_formatter() throws Throwable {
-        DateTimeFormatter f = DateTimeFormat.forPattern("yyyy--dd MM HH").withChronology(ISOChronology.getInstance(PARIS));
-        assertEquals(new DateTime(2010, 6, 30, 13, 0, ISOChronology.getInstance(PARIS)).toInstant(), Instant.parse("2010--30 06 13", f));
+        DateTimeFormatter f = DateTimeFormat.forPattern("yyyy--dd MM HH")
+                .withChronology(ISOChronology.getInstance(PARIS));
+        assertEquals(new DateTime(2010, 6, 30, 13, 0, ISOChronology.getInstance(PARIS)).toInstant(),
+                Instant.parse("2010--30 06 13", f));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor ()
      */
@@ -116,7 +117,7 @@ public class TestInstant_Constructors extends TestCase {
         assertEquals(TEST_TIME_NOW, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (long)
      */
@@ -135,7 +136,7 @@ public class TestInstant_Constructors extends TestCase {
         assertEquals(TEST_TIME2, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (Object)
      */
@@ -153,7 +154,8 @@ public class TestInstant_Constructors extends TestCase {
         try {
             new Instant(new Object());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**

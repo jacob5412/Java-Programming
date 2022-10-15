@@ -89,7 +89,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
             return;
         }
         if (!mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.5"))) {
-            this.collection.add("{\"_id\": \"1\", \"x\":\"100\", \"y\":\"200\", \"z\":1}").execute(); // Requires manual _id.
+            this.collection.add("{\"_id\": \"1\", \"x\":\"100\", \"y\":\"200\", \"z\":1}").execute(); // Requires manual
+                                                                                                      // _id.
             this.collection.add("{\"_id\": \"2\", \"a\":\"100\", \"b\":\"200\", \"c\":1}").execute();
         } else {
             this.collection.add("{\"x\":\"100\", \"y\":\"200\", \"z\":1}").execute();
@@ -219,8 +220,10 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         assertEquals(3, this.collection.find("y = {\"z\": 100}").execute().count());
         assertEquals(2, this.collection.find("m = {\"z\": 100}").execute().count());
 
-        // TODO check later whether it's possible; for now placeholders are of Scalar type only
-        //assertEquals(1, this.collection.find("y = :y").bind("y", nestedDoc).execute().count());
+        // TODO check later whether it's possible; for now placeholders are of Scalar
+        // type only
+        // assertEquals(1, this.collection.find("y = :y").bind("y",
+        // nestedDoc).execute().count());
 
         // literal won't match JSON docs
         assertEquals(0, this.collection.find("y = :y").bind("y", "{\"z\": 100}").execute().count());
@@ -243,7 +246,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
             return;
         }
 
-        JsonArray xArray = new JsonArray().addValue(new JsonString().setValue("a")).addValue(new JsonNumber().setValue("1"));
+        JsonArray xArray = new JsonArray().addValue(new JsonString().setValue("a"))
+                .addValue(new JsonNumber().setValue("1"));
         DbDoc doc = new DbDocImpl().add("x", new JsonNumber().setValue("3")).add("y", xArray);
 
         if (!mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.5"))) {
@@ -264,7 +268,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         while (res.hasNext()) {
             DbDoc jd = res.next();
             if (((JsonNumber) jd.get("x")).getInteger() == 1) {
-                assertEquals((new JsonArray().addValue(new JsonString().setValue("b")).addValue(new JsonNumber().setValue("44"))
+                assertEquals((new JsonArray().addValue(new JsonString().setValue("b"))
+                        .addValue(new JsonNumber().setValue("44"))
                         .addValue(new JsonNumber().setValue("2"))).toString(), (jd.get("y")).toString());
             } else {
                 assertEquals(xArray.toString(), jd.get("y").toString());
@@ -274,10 +279,11 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
     }
 
     /**
-     * Tests fix for BUG#24471057, UPDATE FAILS WHEN THE NEW VALUE IS OF TYPE DBDOC WHICH HAS ARRAY IN IT.
+     * Tests fix for BUG#24471057, UPDATE FAILS WHEN THE NEW VALUE IS OF TYPE DBDOC
+     * WHICH HAS ARRAY IN IT.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     @Test
     public void testBug24471057() throws Exception {
@@ -324,19 +330,27 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         }
 
         // 1. Update the name and zip code of match
-        this.collection.add("{\"_id\": \"1\", \"name\": \"Alice\", \"address\": {\"zip\": \"12345\", \"street\": \"32 Main str\"}}").execute();
-        this.collection.add("{\"_id\": \"2\", \"name\": \"Bob\", \"address\": {\"zip\": \"325226\", \"city\": \"San Francisco\", \"street\": \"42 2nd str\"}}")
+        this.collection.add(
+                "{\"_id\": \"1\", \"name\": \"Alice\", \"address\": {\"zip\": \"12345\", \"street\": \"32 Main str\"}}")
+                .execute();
+        this.collection.add(
+                "{\"_id\": \"2\", \"name\": \"Bob\", \"address\": {\"zip\": \"325226\", \"city\": \"San Francisco\", \"street\": \"42 2nd str\"}}")
                 .execute();
 
-        this.collection.modify("_id = :id").patch(JsonParser.parseDoc("{\"name\": \"Joe\", \"address\": {\"zip\":\"91234\"}}")).bind("id", "1").execute();
+        this.collection.modify("_id = :id")
+                .patch(JsonParser.parseDoc("{\"name\": \"Joe\", \"address\": {\"zip\":\"91234\"}}")).bind("id", "1")
+                .execute();
 
         DocResult docs = this.collection.find().orderBy("$._id").execute();
         assertTrue(docs.hasNext());
-        assertEquals(JsonParser.parseDoc("{\"_id\": \"1\", \"name\": \"Joe\", \"address\": {\"zip\": \"91234\", \"street\": \"32 Main str\"}}").toString(),
+        assertEquals(JsonParser.parseDoc(
+                "{\"_id\": \"1\", \"name\": \"Joe\", \"address\": {\"zip\": \"91234\", \"street\": \"32 Main str\"}}")
+                .toString(),
                 docs.next().toString());
         assertTrue(docs.hasNext());
         assertEquals(JsonParser
-                .parseDoc("{\"_id\": \"2\", \"name\": \"Bob\", \"address\": {\"zip\": \"325226\", \"city\": \"San Francisco\", \"street\": \"42 2nd str\"}}")
+                .parseDoc(
+                        "{\"_id\": \"2\", \"name\": \"Bob\", \"address\": {\"zip\": \"325226\", \"city\": \"San Francisco\", \"street\": \"42 2nd str\"}}")
                 .toString(), docs.next().toString());
         assertFalse(docs.hasNext());
 
@@ -348,7 +362,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         assertEquals(JsonParser.parseDoc("{\"_id\": \"1\", \"name\": \"Joe\"}").toString(), docs.next().toString());
         assertTrue(docs.hasNext());
         assertEquals(JsonParser
-                .parseDoc("{\"_id\": \"2\", \"name\": \"Bob\", \"address\": {\"zip\": \"325226\", \"city\": \"San Francisco\", \"street\": \"42 2nd str\"}}")
+                .parseDoc(
+                        "{\"_id\": \"2\", \"name\": \"Bob\", \"address\": {\"zip\": \"325226\", \"city\": \"San Francisco\", \"street\": \"42 2nd str\"}}")
                 .toString(), docs.next().toString());
         assertFalse(docs.hasNext());
 
@@ -391,7 +406,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
                 + "}").execute();
 
         // Adding a new field to multiple documents
-        this.collection.modify("language = :lang").patch("{\"translations\": [\"Spanish\"]}").bind("lang", "English").execute();
+        this.collection.modify("language = :lang").patch("{\"translations\": [\"Spanish\"]}").bind("lang", "English")
+                .execute();
         docs = this.collection.find("_id = :id").bind("id", id).limit(1).execute();
         assertTrue(docs.hasNext());
         DbDoc doc = docs.next();
@@ -400,7 +416,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         assertEquals(1, arr.size());
         assertEquals("Spanish", ((JsonString) arr.get(0)).getString());
 
-        this.collection.modify("additionalinfo.director.name = :director").patch("{\"additionalinfo\": {\"musicby\": \"Sakila D\" }}")
+        this.collection.modify("additionalinfo.director.name = :director")
+                .patch("{\"additionalinfo\": {\"musicby\": \"Sakila D\" }}")
                 .bind("director", "Sharice Legaspi").execute();
         docs = this.collection.find("_id = :id").bind("id", id).limit(1).execute();
         assertTrue(docs.hasNext());
@@ -410,7 +427,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         assertNotNull(doc2.get("musicby"));
         assertEquals("Sakila D", ((JsonString) doc2.get("musicby")).getString());
 
-        this.collection.modify("additionalinfo.director.name = :director").patch("{\"additionalinfo\": {\"director\": {\"country\": \"France\"}}}")
+        this.collection.modify("additionalinfo.director.name = :director")
+                .patch("{\"additionalinfo\": {\"director\": {\"country\": \"France\"}}}")
                 .bind("director", "Sharice Legaspi").execute();
         docs = this.collection.find("_id = :id").bind("id", id).limit(1).execute();
         assertTrue(docs.hasNext());
@@ -422,7 +440,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         assertEquals("France", ((JsonString) doc2.get("country")).getString());
 
         // Replacing/Updating a field's value in multiple documents
-        this.collection.modify("language = :lang").patch("{\"translations\": [\"Spanish\", \"Italian\"]}").bind("lang", "English").execute();
+        this.collection.modify("language = :lang").patch("{\"translations\": [\"Spanish\", \"Italian\"]}")
+                .bind("lang", "English").execute();
         docs = this.collection.find("_id = :id").bind("id", id).limit(1).execute();
         assertTrue(docs.hasNext());
         doc = docs.next();
@@ -432,7 +451,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         assertEquals("Spanish", ((JsonString) arr.get(0)).getString());
         assertEquals("Italian", ((JsonString) arr.get(1)).getString());
 
-        this.collection.modify("additionalinfo.director.name = :director").patch("{\"additionalinfo\": {\"musicby\": \"The Sakila\" }}")
+        this.collection.modify("additionalinfo.director.name = :director")
+                .patch("{\"additionalinfo\": {\"musicby\": \"The Sakila\" }}")
                 .bind("director", "Sharice Legaspi").execute();
         docs = this.collection.find("_id = :id").bind("id", id).limit(1).execute();
         assertTrue(docs.hasNext());
@@ -442,7 +462,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         assertNotNull(doc2.get("musicby"));
         assertEquals("The Sakila", ((JsonString) doc2.get("musicby")).getString());
 
-        this.collection.modify("additionalinfo.director.name = :director").patch("{\"additionalinfo\": {\"director\": {\"country\": \"Canada\"}}}")
+        this.collection.modify("additionalinfo.director.name = :director")
+                .patch("{\"additionalinfo\": {\"director\": {\"country\": \"Canada\"}}}")
                 .bind("director", "Sharice Legaspi").execute();
         docs = this.collection.find("_id = :id").bind("id", id).limit(1).execute();
         assertTrue(docs.hasNext());
@@ -460,7 +481,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         doc = docs.next();
         assertNull(doc.get("translations"));
 
-        this.collection.modify("additionalinfo.director.name = :director").patch("{\"additionalinfo\": {\"musicby\": null }}")
+        this.collection.modify("additionalinfo.director.name = :director")
+                .patch("{\"additionalinfo\": {\"musicby\": null }}")
                 .bind("director", "Sharice Legaspi").execute();
         docs = this.collection.find("_id = :id").bind("id", id).limit(1).execute();
         assertTrue(docs.hasNext());
@@ -469,7 +491,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         doc2 = (DbDoc) doc.get("additionalinfo");
         assertNull(doc2.get("musicby"));
 
-        this.collection.modify("additionalinfo.director.name = :director").patch("{\"additionalinfo\": {\"director\": {\"country\": null}}}")
+        this.collection.modify("additionalinfo.director.name = :director")
+                .patch("{\"additionalinfo\": {\"director\": {\"country\": null}}}")
                 .bind("director", "Sharice Legaspi").execute();
         docs = this.collection.find("_id = :id").bind("id", id).limit(1).execute();
         assertTrue(docs.hasNext());
@@ -481,7 +504,9 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
 
         // Using expressions
 
-        this.collection.modify("_id = :id").patch("{\"zip\": address.zip-300000, \"street\": CONCAT($.name, '''s street: ', $.address.street)}").bind("id", "2")
+        this.collection.modify("_id = :id")
+                .patch("{\"zip\": address.zip-300000, \"street\": CONCAT($.name, '''s street: ', $.address.street)}")
+                .bind("id", "2")
                 .execute();
 
         this.collection.modify("_id = :id").patch("{\"city\": UPPER($.address.city)}").bind("id", "2").execute();
@@ -500,10 +525,11 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
     }
 
     /**
-     * Tests fix for BUG#27185332, WL#11210:ERROR IS THROWN WHEN NESTED EMPTY DOCUMENTS ARE INSERTED TO COLLECTION.
+     * Tests fix for BUG#27185332, WL#11210:ERROR IS THROWN WHEN NESTED EMPTY
+     * DOCUMENTS ARE INSERTED TO COLLECTION.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     @Test
     public void testBug27185332() throws Exception {
@@ -554,7 +580,7 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         this.collection.modify("true").patch("{\"nullfield\": { \"nested\": null}}").execute();
         DocResult docs = this.collection.find("_id = :id").bind("id", id).execute();
         assertTrue(docs.hasNext());
-        doc = docs.next(); //   <---- Error at this line
+        doc = docs.next(); // <---- Error at this line
         assertNotNull(doc.get("nullfield"));
         assertEquals(new DbDocImpl(), doc.get("nullfield"));
     }
@@ -589,7 +615,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
          * Use a collection with some documents
          * Fetch a document
          * Modify _id: _new_id_ and modify any other field of the document
-         * Call replaceOne() giving original ID and modified document: expect affected = 1
+         * Call replaceOne() giving original ID and modified document: expect affected =
+         * 1
          * Fetch the document again, ensure other document modifications took place
          * Ensure no document with _new_id_ was added to the collection
          */
@@ -618,7 +645,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
          * Use a collection with some documents
          * Fetch a document
          * Unset _id and modify any other field of the document
-         * Call replaceOne() giving original ID and modified document: expect affected = 1
+         * Call replaceOne() giving original ID and modified document: expect affected =
+         * 1
          * Fetch the document again, ensure other document modifications took place
          * Ensure the number of documents in the collection is unaltered
          */
@@ -652,7 +680,8 @@ public class CollectionModifyTest extends BaseCollectionTestCase {
         // null id parameter
         assertThrows(XDevAPIError.class, "Parameter 'id' must not be null.", new Callable<Void>() {
             public Void call() throws Exception {
-                CollectionModifyTest.this.collection.replaceOne(null, new DbDocImpl().add("a", new JsonNumber().setValue("2")));
+                CollectionModifyTest.this.collection.replaceOne(null,
+                        new DbDocImpl().add("a", new JsonNumber().setValue("2")));
                 return null;
             }
         });

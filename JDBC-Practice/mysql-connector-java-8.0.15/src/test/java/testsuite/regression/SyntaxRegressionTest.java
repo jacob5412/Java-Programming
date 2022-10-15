@@ -95,10 +95,12 @@ public class SyntaxRegressionTest extends BaseTestCase {
         try {
             c = getConnectionWithProps(props);
 
-            String[] algs = { "", ", ALGORITHM DEFAULT", ", ALGORITHM = DEFAULT", ", ALGORITHM INPLACE", ", ALGORITHM = INPLACE", ", ALGORITHM COPY",
+            String[] algs = { "", ", ALGORITHM DEFAULT", ", ALGORITHM = DEFAULT", ", ALGORITHM INPLACE",
+                    ", ALGORITHM = INPLACE", ", ALGORITHM COPY",
                     ", ALGORITHM = COPY" };
 
-            String[] lcks = { "", ", LOCK DEFAULT", ", LOCK = DEFAULT", ", LOCK NONE", ", LOCK = NONE", ", LOCK SHARED", ", LOCK = SHARED", ", LOCK EXCLUSIVE",
+            String[] lcks = { "", ", LOCK DEFAULT", ", LOCK = DEFAULT", ", LOCK NONE", ", LOCK = NONE", ", LOCK SHARED",
+                    ", LOCK = SHARED", ", LOCK EXCLUSIVE",
                     ", LOCK = EXCLUSIVE" };
 
             createTable("testAlterTableAlgorithmLock", "(x VARCHAR(10) NOT NULL DEFAULT '') CHARSET=latin2");
@@ -108,14 +110,16 @@ public class SyntaxRegressionTest extends BaseTestCase {
                 for (String lck : lcks) {
                     i = i ^ 1;
 
-                    // TODO: 5.7.5 reports: "LOCK=NONE is not supported. Reason: COPY algorithm requires a lock. Try LOCK=SHARED."
-                    //       We should check if situation change in future
+                    // TODO: 5.7.5 reports: "LOCK=NONE is not supported. Reason: COPY algorithm
+                    // requires a lock. Try LOCK=SHARED."
+                    // We should check if situation change in future
                     if (!(lck.contains("NONE") && alg.contains("COPY"))) {
 
                         String sql = "ALTER TABLE testAlterTableAlgorithmLock CHARSET=latin" + (i + 1) + alg + lck;
                         this.stmt.executeUpdate(sql);
 
-                        this.pstmt = this.conn.prepareStatement("ALTER TABLE testAlterTableAlgorithmLock CHARSET=?" + alg + lck);
+                        this.pstmt = this.conn
+                                .prepareStatement("ALTER TABLE testAlterTableAlgorithmLock CHARSET=?" + alg + lck);
                         assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
                         this.pstmt = c.prepareStatement(sql);
@@ -140,7 +144,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
      * Notes:
      * - DATA DIRECTORY option can't be used with temporary tables.
      * - DATA DIRECTORY and INDEX DIRECTORY can't be used together for InnoDB.
-     * - Using these options result in an 'option ignored' warning for servers below MySQL 5.7.7. This syntax isn't allowed for MySQL 5.7.7 and higher.
+     * - Using these options result in an 'option ignored' warning for servers below
+     * MySQL 5.7.7. This syntax isn't allowed for MySQL 5.7.7 and higher.
      * 
      * @throws SQLException
      */
@@ -152,7 +157,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
         try {
             String tmpdir = null;
             String separator = File.separatorChar == '\\' ? File.separator + File.separator : File.separator;
-            this.rs = this.stmt.executeQuery("SHOW VARIABLES WHERE Variable_name='tmpdir' or Variable_name='innodb_file_per_table'");
+            this.rs = this.stmt.executeQuery(
+                    "SHOW VARIABLES WHERE Variable_name='tmpdir' or Variable_name='innodb_file_per_table'");
             while (this.rs.next()) {
                 if ("tmpdir".equals(this.rs.getString(1))) {
                     tmpdir = this.rs.getString(2);
@@ -174,35 +180,48 @@ public class SyntaxRegressionTest extends BaseTestCase {
             dropTable("testCreateTableDataDirectoryc");
             dropTable("testCreateTableDataDirectoryd");
 
-            createTable("testCreateTableDataDirectorya", "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + "'");
-            createTable("testCreateTableDataDirectoryb", "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + separator + "'");
-            this.stmt.executeUpdate("CREATE TEMPORARY TABLE testCreateTableDataDirectoryc (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir
-                    + (versionMeetsMinimum(5, 7, 7) ? "' ENGINE = MyISAM" : "'"));
-            createTable("testCreateTableDataDirectoryd", "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + separator + "' INDEX DIRECTORY = '"
-                    + tmpdir + (versionMeetsMinimum(5, 7, 7) ? "' ENGINE = MyISAM" : "'"));
+            createTable("testCreateTableDataDirectorya",
+                    "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + "'");
+            createTable("testCreateTableDataDirectoryb",
+                    "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + separator + "'");
+            this.stmt.executeUpdate(
+                    "CREATE TEMPORARY TABLE testCreateTableDataDirectoryc (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '"
+                            + tmpdir
+                            + (versionMeetsMinimum(5, 7, 7) ? "' ENGINE = MyISAM" : "'"));
+            createTable("testCreateTableDataDirectoryd",
+                    "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + separator
+                            + "' INDEX DIRECTORY = '"
+                            + tmpdir + (versionMeetsMinimum(5, 7, 7) ? "' ENGINE = MyISAM" : "'"));
             this.stmt.executeUpdate("ALTER TABLE testCreateTableDataDirectorya DISCARD TABLESPACE");
 
             this.pstmt = this.conn
-                    .prepareStatement("CREATE TABLE testCreateTableDataDirectorya (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + "'");
+                    .prepareStatement(
+                            "CREATE TABLE testCreateTableDataDirectorya (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '"
+                                    + tmpdir + "'");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
             this.pstmt = this.conn.prepareStatement(
-                    "CREATE TABLE testCreateTableDataDirectorya (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + separator + "'");
+                    "CREATE TABLE testCreateTableDataDirectorya (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '"
+                            + tmpdir + separator + "'");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
             this.pstmt = this.conn.prepareStatement(
-                    "CREATE TEMPORARY TABLE testCreateTableDataDirectorya (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + "'");
+                    "CREATE TEMPORARY TABLE testCreateTableDataDirectorya (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '"
+                            + tmpdir + "'");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
-            this.pstmt = this.conn.prepareStatement("CREATE TABLE testCreateTableDataDirectorya (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir
-                    + "' INDEX DIRECTORY = '" + tmpdir + "'");
+            this.pstmt = this.conn.prepareStatement(
+                    "CREATE TABLE testCreateTableDataDirectorya (x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '"
+                            + tmpdir
+                            + "' INDEX DIRECTORY = '" + tmpdir + "'");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
             this.pstmt = this.conn.prepareStatement("ALTER TABLE testCreateTableDataDirectorya DISCARD TABLESPACE");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
         } finally {
-            // we need to drop them even if retainArtifacts=true, otherwise temp files could be deleted by OS and DB became corrupted
+            // we need to drop them even if retainArtifacts=true, otherwise temp files could
+            // be deleted by OS and DB became corrupted
             dropTable("testCreateTableDataDirectorya");
             dropTable("testCreateTableDataDirectoryb");
             dropTable("testCreateTableDataDirectoryc");
@@ -227,7 +246,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
 
         String tmpdir = null;
         String uuid = null;
-        this.rs = this.stmt.executeQuery("SHOW VARIABLES WHERE Variable_name='tmpdir' or Variable_name='innodb_file_per_table' or Variable_name='server_uuid'");
+        this.rs = this.stmt.executeQuery(
+                "SHOW VARIABLES WHERE Variable_name='tmpdir' or Variable_name='innodb_file_per_table' or Variable_name='server_uuid'");
         while (this.rs.next()) {
             if ("tmpdir".equals(this.rs.getString(1))) {
                 tmpdir = this.rs.getString(2);
@@ -260,26 +280,32 @@ public class SyntaxRegressionTest extends BaseTestCase {
         dropTable("testTransportableTablespaces1");
         dropTable("testTransportableTablespaces2");
 
-        File checkTableSpaceFile1 = new File(tmpdir + File.separator + dbname + File.separator + "testTransportableTablespaces1.ibd");
+        File checkTableSpaceFile1 = new File(
+                tmpdir + File.separator + dbname + File.separator + "testTransportableTablespaces1.ibd");
         if (checkTableSpaceFile1.exists()) {
             checkTableSpaceFile1.delete();
         }
 
-        File checkTableSpaceFile2 = new File(tmpdir + File.separator + dbname + File.separator + "testTransportableTablespaces2.ibd");
+        File checkTableSpaceFile2 = new File(
+                tmpdir + File.separator + dbname + File.separator + "testTransportableTablespaces2.ibd");
         if (checkTableSpaceFile2.exists()) {
             checkTableSpaceFile2.delete();
         }
 
         try {
-            createTable("testTransportableTablespaces1", "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + "'");
-            createTable("testTransportableTablespaces2", "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + "'");
-            this.stmt.executeUpdate("FLUSH TABLES testTransportableTablespaces1, testTransportableTablespaces2 FOR EXPORT");
+            createTable("testTransportableTablespaces1",
+                    "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + "'");
+            createTable("testTransportableTablespaces2",
+                    "(x VARCHAR(10) NOT NULL DEFAULT '') DATA DIRECTORY = '" + tmpdir + "'");
+            this.stmt.executeUpdate(
+                    "FLUSH TABLES testTransportableTablespaces1, testTransportableTablespaces2 FOR EXPORT");
             this.stmt.executeUpdate("UNLOCK TABLES");
 
             File tempFile = File.createTempFile("testTransportableTablespaces1", "tmp");
             tempFile.deleteOnExit();
 
-            String tableSpacePath = tmpdir + File.separator + dbname + File.separator + "testTransportableTablespaces1.ibd";
+            String tableSpacePath = tmpdir + File.separator + dbname + File.separator
+                    + "testTransportableTablespaces1.ibd";
             File tableSpaceFile = new File(tableSpacePath);
 
             copyFile(tableSpaceFile, tempFile);
@@ -290,7 +316,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
 
             this.stmt.executeUpdate("ALTER TABLE testTransportableTablespaces1 IMPORT TABLESPACE");
 
-            this.pstmt = this.conn.prepareStatement("FLUSH TABLES testTransportableTablespaces1, testTransportableTablespaces2 FOR EXPORT");
+            this.pstmt = this.conn.prepareStatement(
+                    "FLUSH TABLES testTransportableTablespaces1, testTransportableTablespaces2 FOR EXPORT");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
             this.pstmt = this.conn.prepareStatement("ALTER TABLE testTransportableTablespaces1 DISCARD TABLESPACE");
@@ -300,7 +327,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
         } finally {
-            // we need to drop them even if retainArtifacts=true, otherwise temp files could be deleted by OS and DB became corrupted
+            // we need to drop them even if retainArtifacts=true, otherwise temp files could
+            // be deleted by OS and DB became corrupted
             dropTable("testTransportableTablespaces1");
             dropTable("testTransportableTablespaces2");
         }
@@ -339,7 +367,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Test case for ALTER [IGNORE] TABLE t1 EXCHANGE PARTITION p1 WITH TABLE t2 syntax
+     * Test case for ALTER [IGNORE] TABLE t1 EXCHANGE PARTITION p1 WITH TABLE t2
+     * syntax
      * 
      * @throws SQLException
      */
@@ -355,23 +384,31 @@ public class SyntaxRegressionTest extends BaseTestCase {
 
         // Using Statement, with and without validation.
         if (versionMeetsMinimum(5, 7, 5)) {
-            this.stmt.executeUpdate("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITH VALIDATION");
-            this.stmt.executeUpdate("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITHOUT VALIDATION");
+            this.stmt.executeUpdate(
+                    "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITH VALIDATION");
+            this.stmt.executeUpdate(
+                    "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITHOUT VALIDATION");
         } else if (versionMeetsMinimum(5, 7, 4)) {
-            this.stmt.executeUpdate("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
+            this.stmt.executeUpdate(
+                    "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
         } else {
-            this.stmt.executeUpdate("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
-            this.stmt.executeUpdate("ALTER IGNORE TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
+            this.stmt.executeUpdate(
+                    "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
+            this.stmt.executeUpdate(
+                    "ALTER IGNORE TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
         }
 
         // Using Client PreparedStatement, with validation.
         if (versionMeetsMinimum(5, 7, 5)) {
             this.pstmt = this.conn
-                    .prepareStatement("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITH VALIDATION");
+                    .prepareStatement(
+                            "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITH VALIDATION");
         } else if (versionMeetsMinimum(5, 7, 4)) {
-            this.pstmt = this.conn.prepareStatement("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
+            this.pstmt = this.conn.prepareStatement(
+                    "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
         } else {
-            this.pstmt = this.conn.prepareStatement("ALTER TABLE testExchangePartition1 " + "EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
+            this.pstmt = this.conn.prepareStatement(
+                    "ALTER TABLE testExchangePartition1 " + "EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
         }
         assertEquals(ClientPreparedStatement.class, this.pstmt.getClass());
         this.pstmt.executeUpdate();
@@ -379,9 +416,11 @@ public class SyntaxRegressionTest extends BaseTestCase {
         // Using Client PreparedStatement, without validation.
         if (versionMeetsMinimum(5, 7, 5)) {
             this.pstmt = this.conn
-                    .prepareStatement("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITHOUT VALIDATION");
+                    .prepareStatement(
+                            "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITHOUT VALIDATION");
         } else {
-            this.pstmt = this.conn.prepareStatement("ALTER IGNORE TABLE testExchangePartition1 " + "EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
+            this.pstmt = this.conn.prepareStatement("ALTER IGNORE TABLE testExchangePartition1 "
+                    + "EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
         }
         assertEquals(ClientPreparedStatement.class, this.pstmt.getClass());
         this.pstmt.executeUpdate();
@@ -393,12 +432,15 @@ public class SyntaxRegressionTest extends BaseTestCase {
             // Using Server PreparedStatement, with validation.
             if (versionMeetsMinimum(5, 7, 5)) {
                 this.pstmt = testConn
-                        .prepareStatement("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITH VALIDATION");
+                        .prepareStatement(
+                                "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITH VALIDATION");
             } else if (versionMeetsMinimum(5, 7, 4)) {
-                this.pstmt = testConn.prepareStatement("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
+                this.pstmt = testConn.prepareStatement(
+                        "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
             } else {
                 this.pstmt = testConn
-                        .prepareStatement("ALTER IGNORE TABLE testExchangePartition1 " + "EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
+                        .prepareStatement("ALTER IGNORE TABLE testExchangePartition1 "
+                                + "EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
 
             }
             assertEquals(com.mysql.cj.jdbc.ServerPreparedStatement.class, this.pstmt.getClass());
@@ -407,9 +449,11 @@ public class SyntaxRegressionTest extends BaseTestCase {
             // Using Server PreparedStatement, without validation.
             if (versionMeetsMinimum(5, 7, 5)) {
                 this.pstmt = testConn
-                        .prepareStatement("ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITHOUT VALIDATION");
+                        .prepareStatement(
+                                "ALTER TABLE testExchangePartition1 EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2 WITHOUT VALIDATION");
             } else {
-                this.pstmt = testConn.prepareStatement("ALTER TABLE testExchangePartition1 " + "EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
+                this.pstmt = testConn.prepareStatement("ALTER TABLE testExchangePartition1 "
+                        + "EXCHANGE PARTITION p1 WITH TABLE testExchangePartition2");
 
             }
             assertEquals(com.mysql.cj.jdbc.ServerPreparedStatement.class, this.pstmt.getClass());
@@ -474,13 +518,16 @@ public class SyntaxRegressionTest extends BaseTestCase {
                             + " PARTITION `p10-99` VALUES LESS THAN (100) (SUBPARTITION subp4, SUBPARTITION subp5),"
                             + " PARTITION `p100-99999` VALUES LESS THAN (100000) (SUBPARTITION subp6, SUBPARTITION subp7))");
 
-            this.stmt.executeUpdate("INSERT INTO testExplicitPartitions PARTITION (pNeg, pNeg) VALUES (-1, \"pNeg(-subp1)\")");
+            this.stmt.executeUpdate(
+                    "INSERT INTO testExplicitPartitions PARTITION (pNeg, pNeg) VALUES (-1, \"pNeg(-subp1)\")");
 
-            this.pstmt = this.conn.prepareStatement("INSERT INTO testExplicitPartitions PARTITION (pNeg, subp0) VALUES (-3, \"pNeg(-subp1)\")");
+            this.pstmt = this.conn.prepareStatement(
+                    "INSERT INTO testExplicitPartitions PARTITION (pNeg, subp0) VALUES (-3, \"pNeg(-subp1)\")");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.pstmt.execute();
 
-            this.pstmt = c.prepareStatement("INSERT INTO testExplicitPartitions PARTITION (pNeg, subp0) VALUES (-2, \"(pNeg-)subp0\")");
+            this.pstmt = c.prepareStatement(
+                    "INSERT INTO testExplicitPartitions PARTITION (pNeg, subp0) VALUES (-2, \"(pNeg-)subp0\")");
             assertTrue(this.pstmt instanceof com.mysql.cj.jdbc.ServerPreparedStatement);
             this.pstmt.execute();
 
@@ -489,31 +536,38 @@ public class SyntaxRegressionTest extends BaseTestCase {
             assertTrue(this.pstmt instanceof com.mysql.cj.jdbc.ServerPreparedStatement);
             this.pstmt.execute();
 
-            this.stmt.executeUpdate("INSERT INTO testExplicitPartitions PARTITION(`p10-99`,subp3) VALUES (1, \"subp3\"), (10, \"p10-99\")");
+            this.stmt.executeUpdate(
+                    "INSERT INTO testExplicitPartitions PARTITION(`p10-99`,subp3) VALUES (1, \"subp3\"), (10, \"p10-99\")");
             this.stmt.executeUpdate("INSERT INTO testExplicitPartitions PARTITION(subp3) VALUES (3, \"subp3\")");
             this.stmt.executeUpdate("INSERT INTO testExplicitPartitions PARTITION(`p0-9`) VALUES (5, \"p0-9:subp3\")");
 
             this.stmt.executeUpdate("FLUSH STATUS");
             this.stmt.execute("SELECT * FROM testExplicitPartitions PARTITION (subp2)");
 
-            this.pstmt = this.conn.prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (subp2,pNeg) AS TableAlias");
+            this.pstmt = this.conn
+                    .prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (subp2,pNeg) AS TableAlias");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
-            this.pstmt = c.prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (subp2,pNeg) AS TableAlias");
+            this.pstmt = c
+                    .prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (subp2,pNeg) AS TableAlias");
             assertTrue(this.pstmt instanceof ServerPreparedStatement);
 
-            this.pstmt = this.conn.prepareStatement("LOCK TABLE testExplicitPartitions READ, testExplicitPartitions as TableAlias READ");
+            this.pstmt = this.conn.prepareStatement(
+                    "LOCK TABLE testExplicitPartitions READ, testExplicitPartitions as TableAlias READ");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
-            this.pstmt = c.prepareStatement("LOCK TABLE testExplicitPartitions READ, testExplicitPartitions as TableAlias READ");
+            this.pstmt = c.prepareStatement(
+                    "LOCK TABLE testExplicitPartitions READ, testExplicitPartitions as TableAlias READ");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
-            this.pstmt = this.conn.prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (subp3) AS TableAlias");
+            this.pstmt = this.conn
+                    .prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (subp3) AS TableAlias");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.pstmt.execute();
             this.pstmt = c.prepareStatement("SELECT COUNT(*) FROM testExplicitPartitions PARTITION (`p10-99`)");
             assertTrue(this.pstmt instanceof ServerPreparedStatement);
             this.pstmt.execute();
 
-            this.pstmt = this.conn.prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (pNeg) WHERE a = 100");
+            this.pstmt = this.conn
+                    .prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (pNeg) WHERE a = 100");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.pstmt.execute();
             this.pstmt = c.prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (pNeg) WHERE a = 100");
@@ -526,20 +580,25 @@ public class SyntaxRegressionTest extends BaseTestCase {
             if (dbname == null) {
                 fail("No database selected");
             } else {
-                File f = new File(datadir + File.separator + dbname + File.separator + "loadtestExplicitPartitions.txt");
+                File f = new File(
+                        datadir + File.separator + dbname + File.separator + "loadtestExplicitPartitions.txt");
                 if (f.exists()) {
                     f.delete();
                 }
             }
 
             this.pstmt = this.conn
-                    .prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (pNeg, `p10-99`) INTO OUTFILE 'loadtestExplicitPartitions.txt'");
+                    .prepareStatement(
+                            "SELECT * FROM testExplicitPartitions PARTITION (pNeg, `p10-99`) INTO OUTFILE 'loadtestExplicitPartitions.txt'");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
-            this.pstmt = c.prepareStatement("SELECT * FROM testExplicitPartitions PARTITION (pNeg, `p10-99`) INTO OUTFILE 'loadtestExplicitPartitions.txt'");
+            this.pstmt = c.prepareStatement(
+                    "SELECT * FROM testExplicitPartitions PARTITION (pNeg, `p10-99`) INTO OUTFILE 'loadtestExplicitPartitions.txt'");
             assertTrue(this.pstmt instanceof ServerPreparedStatement);
-            this.stmt.execute("SELECT * FROM testExplicitPartitions PARTITION (pNeg, `p10-99`) INTO OUTFILE 'loadtestExplicitPartitions.txt'");
+            this.stmt.execute(
+                    "SELECT * FROM testExplicitPartitions PARTITION (pNeg, `p10-99`) INTO OUTFILE 'loadtestExplicitPartitions.txt'");
 
-            this.pstmt = this.conn.prepareStatement("ALTER TABLE testExplicitPartitions TRUNCATE PARTITION pNeg, `p10-99`");
+            this.pstmt = this.conn
+                    .prepareStatement("ALTER TABLE testExplicitPartitions TRUNCATE PARTITION pNeg, `p10-99`");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.pstmt = c.prepareStatement("ALTER TABLE testExplicitPartitions TRUNCATE PARTITION pNeg, `p10-99`");
             assertTrue(this.pstmt instanceof ServerPreparedStatement);
@@ -547,44 +606,55 @@ public class SyntaxRegressionTest extends BaseTestCase {
             this.stmt.executeUpdate("FLUSH STATUS");
 
             this.pstmt = this.conn
-                    .prepareStatement("LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, subp4, subp5)");
+                    .prepareStatement(
+                            "LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, subp4, subp5)");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.pstmt = c
-                    .prepareStatement("LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, subp4, subp5)");
+                    .prepareStatement(
+                            "LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, subp4, subp5)");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
-            this.stmt.executeUpdate("LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, subp4, subp5)");
+            this.stmt.executeUpdate(
+                    "LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, subp4, subp5)");
 
             this.stmt.executeUpdate("ALTER TABLE testExplicitPartitions TRUNCATE PARTITION pNeg, `p10-99`");
             this.stmt.executeUpdate("FLUSH STATUS");
             this.pstmt = this.conn
-                    .prepareStatement("LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, `p10-99`)");
+                    .prepareStatement(
+                            "LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, `p10-99`)");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
-            this.pstmt = c.prepareStatement("LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, `p10-99`)");
+            this.pstmt = c.prepareStatement(
+                    "LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, `p10-99`)");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.stmt.executeUpdate("LOCK TABLE testExplicitPartitions WRITE");
-            this.stmt.executeUpdate("LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, `p10-99`)");
+            this.stmt.executeUpdate(
+                    "LOAD DATA INFILE 'loadtestExplicitPartitions.txt' INTO TABLE testExplicitPartitions PARTITION (pNeg, `p10-99`)");
             this.stmt.executeUpdate("UNLOCK TABLES");
 
             // Test UPDATE
             this.stmt.executeUpdate("UPDATE testExplicitPartitions PARTITION(subp0) SET b = concat(b, ', Updated')");
 
-            this.pstmt = this.conn.prepareStatement("UPDATE testExplicitPartitions PARTITION(subp0) SET b = concat(b, ', Updated2') WHERE a = -2");
+            this.pstmt = this.conn.prepareStatement(
+                    "UPDATE testExplicitPartitions PARTITION(subp0) SET b = concat(b, ', Updated2') WHERE a = -2");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.pstmt.execute();
 
-            this.pstmt = c.prepareStatement("UPDATE testExplicitPartitions PARTITION(subp0) SET a = -4, b = concat(b, ', Updated from a = -2') WHERE a = -2");
+            this.pstmt = c.prepareStatement(
+                    "UPDATE testExplicitPartitions PARTITION(subp0) SET a = -4, b = concat(b, ', Updated from a = -2') WHERE a = -2");
             assertTrue(this.pstmt instanceof ServerPreparedStatement);
             this.pstmt.execute();
 
-            this.stmt.executeUpdate("UPDATE testExplicitPartitions PARTITION(subp0) SET b = concat(b, ', Updated2') WHERE a = 100");
-            this.stmt.executeUpdate("UPDATE testExplicitPartitions PARTITION(subp0) SET a = -2, b = concat(b, ', Updated from a = 100') WHERE a = 100");
+            this.stmt.executeUpdate(
+                    "UPDATE testExplicitPartitions PARTITION(subp0) SET b = concat(b, ', Updated2') WHERE a = 100");
+            this.stmt.executeUpdate(
+                    "UPDATE testExplicitPartitions PARTITION(subp0) SET a = -2, b = concat(b, ', Updated from a = 100') WHERE a = 100");
 
             this.pstmt = this.conn.prepareStatement(
                     "UPDATE testExplicitPartitions PARTITION(`p100-99999`, pNeg) SET a = -222, b = concat(b, ', Updated from a = 100') WHERE a = 100");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.pstmt.execute();
 
-            this.pstmt = c.prepareStatement("UPDATE testExplicitPartitions SET b = concat(b, ', Updated2') WHERE a = 1000000");
+            this.pstmt = c.prepareStatement(
+                    "UPDATE testExplicitPartitions SET b = concat(b, ', Updated2') WHERE a = 1000000");
             assertTrue(this.pstmt instanceof ServerPreparedStatement);
             this.pstmt.execute();
 
@@ -598,20 +668,24 @@ public class SyntaxRegressionTest extends BaseTestCase {
             this.pstmt.execute();
 
             this.stmt.executeUpdate("DELETE FROM testExplicitPartitions PARTITION (subp1) WHERE b like '%subp1%'");
-            this.pstmt = this.conn.prepareStatement("DELETE FROM testExplicitPartitions PARTITION (subp1) WHERE b like '%subp1%'");
+            this.pstmt = this.conn
+                    .prepareStatement("DELETE FROM testExplicitPartitions PARTITION (subp1) WHERE b like '%subp1%'");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.pstmt.execute();
-            this.pstmt = c.prepareStatement("DELETE FROM testExplicitPartitions PARTITION (subp1) WHERE b like '%subp1%'");
+            this.pstmt = c
+                    .prepareStatement("DELETE FROM testExplicitPartitions PARTITION (subp1) WHERE b like '%subp1%'");
             assertTrue(this.pstmt instanceof ServerPreparedStatement);
             this.pstmt.execute();
 
             this.stmt.executeUpdate("FLUSH STATUS");
             this.stmt.executeUpdate("LOCK TABLE testExplicitPartitions WRITE");
             this.stmt.executeUpdate("DELETE FROM testExplicitPartitions PARTITION (subp1) WHERE b = 'p0-9:subp3'");
-            this.pstmt = this.conn.prepareStatement("DELETE FROM testExplicitPartitions PARTITION (subp1) WHERE b = 'p0-9:subp3'");
+            this.pstmt = this.conn
+                    .prepareStatement("DELETE FROM testExplicitPartitions PARTITION (subp1) WHERE b = 'p0-9:subp3'");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.stmt.executeUpdate("DELETE FROM testExplicitPartitions PARTITION (`p0-9`) WHERE b = 'p0-9:subp3'");
-            this.pstmt = this.conn.prepareStatement("DELETE FROM testExplicitPartitions PARTITION (`p0-9`) WHERE b = 'p0-9:subp3'");
+            this.pstmt = this.conn
+                    .prepareStatement("DELETE FROM testExplicitPartitions PARTITION (`p0-9`) WHERE b = 'p0-9:subp3'");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
             this.stmt.executeUpdate("UNLOCK TABLES");
 
@@ -627,7 +701,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
             this.stmt.executeUpdate(
                     "INSERT INTO testExplicitPartitions2 PARTITION (`p10-99`, subp3, `p100-99999`) SELECT * FROM testExplicitPartitions PARTITION (subp3, `p10-99`, `p100-99999`)");
 
-            this.stmt.executeUpdate("ALTER TABLE testExplicitPartitions2 TRUNCATE PARTITION `p10-99`, `p0-9`, `p100-99999`");
+            this.stmt.executeUpdate(
+                    "ALTER TABLE testExplicitPartitions2 TRUNCATE PARTITION `p10-99`, `p0-9`, `p100-99999`");
 
             this.pstmt = this.conn.prepareStatement(
                     "INSERT IGNORE INTO testExplicitPartitions2 PARTITION (subp3) SELECT * FROM testExplicitPartitions PARTITION (subp3, `p10-99`, `p100-99999`)");
@@ -639,14 +714,18 @@ public class SyntaxRegressionTest extends BaseTestCase {
                     "INSERT IGNORE INTO testExplicitPartitions2 PARTITION (subp3) SELECT * FROM testExplicitPartitions PARTITION (subp3, `p10-99`, `p100-99999`)");
 
             this.stmt.executeUpdate("TRUNCATE TABLE testExplicitPartitions2");
-            this.stmt.executeUpdate("INSERT INTO testExplicitPartitions2 SELECT * FROM testExplicitPartitions PARTITION (subp3, `p10-99`, `p100-99999`)");
+            this.stmt.executeUpdate(
+                    "INSERT INTO testExplicitPartitions2 SELECT * FROM testExplicitPartitions PARTITION (subp3, `p10-99`, `p100-99999`)");
 
             this.pstmt = this.conn
-                    .prepareStatement("CREATE TABLE testExplicitPartitions3 SELECT * FROM testExplicitPartitions PARTITION (pNeg,subp3,`p100-99999`)");
+                    .prepareStatement(
+                            "CREATE TABLE testExplicitPartitions3 SELECT * FROM testExplicitPartitions PARTITION (pNeg,subp3,`p100-99999`)");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
-            this.pstmt = c.prepareStatement("CREATE TABLE testExplicitPartitions3 SELECT * FROM testExplicitPartitions PARTITION (pNeg,subp3,`p100-99999`)");
+            this.pstmt = c.prepareStatement(
+                    "CREATE TABLE testExplicitPartitions3 SELECT * FROM testExplicitPartitions PARTITION (pNeg,subp3,`p100-99999`)");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
-            this.stmt.executeUpdate("CREATE TABLE testExplicitPartitions3 SELECT * FROM testExplicitPartitions PARTITION (pNeg,subp3,`p100-99999`)");
+            this.stmt.executeUpdate(
+                    "CREATE TABLE testExplicitPartitions3 SELECT * FROM testExplicitPartitions PARTITION (pNeg,subp3,`p100-99999`)");
 
             this.pstmt = this.conn.prepareStatement(
                     "DELETE testExplicitPartitions, testExplicitPartitions2 FROM testExplicitPartitions PARTITION (pNeg), testExplicitPartitions3, testExplicitPartitions2 PARTITION (subp3) WHERE testExplicitPartitions.a = testExplicitPartitions3.a AND testExplicitPartitions3.b = 'subp3' AND testExplicitPartitions3.a = testExplicitPartitions2.a");
@@ -673,17 +752,20 @@ public class SyntaxRegressionTest extends BaseTestCase {
             fail(e.getMessage());
 
         } finally {
-            this.stmt.executeUpdate("DROP TABLE IF EXISTS testExplicitPartitions, testExplicitPartitions2, testExplicitPartitions3");
+            this.stmt.executeUpdate(
+                    "DROP TABLE IF EXISTS testExplicitPartitions, testExplicitPartitions2, testExplicitPartitions3");
 
             if (c != null) {
                 c.close();
             }
             if (datadir != null) {
-                File f = new File(datadir + File.separator + dbname + File.separator + "loadtestExplicitPartitions.txt");
+                File f = new File(
+                        datadir + File.separator + dbname + File.separator + "loadtestExplicitPartitions.txt");
                 if (f.exists()) {
                     f.deleteOnExit();
                 } else if (!exceptionCaugth) {
-                    fail("File " + datadir + File.separator + dbname + File.separator + "loadtestExplicitPartitions.txt cannot be deleted."
+                    fail("File " + datadir + File.separator + dbname + File.separator
+                            + "loadtestExplicitPartitions.txt cannot be deleted."
                             + "You should run server and tests on the same filesystem.");
                 }
             }
@@ -699,25 +781,31 @@ public class SyntaxRegressionTest extends BaseTestCase {
      */
     public void testIPv6Functions() throws Exception {
         if (!versionMeetsMinimum(5, 6, 11)) {
-            // MySQL 5.6.11 includes a bug fix (Bug#68454) that is required to run this test successfully.
+            // MySQL 5.6.11 includes a bug fix (Bug#68454) that is required to run this test
+            // successfully.
             return;
         }
 
-        String[][] dataSamples = new String[][] { { "127.0.0.1", "172.0.0.1" }, { "192.168.1.1", "::ffff:192.168.1.1" }, { "10.1", "::ffff:10.1" },
-                { "172.16.260.4", "172.16.260.4" }, { "::1", "::1" }, { "10AA:10bb:10CC:10dd:10EE:10FF:10aa:10BB", "10aa:10bb:10cc:10dd:10ee:10ff:10aa:10bb" },
+        String[][] dataSamples = new String[][] { { "127.0.0.1", "172.0.0.1" }, { "192.168.1.1", "::ffff:192.168.1.1" },
+                { "10.1", "::ffff:10.1" },
+                { "172.16.260.4", "172.16.260.4" }, { "::1", "::1" },
+                { "10AA:10bb:10CC:10dd:10EE:10FF:10aa:10BB", "10aa:10bb:10cc:10dd:10ee:10ff:10aa:10bb" },
                 { "00af:0000:0000:0000:10af:000a:000b:0001", "00af:0000:0000:0000:10af:000a:000b:0001" },
                 { "48:4df1::0010:ad3:1100", "48:4df1::0010:ad3:1100" },
                 { "2000:abcd:1234:0000:efgh:1000:2000:3000", "2000:abcd:1234:0000:efgh:1000:2000:3000" },
                 { "2000:abcd:1234:0000:1000:2000:3000", "2000:abcd:1234:0000:1000:2000:3000" } };
-        String[][] dataExpected = new String[][] { { "127.0.0.1", "172.0.0.1" }, { "192.168.1.1", "::ffff:192.168.1.1" }, { "10.0.0.1", null }, { null, null },
-                { null, "::1" }, { null, "10aa:10bb:10cc:10dd:10ee:10ff:10aa:10bb" }, { null, "af::10af:a:b:1" }, { null, "48:4df1::10:ad3:1100" },
+        String[][] dataExpected = new String[][] { { "127.0.0.1", "172.0.0.1" },
+                { "192.168.1.1", "::ffff:192.168.1.1" }, { "10.0.0.1", null }, { null, null },
+                { null, "::1" }, { null, "10aa:10bb:10cc:10dd:10ee:10ff:10aa:10bb" }, { null, "af::10af:a:b:1" },
+                { null, "48:4df1::10:ad3:1100" },
                 { null, null }, { null, null } };
 
         createTable("testWL5787", "(id INT AUTO_INCREMENT PRIMARY KEY, ipv4 INT UNSIGNED, ipv6 VARBINARY(16))");
 
         Connection testConn = this.conn;
         if (versionMeetsMinimum(5, 7, 10)) {
-            // MySQL 5.7.10+ requires non STRICT_TRANS_TABLES to use these functions with invalid data.
+            // MySQL 5.7.10+ requires non STRICT_TRANS_TABLES to use these functions with
+            // invalid data.
             Properties props = new Properties();
             props.put(PropertyKey.jdbcCompliantTruncation.getKeyName(), "false");
             String sqlMode = getMysqlVariable("sql_mode");
@@ -768,14 +856,17 @@ public class SyntaxRegressionTest extends BaseTestCase {
         }
 
         createTable("testFULLTEXTSearchInnoDB",
-                "(id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY, " + "title VARCHAR(200), body TEXT, FULLTEXT (title , body)) ENGINE=InnoDB");
+                "(id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY, "
+                        + "title VARCHAR(200), body TEXT, FULLTEXT (title , body)) ENGINE=InnoDB");
 
-        this.stmt.executeUpdate("INSERT INTO testFULLTEXTSearchInnoDB (title, body) VALUES ('MySQL Tutorial','DBMS stands for DataBase ...'), "
-                + "('How To Use MySQL Well','After you went through a ...'), ('Optimizing MySQL','In this tutorial we will show ...'), "
-                + "('1001 MySQL Tricks','1. Never run mysqld as root. 2. ...'), ('MySQL vs. YourSQL','In the following database comparison ...'), "
-                + "('MySQL Security','When configured properly, MySQL ...')");
+        this.stmt.executeUpdate(
+                "INSERT INTO testFULLTEXTSearchInnoDB (title, body) VALUES ('MySQL Tutorial','DBMS stands for DataBase ...'), "
+                        + "('How To Use MySQL Well','After you went through a ...'), ('Optimizing MySQL','In this tutorial we will show ...'), "
+                        + "('1001 MySQL Tricks','1. Never run mysqld as root. 2. ...'), ('MySQL vs. YourSQL','In the following database comparison ...'), "
+                        + "('MySQL Security','When configured properly, MySQL ...')");
 
-        String[] querySamples = new String[] { "SELECT * FROM testFULLTEXTSearchInnoDB WHERE MATCH (title, body) AGAINST ('database' IN NATURAL LANGUAGE MODE)",
+        String[] querySamples = new String[] {
+                "SELECT * FROM testFULLTEXTSearchInnoDB WHERE MATCH (title, body) AGAINST ('database' IN NATURAL LANGUAGE MODE)",
                 "SELECT * FROM testFULLTEXTSearchInnoDB WHERE MATCH (title, body) AGAINST ('database' IN NATURAL LANGUAGE MODE WITH QUERY EXPANSION)",
                 "SELECT * FROM testFULLTEXTSearchInnoDB WHERE MATCH (title, body) AGAINST ('<MySQL >YourSQL' IN BOOLEAN MODE)",
                 "SELECT * FROM testFULLTEXTSearchInnoDB WHERE MATCH (title, body) AGAINST ('+MySQL -YourSQL' IN BOOLEAN MODE)",
@@ -831,7 +922,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
     /**
      * WL#6406 - Stacked diagnostic areas
      * 
-     * "STACKED" in "GET [CURRENT | STACKED] DIAGNOSTICS" syntax was added in 5.7.0. Final behavior was implemented in
+     * "STACKED" in "GET [CURRENT | STACKED] DIAGNOSTICS" syntax was added in 5.7.0.
+     * Final behavior was implemented in
      * version 5.7.2, by WL#5928 - Most statements should clear the diagnostic area.
      * 
      * @throws SQLException
@@ -854,16 +946,21 @@ public class SyntaxRegressionTest extends BaseTestCase {
         // (stored procedure is based on documentation example)
         createTable("testGetStackedDiagnosticsTbl", "(c VARCHAR(8) NOT NULL)");
         createProcedure("testGetStackedDiagnosticsSP",
-                "() BEGIN DECLARE EXIT HANDLER FOR SQLEXCEPTION BEGIN " + "GET CURRENT DIAGNOSTICS CONDITION 1 @errno = MYSQL_ERRNO, @msg = MESSAGE_TEXT; "
-                        + "SELECT 'current DA before insert in handler' AS op, @errno AS errno, @msg AS msg; " // 1st result
+                "() BEGIN DECLARE EXIT HANDLER FOR SQLEXCEPTION BEGIN "
+                        + "GET CURRENT DIAGNOSTICS CONDITION 1 @errno = MYSQL_ERRNO, @msg = MESSAGE_TEXT; "
+                        + "SELECT 'current DA before insert in handler' AS op, @errno AS errno, @msg AS msg; " // 1st
+                                                                                                               // result
                         + "GET STACKED DIAGNOSTICS CONDITION 1 @errno = MYSQL_ERRNO, @msg = MESSAGE_TEXT; "
-                        + "SELECT 'stacked DA before insert in handler' AS op, @errno AS errno, @msg AS msg; " // 2nd result
-                        + "INSERT INTO testGetStackedDiagnosticsTbl (c) VALUES('gnitset'); " + "GET CURRENT DIAGNOSTICS @num = NUMBER; "
+                        + "SELECT 'stacked DA before insert in handler' AS op, @errno AS errno, @msg AS msg; " // 2nd
+                                                                                                               // result
+                        + "INSERT INTO testGetStackedDiagnosticsTbl (c) VALUES('gnitset'); "
+                        + "GET CURRENT DIAGNOSTICS @num = NUMBER; "
                         + "IF @num = 0 THEN SELECT 'INSERT succeeded, current DA is empty' AS op; " // 3rd result
                         + "ELSE GET CURRENT DIAGNOSTICS CONDITION 1 @errno = MYSQL_ERRNO, @msg = MESSAGE_TEXT; "
                         + "SELECT 'current DA after insert in handler' AS op, @errno AS errno, @msg AS msg; END IF; "
                         + "GET STACKED DIAGNOSTICS CONDITION 1 @errno = MYSQL_ERRNO, @msg = MESSAGE_TEXT; "
-                        + "SELECT 'stacked DA after insert in handler' AS op, @errno AS errno, @msg AS msg; END; " // 4th result
+                        + "SELECT 'stacked DA after insert in handler' AS op, @errno AS errno, @msg AS msg; END; " // 4th
+                                                                                                                   // result
                         + "INSERT INTO testGetStackedDiagnosticsTbl (c) VALUES ('testing');INSERT INTO testGetStackedDiagnosticsTbl (c) VALUES (NULL); END");
 
         CallableStatement cStmt = this.conn.prepareCall("CALL testGetStackedDiagnosticsSP()");
@@ -955,7 +1052,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
         assertThrows(SQLException.class, "Tablespace is missing for table .*", new Callable<Void>() {
             @SuppressWarnings("synthetic-access")
             public Void call() throws Exception {
-                SyntaxRegressionTest.this.stmt.executeUpdate("ALTER TABLE testDiscardImportPartitions IMPORT PARTITION p1 TABLESPACE");
+                SyntaxRegressionTest.this.stmt
+                        .executeUpdate("ALTER TABLE testDiscardImportPartitions IMPORT PARTITION p1 TABLESPACE");
                 return null;
             }
         });
@@ -1049,7 +1147,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
         assertEquals("{\"key1\": \"value1\", \"key2\": \"value2\"}", testCstmt.getObject(1));
 
         // JSON functions.
-        testJsonTypeCheckFunction(versionMeetsMinimum(5, 7, 9) ? "SELECT JSON_ARRAY_APPEND('[1]', '$', 2)" : "SELECT JSON_APPEND('[1]', '$', 2)", "[1, 2]");
+        testJsonTypeCheckFunction(versionMeetsMinimum(5, 7, 9) ? "SELECT JSON_ARRAY_APPEND('[1]', '$', 2)"
+                : "SELECT JSON_APPEND('[1]', '$', 2)", "[1, 2]");
         testJsonTypeCheckFunction("SELECT JSON_ARRAY_INSERT('[2]', '$[0]', 1)", "[1, 2]");
         testJsonTypeCheckFunction("SELECT JSON_ARRAY(1, 2)", "[1, 2]");
         testJsonTypeCheckFunction("SELECT JSON_CONTAINS_PATH('{\"a\": 1}', 'one', '$.a')", "1");
@@ -1059,7 +1158,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
         testJsonTypeCheckFunction("SELECT JSON_INSERT('[1]', '$[1]', 2)", "[1, 2]");
         testJsonTypeCheckFunction("SELECT JSON_KEYS('{\"a\": 1}')", "[\"a\"]");
         testJsonTypeCheckFunction("SELECT JSON_LENGTH('{\"a\": 1}')", "1");
-        testJsonTypeCheckFunction(versionMeetsMinimum(8, 0, 3) ? "SELECT JSON_MERGE_PRESERVE('[1]', '[2]')" : "SELECT JSON_MERGE('[1]', '[2]')", "[1, 2]");
+        testJsonTypeCheckFunction(versionMeetsMinimum(8, 0, 3) ? "SELECT JSON_MERGE_PRESERVE('[1]', '[2]')"
+                : "SELECT JSON_MERGE('[1]', '[2]')", "[1, 2]");
         testJsonTypeCheckFunction("SELECT JSON_OBJECT('a', 1)", "{\"a\": 1}");
         testJsonTypeCheckFunction("SELECT JSON_QUOTE('[1]')", "\"[1]\"");
         testJsonTypeCheckFunction("SELECT JSON_REMOVE('[1, 2]', '$[1]')", "[1]");
@@ -1082,7 +1182,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
      * 
      * Test syntax for optimizer hints.
      * 
-     * New optimizer hints feature added in MySQL 5.7.7. Hints are permitted in these contexts:
+     * New optimizer hints feature added in MySQL 5.7.7. Hints are permitted in
+     * these contexts:
      * At the beginning of DML statements
      * - SELECT /*+ ... *&#47 ...
      * - INSERT /*+ ... *&#47 ...
@@ -1110,7 +1211,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
         // Valid hints.
         testHintsSyntax("SELECT /*+ max_execution_time(100) */ SLEEP(5)", true, false);
         testHintsSyntax("SELECT/*+ max_execution_time(100) */SLEEP(5)", true, false);
-        testHintsSyntax("SELECT /*+ max_execution_time(100) */ SLEEP(5) /*+ wrong location, just comments */", true, false);
+        testHintsSyntax("SELECT /*+ max_execution_time(100) */ SLEEP(5) /*+ wrong location, just comments */", true,
+                false);
         testHintsSyntax("SELECT /*+ max_execution_time(100) *//* comment */ SLEEP(5)", true, false);
 
         // Invalid hints.
@@ -1153,9 +1255,11 @@ public class SyntaxRegressionTest extends BaseTestCase {
         assertNull(this.stmt.getWarnings());
         assertEquals(2, this.stmt.executeUpdate("REPLACE INTO testHints (SELECT /*+ qb_name(dummy) */ 2, 'B')"));
         assertNull(this.stmt.getWarnings());
-        assertEquals(1, this.stmt.executeUpdate("UPDATE testHints SET txt = 'Bb' WHERE id IN (SELECT /*+ qb_name(dummy) */ 2)"));
+        assertEquals(1, this.stmt
+                .executeUpdate("UPDATE testHints SET txt = 'Bb' WHERE id IN (SELECT /*+ qb_name(dummy) */ 2)"));
         assertNull(this.stmt.getWarnings());
-        this.rs = this.stmt.executeQuery("SELECT /*+ max_execution_time(100) */ 1, 'Aa' UNION SELECT /*+ qb_name(dummy) */ * FROM testHints");
+        this.rs = this.stmt.executeQuery(
+                "SELECT /*+ max_execution_time(100) */ 1, 'Aa' UNION SELECT /*+ qb_name(dummy) */ * FROM testHints");
         assertNull(this.stmt.getWarnings());
         assertTrue(this.rs.next());
         assertEquals(1, this.rs.getInt(1));
@@ -1189,7 +1293,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
             this.pstmt.setString(1, "Aa");
             assertEquals(1, this.pstmt.executeUpdate());
             assertNull(this.pstmt.getWarnings());
-            this.pstmt = testConn.prepareStatement("SELECT /*+ max_execution_time(100) */ * FROM testHints WHERE id = ?");
+            this.pstmt = testConn
+                    .prepareStatement("SELECT /*+ max_execution_time(100) */ * FROM testHints WHERE id = ?");
             this.pstmt.setInt(1, 1);
             this.rs = this.pstmt.executeQuery();
             assertNull(this.pstmt.getWarnings());
@@ -1213,11 +1318,13 @@ public class SyntaxRegressionTest extends BaseTestCase {
             this.pstmt.setString(2, "B");
             assertEquals(2, this.pstmt.executeUpdate());
             assertNull(this.pstmt.getWarnings());
-            this.pstmt = testConn.prepareStatement("UPDATE testHints SET txt = 'Bb' WHERE id IN (SELECT /*+ qb_name(dummy) */ ?)");
+            this.pstmt = testConn
+                    .prepareStatement("UPDATE testHints SET txt = 'Bb' WHERE id IN (SELECT /*+ qb_name(dummy) */ ?)");
             this.pstmt.setInt(1, 2);
             assertEquals(1, this.pstmt.executeUpdate());
             assertNull(this.pstmt.getWarnings());
-            this.pstmt = testConn.prepareStatement("SELECT /*+ max_execution_time(100) */ ?, ? UNION SELECT /*+ qb_name(dummy) */ * FROM testHints");
+            this.pstmt = testConn.prepareStatement(
+                    "SELECT /*+ max_execution_time(100) */ ?, ? UNION SELECT /*+ qb_name(dummy) */ * FROM testHints");
             this.pstmt.setInt(1, 1);
             this.pstmt.setString(2, "Aa");
             this.rs = this.pstmt.executeQuery();
@@ -1229,7 +1336,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
             assertEquals(2, this.rs.getInt(1));
             assertEquals("Bb", this.rs.getString(2));
             assertFalse(this.rs.next());
-            this.pstmt = testConn.prepareStatement("DELETE FROM testHints WHERE id IN (SELECT /*+ qb_name(dummy) */ ?)");
+            this.pstmt = testConn
+                    .prepareStatement("DELETE FROM testHints WHERE id IN (SELECT /*+ qb_name(dummy) */ ?)");
             this.pstmt.setInt(1, 2);
             assertEquals(1, this.pstmt.executeUpdate());
             assertNull(this.pstmt.getWarnings());
@@ -1255,9 +1363,11 @@ public class SyntaxRegressionTest extends BaseTestCase {
     /**
      * WL#6205 - InnoDB: Implement CREATE TABLESPACE for general use.
      * 
-     * Tests support for new CREATE TABLESPACE syntax that extends this feature to InnoDB.
+     * Tests support for new CREATE TABLESPACE syntax that extends this feature to
+     * InnoDB.
      * 
-     * CREATE TABLESPACE tablespace_name ADD DATAFILE 'file_name' [FILE_BLOCK_SIZE = value] [ENGINE [=] engine_name]
+     * CREATE TABLESPACE tablespace_name ADD DATAFILE 'file_name' [FILE_BLOCK_SIZE =
+     * value] [ENGINE [=] engine_name]
      */
     public void testCreateTablespace() throws Exception {
         if (!versionMeetsMinimum(5, 7, 6)) {
@@ -1304,9 +1414,11 @@ public class SyntaxRegressionTest extends BaseTestCase {
 
     private void testCreateTablespaceCheckTablespaces(int expectedTsCount) throws Exception {
         if (versionMeetsMinimum(8, 0, 3)) {
-            this.rs = this.stmt.executeQuery("SELECT COUNT(*) FROM information_schema.innodb_tablespaces WHERE name LIKE 'testTs_'");
+            this.rs = this.stmt.executeQuery(
+                    "SELECT COUNT(*) FROM information_schema.innodb_tablespaces WHERE name LIKE 'testTs_'");
         } else {
-            this.rs = this.stmt.executeQuery("SELECT COUNT(*) FROM information_schema.innodb_sys_tablespaces WHERE name LIKE 'testTs_'");
+            this.rs = this.stmt.executeQuery(
+                    "SELECT COUNT(*) FROM information_schema.innodb_sys_tablespaces WHERE name LIKE 'testTs_'");
         }
         assertTrue(this.rs.next());
         assertEquals(expectedTsCount, this.rs.getInt(1));
@@ -1314,11 +1426,13 @@ public class SyntaxRegressionTest extends BaseTestCase {
 
     private void testCreateTablespaceCheckTables(String tablespace, int expectedTblCount) throws Exception {
         if (versionMeetsMinimum(8, 0, 3)) {
-            this.rs = this.stmt.executeQuery("SELECT COUNT(*) FROM information_schema.innodb_tables a, information_schema.innodb_tablespaces b "
-                    + "WHERE a.space = b.space AND b.name = '" + tablespace + "'");
+            this.rs = this.stmt.executeQuery(
+                    "SELECT COUNT(*) FROM information_schema.innodb_tables a, information_schema.innodb_tablespaces b "
+                            + "WHERE a.space = b.space AND b.name = '" + tablespace + "'");
         } else {
-            this.rs = this.stmt.executeQuery("SELECT COUNT(*) FROM information_schema.innodb_sys_tables a, information_schema.innodb_sys_tablespaces b "
-                    + "WHERE a.space = b.space AND b.name = '" + tablespace + "'");
+            this.rs = this.stmt.executeQuery(
+                    "SELECT COUNT(*) FROM information_schema.innodb_sys_tables a, information_schema.innodb_sys_tablespaces b "
+                            + "WHERE a.space = b.space AND b.name = '" + tablespace + "'");
         }
         assertTrue(this.rs.next());
         assertEquals(expectedTblCount, this.rs.getInt(1));
@@ -1327,7 +1441,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
     /**
      * WL#6747 - InnoDB: make fill factor settable.
      * 
-     * Tests support for new syntax for setting indices MERGE_THRESHOLD on CREATE TABLE.
+     * Tests support for new syntax for setting indices MERGE_THRESHOLD on CREATE
+     * TABLE.
      * 
      * index_option:
      * COMMENT 'MERGE_THRESHOLD=n'
@@ -1346,9 +1461,12 @@ public class SyntaxRegressionTest extends BaseTestCase {
 
         // Create table with both table and per index merge thresholds.
         createTable("testSetMergeThreshold",
-                "(c1 INT, c2 INT, c3 INT, c4 INT, KEY k1 (c1), KEY k2 (c2) COMMENT 'MERGE_THRESHOLD=" + keyMergeThresholds.get("k2")
-                        + "', KEY k3 (c3) COMMENT 'MERGE_THRESHOLD=" + keyMergeThresholds.get("k3") + "', KEY k23 (c2, c3) COMMENT 'MERGE_THRESHOLD="
-                        + keyMergeThresholds.get("k23") + "', KEY k24 (c2, c4) COMMENT 'MERGE_THRESHOLD=" + keyMergeThresholds.get("k24")
+                "(c1 INT, c2 INT, c3 INT, c4 INT, KEY k1 (c1), KEY k2 (c2) COMMENT 'MERGE_THRESHOLD="
+                        + keyMergeThresholds.get("k2")
+                        + "', KEY k3 (c3) COMMENT 'MERGE_THRESHOLD=" + keyMergeThresholds.get("k3")
+                        + "', KEY k23 (c2, c3) COMMENT 'MERGE_THRESHOLD="
+                        + keyMergeThresholds.get("k23") + "', KEY k24 (c2, c4) COMMENT 'MERGE_THRESHOLD="
+                        + keyMergeThresholds.get("k24")
                         + "') COMMENT 'MERGE_THRESHOLD=" + tableMergeThreshold + "'");
         testSetMergeThresholdIndices(tableMergeThreshold, keyMergeThresholds);
 
@@ -1360,26 +1478,35 @@ public class SyntaxRegressionTest extends BaseTestCase {
         // Change index' merge threshold.
         keyMergeThresholds.put("k3", 41);
         this.stmt.execute("ALTER TABLE testSetMergeThreshold DROP KEY k3");
-        this.stmt.execute("ALTER TABLE testSetMergeThreshold ADD KEY k3 (c3) COMMENT 'MERGE_THRESHOLD=" + keyMergeThresholds.get("k3") + "'");
+        this.stmt.execute("ALTER TABLE testSetMergeThreshold ADD KEY k3 (c3) COMMENT 'MERGE_THRESHOLD="
+                + keyMergeThresholds.get("k3") + "'");
         testSetMergeThresholdIndices(tableMergeThreshold, keyMergeThresholds);
 
         // Add new index with a non-default merge threshold value.
         keyMergeThresholds.put("k123", 15);
-        this.stmt.execute("CREATE INDEX k123 ON testSetMergeThreshold (c1, c2, c3) COMMENT 'MERGE_THRESHOLD=" + keyMergeThresholds.get("k123") + "'");
+        this.stmt.execute("CREATE INDEX k123 ON testSetMergeThreshold (c1, c2, c3) COMMENT 'MERGE_THRESHOLD="
+                + keyMergeThresholds.get("k123") + "'");
         testSetMergeThresholdIndices(tableMergeThreshold, keyMergeThresholds);
     }
 
-    private void testSetMergeThresholdIndices(int defaultMergeThreshold, Map<String, Integer> keyMergeThresholds) throws Exception {
+    private void testSetMergeThresholdIndices(int defaultMergeThreshold, Map<String, Integer> keyMergeThresholds)
+            throws Exception {
         if (versionMeetsMinimum(8, 0, 3)) {
-            this.rs = this.stmt.executeQuery("SELECT name, merge_threshold FROM information_schema.innodb_indexes WHERE table_id = "
-                    + "(SELECT table_id FROM information_schema.innodb_tables WHERE name = '" + this.conn.getCatalog() + "/testSetMergeThreshold')");
+            this.rs = this.stmt.executeQuery(
+                    "SELECT name, merge_threshold FROM information_schema.innodb_indexes WHERE table_id = "
+                            + "(SELECT table_id FROM information_schema.innodb_tables WHERE name = '"
+                            + this.conn.getCatalog() + "/testSetMergeThreshold')");
         } else {
-            this.rs = this.stmt.executeQuery("SELECT name, merge_threshold FROM information_schema.innodb_sys_indexes WHERE table_id = "
-                    + "(SELECT table_id FROM information_schema.innodb_sys_tables WHERE name = '" + this.conn.getCatalog() + "/testSetMergeThreshold')");
+            this.rs = this.stmt.executeQuery(
+                    "SELECT name, merge_threshold FROM information_schema.innodb_sys_indexes WHERE table_id = "
+                            + "(SELECT table_id FROM information_schema.innodb_sys_tables WHERE name = '"
+                            + this.conn.getCatalog() + "/testSetMergeThreshold')");
         }
 
         while (this.rs.next()) {
-            int expected = keyMergeThresholds.containsKey(this.rs.getString(1)) ? keyMergeThresholds.get(this.rs.getString(1)) : defaultMergeThreshold;
+            int expected = keyMergeThresholds.containsKey(this.rs.getString(1))
+                    ? keyMergeThresholds.get(this.rs.getString(1))
+                    : defaultMergeThreshold;
             assertEquals("MERGE_THRESHOLD for index " + this.rs.getString(1), expected, this.rs.getInt(2));
         }
         assertTrue(this.rs.last());
@@ -1450,15 +1577,19 @@ public class SyntaxRegressionTest extends BaseTestCase {
         final String geoPoint7 = "Point(0, 3)";
         final String geoPoint8 = "Point(8, 3)";
         final String geoPoint9 = "Point(4, 9)";
-        final String geoLineString1 = String.format("LineString(%s, %s, %s, %s)", geoPoint1, geoPoint2, geoPoint3, geoPoint1);
-        final String geoLineString2 = String.format("LineString(%s, %s, %s, %s)", geoPoint4, geoPoint5, geoPoint6, geoPoint4);
-        final String geoLineString3 = String.format("LineString(%s, %s, %s, %s)", geoPoint7, geoPoint8, geoPoint9, geoPoint7);
+        final String geoLineString1 = String.format("LineString(%s, %s, %s, %s)", geoPoint1, geoPoint2, geoPoint3,
+                geoPoint1);
+        final String geoLineString2 = String.format("LineString(%s, %s, %s, %s)", geoPoint4, geoPoint5, geoPoint6,
+                geoPoint4);
+        final String geoLineString3 = String.format("LineString(%s, %s, %s, %s)", geoPoint7, geoPoint8, geoPoint9,
+                geoPoint7);
         final String geoPolygon1 = String.format("Polygon(%s, %s)", geoLineString1, geoLineString2);
         final String geoPolygon2 = String.format("Polygon(%s)", geoLineString3);
         final String geoMultiPoint = String.format("MultiPoint(%s, %s, %s)", geoPoint1, geoPoint2, geoPoint3);
         final String geoMultiLineString = String.format("MultiLineString(%s, %s)", geoLineString1, geoLineString2);
         final String geoMultiPolygon = String.format("MultiPolygon(%s, %s)", geoPolygon1, geoPolygon2);
-        final String geoGeometryCollection = String.format("GeometryCollection(%s, %s, %s)", geoPoint2, geoLineString1, geoPolygon2);
+        final String geoGeometryCollection = String.format("GeometryCollection(%s, %s, %s)", geoPoint2, geoLineString1,
+                geoPolygon2);
 
         final String wkbPoint = String.format("ST_ASWKB(%s)", geoPoint1);
         final String wkbLineString = String.format("ST_ASWKB(%s)", geoLineString1);
@@ -1523,7 +1654,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
             int hi_version_sub;
             List<String> args;
 
-            GisFunction(String function, int low_version_maj, int low_version_min, int low_version_sub, int hi_version_maj, int hi_version_min,
+            GisFunction(String function, int low_version_maj, int low_version_min, int low_version_sub,
+                    int hi_version_maj, int hi_version_min,
                     int hi_version_sub, String... args) {
                 this.function = function;
                 this.low_version_maj = low_version_maj;
@@ -1587,11 +1719,13 @@ public class SyntaxRegressionTest extends BaseTestCase {
         gisFunctions.add(new GisFunction("ST_GeomCollFromWKB", 5, 6, 1, 8, 0, 0, "gcGeo"));
         gisFunctions.add(new GisFunction("ST_GeomCollFromWKB", 5, 6, 1, 0, 0, 0, "gcWkb"));
         gisFunctions.add(new GisFunction("ST_GeomCollFromWKB", 5, 6, 1, 0, 0, 0, "gcWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_GeomCollFromWKB", 8, 0, 1, 0, 0, 0, "gcWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions.add(
+                new GisFunction("ST_GeomCollFromWKB", 8, 0, 1, 0, 0, 0, "gcWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_GeometryCollectionFromWKB", 5, 6, 1, 8, 0, 0, "gcGeo"));
         gisFunctions.add(new GisFunction("ST_GeometryCollectionFromWKB", 5, 6, 1, 0, 0, 0, "gcWkb"));
         gisFunctions.add(new GisFunction("ST_GeometryCollectionFromWKB", 5, 6, 1, 0, 0, 0, "gcWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_GeometryCollectionFromWKB", 8, 0, 1, 0, 0, 0, "gcWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions.add(new GisFunction("ST_GeometryCollectionFromWKB", 8, 0, 1, 0, 0, 0, "gcWkb", "0",
+                "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_GeomFromWKB", 5, 6, 1, 8, 0, 0, "gGeo"));
         gisFunctions.add(new GisFunction("ST_GeomFromWKB", 5, 6, 1, 0, 0, 0, "gWkb"));
         gisFunctions.add(new GisFunction("ST_GeomFromWKB", 5, 6, 1, 0, 0, 0, "gWkb", "0"));
@@ -1599,51 +1733,63 @@ public class SyntaxRegressionTest extends BaseTestCase {
         gisFunctions.add(new GisFunction("ST_GeometryFromWKB", 5, 6, 1, 8, 0, 0, "gGeo"));
         gisFunctions.add(new GisFunction("ST_GeometryFromWKB", 5, 6, 1, 0, 0, 0, "gWkb"));
         gisFunctions.add(new GisFunction("ST_GeometryFromWKB", 5, 6, 1, 0, 0, 0, "gWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_GeometryFromWKB", 8, 0, 1, 0, 0, 0, "gWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions
+                .add(new GisFunction("ST_GeometryFromWKB", 8, 0, 1, 0, 0, 0, "gWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_LineFromWKB", 5, 6, 1, 8, 0, 0, "lsGeo"));
         gisFunctions.add(new GisFunction("ST_LineFromWKB", 5, 6, 1, 0, 0, 0, "lsWkb"));
         gisFunctions.add(new GisFunction("ST_LineFromWKB", 5, 6, 1, 0, 0, 0, "lsWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_LineFromWKB", 8, 0, 1, 0, 0, 0, "lsWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions
+                .add(new GisFunction("ST_LineFromWKB", 8, 0, 1, 0, 0, 0, "lsWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_LineStringFromWKB", 5, 6, 1, 8, 0, 0, "lsGeo"));
         gisFunctions.add(new GisFunction("ST_LineStringFromWKB", 5, 6, 1, 0, 0, 0, "lsWkb"));
         gisFunctions.add(new GisFunction("ST_LineStringFromWKB", 5, 6, 1, 0, 0, 0, "lsWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_LineStringFromWKB", 8, 0, 1, 0, 0, 0, "lsWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions.add(
+                new GisFunction("ST_LineStringFromWKB", 8, 0, 1, 0, 0, 0, "lsWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_MLineFromWKB", 5, 7, 6, 8, 0, 0, "mlsGeo"));
         gisFunctions.add(new GisFunction("ST_MLineFromWKB", 5, 7, 6, 0, 0, 0, "mlsWkb"));
         gisFunctions.add(new GisFunction("ST_MLineFromWKB", 5, 7, 6, 0, 0, 0, "mlsWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_MLineFromWKB", 8, 0, 1, 0, 0, 0, "mlsWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions
+                .add(new GisFunction("ST_MLineFromWKB", 8, 0, 1, 0, 0, 0, "mlsWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_MultiLineStringFromWKB", 5, 7, 6, 8, 0, 0, "mlsGeo"));
         gisFunctions.add(new GisFunction("ST_MultiLineStringFromWKB", 5, 7, 6, 0, 0, 0, "mlsWkb"));
         gisFunctions.add(new GisFunction("ST_MultiLineStringFromWKB", 5, 7, 6, 0, 0, 0, "mlsWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_MultiLineStringFromWKB", 8, 0, 1, 0, 0, 0, "mlsWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions.add(new GisFunction("ST_MultiLineStringFromWKB", 8, 0, 1, 0, 0, 0, "mlsWkb", "0",
+                "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_MPointFromWKB", 5, 7, 6, 8, 0, 0, "mptGeo"));
         gisFunctions.add(new GisFunction("ST_MPointFromWKB", 5, 7, 6, 0, 0, 0, "mptWkb"));
         gisFunctions.add(new GisFunction("ST_MPointFromWKB", 5, 7, 6, 0, 0, 0, "mptWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_MPointFromWKB", 8, 0, 1, 0, 0, 0, "mptWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions
+                .add(new GisFunction("ST_MPointFromWKB", 8, 0, 1, 0, 0, 0, "mptWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_MultiPointFromWKB", 5, 7, 6, 8, 0, 0, "mptGeo"));
         gisFunctions.add(new GisFunction("ST_MultiPointFromWKB", 5, 7, 6, 0, 0, 0, "mptWkb"));
         gisFunctions.add(new GisFunction("ST_MultiPointFromWKB", 5, 7, 6, 0, 0, 0, "mptWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_MultiPointFromWKB", 8, 0, 1, 0, 0, 0, "mptWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions.add(
+                new GisFunction("ST_MultiPointFromWKB", 8, 0, 1, 0, 0, 0, "mptWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_MPolyFromWKB", 5, 7, 6, 8, 0, 0, "mplGeo"));
         gisFunctions.add(new GisFunction("ST_MPolyFromWKB", 5, 7, 6, 0, 0, 0, "mplWkb"));
         gisFunctions.add(new GisFunction("ST_MPolyFromWKB", 5, 7, 6, 0, 0, 0, "mplWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_MPolyFromWKB", 8, 0, 1, 0, 0, 0, "mplWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions
+                .add(new GisFunction("ST_MPolyFromWKB", 8, 0, 1, 0, 0, 0, "mplWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_MultiPolygonFromWKB", 5, 7, 6, 8, 0, 0, "mplGeo"));
         gisFunctions.add(new GisFunction("ST_MultiPolygonFromWKB", 5, 7, 6, 0, 0, 0, "mplWkb"));
         gisFunctions.add(new GisFunction("ST_MultiPolygonFromWKB", 5, 7, 6, 0, 0, 0, "mplWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_MultiPolygonFromWKB", 8, 0, 1, 0, 0, 0, "mplWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions.add(new GisFunction("ST_MultiPolygonFromWKB", 8, 0, 1, 0, 0, 0, "mplWkb", "0",
+                "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_PointFromWKB", 5, 6, 1, 8, 0, 0, "ptGeo"));
         gisFunctions.add(new GisFunction("ST_PointFromWKB", 5, 6, 1, 0, 0, 0, "ptWkb"));
         gisFunctions.add(new GisFunction("ST_PointFromWKB", 5, 6, 1, 0, 0, 0, "ptWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_PointFromWKB", 8, 0, 1, 0, 0, 0, "ptWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions
+                .add(new GisFunction("ST_PointFromWKB", 8, 0, 1, 0, 0, 0, "ptWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_PolyFromWKB", 5, 6, 1, 8, 0, 0, "plGeo"));
         gisFunctions.add(new GisFunction("ST_PolyFromWKB", 5, 6, 1, 0, 0, 0, "plWkb"));
         gisFunctions.add(new GisFunction("ST_PolyFromWKB", 5, 6, 1, 0, 0, 0, "plWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_PolyFromWKB", 8, 0, 1, 0, 0, 0, "plWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions
+                .add(new GisFunction("ST_PolyFromWKB", 8, 0, 1, 0, 0, 0, "plWkb", "0", "'axis-order=srid-defined'"));
         gisFunctions.add(new GisFunction("ST_PolygonFromWKB", 5, 6, 1, 8, 0, 0, "plGeo"));
         gisFunctions.add(new GisFunction("ST_PolygonFromWKB", 5, 6, 1, 0, 0, 0, "plWkb"));
         gisFunctions.add(new GisFunction("ST_PolygonFromWKB", 5, 6, 1, 0, 0, 0, "plWkb", "0"));
-        gisFunctions.add(new GisFunction("ST_PolygonFromWKB", 8, 0, 1, 0, 0, 0, "plWkb", "0", "'axis-order=srid-defined'"));
+        gisFunctions
+                .add(new GisFunction("ST_PolygonFromWKB", 8, 0, 1, 0, 0, 0, "plWkb", "0", "'axis-order=srid-defined'"));
         // MySQL-Specific Functions That Create Geometry Values
         gisFunctions.add(new GisFunction("GeometryCollection", 5, 5, 1, 0, 0, 0, "g1", "g2"));
         gisFunctions.add(new GisFunction("LineString", 5, 5, 1, 0, 0, 0, "pt1", "pt2"));
@@ -1766,7 +1912,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
 
         for (GisFunction gf : gisFunctions) {
             if (versionMeetsMinimum(gf.low_version_maj, gf.low_version_min, gf.low_version_sub)
-                    && (gf.hi_version_maj == 0 || !versionMeetsMinimum(gf.hi_version_maj, gf.hi_version_min, gf.hi_version_sub))) {
+                    && (gf.hi_version_maj == 0
+                            || !versionMeetsMinimum(gf.hi_version_maj, gf.hi_version_min, gf.hi_version_sub))) {
                 final StringBuilder sql = new StringBuilder("SELECT ");
                 sql.append(gf.function).append("(");
                 String sep = "";
@@ -1863,7 +2010,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
             this.stmt.execute("GRANT SELECT ON *.* TO '" + user + "'@'%'");
 
             if (accLock.equals("ACCOUNT LOCK")) {
-                assertThrows("Test case: " + accLock + ",", SQLException.class, "Access denied for user '" + user + "'@'.*'\\. Account is locked\\.",
+                assertThrows("Test case: " + accLock + ",", SQLException.class,
+                        "Access denied for user '" + user + "'@'.*'\\. Account is locked\\.",
                         new Callable<Void>() {
                             public Void call() throws Exception {
                                 getConnectionWithProps(props);
@@ -1877,9 +2025,13 @@ public class SyntaxRegressionTest extends BaseTestCase {
             assertTrue("Test case: " + accLock + ",", testConn1.createStatement().executeQuery("SELECT 1").next());
 
             this.stmt.execute("ALTER USER '" + user + "'@'%' ACCOUNT LOCK");
-            assertTrue("Test case: " + accLock + ",", testConn1.createStatement().executeQuery("SELECT 1").next()); // Previous authentication still valid.
+            assertTrue("Test case: " + accLock + ",", testConn1.createStatement().executeQuery("SELECT 1").next()); // Previous
+                                                                                                                    // authentication
+                                                                                                                    // still
+                                                                                                                    // valid.
 
-            assertThrows("Test case: " + accLock + ",", SQLException.class, "Access denied for user '" + user + "'@'.*'\\. Account is locked\\.",
+            assertThrows("Test case: " + accLock + ",", SQLException.class,
+                    "Access denied for user '" + user + "'@'.*'\\. Account is locked\\.",
                     new Callable<Void>() {
                         public Void call() throws Exception {
                             ((JdbcConnection) testConn1).changeUser(user, pwd);
@@ -1887,12 +2039,13 @@ public class SyntaxRegressionTest extends BaseTestCase {
                         }
                     });
             assertFalse("Test case: " + accLock + ",", testConn1.isClosed());
-            assertThrows("Test case: " + accLock + ",", SQLException.class, "(?s)Communications link failure.*", new Callable<Void>() {
-                public Void call() throws Exception {
-                    testConn1.createStatement().executeQuery("SELECT 1");
-                    return null;
-                }
-            });
+            assertThrows("Test case: " + accLock + ",", SQLException.class, "(?s)Communications link failure.*",
+                    new Callable<Void>() {
+                        public Void call() throws Exception {
+                            testConn1.createStatement().executeQuery("SELECT 1");
+                            return null;
+                        }
+                    });
             assertTrue("Test case: " + accLock + ",", testConn1.isClosed());
 
             this.stmt.execute("ALTER USER '" + user + "'@'%' ACCOUNT UNLOCK");
@@ -1905,12 +2058,14 @@ public class SyntaxRegressionTest extends BaseTestCase {
     }
 
     /**
-     * WL#7131 - Add timestamp in mysql.user on the last time the password was changed
+     * WL#7131 - Add timestamp in mysql.user on the last time the password was
+     * changed
      * 
      * Test user account password expiration syntax:
      * 
      * CREATE|ALTER USER (...)
-     * - password_option: { PASSWORD EXPIRE | PASSWORD EXPIRE DEFAULT | PASSWORD EXPIRE NEVER | PASSWORD EXPIRE INTERVAL N DAY }
+     * - password_option: { PASSWORD EXPIRE | PASSWORD EXPIRE DEFAULT | PASSWORD
+     * EXPIRE NEVER | PASSWORD EXPIRE INTERVAL N DAY }
      */
     public void testUserAccountPwdExpiration() throws Exception {
         if (!versionMeetsMinimum(5, 7, 6)) {
@@ -1924,13 +2079,15 @@ public class SyntaxRegressionTest extends BaseTestCase {
         props.setProperty(PropertyKey.PASSWORD.getKeyName(), pwd);
 
         // CREATE USER syntax.
-        for (String accPwdExp : new String[] { "/* default */", "PASSWORD EXPIRE", "PASSWORD EXPIRE DEFAULT", "PASSWORD EXPIRE NEVER",
+        for (String accPwdExp : new String[] { "/* default */", "PASSWORD EXPIRE", "PASSWORD EXPIRE DEFAULT",
+                "PASSWORD EXPIRE NEVER",
                 "PASSWORD EXPIRE INTERVAL 365 DAY" }) {
             createUser("'" + user + "'@'%'", "IDENTIFIED BY '" + pwd + "' " + accPwdExp);
             this.stmt.execute("GRANT SELECT ON *.* TO '" + user + "'@'%'");
 
             if (accPwdExp.equals("PASSWORD EXPIRE")) {
-                assertThrows(SQLException.class, "Your password has expired\\. To log in you must change it using a client that supports expired passwords\\.",
+                assertThrows(SQLException.class,
+                        "Your password has expired\\. To log in you must change it using a client that supports expired passwords\\.",
                         new Callable<Void>() {
                             public Void call() throws Exception {
                                 getConnectionWithProps(props);
@@ -1947,7 +2104,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
         }
 
         // ALTER USER syntax.
-        for (String accPwdExp : new String[] { "PASSWORD EXPIRE", "PASSWORD EXPIRE DEFAULT", "PASSWORD EXPIRE NEVER", "PASSWORD EXPIRE INTERVAL 365 DAY" }) {
+        for (String accPwdExp : new String[] { "PASSWORD EXPIRE", "PASSWORD EXPIRE DEFAULT", "PASSWORD EXPIRE NEVER",
+                "PASSWORD EXPIRE INTERVAL 365 DAY" }) {
             createUser("'" + user + "'@'%'", "IDENTIFIED BY '" + pwd + "'");
             this.stmt.execute("GRANT SELECT ON *.* TO '" + user + "'@'%'");
 
@@ -1958,7 +2116,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
             assertTrue("Test case: " + accPwdExp + ",", testConn.createStatement().executeQuery("SELECT 1").next());
 
             if (accPwdExp.equals("PASSWORD EXPIRE")) {
-                assertThrows(SQLException.class, "Your password has expired\\. To log in you must change it using a client that supports expired passwords\\.",
+                assertThrows(SQLException.class,
+                        "Your password has expired\\. To log in you must change it using a client that supports expired passwords\\.",
                         new Callable<Void>() {
                             public Void call() throws Exception {
                                 ((JdbcConnection) testConn).changeUser(user, pwd);
@@ -1989,7 +2148,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
         }
 
         boolean keyringPluginIsActive = false;
-        this.rs = this.stmt.executeQuery("SELECT (PLUGIN_STATUS='ACTIVE') AS `TRUE` FROM INFORMATION_SCHEMA.PLUGINS WHERE PLUGIN_NAME LIKE 'keyring_file'");
+        this.rs = this.stmt.executeQuery(
+                "SELECT (PLUGIN_STATUS='ACTIVE') AS `TRUE` FROM INFORMATION_SCHEMA.PLUGINS WHERE PLUGIN_NAME LIKE 'keyring_file'");
         if (this.rs.next()) {
             keyringPluginIsActive = this.rs.getBoolean(1);
         }
@@ -2019,7 +2179,8 @@ public class SyntaxRegressionTest extends BaseTestCase {
             assertFalse(this.rs.next());
 
         } else { // Syntax can still be tested by with different outcome.
-            System.out.println("Although not required it is recommended that the 'keyring_file' plugin is properly installed and configured to run this test.");
+            System.out.println(
+                    "Although not required it is recommended that the 'keyring_file' plugin is properly installed and configured to run this test.");
 
             String err = versionMeetsMinimum(8, 0, 4) || versionMeetsMinimum(5, 7, 22) && !versionMeetsMinimum(8, 0, 0)
                     ? "Can't find master key from keyring, please check in the server log if a keyring plugin is loaded and initialized successfully."

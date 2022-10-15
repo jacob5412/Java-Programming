@@ -67,9 +67,15 @@ public final class Months extends BaseSingleFieldPeriod {
     public static final Months ELEVEN = new Months(11);
     /** Constant representing twelve months. */
     public static final Months TWELVE = new Months(12);
-    /** Constant representing the maximum number of months that can be stored in this object. */
+    /**
+     * Constant representing the maximum number of months that can be stored in this
+     * object.
+     */
     public static final Months MAX_VALUE = new Months(Integer.MAX_VALUE);
-    /** Constant representing the minimum number of months that can be stored in this object. */
+    /**
+     * Constant representing the minimum number of months that can be stored in this
+     * object.
+     */
     public static final Months MIN_VALUE = new Months(Integer.MIN_VALUE);
 
     /** The parser to use for this class. */
@@ -77,13 +83,13 @@ public final class Months extends BaseSingleFieldPeriod {
     /** Serialization version. */
     private static final long serialVersionUID = 87525275727380867L;
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Obtains an instance of <code>Months</code> that may be cached.
      * <code>Months</code> is immutable, so instances can be cached and shared.
      * This factory method provides access to shared instances.
      *
-     * @param months  the number of months to obtain an instance for
+     * @param months the number of months to obtain an instance for
      * @return the instance of Months
      */
     public static Months months(int months) {
@@ -123,14 +129,14 @@ public final class Months extends BaseSingleFieldPeriod {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a <code>Months</code> representing the number of whole months
      * between the two specified datetimes. This method corectly handles
      * any daylight savings time changes that may occur during the interval.
      *
-     * @param start  the start instant, must not be null
-     * @param end  the end instant, must not be null
+     * @param start the start instant, must not be null
+     * @param end   the end instant, must not be null
      * @return the period in months
      * @throws IllegalArgumentException if the instants are null or invalid
      */
@@ -146,13 +152,13 @@ public final class Months extends BaseSingleFieldPeriod {
      * The two partials must contain the same fields, for example you can specify
      * two <code>LocalDate</code> objects.
      *
-     * @param start  the start partial date, must not be null
-     * @param end  the end partial date, must not be null
+     * @param start the start partial date, must not be null
+     * @param end   the end partial date, must not be null
      * @return the period in months
      * @throws IllegalArgumentException if the partials are null or invalid
      */
     public static Months monthsBetween(ReadablePartial start, ReadablePartial end) {
-        if (start instanceof LocalDate && end instanceof LocalDate)   {
+        if (start instanceof LocalDate && end instanceof LocalDate) {
             Chronology chrono = DateTimeUtils.getChronology(start.getChronology());
             int months = chrono.months().getDifference(
                     ((LocalDate) end).getLocalMillis(), ((LocalDate) start).getLocalMillis());
@@ -167,12 +173,12 @@ public final class Months extends BaseSingleFieldPeriod {
      * in the specified interval. This method corectly handles any daylight
      * savings time changes that may occur during the interval.
      *
-     * @param interval  the interval to extract months from, null returns zero
+     * @param interval the interval to extract months from, null returns zero
      * @return the period in months
      * @throws IllegalArgumentException if the partials are null or invalid
      */
     public static Months monthsIn(ReadableInterval interval) {
-        if (interval == null)   {
+        if (interval == null) {
             return Months.ZERO;
         }
         int amount = BaseSingleFieldPeriod.between(interval.getStart(), interval.getEnd(), DurationFieldType.months());
@@ -180,13 +186,16 @@ public final class Months extends BaseSingleFieldPeriod {
     }
 
     /**
-     * Creates a new <code>Months</code> by parsing a string in the ISO8601 format 'PnM'.
+     * Creates a new <code>Months</code> by parsing a string in the ISO8601 format
+     * 'PnM'.
      * <p>
-     * The parse will accept the full ISO syntax of PnYnMnWnDTnHnMnS however only the
-     * months component may be non-zero. If any other component is non-zero, an exception
+     * The parse will accept the full ISO syntax of PnYnMnWnDTnHnMnS however only
+     * the
+     * months component may be non-zero. If any other component is non-zero, an
+     * exception
      * will be thrown.
      *
-     * @param periodStr  the period string, null returns zero
+     * @param periodStr the period string, null returns zero
      * @return the period in months
      * @throws IllegalArgumentException if the string format is invalid
      */
@@ -199,13 +208,13 @@ public final class Months extends BaseSingleFieldPeriod {
         return Months.months(p.getMonths());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a new instance representing a number of months.
      * You should consider using the factory method {@link #months(int)}
      * instead of the constructor.
      *
-     * @param months  the number of months to represent
+     * @param months the number of months to represent
      */
     private Months(int months) {
         super(months);
@@ -220,7 +229,7 @@ public final class Months extends BaseSingleFieldPeriod {
         return Months.months(getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the duration field type, which is <code>months</code>.
      *
@@ -239,7 +248,7 @@ public final class Months extends BaseSingleFieldPeriod {
         return PeriodType.months();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the number of months that this period represents.
      *
@@ -249,13 +258,13 @@ public final class Months extends BaseSingleFieldPeriod {
         return getValue();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the specified number of months added.
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param months  the amount of months to add, may be negative
+     * @param months the amount of months to add, may be negative
      * @return the new period plus the specified number of months
      * @throws ArithmeticException if the result overflows an int
      */
@@ -271,7 +280,7 @@ public final class Months extends BaseSingleFieldPeriod {
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param months  the amount of months to add, may be negative, null means zero
+     * @param months the amount of months to add, may be negative, null means zero
      * @return the new period plus the specified number of months
      * @throws ArithmeticException if the result overflows an int
      */
@@ -282,13 +291,13 @@ public final class Months extends BaseSingleFieldPeriod {
         return plus(months.getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the specified number of months taken away.
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param months  the amount of months to take away, may be negative
+     * @param months the amount of months to take away, may be negative
      * @return the new period minus the specified number of months
      * @throws ArithmeticException if the result overflows an int
      */
@@ -301,7 +310,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param months  the amount of months to take away, may be negative, null means zero
+     * @param months the amount of months to take away, may be negative, null means
+     *               zero
      * @return the new period minus the specified number of months
      * @throws ArithmeticException if the result overflows an int
      */
@@ -312,13 +322,13 @@ public final class Months extends BaseSingleFieldPeriod {
         return minus(months.getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the months multiplied by the specified scalar.
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param scalar  the amount to multiply by, may be negative
+     * @param scalar the amount to multiply by, may be negative
      * @return the new period multiplied by the specified scalar
      * @throws ArithmeticException if the result overflows an int
      */
@@ -332,7 +342,7 @@ public final class Months extends BaseSingleFieldPeriod {
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param divisor  the amount to divide by, may be negative
+     * @param divisor the amount to divide by, may be negative
      * @return the new period divided by the specified divisor
      * @throws ArithmeticException if the divisor is zero
      */
@@ -343,7 +353,7 @@ public final class Months extends BaseSingleFieldPeriod {
         return Months.months(getValue() / divisor);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the months value negated.
      *
@@ -354,11 +364,11 @@ public final class Months extends BaseSingleFieldPeriod {
         return Months.months(FieldUtils.safeNegate(getValue()));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Is this months instance greater than the specified number of months.
      *
-     * @param other  the other period, null means zero
+     * @param other the other period, null means zero
      * @return true if this months instance is greater than the specified one
      */
     public boolean isGreaterThan(Months other) {
@@ -371,7 +381,7 @@ public final class Months extends BaseSingleFieldPeriod {
     /**
      * Is this months instance less than the specified number of months.
      *
-     * @param other  the other period, null means zero
+     * @param other the other period, null means zero
      * @return true if this months instance is less than the specified one
      */
     public boolean isLessThan(Months other) {
@@ -381,7 +391,7 @@ public final class Months extends BaseSingleFieldPeriod {
         return getValue() < other.getValue();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets this instance as a String in the ISO8601 duration format.
      * <p>

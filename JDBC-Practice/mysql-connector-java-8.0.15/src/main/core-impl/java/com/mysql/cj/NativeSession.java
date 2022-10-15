@@ -102,12 +102,14 @@ public class NativeSession extends CoreSession implements Serializable {
     private CacheAdapter<String, Map<String, String>> serverConfigCache;
 
     /**
-     * Actual collation index to mysql charset name map of user defined charsets for given server URLs.
+     * Actual collation index to mysql charset name map of user defined charsets for
+     * given server URLs.
      */
     private static final Map<String, Map<Integer, String>> customIndexToCharsetMapByUrl = new HashMap<>();
 
     /**
-     * Actual mysql charset name to mblen map of user defined charsets for given server URLs.
+     * Actual mysql charset name to mblen map of user defined charsets for given
+     * server URLs.
      */
     private static final Map<String, Map<String, Integer>> customCharsetToMblenMapByUrl = new HashMap<>();
 
@@ -139,7 +141,8 @@ public class NativeSession extends CoreSession implements Serializable {
         super(hostInfo, propSet);
     }
 
-    public void connect(HostInfo hi, String user, String password, String database, int loginTimeout, TransactionEventHandler transactionManager)
+    public void connect(HostInfo hi, String user, String password, String database, int loginTimeout,
+            TransactionEventHandler transactionManager)
             throws IOException {
 
         this.hostInfo = hi;
@@ -149,23 +152,29 @@ public class NativeSession extends CoreSession implements Serializable {
 
         // TODO do we need different types of physical connections?
         SocketConnection socketConnection = new NativeSocketConnection();
-        socketConnection.connect(this.hostInfo.getHost(), this.hostInfo.getPort(), this.propertySet, getExceptionInterceptor(), this.log, loginTimeout);
+        socketConnection.connect(this.hostInfo.getHost(), this.hostInfo.getPort(), this.propertySet,
+                getExceptionInterceptor(), this.log, loginTimeout);
 
         // we use physical connection to create a -> protocol
-        // this configuration places no knowledge of protocol or session on physical connection.
+        // this configuration places no knowledge of protocol or session on physical
+        // connection.
         // physical connection is responsible *only* for I/O streams
         if (this.protocol == null) {
-            this.protocol = NativeProtocol.getInstance(this, socketConnection, this.propertySet, this.log, transactionManager);
+            this.protocol = NativeProtocol.getInstance(this, socketConnection, this.propertySet, this.log,
+                    transactionManager);
         } else {
             this.protocol.init(this, socketConnection, this.propertySet, transactionManager);
         }
 
         // use protocol to create a -> session
-        // protocol is responsible for building a session and authenticating (using AuthenticationProvider) internally
+        // protocol is responsible for building a session and authenticating (using
+        // AuthenticationProvider) internally
         this.protocol.connect(user, password, database);
 
-        // error messages are returned according to character_set_results which, at this point, is set from the response packet
-        this.protocol.getServerSession().setErrorMessageEncoding(this.protocol.getAuthenticationProvider().getEncodingForHandshake());
+        // error messages are returned according to character_set_results which, at this
+        // point, is set from the response packet
+        this.protocol.getServerSession()
+                .setErrorMessageEncoding(this.protocol.getAuthenticationProvider().getEncodingForHandshake());
 
         this.isClosed = false;
     }
@@ -193,21 +202,27 @@ public class NativeSession extends CoreSession implements Serializable {
         this.isClosed = true;
     }
 
-    // TODO: we should examine the call flow here, we shouldn't have to know about the socket connection but this should be address in a wider scope.
+    // TODO: we should examine the call flow here, we shouldn't have to know about
+    // the socket connection but this should be address in a wider scope.
     @Override
     public void forceClose() {
         if (this.protocol != null) {
-            // checking this.protocol != null isn't enough if connection is used concurrently (the usual situation
-            // with application servers which have additional thread management), this.protocol can become null
-            // at any moment after this check, causing a race condition and NPEs on next calls;
-            // but we may ignore them because at this stage null this.protocol means that we successfully closed all resources by other thread.
+            // checking this.protocol != null isn't enough if connection is used
+            // concurrently (the usual situation
+            // with application servers which have additional thread management),
+            // this.protocol can become null
+            // at any moment after this check, causing a race condition and NPEs on next
+            // calls;
+            // but we may ignore them because at this stage null this.protocol means that we
+            // successfully closed all resources by other thread.
             try {
                 this.protocol.getSocketConnection().forceClose();
                 ((NativeProtocol) this.protocol).releaseResources();
             } catch (Throwable t) {
                 // can't do anything about it, and we're forcibly aborting
             }
-            //this.protocol = null; // TODO actually we shouldn't remove protocol instance because some it's methods can be called after closing socket
+            // this.protocol = null; // TODO actually we shouldn't remove protocol instance
+            // because some it's methods can be called after closing socket
         }
         synchronized (this) {
             if (this.cancelTimer != null) {
@@ -219,22 +234,28 @@ public class NativeSession extends CoreSession implements Serializable {
     }
 
     public void enableMultiQueries() {
-        sendCommand(this.commandBuilder.buildComSetOption(((NativeProtocol) this.protocol).getSharedSendPacket(), 0), false, 0);
+        sendCommand(this.commandBuilder.buildComSetOption(((NativeProtocol) this.protocol).getSharedSendPacket(), 0),
+                false, 0);
         ((NativeServerSession) getServerSession()).preserveOldTransactionState();
     }
 
     public void disableMultiQueries() {
-        sendCommand(this.commandBuilder.buildComSetOption(((NativeProtocol) this.protocol).getSharedSendPacket(), 1), false, 0);
+        sendCommand(this.commandBuilder.buildComSetOption(((NativeProtocol) this.protocol).getSharedSendPacket(), 1),
+                false, 0);
         ((NativeServerSession) getServerSession()).preserveOldTransactionState();
     }
 
     @Override
     public boolean isSetNeededForAutoCommitMode(boolean autoCommitFlag) {
-        // Server Bug#66884 (SERVER_STATUS is always initiated with SERVER_STATUS_AUTOCOMMIT=1) invalidates "elideSetAutoCommits" feature.
-        // TODO Turn this feature back on as soon as the server bug is fixed. Consider making it version specific.
-        //return this.protocol.getServerSession().isSetNeededForAutoCommitMode(autoCommitFlag,
-        //        getPropertySet().getBooleanReadableProperty(PropertyKey.elideSetAutoCommits).getValue());
-        return ((NativeServerSession) this.protocol.getServerSession()).isSetNeededForAutoCommitMode(autoCommitFlag, false);
+        // Server Bug#66884 (SERVER_STATUS is always initiated with
+        // SERVER_STATUS_AUTOCOMMIT=1) invalidates "elideSetAutoCommits" feature.
+        // TODO Turn this feature back on as soon as the server bug is fixed. Consider
+        // making it version specific.
+        // return
+        // this.protocol.getServerSession().isSetNeededForAutoCommitMode(autoCommitFlag,
+        // getPropertySet().getBooleanReadableProperty(PropertyKey.elideSetAutoCommits).getValue());
+        return ((NativeServerSession) this.protocol.getServerSession()).isSetNeededForAutoCommitMode(autoCommitFlag,
+                false);
     }
 
     public int getSessionMaxRows() {
@@ -288,7 +309,8 @@ public class NativeSession extends CoreSession implements Serializable {
     }
 
     /**
-     * Returns the packet used for sending data (used by PreparedStatement) with position set to 0.
+     * Returns the packet used for sending data (used by PreparedStatement) with
+     * position set to 0.
      * Guarded by external synchronization on a mutex.
      * 
      * @return A packet to send data with
@@ -301,12 +323,15 @@ public class NativeSession extends CoreSession implements Serializable {
         ((NativeProtocol) this.protocol).dumpPacketRingBuffer();
     }
 
-    public <T extends Resultset> T invokeQueryInterceptorsPre(Supplier<String> sql, Query interceptedQuery, boolean forceExecute) {
+    public <T extends Resultset> T invokeQueryInterceptorsPre(Supplier<String> sql, Query interceptedQuery,
+            boolean forceExecute) {
         return ((NativeProtocol) this.protocol).invokeQueryInterceptorsPre(sql, interceptedQuery, forceExecute);
     }
 
-    public <T extends Resultset> T invokeQueryInterceptorsPost(Supplier<String> sql, Query interceptedQuery, T originalResultSet, boolean forceExecute) {
-        return ((NativeProtocol) this.protocol).invokeQueryInterceptorsPost(sql, interceptedQuery, originalResultSet, forceExecute);
+    public <T extends Resultset> T invokeQueryInterceptorsPost(Supplier<String> sql, Query interceptedQuery,
+            T originalResultSet, boolean forceExecute) {
+        return ((NativeProtocol) this.protocol).invokeQueryInterceptorsPost(sql, interceptedQuery, originalResultSet,
+                forceExecute);
     }
 
     public boolean shouldIntercept() {
@@ -317,7 +342,8 @@ public class NativeSession extends CoreSession implements Serializable {
         return ((NativeProtocol) this.protocol).getCurrentTimeNanosOrMillis();
     }
 
-    public final NativePacketPayload sendCommand(NativePacketPayload queryPacket, boolean skipCheck, int timeoutMillis) {
+    public final NativePacketPayload sendCommand(NativePacketPayload queryPacket, boolean skipCheck,
+            int timeoutMillis) {
         return (NativePacketPayload) this.protocol.sendCommand(queryPacket, skipCheck, timeoutMillis);
     }
 
@@ -419,7 +445,8 @@ public class NativeSession extends CoreSession implements Serializable {
                 this.characterEncoding.setValue(CharsetMapping.getJavaEncodingForMysqlCharset(oldEncoding));
 
                 if (this.characterEncoding.getValue() == null) {
-                    throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("Connection.5", new Object[] { oldEncoding }),
+                    throw ExceptionFactory.createException(WrongArgumentException.class,
+                            Messages.getString("Connection.5", new Object[] { oldEncoding }),
                             getExceptionInterceptor());
                 }
 
@@ -430,18 +457,21 @@ public class NativeSession extends CoreSession implements Serializable {
     }
 
     /**
-     * Sets up client character set. This must be done before any further communication with the server!
+     * Sets up client character set. This must be done before any further
+     * communication with the server!
      * 
      * @param dontCheckServerMatch
-     *            if true then send the SET NAMES query even if server charset already matches the new value
+     *                             if true then send the SET NAMES query even if
+     *                             server charset already matches the new value
      * @return true if this routine actually configured the client character
      *         set, or false if the driver needs to use 'older' methods to
      *         detect the character set, as it is connected to a MySQL server
      *         older than 4.1.0
      * @throws CJException
-     *             if an exception happens while sending 'SET NAMES' to the
-     *             server, or the server sends character set information that
-     *             the client doesn't know about.
+     *                     if an exception happens while sending 'SET NAMES' to the
+     *                     server, or the server sends character set information
+     *                     that
+     *                     the client doesn't know about.
      */
     public boolean configureClientCharacterSet(boolean dontCheckServerMatch) {
         String realJavaEncoding = this.characterEncoding.getValue();
@@ -452,12 +482,14 @@ public class NativeSession extends CoreSession implements Serializable {
             characterSetAlreadyConfigured = true;
 
             configureCharsetProperties();
-            realJavaEncoding = this.characterEncoding.getValue(); // we need to do this again to grab this for versions > 4.1.0
+            realJavaEncoding = this.characterEncoding.getValue(); // we need to do this again to grab this for versions
+                                                                  // > 4.1.0
 
             String connectionCollationSuffix = "";
             String connectionCollationCharset = null;
 
-            String connectionCollation = getPropertySet().getStringProperty(PropertyKey.connectionCollation).getStringValue();
+            String connectionCollation = getPropertySet().getStringProperty(PropertyKey.connectionCollation)
+                    .getStringValue();
             if (connectionCollation != null) {
                 for (int i = 1; i < CharsetMapping.COLLATION_INDEX_TO_COLLATION_NAME.length; i++) {
                     if (CharsetMapping.COLLATION_INDEX_TO_COLLATION_NAME[i].equals(connectionCollation)) {
@@ -469,7 +501,8 @@ public class NativeSession extends CoreSession implements Serializable {
             }
 
             try {
-                String serverEncodingToSet = CharsetMapping.getJavaEncodingForCollationIndex(this.protocol.getServerSession().getServerDefaultCollationIndex());
+                String serverEncodingToSet = CharsetMapping.getJavaEncodingForCollationIndex(
+                        this.protocol.getServerSession().getServerDefaultCollationIndex());
 
                 if (serverEncodingToSet == null || serverEncodingToSet.length() == 0) {
                     if (realJavaEncoding != null) {
@@ -477,7 +510,9 @@ public class NativeSession extends CoreSession implements Serializable {
                         this.characterEncoding.setValue(realJavaEncoding);
                     } else {
                         throw ExceptionFactory.createException(
-                                Messages.getString("Connection.6", new Object[] { this.protocol.getServerSession().getServerDefaultCollationIndex() }),
+                                Messages.getString("Connection.6",
+                                        new Object[] {
+                                                this.protocol.getServerSession().getServerDefaultCollationIndex() }),
                                 getExceptionInterceptor());
                     }
                 }
@@ -487,7 +522,8 @@ public class NativeSession extends CoreSession implements Serializable {
                     serverEncodingToSet = "Cp1252";
                 }
                 if ("UnicodeBig".equalsIgnoreCase(serverEncodingToSet) || "UTF-16".equalsIgnoreCase(serverEncodingToSet)
-                        || "UTF-16LE".equalsIgnoreCase(serverEncodingToSet) || "UTF-32".equalsIgnoreCase(serverEncodingToSet)) {
+                        || "UTF-16LE".equalsIgnoreCase(serverEncodingToSet)
+                        || "UTF-32".equalsIgnoreCase(serverEncodingToSet)) {
                     serverEncodingToSet = "UTF-8";
                 }
 
@@ -499,7 +535,8 @@ public class NativeSession extends CoreSession implements Serializable {
                     this.characterEncoding.setValue(realJavaEncoding);
                 } else {
                     throw ExceptionFactory.createException(
-                            Messages.getString("Connection.6", new Object[] { this.protocol.getServerSession().getServerDefaultCollationIndex() }),
+                            Messages.getString("Connection.6",
+                                    new Object[] { this.protocol.getServerSession().getServerDefaultCollationIndex() }),
                             getExceptionInterceptor());
                 }
             }
@@ -516,30 +553,42 @@ public class NativeSession extends CoreSession implements Serializable {
                 //
                 if (realJavaEncoding.equalsIgnoreCase("UTF-8") || realJavaEncoding.equalsIgnoreCase("UTF8")) {
                     // charset names are case-sensitive
-                    String utf8CharsetName = connectionCollationSuffix.length() > 0 ? connectionCollationCharset : "utf8mb4";
+                    String utf8CharsetName = connectionCollationSuffix.length() > 0 ? connectionCollationCharset
+                            : "utf8mb4";
 
                     if (dontCheckServerMatch || !this.protocol.getServerSession().characterSetNamesMatches("utf8")
-                            || (!this.protocol.getServerSession().characterSetNamesMatches("utf8mb4")) || (connectionCollationSuffix.length() > 0
-                                    && !connectionCollation.equalsIgnoreCase(this.protocol.getServerSession().getServerVariable("collation_server")))) {
+                            || (!this.protocol.getServerSession().characterSetNamesMatches("utf8mb4"))
+                            || (connectionCollationSuffix.length() > 0
+                                    && !connectionCollation.equalsIgnoreCase(
+                                            this.protocol.getServerSession().getServerVariable("collation_server")))) {
 
-                        sendCommand(this.commandBuilder.buildComQuery(null, "SET NAMES " + utf8CharsetName + connectionCollationSuffix), false, 0);
+                        sendCommand(this.commandBuilder.buildComQuery(null,
+                                "SET NAMES " + utf8CharsetName + connectionCollationSuffix), false, 0);
 
-                        this.protocol.getServerSession().getServerVariables().put("character_set_client", utf8CharsetName);
-                        this.protocol.getServerSession().getServerVariables().put("character_set_connection", utf8CharsetName);
+                        this.protocol.getServerSession().getServerVariables().put("character_set_client",
+                                utf8CharsetName);
+                        this.protocol.getServerSession().getServerVariables().put("character_set_connection",
+                                utf8CharsetName);
                     }
 
                     this.characterEncoding.setValue(realJavaEncoding);
                 } /* not utf-8 */else {
-                    String mysqlCharsetName = connectionCollationSuffix.length() > 0 ? connectionCollationCharset : CharsetMapping
-                            .getMysqlCharsetForJavaEncoding(realJavaEncoding.toUpperCase(Locale.ENGLISH), getServerSession().getServerVersion());
+                    String mysqlCharsetName = connectionCollationSuffix.length() > 0 ? connectionCollationCharset
+                            : CharsetMapping
+                                    .getMysqlCharsetForJavaEncoding(realJavaEncoding.toUpperCase(Locale.ENGLISH),
+                                            getServerSession().getServerVersion());
 
                     if (mysqlCharsetName != null) {
 
-                        if (dontCheckServerMatch || !this.protocol.getServerSession().characterSetNamesMatches(mysqlCharsetName)) {
-                            sendCommand(this.commandBuilder.buildComQuery(null, "SET NAMES " + mysqlCharsetName + connectionCollationSuffix), false, 0);
+                        if (dontCheckServerMatch
+                                || !this.protocol.getServerSession().characterSetNamesMatches(mysqlCharsetName)) {
+                            sendCommand(this.commandBuilder.buildComQuery(null,
+                                    "SET NAMES " + mysqlCharsetName + connectionCollationSuffix), false, 0);
 
-                            this.protocol.getServerSession().getServerVariables().put("character_set_client", mysqlCharsetName);
-                            this.protocol.getServerSession().getServerVariables().put("character_set_connection", mysqlCharsetName);
+                            this.protocol.getServerSession().getServerVariables().put("character_set_client",
+                                    mysqlCharsetName);
+                            this.protocol.getServerSession().getServerVariables().put("character_set_connection",
+                                    mysqlCharsetName);
                         }
                     }
 
@@ -548,11 +597,14 @@ public class NativeSession extends CoreSession implements Serializable {
                     this.characterEncoding.setValue(realJavaEncoding);
                 }
             } else if (this.characterEncoding.getValue() != null) {
-                // Tell the server we'll use the server default charset to send our queries from now on....
-                String mysqlCharsetName = connectionCollationSuffix.length() > 0 ? connectionCollationCharset : getServerSession().getServerDefaultCharset();
+                // Tell the server we'll use the server default charset to send our queries from
+                // now on....
+                String mysqlCharsetName = connectionCollationSuffix.length() > 0 ? connectionCollationCharset
+                        : getServerSession().getServerDefaultCharset();
 
                 boolean ucs2 = false;
-                if ("ucs2".equalsIgnoreCase(mysqlCharsetName) || "utf16".equalsIgnoreCase(mysqlCharsetName) || "utf16le".equalsIgnoreCase(mysqlCharsetName)
+                if ("ucs2".equalsIgnoreCase(mysqlCharsetName) || "utf16".equalsIgnoreCase(mysqlCharsetName)
+                        || "utf16le".equalsIgnoreCase(mysqlCharsetName)
                         || "utf32".equalsIgnoreCase(mysqlCharsetName)) {
                     mysqlCharsetName = "utf8";
                     ucs2 = true;
@@ -561,12 +613,16 @@ public class NativeSession extends CoreSession implements Serializable {
                     }
                 }
 
-                if (dontCheckServerMatch || !this.protocol.getServerSession().characterSetNamesMatches(mysqlCharsetName) || ucs2) {
+                if (dontCheckServerMatch || !this.protocol.getServerSession().characterSetNamesMatches(mysqlCharsetName)
+                        || ucs2) {
                     try {
-                        sendCommand(this.commandBuilder.buildComQuery(null, "SET NAMES " + mysqlCharsetName + connectionCollationSuffix), false, 0);
+                        sendCommand(this.commandBuilder.buildComQuery(null,
+                                "SET NAMES " + mysqlCharsetName + connectionCollationSuffix), false, 0);
 
-                        this.protocol.getServerSession().getServerVariables().put("character_set_client", mysqlCharsetName);
-                        this.protocol.getServerSession().getServerVariables().put("character_set_connection", mysqlCharsetName);
+                        this.protocol.getServerSession().getServerVariables().put("character_set_client",
+                                mysqlCharsetName);
+                        this.protocol.getServerSession().getServerVariables().put("character_set_connection",
+                                mysqlCharsetName);
                     } catch (PasswordExpiredException ex) {
                         if (this.disconnectOnExpiredPasswords.getValue()) {
                             throw ex;
@@ -578,7 +634,8 @@ public class NativeSession extends CoreSession implements Serializable {
             }
 
             //
-            // We know how to deal with any charset coming back from the database, so tell the server not to do conversion if the user hasn't 'forced' a
+            // We know how to deal with any charset coming back from the database, so tell
+            // the server not to do conversion if the user hasn't 'forced' a
             // result-set character set
             //
 
@@ -586,20 +643,24 @@ public class NativeSession extends CoreSession implements Serializable {
             if (characterSetResults.getValue() == null) {
 
                 //
-                // Only send if needed, if we're caching server variables we -have- to send, because we don't know what it was before we cached them.
+                // Only send if needed, if we're caching server variables we -have- to send,
+                // because we don't know what it was before we cached them.
                 //
                 if (onServer != null && onServer.length() > 0 && !"NULL".equalsIgnoreCase(onServer)) {
                     try {
-                        sendCommand(this.commandBuilder.buildComQuery(null, "SET character_set_results = NULL"), false, 0);
+                        sendCommand(this.commandBuilder.buildComQuery(null, "SET character_set_results = NULL"), false,
+                                0);
 
                     } catch (PasswordExpiredException ex) {
                         if (this.disconnectOnExpiredPasswords.getValue()) {
                             throw ex;
                         }
                     }
-                    this.protocol.getServerSession().getServerVariables().put(ServerSession.LOCAL_CHARACTER_SET_RESULTS, null);
+                    this.protocol.getServerSession().getServerVariables().put(ServerSession.LOCAL_CHARACTER_SET_RESULTS,
+                            null);
                 } else {
-                    this.protocol.getServerSession().getServerVariables().put(ServerSession.LOCAL_CHARACTER_SET_RESULTS, onServer);
+                    this.protocol.getServerSession().getServerVariables().put(ServerSession.LOCAL_CHARACTER_SET_RESULTS,
+                            onServer);
                 }
             } else {
 
@@ -611,7 +672,8 @@ public class NativeSession extends CoreSession implements Serializable {
                 } else if ("null".equalsIgnoreCase(charsetResults)) {
                     mysqlEncodingName = "NULL";
                 } else {
-                    mysqlEncodingName = CharsetMapping.getMysqlCharsetForJavaEncoding(charsetResults.toUpperCase(Locale.ENGLISH),
+                    mysqlEncodingName = CharsetMapping.getMysqlCharsetForJavaEncoding(
+                            charsetResults.toUpperCase(Locale.ENGLISH),
                             getServerSession().getServerVersion());
                 }
 
@@ -620,12 +682,15 @@ public class NativeSession extends CoreSession implements Serializable {
                 //
 
                 if (mysqlEncodingName == null) {
-                    throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("Connection.7", new Object[] { charsetResults }),
+                    throw ExceptionFactory.createException(WrongArgumentException.class,
+                            Messages.getString("Connection.7", new Object[] { charsetResults }),
                             getExceptionInterceptor());
                 }
 
-                if (!mysqlEncodingName.equalsIgnoreCase(this.protocol.getServerSession().getServerVariable("character_set_results"))) {
-                    StringBuilder setBuf = new StringBuilder("SET character_set_results = ".length() + mysqlEncodingName.length());
+                if (!mysqlEncodingName.equalsIgnoreCase(
+                        this.protocol.getServerSession().getServerVariable("character_set_results"))) {
+                    StringBuilder setBuf = new StringBuilder(
+                            "SET character_set_results = ".length() + mysqlEncodingName.length());
                     setBuf.append("SET character_set_results = ").append(mysqlEncodingName);
 
                     try {
@@ -637,18 +702,22 @@ public class NativeSession extends CoreSession implements Serializable {
                         }
                     }
 
-                    this.protocol.getServerSession().getServerVariables().put(ServerSession.LOCAL_CHARACTER_SET_RESULTS, mysqlEncodingName);
+                    this.protocol.getServerSession().getServerVariables().put(ServerSession.LOCAL_CHARACTER_SET_RESULTS,
+                            mysqlEncodingName);
 
-                    // We have to set errorMessageEncoding according to new value of charsetResults for server version 5.5 and higher
+                    // We have to set errorMessageEncoding according to new value of charsetResults
+                    // for server version 5.5 and higher
                     this.protocol.getServerSession().setErrorMessageEncoding(charsetResults);
 
                 } else {
-                    this.protocol.getServerSession().getServerVariables().put(ServerSession.LOCAL_CHARACTER_SET_RESULTS, onServer);
+                    this.protocol.getServerSession().getServerVariables().put(ServerSession.LOCAL_CHARACTER_SET_RESULTS,
+                            onServer);
                 }
             }
 
         } finally {
-            // Failsafe, make sure that the driver's notion of character encoding matches what the user has specified.
+            // Failsafe, make sure that the driver's notion of character encoding matches
+            // what the user has specified.
             //
             this.characterEncoding.setValue(realJavaEncoding);
         }
@@ -707,12 +776,15 @@ public class NativeSession extends CoreSession implements Serializable {
             try {
                 Class<?> factoryClass;
 
-                factoryClass = Class.forName(getPropertySet().getStringProperty(PropertyKey.serverConfigCacheFactory).getStringValue());
+                factoryClass = Class.forName(
+                        getPropertySet().getStringProperty(PropertyKey.serverConfigCacheFactory).getStringValue());
 
                 @SuppressWarnings("unchecked")
-                CacheAdapterFactory<String, Map<String, String>> cacheFactory = ((CacheAdapterFactory<String, Map<String, String>>) factoryClass.newInstance());
+                CacheAdapterFactory<String, Map<String, String>> cacheFactory = ((CacheAdapterFactory<String, Map<String, String>>) factoryClass
+                        .newInstance());
 
-                this.serverConfigCache = cacheFactory.getInstance(syncMutex, this.hostInfo.getDatabaseUrl(), Integer.MAX_VALUE, Integer.MAX_VALUE);
+                this.serverConfigCache = cacheFactory.getInstance(syncMutex, this.hostInfo.getDatabaseUrl(),
+                        Integer.MAX_VALUE, Integer.MAX_VALUE);
 
                 ExceptionInterceptor evictOnCommsError = new ExceptionInterceptor() {
 
@@ -727,7 +799,8 @@ public class NativeSession extends CoreSession implements Serializable {
                     public Exception interceptException(Exception sqlEx) {
                         if (sqlEx instanceof SQLException && ((SQLException) sqlEx).getSQLState() != null
                                 && ((SQLException) sqlEx).getSQLState().startsWith("08")) {
-                            NativeSession.this.serverConfigCache.invalidate(NativeSession.this.hostInfo.getDatabaseUrl());
+                            NativeSession.this.serverConfigCache
+                                    .invalidate(NativeSession.this.hostInfo.getDatabaseUrl());
                         }
                         return null;
                     }
@@ -740,11 +813,13 @@ public class NativeSession extends CoreSession implements Serializable {
                 }
             } catch (ClassNotFoundException e) {
                 throw ExceptionFactory.createException(Messages.getString("Connection.CantFindCacheFactory",
-                        new Object[] { getPropertySet().getStringProperty(PropertyKey.parseInfoCacheFactory).getValue(), PropertyKey.parseInfoCacheFactory }),
+                        new Object[] { getPropertySet().getStringProperty(PropertyKey.parseInfoCacheFactory).getValue(),
+                                PropertyKey.parseInfoCacheFactory }),
                         e, getExceptionInterceptor());
             } catch (InstantiationException | IllegalAccessException | CJException e) {
                 throw ExceptionFactory.createException(Messages.getString("Connection.CantLoadCacheFactory",
-                        new Object[] { getPropertySet().getStringProperty(PropertyKey.parseInfoCacheFactory).getValue(), PropertyKey.parseInfoCacheFactory }),
+                        new Object[] { getPropertySet().getStringProperty(PropertyKey.parseInfoCacheFactory).getValue(),
+                                PropertyKey.parseInfoCacheFactory }),
                         e, getExceptionInterceptor());
             }
         }
@@ -758,9 +833,9 @@ public class NativeSession extends CoreSession implements Serializable {
      * that the driver can configure itself.
      * 
      * @param syncMutex
-     *            synchronization mutex
+     *                  synchronization mutex
      * @param version
-     *            driver version string
+     *                  driver version string
      */
     public void loadServerVariables(Object syncMutex, String version) {
 
@@ -793,7 +868,8 @@ public class NativeSession extends CoreSession implements Serializable {
                 version = buf.toString();
             }
 
-            String versionComment = (this.propertySet.getBooleanProperty(PropertyKey.paranoid).getValue() || version == null) ? "" : "/* " + version + " */";
+            String versionComment = (this.propertySet.getBooleanProperty(PropertyKey.paranoid).getValue()
+                    || version == null) ? "" : "/* " + version + " */";
 
             this.protocol.getServerSession().setServerVariables(new HashMap<String, String>());
 
@@ -829,7 +905,8 @@ public class NativeSession extends CoreSession implements Serializable {
                 }
                 queryBuf.append(", @@wait_timeout AS wait_timeout");
 
-                NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(null, queryBuf.toString()), false, 0);
+                NativePacketPayload resultPacket = sendCommand(
+                        this.commandBuilder.buildComQuery(null, queryBuf.toString()), false, 0);
                 Resultset rs = ((NativeProtocol) this.protocol).readAllResults(-1, false, resultPacket, false, null,
                         new ResultsetFactory(Type.FORWARD_ONLY, null));
                 Field[] f = rs.getColumnDefinition().getFields();
@@ -838,13 +915,15 @@ public class NativeSession extends CoreSession implements Serializable {
                     Row r;
                     if ((r = rs.getRows().next()) != null) {
                         for (int i = 0; i < f.length; i++) {
-                            this.protocol.getServerSession().getServerVariables().put(f[i].getColumnLabel(), r.getValue(i, vf));
+                            this.protocol.getServerSession().getServerVariables().put(f[i].getColumnLabel(),
+                                    r.getValue(i, vf));
                         }
                     }
                 }
 
             } else {
-                NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(null, versionComment + "SHOW VARIABLES"), false, 0);
+                NativePacketPayload resultPacket = sendCommand(
+                        this.commandBuilder.buildComQuery(null, versionComment + "SHOW VARIABLES"), false, 0);
                 Resultset rs = ((NativeProtocol) this.protocol).readAllResults(-1, false, resultPacket, false, null,
                         new ResultsetFactory(Type.FORWARD_ONLY, null));
                 ValueFactory<String> vf = new StringValueFactory(rs.getColumnDefinition().getFields()[0].getEncoding());
@@ -862,8 +941,10 @@ public class NativeSession extends CoreSession implements Serializable {
         }
 
         if (this.cacheServerConfiguration.getValue()) {
-            this.protocol.getServerSession().getServerVariables().put(SERVER_VERSION_STRING_VAR_NAME, getServerSession().getServerVersion().toString());
-            this.serverConfigCache.put(this.hostInfo.getDatabaseUrl(), this.protocol.getServerSession().getServerVariables());
+            this.protocol.getServerSession().getServerVariables().put(SERVER_VERSION_STRING_VAR_NAME,
+                    getServerSession().getServerVersion().toString());
+            this.serverConfigCache.put(this.hostInfo.getDatabaseUrl(),
+                    this.protocol.getServerSession().getServerVariables());
         }
     }
 
@@ -911,24 +992,29 @@ public class NativeSession extends CoreSession implements Serializable {
             }
         }
 
-        if (customCharset == null && getPropertySet().getBooleanProperty(PropertyKey.detectCustomCollations).getValue()) {
+        if (customCharset == null
+                && getPropertySet().getBooleanProperty(PropertyKey.detectCustomCollations).getValue()) {
             customCharset = new HashMap<>();
             customMblen = new HashMap<>();
 
             ValueFactory<Integer> ivf = new IntegerValueFactory();
 
             try {
-                NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(null, "SHOW COLLATION"), false, 0);
+                NativePacketPayload resultPacket = sendCommand(
+                        this.commandBuilder.buildComQuery(null, "SHOW COLLATION"), false, 0);
                 Resultset rs = ((NativeProtocol) this.protocol).readAllResults(-1, false, resultPacket, false, null,
                         new ResultsetFactory(Type.FORWARD_ONLY, null));
-                ValueFactory<String> svf = new StringValueFactory(rs.getColumnDefinition().getFields()[1].getEncoding());
+                ValueFactory<String> svf = new StringValueFactory(
+                        rs.getColumnDefinition().getFields()[1].getEncoding());
                 Row r;
                 while ((r = rs.getRows().next()) != null) {
                     int collationIndex = ((Number) r.getValue(2, ivf)).intValue();
                     String charsetName = r.getValue(1, svf);
 
-                    // if no static map for charsetIndex or server has a different mapping then our static map, adding it to custom map 
-                    if (collationIndex >= CharsetMapping.MAP_SIZE || !charsetName.equals(CharsetMapping.getMysqlCharsetNameForCollationIndex(collationIndex))) {
+                    // if no static map for charsetIndex or server has a different mapping then our
+                    // static map, adding it to custom map
+                    if (collationIndex >= CharsetMapping.MAP_SIZE || !charsetName
+                            .equals(CharsetMapping.getMysqlCharsetNameForCollationIndex(collationIndex))) {
                         customCharset.put(collationIndex, charsetName);
                     }
 
@@ -945,17 +1031,20 @@ public class NativeSession extends CoreSession implements Serializable {
                 throw ExceptionFactory.createException(e.getMessage(), e, this.exceptionInterceptor);
             }
 
-            // if there is a number of custom charsets we should execute SHOW CHARACTER SET to know theirs mblen
+            // if there is a number of custom charsets we should execute SHOW CHARACTER SET
+            // to know theirs mblen
             if (customMblen.size() > 0) {
                 try {
-                    NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(null, "SHOW CHARACTER SET"), false, 0);
+                    NativePacketPayload resultPacket = sendCommand(
+                            this.commandBuilder.buildComQuery(null, "SHOW CHARACTER SET"), false, 0);
                     Resultset rs = ((NativeProtocol) this.protocol).readAllResults(-1, false, resultPacket, false, null,
                             new ResultsetFactory(Type.FORWARD_ONLY, null));
 
                     int charsetColumn = rs.getColumnDefinition().getColumnNameToIndex().get("Charset");
                     int maxlenColumn = rs.getColumnDefinition().getColumnNameToIndex().get("Maxlen");
 
-                    ValueFactory<String> svf = new StringValueFactory(rs.getColumnDefinition().getFields()[1].getEncoding());
+                    ValueFactory<String> svf = new StringValueFactory(
+                            rs.getColumnDefinition().getFields()[1].getEncoding());
                     Row r;
                     while ((r = rs.getRows().next()) != null) {
                         String charsetName = r.getValue(charsetColumn, svf);
@@ -982,13 +1071,16 @@ public class NativeSession extends CoreSession implements Serializable {
 
         // set charset maps
         if (customCharset != null) {
-            ((NativeServerSession) this.protocol.getServerSession()).indexToCustomMysqlCharset = Collections.unmodifiableMap(customCharset);
+            ((NativeServerSession) this.protocol.getServerSession()).indexToCustomMysqlCharset = Collections
+                    .unmodifiableMap(customCharset);
         }
         if (customMblen != null) {
-            ((NativeServerSession) this.protocol.getServerSession()).mysqlCharsetToCustomMblen = Collections.unmodifiableMap(customMblen);
+            ((NativeServerSession) this.protocol.getServerSession()).mysqlCharsetToCustomMblen = Collections
+                    .unmodifiableMap(customMblen);
         }
 
-        // Trying to workaround server collations with index > 255. Such index doesn't fit into server greeting packet, 0 is sent instead.
+        // Trying to workaround server collations with index > 255. Such index doesn't
+        // fit into server greeting packet, 0 is sent instead.
         // Now we could set io.serverCharsetIndex according to "collation_server" value.
         if (this.protocol.getServerSession().getServerDefaultCollationIndex() == 0) {
             String collationServer = this.protocol.getServerSession().getServerVariable("collation_server");
@@ -1000,7 +1092,8 @@ public class NativeSession extends CoreSession implements Serializable {
                     }
                 }
             } else {
-                // We can't do more, just trying to use utf8mb4_general_ci because the most of collations in that range are utf8mb4.
+                // We can't do more, just trying to use utf8mb4_general_ci because the most of
+                // collations in that range are utf8mb4.
                 this.protocol.getServerSession().setServerDefaultCollationIndex(45);
             }
         }
@@ -1013,11 +1106,14 @@ public class NativeSession extends CoreSession implements Serializable {
             String processHost = findProcessHost(threadId);
 
             if (processHost == null) {
-                // http://bugs.mysql.com/bug.php?id=44167 - connection ids on the wire wrap at 4 bytes even though they're 64-bit numbers
+                // http://bugs.mysql.com/bug.php?id=44167 - connection ids on the wire wrap at 4
+                // bytes even though they're 64-bit numbers
                 this.log.logWarn(String.format(
-                        "Connection id %d not found in \"SHOW PROCESSLIST\", assuming 32-bit overflow, using SELECT CONNECTION_ID() instead", threadId));
+                        "Connection id %d not found in \"SHOW PROCESSLIST\", assuming 32-bit overflow, using SELECT CONNECTION_ID() instead",
+                        threadId));
 
-                NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(null, "SELECT CONNECTION_ID()"), false, 0);
+                NativePacketPayload resultPacket = sendCommand(
+                        this.commandBuilder.buildComQuery(null, "SELECT CONNECTION_ID()"), false, 0);
                 Resultset rs = ((NativeProtocol) this.protocol).readAllResults(-1, false, resultPacket, false, null,
                         new ResultsetFactory(Type.FORWARD_ONLY, null));
 
@@ -1027,13 +1123,15 @@ public class NativeSession extends CoreSession implements Serializable {
                     threadId = r.getValue(0, lvf);
                     processHost = findProcessHost(threadId);
                 } else {
-                    this.log.logError("No rows returned for statement \"SELECT CONNECTION_ID()\", local connection check will most likely be incorrect");
+                    this.log.logError(
+                            "No rows returned for statement \"SELECT CONNECTION_ID()\", local connection check will most likely be incorrect");
                 }
             }
 
             if (processHost == null) {
                 this.log.logWarn(String.format(
-                        "Cannot find process listing for connection %d in SHOW PROCESSLIST output, unable to determine if locally connected", threadId));
+                        "Cannot find process listing for connection %d in SHOW PROCESSLIST output, unable to determine if locally connected",
+                        threadId));
             }
             return processHost;
         } catch (IOException e) {
@@ -1045,8 +1143,10 @@ public class NativeSession extends CoreSession implements Serializable {
         try {
             String processHost = null;
 
-            NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(null, "SHOW PROCESSLIST"), false, 0);
-            Resultset rs = ((NativeProtocol) this.protocol).readAllResults(-1, false, resultPacket, false, null, new ResultsetFactory(Type.FORWARD_ONLY, null));
+            NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(null, "SHOW PROCESSLIST"),
+                    false, 0);
+            Resultset rs = ((NativeProtocol) this.protocol).readAllResults(-1, false, resultPacket, false, null,
+                    new ResultsetFactory(Type.FORWARD_ONLY, null));
 
             ValueFactory<Long> lvf = new LongValueFactory();
             ValueFactory<String> svf = new StringValueFactory(rs.getColumnDefinition().getFields()[2].getEncoding());
@@ -1070,14 +1170,16 @@ public class NativeSession extends CoreSession implements Serializable {
      * Get the variable value from server.
      * 
      * @param varName
-     *            server variable name
+     *                server variable name
      * @return server variable value
      */
     public String queryServerVariable(String varName) {
         try {
 
-            NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(null, "SELECT " + varName), false, 0);
-            Resultset rs = ((NativeProtocol) this.protocol).readAllResults(-1, false, resultPacket, false, null, new ResultsetFactory(Type.FORWARD_ONLY, null));
+            NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(null, "SELECT " + varName),
+                    false, 0);
+            Resultset rs = ((NativeProtocol) this.protocol).readAllResults(-1, false, resultPacket, false, null,
+                    new ResultsetFactory(Type.FORWARD_ONLY, null));
 
             ValueFactory<String> svf = new StringValueFactory(rs.getColumnDefinition().getFields()[0].getEncoding());
             Row r;
@@ -1101,30 +1203,32 @@ public class NativeSession extends CoreSession implements Serializable {
      * should be enclosed in a connection mutex synchronized block.
      * 
      * @param <T>
-     *            extends {@link Resultset}
+     *                         extends {@link Resultset}
      * @param callingQuery
-     *            {@link Query} object
+     *                         {@link Query} object
      * @param query
-     *            the SQL statement to be executed
+     *                         the SQL statement to be executed
      * @param maxRows
-     *            rows limit
+     *                         rows limit
      * @param packet
-     *            {@link NativePacketPayload}
+     *                         {@link NativePacketPayload}
      * @param streamResults
-     *            whether a stream result should be created
+     *                         whether a stream result should be created
      * @param resultSetFactory
-     *            {@link ProtocolEntityFactory}
+     *                         {@link ProtocolEntityFactory}
      * @param catalog
-     *            database name
+     *                         database name
      * @param cachedMetadata
-     *            use this metadata instead of the one provided on wire
+     *                         use this metadata instead of the one provided on wire
      * @param isBatch
-     *            is it a batch query
+     *                         is it a batch query
      * 
      * @return a ResultSet holding the results
      */
-    public <T extends Resultset> T execSQL(Query callingQuery, String query, int maxRows, NativePacketPayload packet, boolean streamResults,
-            ProtocolEntityFactory<T, NativePacketPayload> resultSetFactory, String catalog, ColumnDefinition cachedMetadata, boolean isBatch) {
+    public <T extends Resultset> T execSQL(Query callingQuery, String query, int maxRows, NativePacketPayload packet,
+            boolean streamResults,
+            ProtocolEntityFactory<T, NativePacketPayload> resultSetFactory, String catalog,
+            ColumnDefinition cachedMetadata, boolean isBatch) {
 
         long queryStartTime = 0;
         int endOfQueryPacketPosition = 0;
@@ -1138,7 +1242,9 @@ public class NativeSession extends CoreSession implements Serializable {
 
         this.lastQueryFinishedTime = 0; // we're busy!
 
-        if (this.autoReconnect.getValue() && (getServerSession().isAutoCommit() || this.autoReconnectForPools.getValue()) && this.needsPing && !isBatch) {
+        if (this.autoReconnect.getValue()
+                && (getServerSession().isAutoCommit() || this.autoReconnectForPools.getValue()) && this.needsPing
+                && !isBatch) {
             try {
                 ping(false, 0);
                 this.needsPing = false;
@@ -1151,10 +1257,12 @@ public class NativeSession extends CoreSession implements Serializable {
         try {
             if (packet == null) {
                 String encoding = this.characterEncoding.getValue();
-                return ((NativeProtocol) this.protocol).sendQueryString(callingQuery, query, encoding, maxRows, streamResults, catalog, cachedMetadata,
+                return ((NativeProtocol) this.protocol).sendQueryString(callingQuery, query, encoding, maxRows,
+                        streamResults, catalog, cachedMetadata,
                         this::getProfilerEventHandlerInstanceFunction, resultSetFactory);
             }
-            return ((NativeProtocol) this.protocol).sendQueryPacket(callingQuery, packet, maxRows, streamResults, catalog, cachedMetadata,
+            return ((NativeProtocol) this.protocol).sendQueryPacket(callingQuery, packet, maxRows, streamResults,
+                    catalog, cachedMetadata,
                     this::getProfilerEventHandlerInstanceFunction, resultSetFactory);
 
         } catch (CJException sqlE) {
@@ -1229,10 +1337,13 @@ public class NativeSession extends CoreSession implements Serializable {
             checkClosed();
         }
 
-        long pingMillisLifetime = getPropertySet().getIntegerProperty(PropertyKey.selfDestructOnPingSecondsLifetime).getValue();
-        int pingMaxOperations = getPropertySet().getIntegerProperty(PropertyKey.selfDestructOnPingMaxOperations).getValue();
+        long pingMillisLifetime = getPropertySet().getIntegerProperty(PropertyKey.selfDestructOnPingSecondsLifetime)
+                .getValue();
+        int pingMaxOperations = getPropertySet().getIntegerProperty(PropertyKey.selfDestructOnPingMaxOperations)
+                .getValue();
 
-        if ((pingMillisLifetime > 0 && (System.currentTimeMillis() - this.connectionCreationTimeMillis) > pingMillisLifetime)
+        if ((pingMillisLifetime > 0
+                && (System.currentTimeMillis() - this.connectionCreationTimeMillis) > pingMillisLifetime)
                 || (pingMaxOperations > 0 && pingMaxOperations <= getCommandCount())) {
 
             invokeNormalCloseListeners();
@@ -1240,7 +1351,8 @@ public class NativeSession extends CoreSession implements Serializable {
             throw ExceptionFactory.createException(Messages.getString("Connection.exceededConnectionLifetime"),
                     MysqlErrorNumbers.SQL_STATE_COMMUNICATION_LINK_FAILURE, 0, false, null, this.exceptionInterceptor);
         }
-        sendCommand(this.commandBuilder.buildComPing(null), false, timeoutMillis); // it isn't safe to use a shared packet here 
+        sendCommand(this.commandBuilder.buildComPing(null), false, timeoutMillis); // it isn't safe to use a shared
+                                                                                   // packet here
     }
 
     public long getConnectionCreationTimeMillis() {
@@ -1257,10 +1369,12 @@ public class NativeSession extends CoreSession implements Serializable {
 
     public void checkClosed() {
         if (this.isClosed) {
-            if (this.forceClosedReason != null && this.forceClosedReason.getClass().equals(OperationCancelledException.class)) {
+            if (this.forceClosedReason != null
+                    && this.forceClosedReason.getClass().equals(OperationCancelledException.class)) {
                 throw (OperationCancelledException) this.forceClosedReason;
             }
-            throw ExceptionFactory.createException(ConnectionIsClosedException.class, Messages.getString("Connection.2"), this.forceClosedReason,
+            throw ExceptionFactory.createException(ConnectionIsClosedException.class,
+                    Messages.getString("Connection.2"), this.forceClosedReason,
                     getExceptionInterceptor());
         }
     }
@@ -1335,7 +1449,8 @@ public class NativeSession extends CoreSession implements Serializable {
     }
 
     @Override
-    public <M extends Message, RES_T, R> RES_T query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow, Collector<R, ?, RES_T> collector) {
+    public <M extends Message, RES_T, R> RES_T query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow,
+            Collector<R, ?, RES_T> collector) {
         throw ExceptionFactory.createException(CJOperationNotSupportedException.class, "Not supported");
     }
 }

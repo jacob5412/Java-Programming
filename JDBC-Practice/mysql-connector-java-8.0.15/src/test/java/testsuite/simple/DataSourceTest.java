@@ -86,7 +86,7 @@ public class DataSourceTest extends BaseTestCase {
      * JNDI, using the FSContext JNDI provider from Sun
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     @Override
     public void setUp() throws Exception {
@@ -98,7 +98,7 @@ public class DataSourceTest extends BaseTestCase {
      * Un-binds the DataSource, and cleans up the filesystem
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     @Override
     public void tearDown() throws Exception {
@@ -116,7 +116,7 @@ public class DataSourceTest extends BaseTestCase {
      * during test setup
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testDataSource() throws Exception {
         NameParser nameParser = this.ctx.getNameParser("");
@@ -128,7 +128,8 @@ public class DataSourceTest extends BaseTestCase {
             boundDs = (DataSource) obj;
         } else if (obj instanceof Reference) {
             //
-            // For some reason, this comes back as a Reference instance under CruiseControl !?
+            // For some reason, this comes back as a Reference instance under CruiseControl
+            // !?
             //
             Reference objAsRef = (Reference) obj;
             ObjectFactory factory = (ObjectFactory) Class.forName(objAsRef.getFactoryClassName()).newInstance();
@@ -147,7 +148,7 @@ public class DataSourceTest extends BaseTestCase {
      * restore character set information correctly.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testChangeUserAndCharsets() throws Exception {
         MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
@@ -164,7 +165,7 @@ public class DataSourceTest extends BaseTestCase {
         this.rs = connToMySQL.createStatement().executeQuery("SHOW SESSION VARIABLES LIKE 'character_set_client'");
         assertTrue(this.rs.next());
 
-        //Cause of utf8mb4
+        // Cause of utf8mb4
         assertEquals(0, this.rs.getString(2).indexOf("utf8"));
 
         connToMySQL.close();
@@ -177,7 +178,7 @@ public class DataSourceTest extends BaseTestCase {
         this.rs = connToMySQL.createStatement().executeQuery("SHOW SESSION VARIABLES LIKE 'character_set_client'");
         assertTrue(this.rs.next());
 
-        //Cause of utf8mb4
+        // Cause of utf8mb4
         assertEquals(0, this.rs.getString(2).indexOf("utf8"));
 
         pooledConnection.getConnection().close();
@@ -187,7 +188,7 @@ public class DataSourceTest extends BaseTestCase {
      * Tests whether XADataSources can be bound into JNDI
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testXADataSource() throws Exception {
 
@@ -208,7 +209,7 @@ public class DataSourceTest extends BaseTestCase {
      * configered into your naming and directory service using some GUI.
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     private void registerDataSource() throws Exception {
         this.tempDir = File.createTempFile("jnditest", null);
@@ -271,9 +272,9 @@ public class DataSourceTest extends BaseTestCase {
         ds.setURL("http://10.0.0.1");
         assertEquals("http://10.0.0.1", ds.getURL());
 
-        //assertNull(ds.getUser());
-        //ds.setUser("testUser");
-        //assertEquals("testUser", ds.getUser());
+        // assertNull(ds.getUser());
+        // ds.setUser("testUser");
+        // assertEquals("testUser", ds.getUser());
 
         // instrumented properties
         for (PropertyDefinition<?> def : PropertyDefinitions.PROPERTY_KEY_TO_PROPERTY_DEFINITION.values()) {

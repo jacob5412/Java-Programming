@@ -58,7 +58,8 @@ import com.mysql.cj.util.TimeUtil;
 //TODO should not be protocol-specific
 public abstract class AbstractQueryBindings<T extends BindValue> implements QueryBindings<T> {
 
-    protected final static byte[] HEX_DIGITS = new byte[] { (byte) '0', (byte) '1', (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6', (byte) '7',
+    protected final static byte[] HEX_DIGITS = new byte[] { (byte) '0', (byte) '1', (byte) '2', (byte) '3', (byte) '4',
+            (byte) '5', (byte) '6', (byte) '7',
             (byte) '8', (byte) '9', (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F' };
 
     protected Session session;
@@ -82,9 +83,12 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
     public AbstractQueryBindings(int parameterCount, Session sess) {
         this.session = sess;
         this.charEncoding = this.session.getPropertySet().getStringProperty(PropertyKey.characterEncoding).getValue();
-        this.sendFractionalSeconds = this.session.getPropertySet().getBooleanProperty(PropertyKey.sendFractionalSeconds);
-        this.treatUtilDateAsTimestamp = this.session.getPropertySet().getBooleanProperty(PropertyKey.treatUtilDateAsTimestamp);
-        this.useStreamLengthsInPrepStmts = this.session.getPropertySet().getBooleanProperty(PropertyKey.useStreamLengthsInPrepStmts);
+        this.sendFractionalSeconds = this.session.getPropertySet()
+                .getBooleanProperty(PropertyKey.sendFractionalSeconds);
+        this.treatUtilDateAsTimestamp = this.session.getPropertySet()
+                .getBooleanProperty(PropertyKey.treatUtilDateAsTimestamp);
+        this.useStreamLengthsInPrepStmts = this.session.getPropertySet()
+                .getBooleanProperty(PropertyKey.useStreamLengthsInPrepStmts);
 
         initBindValues(parameterCount);
     }
@@ -174,11 +178,11 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
      * Used to escape binary data with hex for mb charsets
      * 
      * @param buf
-     *            source bytes
+     *               source bytes
      * @param packet
-     *            write to this packet
+     *               write to this packet
      * @param size
-     *            number of bytes to read
+     *               number of bytes to read
      */
     public final void hexEscapeBlock(byte[] buf, NativePacketPayload packet, int size) {
         for (int i = 0; i < size; i++) {
@@ -267,25 +271,29 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
 
     @Override
     public void setObject(int parameterIndex, Object parameterObj, MysqlType targetMysqlType) {
-        setObject(parameterIndex, parameterObj, targetMysqlType, parameterObj instanceof BigDecimal ? ((BigDecimal) parameterObj).scale() : 0);
+        setObject(parameterIndex, parameterObj, targetMysqlType,
+                parameterObj instanceof BigDecimal ? ((BigDecimal) parameterObj).scale() : 0);
     }
 
     /**
-     * Set the value of a parameter using an object; use the java.lang equivalent objects for integral values.
+     * Set the value of a parameter using an object; use the java.lang equivalent
+     * objects for integral values.
      * 
      * <P>
-     * The given Java object will be converted to the targetMysqlType before being sent to the database.
+     * The given Java object will be converted to the targetMysqlType before being
+     * sent to the database.
      * 
      * @param parameterIndex
-     *            the first parameter is 1...
+     *                        the first parameter is 1...
      * @param parameterObj
-     *            the object containing the input parameter value
+     *                        the object containing the input parameter value
      * @param targetMysqlType
-     *            The MysqlType to be send to the database
+     *                        The MysqlType to be send to the database
      * @param scaleOrLength
-     *            For Types.DECIMAL or Types.NUMERIC types
-     *            this is the number of digits after the decimal. For all other
-     *            types this value will be ignored.
+     *                        For Types.DECIMAL or Types.NUMERIC types
+     *                        this is the number of digits after the decimal. For
+     *                        all other
+     *                        types this value will be ignored.
      */
     public void setObject(int parameterIndex, Object parameterObj, MysqlType targetMysqlType, int scaleOrLength) {
         if (parameterObj == null) {
@@ -310,7 +318,8 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
                             break;
 
                         } else if (parameterObj instanceof String) {
-                            setBoolean(parameterIndex, "true".equalsIgnoreCase((String) parameterObj) || !"0".equalsIgnoreCase((String) parameterObj));
+                            setBoolean(parameterIndex, "true".equalsIgnoreCase((String) parameterObj)
+                                    || !"0".equalsIgnoreCase((String) parameterObj));
                             break;
 
                         } else if (parameterObj instanceof Number) {
@@ -320,7 +329,8 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
 
                         } else {
                             throw ExceptionFactory.createException(WrongArgumentException.class,
-                                    Messages.getString("PreparedStatement.66", new Object[] { parameterObj.getClass().getName() }),
+                                    Messages.getString("PreparedStatement.66",
+                                            new Object[] { parameterObj.getClass().getName() }),
                                     this.session.getExceptionInterceptor());
                         }
 
@@ -354,7 +364,8 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
                     case LONGTEXT:
                     case JSON:
                         if (parameterObj instanceof BigDecimal) {
-                            setString(parameterIndex, (StringUtils.fixDecimalExponent(((BigDecimal) parameterObj).toPlainString())));
+                            setString(parameterIndex,
+                                    (StringUtils.fixDecimalExponent(((BigDecimal) parameterObj).toPlainString())));
                         } else if (parameterObj instanceof java.sql.Clob) {
                             setClob(parameterIndex, (java.sql.Clob) parameterObj);
                         } else {
@@ -388,7 +399,8 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
 
                         if (parameterObj instanceof String) {
                             ParsePosition pp = new ParsePosition(0);
-                            java.text.DateFormat sdf = new java.text.SimpleDateFormat(TimeUtil.getDateTimePattern((String) parameterObj, false), Locale.US);
+                            java.text.DateFormat sdf = new java.text.SimpleDateFormat(
+                                    TimeUtil.getDateTimePattern((String) parameterObj, false), Locale.US);
                             parameterAsDate = sdf.parse((String) parameterObj, pp);
                         } else {
                             parameterAsDate = (java.util.Date) parameterObj;
@@ -419,7 +431,8 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
                             case YEAR:
                                 Calendar cal = Calendar.getInstance();
                                 cal.setTime(parameterAsDate);
-                                setNumericObject(parameterIndex, cal.get(Calendar.YEAR), targetMysqlType, scaleOrLength);
+                                setNumericObject(parameterIndex, cal.get(Calendar.YEAR), targetMysqlType,
+                                        scaleOrLength);
                                 break;
 
                             default:
@@ -430,7 +443,8 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
 
                     case TIME:
                         if (parameterObj instanceof String) {
-                            java.text.DateFormat sdf = new java.text.SimpleDateFormat(TimeUtil.getDateTimePattern((String) parameterObj, true), Locale.US);
+                            java.text.DateFormat sdf = new java.text.SimpleDateFormat(
+                                    TimeUtil.getDateTimePattern((String) parameterObj, true), Locale.US);
                             setTime(parameterIndex, new java.sql.Time(sdf.parse((String) parameterObj).getTime()));
                         } else if (parameterObj instanceof Timestamp) {
                             Timestamp xT = (Timestamp) parameterObj;
@@ -446,12 +460,15 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
                         break;
 
                     default:
-                        throw ExceptionFactory.createException(Messages.getString("PreparedStatement.16"), this.session.getExceptionInterceptor());
+                        throw ExceptionFactory.createException(Messages.getString("PreparedStatement.16"),
+                                this.session.getExceptionInterceptor());
                 }
             } catch (Exception ex) {
                 throw ExceptionFactory.createException(
-                        Messages.getString("PreparedStatement.17") + parameterObj.getClass().toString() + Messages.getString("PreparedStatement.18")
-                                + ex.getClass().getName() + Messages.getString("PreparedStatement.19") + ex.getMessage(),
+                        Messages.getString("PreparedStatement.17") + parameterObj.getClass().toString()
+                                + Messages.getString("PreparedStatement.18")
+                                + ex.getClass().getName() + Messages.getString("PreparedStatement.19")
+                                + ex.getMessage(),
                         ex, this.session.getExceptionInterceptor());
             }
         }
@@ -552,16 +569,19 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
                         scaledBigDecimal = ((java.math.BigDecimal) parameterAsNum).setScale(scale);
                     } catch (ArithmeticException ex) {
                         try {
-                            scaledBigDecimal = ((java.math.BigDecimal) parameterAsNum).setScale(scale, BigDecimal.ROUND_HALF_UP);
+                            scaledBigDecimal = ((java.math.BigDecimal) parameterAsNum).setScale(scale,
+                                    BigDecimal.ROUND_HALF_UP);
                         } catch (ArithmeticException arEx) {
                             throw ExceptionFactory.createException(WrongArgumentException.class,
-                                    Messages.getString("PreparedStatement.65", new Object[] { scale, parameterAsNum }), this.session.getExceptionInterceptor());
+                                    Messages.getString("PreparedStatement.65", new Object[] { scale, parameterAsNum }),
+                                    this.session.getExceptionInterceptor());
                         }
                     }
 
                     setBigDecimal(parameterIndex, scaledBigDecimal);
                 } else if (parameterAsNum instanceof java.math.BigInteger) {
-                    setBigDecimal(parameterIndex, new java.math.BigDecimal((java.math.BigInteger) parameterAsNum, scale));
+                    setBigDecimal(parameterIndex,
+                            new java.math.BigDecimal((java.math.BigInteger) parameterAsNum, scale));
                 } else {
                     setBigDecimal(parameterIndex, new java.math.BigDecimal(parameterAsNum.doubleValue()));
                 }
@@ -573,12 +593,13 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
     }
 
     /**
-     * Sets the value for the placeholder as a serialized Java object (used by various forms of setObject()
+     * Sets the value for the placeholder as a serialized Java object (used by
+     * various forms of setObject()
      * 
      * @param parameterIndex
-     *            parameter index
+     *                       parameter index
      * @param parameterObj
-     *            value
+     *                       value
      */
     protected final void setSerializableObject(int parameterIndex, Object parameterObj) {
         try {
@@ -595,7 +616,8 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
             setBinaryStream(parameterIndex, bytesIn, buf.length);
             this.bindValues[parameterIndex].setMysqlType(MysqlType.BINARY);
         } catch (Exception ex) {
-            throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("PreparedStatement.54") + ex.getClass().getName(), ex,
+            throw ExceptionFactory.createException(WrongArgumentException.class,
+                    Messages.getString("PreparedStatement.54") + ex.getClass().getName(), ex,
                     this.session.getExceptionInterceptor());
         }
     }

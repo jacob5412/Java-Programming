@@ -10,7 +10,7 @@ public class BatchProcessingExample {
         // username and password
         final String username = "root";
         final String password = "MyNewPass";
-        try{
+        try {
             // using static method of DriverManager
             Connection connection = DriverManager.getConnection(url, username, password);
             System.out.println("Success: Database connection. " + connection);
@@ -30,10 +30,10 @@ public class BatchProcessingExample {
 
             // executing batch
             int count[] = stmt.executeBatch();
-            for(int i = 0; i < count.length; i++)
+            for (int i = 0; i < count.length; i++)
                 System.out.println(count[i]);
 
-        } catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error: Couldn't connect to database " + e);
         }
     }

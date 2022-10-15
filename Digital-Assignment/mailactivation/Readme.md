@@ -3,7 +3,7 @@
 Develop Java Programs implementing 10 new concepts/features/Topics (not in our syllabus).
 
 ## Sending Email in Java through Gmail Server
-* [Code](https://github.com/jacobjohn2016/Java-Programming/blob/master/Digital-Assignment/src/SendEmail.java)
+* [Code](https://github.com/jacob5412/Java-Programming/blob/master/Digital-Assignment/src/SendEmail.java)
 * [Source - Javatpoint](https://www.javatpoint.com/example-of-sending-email-using-java-mail-api-through-gmail-server)
 * [`.jar` files](https://www.javatpoint.com/src/mail/mailactivation.zip)
 * Steps:

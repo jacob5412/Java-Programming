@@ -30,7 +30,9 @@
 package com.mysql.cj;
 
 /**
- * A warning listener is notified of warnings as they happen throughout the driver. They can be queued for consumption by JDBC clients, thrown as exceptions, or
+ * A warning listener is notified of warnings as they happen throughout the
+ * driver. They can be queued for consumption by JDBC clients, thrown as
+ * exceptions, or
  * ignored.
  */
 public interface WarningListener {

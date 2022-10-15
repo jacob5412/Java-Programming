@@ -39,7 +39,8 @@ import java.util.Map;
 import testsuite.BaseTestCase;
 
 /**
- * Microperformance benchmarks to track increase/decrease in performance of core methods in the driver over time.
+ * Microperformance benchmarks to track increase/decrease in performance of core
+ * methods in the driver over time.
  */
 public class MicroPerformanceRegressionTest extends BaseTestCase {
     private static double[] scaleFactorSamples = new double[5];
@@ -48,7 +49,8 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
 
     private final static double ORIGINAL_LOOP_TIME_MS = 2300.0;
 
-    // (Used to be 10.0 for JVM < 1.7 but since HW and VMs are much faster now a minimal disruption can cause significant deviations)
+    // (Used to be 10.0 for JVM < 1.7 but since HW and VMs are much faster now a
+    // minimal disruption can cause significant deviations)
     private final static double LEEWAY = 50.0; // account for VMs
 
     private final static Map<String, Double> BASELINE_TIMES = new HashMap<String, Double>();
@@ -100,15 +102,17 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
      * Tests result set accessors performance.
      * 
      * @throws Exception
-     *             if the performance of these methods does not meet
-     *             expectations.
+     *                   if the performance of these methods does not meet
+     *                   expectations.
      */
     public void testResultSetAccessors() throws Exception {
-        createTable("marktest", "(intField INT, floatField DOUBLE, timeField TIME, datetimeField DATETIME, stringField VARCHAR(64))");
+        createTable("marktest",
+                "(intField INT, floatField DOUBLE, timeField TIME, datetimeField DATETIME, stringField VARCHAR(64))");
         this.stmt.executeUpdate(
                 "INSERT INTO marktest VALUES (123456789, 12345.6789, NOW(), NOW(), 'abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@')");
 
-        this.rs = this.stmt.executeQuery("SELECT intField, floatField, timeField, datetimeField, stringField FROM marktest");
+        this.rs = this.stmt
+                .executeQuery("SELECT intField, floatField, timeField, datetimeField, stringField FROM marktest");
 
         this.rs.next();
 
@@ -138,7 +142,8 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
 
         for (int i = 0; i < numLoops; i++) {
             this.rs.getTime(3);
-            // If we don't clear the warnings here, we add one for every loop and spend a huge amount of time iterating and updating the linked list
+            // If we don't clear the warnings here, we add one for every loop and spend a
+            // huge amount of time iterating and updating the linked list
             this.rs.clearWarnings();
         }
 
@@ -160,7 +165,8 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
 
         for (int i = 0; i < numLoops; i++) {
             this.rs.getDate(4);
-            // If we don't clear the warnings here, we add one for every loop and spend a huge amount of time iterating and updating the linked list
+            // If we don't clear the warnings here, we add one for every loop and spend a
+            // huge amount of time iterating and updating the linked list
             this.rs.clearWarnings();
         }
 
@@ -190,7 +196,8 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
     }
 
     public void testPreparedStatementTimes() throws Exception {
-        createTable("marktest", "(intField INT, floatField DOUBLE, timeField TIME, datetimeField DATETIME, stringField VARCHAR(64))");
+        createTable("marktest",
+                "(intField INT, floatField DOUBLE, timeField TIME, datetimeField DATETIME, stringField VARCHAR(64))");
         this.stmt.executeUpdate(
                 "INSERT INTO marktest VALUES (123456789, 12345.6789, NOW(), NOW(), 'abcdefghijklmnopqrstuvABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@')");
 
@@ -332,7 +339,8 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
         super.setUp();
 
         System.out.println("Adjusting global performance scaling factor...");
-        System.out.println("Gobal performance scaling factor adjusted from: " + scaleFactor + " to: " + adjustScaleFactor());
+        System.out.println(
+                "Gobal performance scaling factor adjusted from: " + scaleFactor + " to: " + adjustScaleFactor());
     }
 
     private static final double adjustScaleFactor() {
@@ -361,14 +369,16 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
     }
 
     private static final double calculateScaleFactor() {
-        // Run this simple test to get some sort of performance scaling factor, compared to the development environment. This should help reduce false-positives
+        // Run this simple test to get some sort of performance scaling factor, compared
+        // to the development environment. This should help reduce false-positives
         // on this test.
         int numLoops = 10000;
 
         long start = BaseTestCase.currentTimeMillis();
 
         for (int j = 0; j < 2000; j++) {
-            // StringBuffer below is used for measuring and can't be changed to StringBuilder.
+            // StringBuffer below is used for measuring and can't be changed to
+            // StringBuilder.
             StringBuffer buf = new StringBuffer(numLoops);
 
             for (int i = 0; i < numLoops; i++) {
@@ -398,7 +408,9 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
 
         System.out.println(testType + ": avg time = " + avgExecTimeMs + ", acceptable time = " + acceptableTime);
 
-        assertTrue("Average execution time of " + avgExecTimeMs + " ms. exceeded baseline * leeway of " + acceptableTime + " ms.",
+        assertTrue(
+                "Average execution time of " + avgExecTimeMs + " ms. exceeded baseline * leeway of " + acceptableTime
+                        + " ms.",
                 (avgExecTimeMs <= acceptableTime));
     }
 
@@ -442,7 +454,8 @@ public class MicroPerformanceRegressionTest extends BaseTestCase {
 
             checkTime("single selects", secondsSingleQuery);
 
-            PreparedStatement pStmt2 = this.conn.prepareStatement("SELECT field2, field3, field4, field5 FROM testBug6359 WHERE pk_field=?");
+            PreparedStatement pStmt2 = this.conn
+                    .prepareStatement("SELECT field2, field3, field4, field5 FROM testBug6359 WHERE pk_field=?");
 
             long beginFiveQueries = currentTimeMillis();
 

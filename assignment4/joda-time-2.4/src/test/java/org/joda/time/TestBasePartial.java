@@ -28,20 +28,17 @@ import org.joda.time.base.BasePartial;
 public class TestBasePartial extends TestCase {
 
     private static final DateTimeZone PARIS = DateTimeZone.forID("Europe/Paris");
-    
-    private long TEST_TIME_NOW =
-            (31L + 28L + 31L + 30L + 31L + 9L -1L) * DateTimeConstants.MILLIS_PER_DAY;
-            
-    private long TEST_TIME1 =
-        (31L + 28L + 31L + 6L -1L) * DateTimeConstants.MILLIS_PER_DAY
-        + 12L * DateTimeConstants.MILLIS_PER_HOUR
-        + 24L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
-    private long TEST_TIME2 =
-        (365L + 31L + 28L + 31L + 30L + 7L -1L) * DateTimeConstants.MILLIS_PER_DAY
-        + 14L * DateTimeConstants.MILLIS_PER_HOUR
-        + 28L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
+
+    private long TEST_TIME_NOW = (31L + 28L + 31L + 30L + 31L + 9L - 1L) * DateTimeConstants.MILLIS_PER_DAY;
+
+    private long TEST_TIME1 = (31L + 28L + 31L + 6L - 1L) * DateTimeConstants.MILLIS_PER_DAY
+            + 12L * DateTimeConstants.MILLIS_PER_HOUR
+            + 24L * DateTimeConstants.MILLIS_PER_MINUTE;
+
+    private long TEST_TIME2 = (365L + 31L + 28L + 31L + 30L + 7L - 1L) * DateTimeConstants.MILLIS_PER_DAY
+            + 14L * DateTimeConstants.MILLIS_PER_HOUR
+            + 28L * DateTimeConstants.MILLIS_PER_MINUTE;
+
     private DateTimeZone zone = null;
 
     public static void main(String[] args) {
@@ -68,43 +65,45 @@ public class TestBasePartial extends TestCase {
         zone = null;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testSetMethods() throws Throwable {
         MockPartial mock = new MockPartial();
         assertEquals(1970, mock.getYear());
         assertEquals(1, mock.getMonthOfYear());
-        
+
         mock.setYear(2004);
         assertEquals(2004, mock.getYear());
         assertEquals(1, mock.getMonthOfYear());
-        
+
         mock.setMonthOfYear(6);
         assertEquals(2004, mock.getYear());
         assertEquals(6, mock.getMonthOfYear());
-        
+
         mock.set(2005, 5);
         assertEquals(2005, mock.getYear());
         assertEquals(5, mock.getMonthOfYear());
-        
+
         try {
             mock.setMonthOfYear(0);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         assertEquals(2005, mock.getYear());
         assertEquals(5, mock.getMonthOfYear());
-        
+
         try {
             mock.setMonthOfYear(13);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         assertEquals(2005, mock.getYear());
         assertEquals(5, mock.getMonthOfYear());
     }
 
     static class MockPartial extends BasePartial {
-        
+
         MockPartial() {
-            super(new int[] {1970, 1}, null);
+            super(new int[] { 1970, 1 }, null);
         }
 
         protected DateTimeField getField(int index, Chronology chrono) {
@@ -121,25 +120,25 @@ public class TestBasePartial extends TestCase {
         public int size() {
             return 2;
         }
-        
+
         public int getYear() {
             return getValue(0);
         }
-        
+
         public void setYear(int year) {
             setValue(0, year);
         }
-        
+
         public int getMonthOfYear() {
             return getValue(1);
         }
-        
+
         public void setMonthOfYear(int month) {
             setValue(1, month);
         }
-        
+
         public void set(int year, int month) {
-            setValues(new int[] {year, month});
+            setValues(new int[] { year, month });
         }
     }
 }

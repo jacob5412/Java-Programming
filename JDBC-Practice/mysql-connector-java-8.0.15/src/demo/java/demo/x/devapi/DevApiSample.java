@@ -44,7 +44,8 @@ import com.mysql.cj.xdevapi.SessionFactory;
  */
 public class DevApiSample {
     public static void main(String[] args) {
-        Session session = new SessionFactory().getSession("mysqlx://localhost:33060/test?user=user&password=password1234");
+        Session session = new SessionFactory()
+                .getSession("mysqlx://localhost:33060/test?user=user&password=password1234");
         System.err.println("Connected!");
         Schema schema = session.getDefaultSchema();
         System.err.println("Default schema is: " + schema);
@@ -61,14 +62,17 @@ public class DevApiSample {
         newDoc.add("currentlyReadingPage", new JsonNumber().setValue(String.valueOf(42)));
         coll.add(newDoc).execute();
 
-        // note: "$" prefix for document paths is optional. "$.title.somethingElse[0]" is the same as "title.somethingElse[0]" in document expressions
+        // note: "$" prefix for document paths is optional. "$.title.somethingElse[0]"
+        // is the same as "title.somethingElse[0]" in document expressions
         DocResult docs = coll.find("$.title = 'Effi Briest' and $.currentlyReadingPage > 10").execute();
         DbDoc book = docs.next();
         System.err.println("Currently reading " + ((JsonString) book.get("title")).getString() + " on page "
                 + ((JsonNumber) book.get("currentlyReadingPage")).getInteger());
 
         // increment the page number and fetch it again
-        coll.modify("$.isbn = 12345").set("$.currentlyReadingPage", ((JsonNumber) book.get("currentlyReadingPage")).getInteger() + 1).execute();
+        coll.modify("$.isbn = 12345")
+                .set("$.currentlyReadingPage", ((JsonNumber) book.get("currentlyReadingPage")).getInteger() + 1)
+                .execute();
 
         docs = coll.find("$.title = 'Effi Briest' and $.currentlyReadingPage > 10").execute();
         book = docs.next();

@@ -39,7 +39,8 @@ import com.mysql.cj.protocol.SocketFactory;
 import com.mysql.cj.protocol.StandardSocketFactory;
 
 /**
- * Wraps the legacy com.mysql.jdbc.SocketFactory implementations so they can be used as {@link SocketFactory}
+ * Wraps the legacy com.mysql.jdbc.SocketFactory implementations so they can be
+ * used as {@link SocketFactory}
  */
 public class SocketFactoryWrapper extends StandardSocketFactory implements SocketFactory {
 
@@ -53,14 +54,16 @@ public class SocketFactoryWrapper extends StandardSocketFactory implements Socke
 
     @SuppressWarnings({ "deprecation", "unchecked" })
     @Override
-    public <T extends Closeable> T connect(String hostname, int portNumber, PropertySet pset, int loginTimeout) throws IOException {
+    public <T extends Closeable> T connect(String hostname, int portNumber, PropertySet pset, int loginTimeout)
+            throws IOException {
         this.rawSocket = this.socketFactory.connect(hostname, portNumber, pset.exposeAsProperties());
         return (T) this.rawSocket;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Closeable> T performTlsHandshake(SocketConnection socketConnection, ServerSession serverSession) throws IOException {
+    public <T extends Closeable> T performTlsHandshake(SocketConnection socketConnection, ServerSession serverSession)
+            throws IOException {
         return (T) super.performTlsHandshake(socketConnection, serverSession);
     }
 

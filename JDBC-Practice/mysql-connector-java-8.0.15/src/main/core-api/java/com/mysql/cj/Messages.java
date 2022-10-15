@@ -47,7 +47,8 @@ public class Messages {
         ResourceBundle temp = null;
 
         //
-        // Overly-pedantic here, some appserver and JVM combos don't deal well with the no-args version, others don't deal well with the three-arg version, so
+        // Overly-pedantic here, some appserver and JVM combos don't deal well with the
+        // no-args version, others don't deal well with the three-arg version, so
         // we need to try both :(
         //
 
@@ -57,7 +58,8 @@ public class Messages {
             try {
                 temp = ResourceBundle.getBundle(BUNDLE_NAME);
             } catch (Throwable t2) {
-                RuntimeException rt = new RuntimeException("Can't load resource bundle due to underlying exception " + t.toString());
+                RuntimeException rt = new RuntimeException(
+                        "Can't load resource bundle due to underlying exception " + t.toString());
                 rt.initCause(t2);
 
                 throw rt;
@@ -76,7 +78,8 @@ public class Messages {
      */
     public static String getString(String key) {
         if (RESOURCE_BUNDLE == null) {
-            throw new RuntimeException("Localized messages from resource bundle '" + BUNDLE_NAME + "' not loaded during initialization of driver.");
+            throw new RuntimeException("Localized messages from resource bundle '" + BUNDLE_NAME
+                    + "' not loaded during initialization of driver.");
         }
 
         try {

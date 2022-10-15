@@ -73,7 +73,8 @@ public class AddMethods {
         }
     }
 
-    private static void addPropertiesGettersSetters(CtClass clazz, Collection<PropertyDefinition<?>> propertyDefinitions) throws Exception {
+    private static void addPropertiesGettersSetters(CtClass clazz,
+            Collection<PropertyDefinition<?>> propertyDefinitions) throws Exception {
         for (PropertyDefinition<?> def : propertyDefinitions) {
             String pname = def.hasCcAlias() ? def.getCcAlias() : def.getName();
 
@@ -107,9 +108,11 @@ public class AddMethods {
         }
     }
 
-    private static void addGetter(CtClass clazz, String pname, String paramType, String getPropertyMethod) throws Exception {
+    private static void addGetter(CtClass clazz, String pname, String paramType, String getPropertyMethod)
+            throws Exception {
         String mname = "get" + pname.substring(0, 1).toUpperCase() + pname.substring(1);
-        String mbody = "public " + paramType + " " + mname + "() throws java.sql.SQLException { return " + getPropertyMethod + "(\"" + pname + "\");}";
+        String mbody = "public " + paramType + " " + mname + "() throws java.sql.SQLException { return "
+                + getPropertyMethod + "(\"" + pname + "\");}";
         sysOut(mbody);
         try {
             CtMethod m = CtNewMethod.make(mbody, clazz);
@@ -120,9 +123,11 @@ public class AddMethods {
         }
     }
 
-    private static void addSetter(CtClass clazz, String pname, String paramType, String setPropertyMethod) throws Exception {
+    private static void addSetter(CtClass clazz, String pname, String paramType, String setPropertyMethod)
+            throws Exception {
         String mname = "set" + pname.substring(0, 1).toUpperCase() + pname.substring(1);
-        String mbody = "public void " + mname + "(" + paramType + " value) throws java.sql.SQLException { " + setPropertyMethod + "(\"" + pname
+        String mbody = "public void " + mname + "(" + paramType + " value) throws java.sql.SQLException { "
+                + setPropertyMethod + "(\"" + pname
                 + "\", value);}";
         sysOut(mbody);
         try {

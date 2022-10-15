@@ -53,13 +53,14 @@ import org.joda.time.format.ISODateTimeFormat;
  * <li>set - <code>monthOfYear().setCopy()</code>
  * </ul>
  * <p>
- * YearMonthDay is thread-safe and immutable, provided that the Chronology is as well.
+ * YearMonthDay is thread-safe and immutable, provided that the Chronology is as
+ * well.
  * All standard Chronology classes supplied are thread-safe and immutable.
  *
  * @author Stephen Colebourne
  * @since 1.0
  * @deprecated Use LocalDate which has a much better internal implementation and
- *  has been available since 1.3
+ *             has been available since 1.3
  */
 @Deprecated
 public final class YearMonthDay
@@ -70,9 +71,9 @@ public final class YearMonthDay
     private static final long serialVersionUID = 797544782896179L;
     /** The singleton set of field types */
     private static final DateTimeFieldType[] FIELD_TYPES = new DateTimeFieldType[] {
-        DateTimeFieldType.year(),
-        DateTimeFieldType.monthOfYear(),
-        DateTimeFieldType.dayOfMonth(),
+            DateTimeFieldType.year(),
+            DateTimeFieldType.monthOfYear(),
+            DateTimeFieldType.dayOfMonth(),
     };
 
     /** The index of the year field in the field array */
@@ -82,7 +83,7 @@ public final class YearMonthDay
     /** The index of the dayOfMonth field in the field array */
     public static final int DAY_OF_MONTH = 2;
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Constructs a YearMonthDay from a <code>java.util.Calendar</code>
      * using exactly the same field values avoiding any time zone effects.
@@ -96,10 +97,11 @@ public final class YearMonthDay
      * will only pass in instances of <code>GregorianCalendar</code> however
      * this is not validated.
      *
-     * @param calendar  the Calendar to extract fields from
+     * @param calendar the Calendar to extract fields from
      * @return the created YearMonthDay
      * @throws IllegalArgumentException if the calendar is null
-     * @throws IllegalArgumentException if the date is invalid for the ISO chronology
+     * @throws IllegalArgumentException if the date is invalid for the ISO
+     *                                  chronology
      * @since 1.2
      */
     public static YearMonthDay fromCalendarFields(Calendar calendar) {
@@ -107,10 +109,9 @@ public final class YearMonthDay
             throw new IllegalArgumentException("The calendar must not be null");
         }
         return new YearMonthDay(
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH) + 1,
-            calendar.get(Calendar.DAY_OF_MONTH)
-        );
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1,
+                calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     /**
@@ -123,10 +124,11 @@ public final class YearMonthDay
      * <p>
      * This factory method always creates a YearMonthDay with ISO chronology.
      *
-     * @param date  the Date to extract fields from
+     * @param date the Date to extract fields from
      * @return the created YearMonthDay
      * @throws IllegalArgumentException if the calendar is null
-     * @throws IllegalArgumentException if the date is invalid for the ISO chronology
+     * @throws IllegalArgumentException if the date is invalid for the ISO
+     *                                  chronology
      * @since 1.2
      */
     public static YearMonthDay fromDateFields(Date date) {
@@ -134,13 +136,12 @@ public final class YearMonthDay
             throw new IllegalArgumentException("The date must not be null");
         }
         return new YearMonthDay(
-            date.getYear() + 1900,
-            date.getMonth() + 1,
-            date.getDate()
-        );
+                date.getYear() + 1900,
+                date.getMonth() + 1,
+                date.getDate());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Constructs a YearMonthDay with the current date, using ISOChronology in
      * the default zone to extract the fields.
@@ -161,7 +162,7 @@ public final class YearMonthDay
      * Once the constructor is complete, all further calculations
      * are performed without reference to a timezone (by switching to UTC).
      * 
-     * @param zone  the zone to use, null means default zone
+     * @param zone the zone to use, null means default zone
      * @since 1.1
      */
     public YearMonthDay(DateTimeZone zone) {
@@ -169,14 +170,16 @@ public final class YearMonthDay
     }
 
     /**
-     * Constructs a YearMonthDay with the current date, using the specified chronology
+     * Constructs a YearMonthDay with the current date, using the specified
+     * chronology
      * and zone to extract the fields.
      * <p>
      * The constructor uses the time zone of the chronology specified.
      * Once the constructor is complete, all further calculations are performed
      * without reference to a timezone (by switching to UTC).
      *
-     * @param chronology  the chronology, null means ISOChronology in the default zone
+     * @param chronology the chronology, null means ISOChronology in the default
+     *                   zone
      */
     public YearMonthDay(Chronology chronology) {
         super(chronology);
@@ -190,7 +193,7 @@ public final class YearMonthDay
      * being initialised. Once the constructor is complete, all further calculations
      * are performed without reference to a timezone (by switching to UTC).
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z
      */
     public YearMonthDay(long instant) {
         super(instant);
@@ -204,8 +207,9 @@ public final class YearMonthDay
      * Once the constructor is complete, all further calculations are performed
      * without reference to a timezone (by switching to UTC).
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z
-     * @param chronology  the chronology, null means ISOChronology in the default zone
+     * @param instant    the milliseconds from 1970-01-01T00:00:00Z
+     * @param chronology the chronology, null means ISOChronology in the default
+     *                   zone
      */
     public YearMonthDay(long instant, Chronology chronology) {
         super(instant, chronology);
@@ -217,14 +221,16 @@ public final class YearMonthDay
      * The recognised object types are defined in
      * {@link org.joda.time.convert.ConverterManager ConverterManager} and
      * include ReadableInstant, String, Calendar and Date.
-     * The String formats are described by {@link ISODateTimeFormat#dateOptionalTimeParser()}.
+     * The String formats are described by
+     * {@link ISODateTimeFormat#dateOptionalTimeParser()}.
      * <p>
      * The chronology used will be derived from the object, defaulting to ISO.
      * <p>
      * NOTE: Prior to v1.3 the string format was described by
-     * {@link ISODateTimeFormat#dateTimeParser()}. Time ony strings are now rejected.
+     * {@link ISODateTimeFormat#dateTimeParser()}. Time ony strings are now
+     * rejected.
      *
-     * @param instant  the datetime object, null means now
+     * @param instant the datetime object, null means now
      * @throws IllegalArgumentException if the instant is invalid
      */
     public YearMonthDay(Object instant) {
@@ -238,7 +244,8 @@ public final class YearMonthDay
      * The recognised object types are defined in
      * {@link org.joda.time.convert.ConverterManager ConverterManager} and
      * include ReadableInstant, String, Calendar and Date.
-     * The String formats are described by {@link ISODateTimeFormat#dateOptionalTimeParser()}.
+     * The String formats are described by
+     * {@link ISODateTimeFormat#dateOptionalTimeParser()}.
      * <p>
      * The constructor uses the time zone of the chronology specified.
      * Once the constructor is complete, all further calculations are performed
@@ -246,10 +253,11 @@ public final class YearMonthDay
      * The specified chronology overrides that of the object.
      * <p>
      * NOTE: Prior to v1.3 the string format was described by
-     * {@link ISODateTimeFormat#dateTimeParser()}. Time only strings are now rejected.
+     * {@link ISODateTimeFormat#dateTimeParser()}. Time only strings are now
+     * rejected.
      *
-     * @param instant  the datetime object, null means now
-     * @param chronology  the chronology, null means ISO default
+     * @param instant    the datetime object, null means now
+     * @param chronology the chronology, null means ISO default
      * @throws IllegalArgumentException if the instant is invalid
      */
     public YearMonthDay(Object instant, Chronology chronology) {
@@ -264,8 +272,8 @@ public final class YearMonthDay
      * Once the constructor is complete, all further calculations
      * are performed without reference to a timezone (by switching to UTC).
      *
-     * @param year  the year
-     * @param monthOfYear  the month of the year
+     * @param year        the year
+     * @param monthOfYear the month of the year
      * @param dayOfMonth  the day of the month
      */
     public YearMonthDay(int year, int monthOfYear, int dayOfMonth) {
@@ -279,19 +287,20 @@ public final class YearMonthDay
      * Once the constructor is complete, all further calculations are performed
      * without reference to a timezone (by switching to UTC).
      *
-     * @param year  the year
-     * @param monthOfYear  the month of the year
+     * @param year        the year
+     * @param monthOfYear the month of the year
      * @param dayOfMonth  the day of the month
-     * @param chronology  the chronology, null means ISOChronology in the default zone
+     * @param chronology  the chronology, null means ISOChronology in the default
+     *                    zone
      */
     public YearMonthDay(int year, int monthOfYear, int dayOfMonth, Chronology chronology) {
-        super(new int[] {year, monthOfYear, dayOfMonth}, chronology);
+        super(new int[] { year, monthOfYear, dayOfMonth }, chronology);
     }
 
     /**
      * Constructs a YearMonthDay with chronology from this instance and new values.
      *
-     * @param partial  the partial to base this new instance on
+     * @param partial the partial to base this new instance on
      * @param values  the new set of values
      */
     YearMonthDay(YearMonthDay partial, int[] values) {
@@ -299,16 +308,17 @@ public final class YearMonthDay
     }
 
     /**
-     * Constructs a YearMonthDay with values from this instance and a new chronology.
+     * Constructs a YearMonthDay with values from this instance and a new
+     * chronology.
      *
-     * @param partial  the partial to base this new instance on
+     * @param partial the partial to base this new instance on
      * @param chrono  the new chronology
      */
     YearMonthDay(YearMonthDay partial, Chronology chrono) {
         super(partial, chrono);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the number of fields in this partial.
      * 
@@ -324,7 +334,7 @@ public final class YearMonthDay
      * This method must not use any instance variables.
      * 
      * @param index  the index to retrieve
-     * @param chrono  the chronology to use
+     * @param chrono the chronology to use
      * @return the field
      */
     protected DateTimeField getField(int index, Chronology chrono) {
@@ -343,7 +353,7 @@ public final class YearMonthDay
     /**
      * Gets the field type at the specified index.
      *
-     * @param index  the index to retrieve
+     * @param index the index to retrieve
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
@@ -352,7 +362,8 @@ public final class YearMonthDay
     }
 
     /**
-     * Gets an array of the field type of each of the fields that this partial supports.
+     * Gets an array of the field type of each of the fields that this partial
+     * supports.
      * <p>
      * The fields are returned largest to smallest, Year, Month, Day
      *
@@ -362,7 +373,7 @@ public final class YearMonthDay
         return (DateTimeFieldType[]) FIELD_TYPES.clone();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a copy of this date with the specified chronology.
      * This instance is immutable and unaffected by this method call.
@@ -373,9 +384,10 @@ public final class YearMonthDay
      * The time zone of the specified chronology is ignored, as YearMonthDay
      * operates without a time zone.
      *
-     * @param newChronology  the new chronology, null means ISO
+     * @param newChronology the new chronology, null means ISO
      * @return a copy of this datetime with a different chronology
-     * @throws IllegalArgumentException if the values are invalid for the new chronology
+     * @throws IllegalArgumentException if the values are invalid for the new
+     *                                  chronology
      */
     public YearMonthDay withChronologyRetainFields(Chronology newChronology) {
         newChronology = DateTimeUtils.getChronology(newChronology);
@@ -396,14 +408,15 @@ public final class YearMonthDay
      * would be changed in the returned instance.
      * <p>
      * These three lines are equivalent:
+     * 
      * <pre>
      * YearMonthDay updated = ymd.withField(DateTimeFieldType.dayOfMonth(), 6);
      * YearMonthDay updated = ymd.dayOfMonth().setCopy(6);
      * YearMonthDay updated = ymd.property(DateTimeFieldType.dayOfMonth()).setCopy(6);
      * </pre>
      *
-     * @param fieldType  the field type to set, not null
-     * @param value  the value to set
+     * @param fieldType the field type to set, not null
+     * @param value     the value to set
      * @return a copy of this instance with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
@@ -423,17 +436,18 @@ public final class YearMonthDay
      * If the addition is zero, then <code>this</code> is returned.
      * <p>
      * These three lines are equivalent:
+     * 
      * <pre>
      * YearMonthDay added = ymd.withFieldAdded(DurationFieldType.days(), 6);
      * YearMonthDay added = ymd.plusDays(6);
      * YearMonthDay added = ymd.dayOfMonth().addToCopy(6);
      * </pre>
      * 
-     * @param fieldType  the field type to add to, not null
-     * @param amount  the amount to add
+     * @param fieldType the field type to add to, not null
+     * @param amount    the amount to add
      * @return a copy of this instance with the field updated
      * @throws IllegalArgumentException if the value is null or invalid
-     * @throws ArithmeticException if the new datetime exceeds the capacity
+     * @throws ArithmeticException      if the new datetime exceeds the capacity
      */
     public YearMonthDay withFieldAdded(DurationFieldType fieldType, int amount) {
         int index = indexOfSupported(fieldType);
@@ -456,8 +470,8 @@ public final class YearMonthDay
      * like {@link #withFieldAdded(DurationFieldType, int)}
      * or {@link #plusYears(int)}.
      * 
-     * @param period  the period to add to this one, null means zero
-     * @param scalar  the amount of times to add, such as -1 to subtract once
+     * @param period the period to add to this one, null means zero
+     * @param scalar the amount of times to add, such as -1 to subtract once
      * @return a copy of this instance with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity
      */
@@ -477,7 +491,7 @@ public final class YearMonthDay
         return new YearMonthDay(this, newValues);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a copy of this date with the specified period added.
      * <p>
@@ -487,28 +501,30 @@ public final class YearMonthDay
      * Adding one field is best achieved using methods
      * like {@link #plusYears(int)}.
      * 
-     * @param period  the duration to add to this one, null means zero
+     * @param period the duration to add to this one, null means zero
      * @return a copy of this instance with the period added
-     * @throws ArithmeticException if the new datetime exceeds the capacity of a long
+     * @throws ArithmeticException if the new datetime exceeds the capacity of a
+     *                             long
      */
     public YearMonthDay plus(ReadablePeriod period) {
         return withPeriodAdded(period, 1);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a copy of this date plus the specified number of years.
      * <p>
      * This date instance is immutable and unaffected by this method call.
      * <p>
      * The following three lines are identical in effect:
+     * 
      * <pre>
      * YearMonthDay added = dt.plusYears(6);
      * YearMonthDay added = dt.plus(Period.years(6));
      * YearMonthDay added = dt.withFieldAdded(DurationFieldType.years(), 6);
      * </pre>
      *
-     * @param years  the amount of years to add, may be negative
+     * @param years the amount of years to add, may be negative
      * @return the new date plus the increased years
      * @since 1.1
      */
@@ -522,13 +538,14 @@ public final class YearMonthDay
      * This date instance is immutable and unaffected by this method call.
      * <p>
      * The following three lines are identical in effect:
+     * 
      * <pre>
      * YearMonthDay added = dt.plusMonths(6);
      * YearMonthDay added = dt.plus(Period.months(6));
      * YearMonthDay added = dt.withFieldAdded(DurationFieldType.months(), 6);
      * </pre>
      *
-     * @param months  the amount of months to add, may be negative
+     * @param months the amount of months to add, may be negative
      * @return the new date plus the increased months
      * @since 1.1
      */
@@ -542,13 +559,14 @@ public final class YearMonthDay
      * This date instance is immutable and unaffected by this method call.
      * <p>
      * The following three lines are identical in effect:
+     * 
      * <pre>
      * YearMonthDay added = dt.plusDays(6);
      * YearMonthDay added = dt.plus(Period.days(6));
      * YearMonthDay added = dt.withFieldAdded(DurationFieldType.days(), 6);
      * </pre>
      *
-     * @param days  the amount of days to add, may be negative
+     * @param days the amount of days to add, may be negative
      * @return the new date plus the increased days
      * @since 1.1
      */
@@ -556,7 +574,7 @@ public final class YearMonthDay
         return withFieldAdded(DurationFieldType.days(), days);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a copy of this date with the specified period taken away.
      * <p>
@@ -566,28 +584,30 @@ public final class YearMonthDay
      * Subtracting one field is best achieved using methods
      * like {@link #minusYears(int)}.
      * 
-     * @param period  the period to reduce this instant by
+     * @param period the period to reduce this instant by
      * @return a copy of this instance with the period taken away
-     * @throws ArithmeticException if the new datetime exceeds the capacity of a long
+     * @throws ArithmeticException if the new datetime exceeds the capacity of a
+     *                             long
      */
     public YearMonthDay minus(ReadablePeriod period) {
         return withPeriodAdded(period, -1);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a copy of this date minus the specified number of years.
      * <p>
      * This datetime instance is immutable and unaffected by this method call.
      * <p>
      * The following three lines are identical in effect:
+     * 
      * <pre>
      * YearMonthDay subtracted = dt.minusYears(6);
      * YearMonthDay subtracted = dt.minus(Period.years(6));
      * YearMonthDay subtracted = dt.withFieldAdded(DurationFieldType.years(), -6);
      * </pre>
      *
-     * @param years  the amount of years to subtract, may be negative
+     * @param years the amount of years to subtract, may be negative
      * @return the new datetime minus the increased years
      * @since 1.1
      */
@@ -601,13 +621,14 @@ public final class YearMonthDay
      * This datetime instance is immutable and unaffected by this method call.
      * <p>
      * The following three lines are identical in effect:
+     * 
      * <pre>
      * YearMonthDay subtracted = dt.minusMonths(6);
      * YearMonthDay subtracted = dt.minus(Period.months(6));
      * YearMonthDay subtracted = dt.withFieldAdded(DurationFieldType.months(), -6);
      * </pre>
      *
-     * @param months  the amount of months to subtract, may be negative
+     * @param months the amount of months to subtract, may be negative
      * @return the new datetime minus the increased months
      * @since 1.1
      */
@@ -621,13 +642,14 @@ public final class YearMonthDay
      * This datetime instance is immutable and unaffected by this method call.
      * <p>
      * The following three lines are identical in effect:
+     * 
      * <pre>
      * YearMonthDay subtracted = dt.minusDays(6);
      * YearMonthDay subtracted = dt.minus(Period.days(6));
      * YearMonthDay subtracted = dt.withFieldAdded(DurationFieldType.days(), -6);
      * </pre>
      *
-     * @param days  the amount of days to subtract, may be negative
+     * @param days the amount of days to subtract, may be negative
      * @return the new datetime minus the increased days
      * @since 1.1
      */
@@ -635,12 +657,12 @@ public final class YearMonthDay
         return withFieldAdded(DurationFieldType.days(), FieldUtils.safeNegate(days));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the property object for the specified type, which contains
      * many useful methods.
      *
-     * @param type  the field type to get the property for
+     * @param type the field type to get the property for
      * @return the property object
      * @throws IllegalArgumentException if the field is null or unsupported
      */
@@ -648,7 +670,7 @@ public final class YearMonthDay
         return new Property(this, indexOfSupported(type));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this object to a LocalDate with the same date and chronology.
      *
@@ -659,7 +681,7 @@ public final class YearMonthDay
         return new LocalDate(getYear(), getMonthOfYear(), getDayOfMonth(), getChronology());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this YearMonthDay to a full datetime at midnight using the
      * default time zone.
@@ -677,7 +699,7 @@ public final class YearMonthDay
      * This method uses the chronology from this instance plus the time zone
      * specified.
      *
-     * @param zone  the zone to use, null means default
+     * @param zone the zone to use, null means default
      * @return this date as a datetime at midnight
      */
     public DateTime toDateTimeAtMidnight(DateTimeZone zone) {
@@ -685,7 +707,7 @@ public final class YearMonthDay
         return new DateTime(getYear(), getMonthOfYear(), getDayOfMonth(), 0, 0, 0, 0, chrono);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this partial to a full datetime using the default time zone
      * setting the date fields from this instance and the time fields from
@@ -705,7 +727,7 @@ public final class YearMonthDay
      * This method uses the chronology from this instance plus the time zone
      * specified.
      *
-     * @param zone  the zone to use, null means default
+     * @param zone the zone to use, null means default
      * @return this date as a datetime with the time as the current time
      */
     public DateTime toDateTimeAtCurrentTime(DateTimeZone zone) {
@@ -715,7 +737,7 @@ public final class YearMonthDay
         return new DateTime(resolved, chrono);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this object to a DateMidnight in the default time zone.
      *
@@ -728,7 +750,7 @@ public final class YearMonthDay
     /**
      * Converts this object to a DateMidnight.
      *
-     * @param zone  the zone to get the DateMidnight in, null means default
+     * @param zone the zone to get the DateMidnight in, null means default
      * @return the DateMidnight instance
      */
     public DateMidnight toDateMidnight(DateTimeZone zone) {
@@ -736,7 +758,7 @@ public final class YearMonthDay
         return new DateMidnight(getYear(), getMonthOfYear(), getDayOfMonth(), chrono);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this object to a DateTime using a TimeOfDay to fill in the
      * missing fields and using the default time zone.
@@ -746,7 +768,7 @@ public final class YearMonthDay
      * YearMonthDay plus the time zone.
      * The chronology of the time is ignored - only the field values are used.
      *
-     * @param time  the time of day to use, null means current time
+     * @param time the time of day to use, null means current time
      * @return the DateTime instance
      */
     public DateTime toDateTime(TimeOfDay time) {
@@ -762,8 +784,8 @@ public final class YearMonthDay
      * YearMonthDay plus the time zone.
      * The chronology of the time is ignored - only the field values are used.
      *
-     * @param time  the time of day to use, null means current time
-     * @param zone  the zone to get the DateTime in, null means default
+     * @param time the time of day to use, null means current time
+     * @param zone the zone to get the DateTime in, null means default
      * @return the DateTime instance
      */
     public DateTime toDateTime(TimeOfDay time, DateTimeZone zone) {
@@ -776,7 +798,7 @@ public final class YearMonthDay
         return new DateTime(instant, chrono);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this object to an Interval representing the whole day
      * in the default time zone.
@@ -790,7 +812,7 @@ public final class YearMonthDay
     /**
      * Converts this object to an Interval representing the whole day.
      *
-     * @param zone  the zone to get the Interval in, null means default
+     * @param zone the zone to get the Interval in, null means default
      * @return a interval over the day
      */
     public Interval toInterval(DateTimeZone zone) {
@@ -798,7 +820,7 @@ public final class YearMonthDay
         return toDateMidnight(zone).toInterval();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the year field value.
      *
@@ -826,7 +848,7 @@ public final class YearMonthDay
         return getValue(DAY_OF_MONTH);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a copy of this date with the year field updated.
      * <p>
@@ -834,7 +856,7 @@ public final class YearMonthDay
      * Instead, this method returns a new instance with the value of
      * year changed.
      *
-     * @param year  the year to set
+     * @param year the year to set
      * @return a copy of this object with the field set
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
@@ -852,7 +874,7 @@ public final class YearMonthDay
      * Instead, this method returns a new instance with the value of
      * month of year changed.
      *
-     * @param monthOfYear  the month of year to set
+     * @param monthOfYear the month of year to set
      * @return a copy of this object with the field set
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
@@ -870,7 +892,7 @@ public final class YearMonthDay
      * Instead, this method returns a new instance with the value of
      * day of month changed.
      *
-     * @param dayOfMonth  the day of month to set
+     * @param dayOfMonth the day of month to set
      * @return a copy of this object with the field set
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
@@ -881,7 +903,7 @@ public final class YearMonthDay
         return new YearMonthDay(this, newValues);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get the year field property which provides access to advanced functionality.
      * 
@@ -892,7 +914,8 @@ public final class YearMonthDay
     }
 
     /**
-     * Get the month of year field property which provides access to advanced functionality.
+     * Get the month of year field property which provides access to advanced
+     * functionality.
      * 
      * @return the month of year property
      */
@@ -901,7 +924,8 @@ public final class YearMonthDay
     }
 
     /**
-     * Get the day of month field property which provides access to advanced functionality.
+     * Get the day of month field property which provides access to advanced
+     * functionality.
      * 
      * @return the day of month property
      */
@@ -909,7 +933,7 @@ public final class YearMonthDay
         return new Property(this, DAY_OF_MONTH);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Output the date in the ISO8601 format YYYY-MM-DD.
      * 
@@ -919,7 +943,7 @@ public final class YearMonthDay
         return ISODateTimeFormat.yearMonthDay().print(this);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * The property class for <code>YearMonthDay</code>.
      * <p>
@@ -943,8 +967,8 @@ public final class YearMonthDay
         /**
          * Constructs a property.
          * 
-         * @param partial  the partial instance
-         * @param fieldIndex  the index in the partial
+         * @param partial    the partial instance
+         * @param fieldIndex the index in the partial
          */
         Property(YearMonthDay partial, int fieldIndex) {
             super();
@@ -988,7 +1012,7 @@ public final class YearMonthDay
             return iYearMonthDay.getValue(iFieldIndex);
         }
 
-        //-----------------------------------------------------------------------
+        // -----------------------------------------------------------------------
         /**
          * Adds to the value of this field in a copy of this YearMonthDay.
          * <p>
@@ -1002,7 +1026,7 @@ public final class YearMonthDay
          * The YearMonthDay attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param valueToAdd  the value to add to the field in the copy
+         * @param valueToAdd the value to add to the field in the copy
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
@@ -1021,12 +1045,13 @@ public final class YearMonthDay
          * Other fields are unaffected.
          * <p>
          * For example,
-         * <code>2004-12-20</code> addWrapField one month returns <code>2004-01-20</code>.
+         * <code>2004-12-20</code> addWrapField one month returns
+         * <code>2004-01-20</code>.
          * <p>
          * The YearMonthDay attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param valueToAdd  the value to add to the field in the copy
+         * @param valueToAdd the value to add to the field in the copy
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
@@ -1036,14 +1061,14 @@ public final class YearMonthDay
             return new YearMonthDay(iYearMonthDay, newValues);
         }
 
-        //-----------------------------------------------------------------------
+        // -----------------------------------------------------------------------
         /**
          * Sets this field in a copy of the YearMonthDay.
          * <p>
          * The YearMonthDay attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param value  the value to set the field in the copy to
+         * @param value the value to set the field in the copy to
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
@@ -1059,8 +1084,8 @@ public final class YearMonthDay
          * The YearMonthDay attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param text  the text value to set
-         * @param locale  optional locale to use for selecting a text symbol
+         * @param text   the text value to set
+         * @param locale optional locale to use for selecting a text symbol
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
@@ -1076,7 +1101,7 @@ public final class YearMonthDay
          * The YearMonthDay attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param text  the text value to set
+         * @param text the text value to set
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
@@ -1084,13 +1109,14 @@ public final class YearMonthDay
             return setCopy(text, null);
         }
 
-        //-----------------------------------------------------------------------
+        // -----------------------------------------------------------------------
         /**
          * Returns a new YearMonthDay with this field set to the maximum value
          * for this field.
          * <p>
          * This operation is useful for obtaining a DateTime on the last day
          * of the month, as month lengths vary.
+         * 
          * <pre>
          * YearMonthDay lastDayOfMonth = dt.dayOfMonth().withMaximumValue();
          * </pre>

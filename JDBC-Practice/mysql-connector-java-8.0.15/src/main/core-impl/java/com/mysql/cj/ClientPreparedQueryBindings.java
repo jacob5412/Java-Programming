@@ -101,7 +101,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
     public void checkParameterSet(int columnIndex) {
         if (!this.bindValues[columnIndex].isSet()) {
             throw ExceptionFactory.createException(Messages.getString("PreparedStatement.40") + (columnIndex + 1),
-                    MysqlErrorNumbers.SQL_STATE_WRONG_NO_OF_PARAMETERS, 0, true, null, this.session.getExceptionInterceptor());
+                    MysqlErrorNumbers.SQL_STATE_WRONG_NO_OF_PARAMETERS, 0, true, null,
+                    this.session.getExceptionInterceptor());
         }
     }
 
@@ -122,7 +123,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
     @Override
     public void setAsciiStream(int parameterIndex, InputStream x, long length) {
         setAsciiStream(parameterIndex, x, (int) length);
-        this.bindValues[parameterIndex].setMysqlType(MysqlType.TEXT); // TODO was Types.CLOB, check; use length to find right TEXT type
+        this.bindValues[parameterIndex].setMysqlType(MysqlType.TEXT); // TODO was Types.CLOB, check; use length to find
+                                                                      // right TEXT type
     }
 
     @Override
@@ -209,11 +211,13 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
         }
     }
 
-    public synchronized void setBytes(int parameterIndex, byte[] x, boolean checkForIntroducer, boolean escapeForMBChars) {
+    public synchronized void setBytes(int parameterIndex, byte[] x, boolean checkForIntroducer,
+            boolean escapeForMBChars) {
         if (x == null) {
             setNull(parameterIndex); // setNull(parameterIndex, MysqlType.BINARY);
         } else {
-            if (this.session.getServerSession().isNoBackslashEscapesSet() || (escapeForMBChars && CharsetMapping.isMultibyteCharset(this.charEncoding))) {
+            if (this.session.getServerSession().isNoBackslashEscapesSet()
+                    || (escapeForMBChars && CharsetMapping.isMultibyteCharset(this.charEncoding))) {
 
                 // Send as hex
 
@@ -332,7 +336,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
 
                 boolean useLength = this.useStreamLengthsInPrepStmts.getValue();
 
-                String forcedEncoding = this.session.getPropertySet().getStringProperty(PropertyKey.clobCharacterEncoding).getStringValue();
+                String forcedEncoding = this.session.getPropertySet()
+                        .getStringProperty(PropertyKey.clobCharacterEncoding).getStringValue();
 
                 if (useLength && (length != -1)) {
                     c = new char[length];
@@ -363,7 +368,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
                 this.bindValues[parameterIndex].setMysqlType(MysqlType.TEXT); // TODO was Types.CLOB
             }
         } catch (UnsupportedEncodingException uec) {
-            throw ExceptionFactory.createException(WrongArgumentException.class, uec.toString(), uec, this.session.getExceptionInterceptor());
+            throw ExceptionFactory.createException(WrongArgumentException.class, uec.toString(), uec,
+                    this.session.getExceptionInterceptor());
         } catch (IOException ioEx) {
             throw ExceptionFactory.createException(ioEx.toString(), ioEx, this.session.getExceptionInterceptor());
         }
@@ -390,7 +396,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
             setNull(i);
         } else {
             try {
-                String forcedEncoding = this.session.getPropertySet().getStringProperty(PropertyKey.clobCharacterEncoding).getStringValue();
+                String forcedEncoding = this.session.getPropertySet()
+                        .getStringProperty(PropertyKey.clobCharacterEncoding).getStringValue();
 
                 if (forcedEncoding == null) {
                     setString(i, x.getSubString(1L, (int) x.length()));
@@ -415,7 +422,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
         if (x == null) {
             setNull(parameterIndex);
         } else {
-            this.ddf = TimeUtil.getSimpleDateFormat(this.ddf, "''yyyy-MM-dd''", cal, cal != null ? null : this.session.getServerSession().getDefaultTimeZone());
+            this.ddf = TimeUtil.getSimpleDateFormat(this.ddf, "''yyyy-MM-dd''", cal,
+                    cal != null ? null : this.session.getServerSession().getDefaultTimeZone());
             setValue(parameterIndex, this.ddf.format(x)); // TODO set MysqlType?
         }
     }
@@ -424,7 +432,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
     public void setDouble(int parameterIndex, double x) {
         if (!this.session.getPropertySet().getBooleanProperty(PropertyKey.allowNanAndInf).getValue()
                 && (x == Double.POSITIVE_INFINITY || x == Double.NEGATIVE_INFINITY || Double.isNaN(x))) {
-            throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("PreparedStatement.64", new Object[] { x }),
+            throw ExceptionFactory.createException(WrongArgumentException.class,
+                    Messages.getString("PreparedStatement.64", new Object[] { x }),
                     this.session.getExceptionInterceptor());
         }
         setValue(parameterIndex, StringUtils.fixDecimalExponent(String.valueOf(x)), MysqlType.DOUBLE);
@@ -432,7 +441,12 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
 
     @Override
     public void setFloat(int parameterIndex, float x) {
-        setValue(parameterIndex, StringUtils.fixDecimalExponent(String.valueOf(x)), MysqlType.FLOAT); // TODO check; was Types.FLOAT but should be Types.REAL to map to SQL FLOAT
+        setValue(parameterIndex, StringUtils.fixDecimalExponent(String.valueOf(x)), MysqlType.FLOAT); // TODO check; was
+                                                                                                      // Types.FLOAT but
+                                                                                                      // should be
+                                                                                                      // Types.REAL to
+                                                                                                      // map to SQL
+                                                                                                      // FLOAT
     }
 
     @Override
@@ -464,7 +478,7 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
                 // Ignore "clobCharacterEncoding" because utf8 should be used this time.
 
                 if (useLength && (length != -1)) {
-                    c = new char[(int) length];  // can't take more than Integer.MAX_VALUE
+                    c = new char[(int) length]; // can't take more than Integer.MAX_VALUE
 
                     int numCharsRead = Util.readFully(reader, c, (int) length); // blocks until all read
                     setNString(parameterIndex, new String(c, 0, numCharsRead));
@@ -481,7 +495,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
                     setNString(parameterIndex, buf.toString());
                 }
 
-                this.bindValues[parameterIndex].setMysqlType(MysqlType.TEXT); // TODO was Types.NCLOB; use length to find right TEXT type
+                this.bindValues[parameterIndex].setMysqlType(MysqlType.TEXT); // TODO was Types.NCLOB; use length to
+                                                                              // find right TEXT type
             } catch (Throwable t) {
                 throw ExceptionFactory.createException(t.getMessage(), t, this.session.getExceptionInterceptor());
             }
@@ -534,7 +549,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
             buf.append('\'');
 
             //
-            // Note: buf.append(char) is _faster_ than appending in blocks, because the block append requires a System.arraycopy().... go figure...
+            // Note: buf.append(char) is _faster_ than appending in blocks, because the
+            // block append requires a System.arraycopy().... go figure...
             //
 
             for (int i = 0; i < stringLength; ++i) {
@@ -578,7 +594,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
 
             buf.append('\'');
 
-            byte[] parameterAsBytes = this.isLoadDataQuery ? StringUtils.getBytes(buf.toString()) : StringUtils.getBytes(buf.toString(), "UTF-8");
+            byte[] parameterAsBytes = this.isLoadDataQuery ? StringUtils.getBytes(buf.toString())
+                    : StringUtils.getBytes(buf.toString(), "UTF-8");
 
             setValue(parameterIndex, parameterAsBytes, MysqlType.VARCHAR); // TODO was Types.NVARCHAR
         }
@@ -618,7 +635,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
                     setValue(parameterIndex, parameterAsBytes);
 
                 } else {
-                    byte[] parameterAsBytes = this.isLoadDataQuery ? StringUtils.getBytes(x) : StringUtils.getBytes(x, this.charEncoding);
+                    byte[] parameterAsBytes = this.isLoadDataQuery ? StringUtils.getBytes(x)
+                            : StringUtils.getBytes(x, this.charEncoding);
                     setBytes(parameterIndex, parameterAsBytes);
                 }
 
@@ -636,7 +654,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
                 buf.append('\'');
 
                 //
-                // Note: buf.append(char) is _faster_ than appending in blocks, because the block append requires a System.arraycopy().... go figure...
+                // Note: buf.append(char) is _faster_ than appending in blocks, because the
+                // block append requires a System.arraycopy().... go figure...
                 //
 
                 for (int i = 0; i < stringLength; ++i) {
@@ -736,7 +755,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
         if (x == null) {
             setNull(parameterIndex);
         } else {
-            this.tdf = TimeUtil.getSimpleDateFormat(this.tdf, "''HH:mm:ss''", cal, cal != null ? null : this.session.getServerSession().getDefaultTimeZone());
+            this.tdf = TimeUtil.getSimpleDateFormat(this.tdf, "''HH:mm:ss''", cal,
+                    cal != null ? null : this.session.getServerSession().getDefaultTimeZone());
             setValue(parameterIndex, this.tdf.format(x), MysqlType.TIME);
         }
     }
@@ -748,9 +768,11 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
     @Override
     public void setTimestamp(int parameterIndex, Timestamp x) {
         int fractLen = -1;
-        if (!this.sendFractionalSeconds.getValue() || !this.session.getServerSession().getCapabilities().serverSupportsFracSecs()) {
+        if (!this.sendFractionalSeconds.getValue()
+                || !this.session.getServerSession().getCapabilities().serverSupportsFracSecs()) {
             fractLen = 0;
-        } else if (this.columnDefinition != null && parameterIndex <= this.columnDefinition.getFields().length && parameterIndex >= 0) {
+        } else if (this.columnDefinition != null && parameterIndex <= this.columnDefinition.getFields().length
+                && parameterIndex >= 0) {
             fractLen = this.columnDefinition.getFields()[parameterIndex].getDecimals();
         }
 
@@ -760,9 +782,11 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
     @Override
     public void setTimestamp(int parameterIndex, Timestamp x, Calendar cal) {
         int fractLen = -1;
-        if (!this.sendFractionalSeconds.getValue() || !this.session.getServerSession().getCapabilities().serverSupportsFracSecs()) {
+        if (!this.sendFractionalSeconds.getValue()
+                || !this.session.getServerSession().getCapabilities().serverSupportsFracSecs()) {
             fractLen = 0;
-        } else if (this.columnDefinition != null && parameterIndex <= this.columnDefinition.getFields().length && parameterIndex >= 0
+        } else if (this.columnDefinition != null && parameterIndex <= this.columnDefinition.getFields().length
+                && parameterIndex >= 0
                 && this.columnDefinition.getFields()[parameterIndex].getDecimals() > 0) {
             fractLen = this.columnDefinition.getFields()[parameterIndex].getDecimals();
         }
@@ -788,7 +812,8 @@ public class ClientPreparedQueryBindings extends AbstractQueryBindings<ClientPre
                 fractionalLength = 6;
             }
 
-            x = TimeUtil.adjustTimestampNanosPrecision(x, fractionalLength, !this.session.getServerSession().isServerTruncatesFracSecs());
+            x = TimeUtil.adjustTimestampNanosPrecision(x, fractionalLength,
+                    !this.session.getServerSession().isServerTruncatesFracSecs());
 
             this.tsdf = TimeUtil.getSimpleDateFormat(this.tsdf, "''yyyy-MM-dd HH:mm:ss", targetCalendar,
                     targetCalendar != null ? null : this.session.getServerSession().getDefaultTimeZone());

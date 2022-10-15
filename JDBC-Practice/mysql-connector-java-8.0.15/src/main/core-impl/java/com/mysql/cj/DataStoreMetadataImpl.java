@@ -45,13 +45,15 @@ public class DataStoreMetadataImpl implements DataStoreMetadata {
     }
 
     public boolean schemaExists(String schemaName) {
-        StringBuilder stmt = new StringBuilder("select count(*) from information_schema.schemata where schema_name = '");
+        StringBuilder stmt = new StringBuilder(
+                "select count(*) from information_schema.schemata where schema_name = '");
         // TODO: verify quoting rules
         stmt.append(schemaName.replaceAll("'", "\\'"));
         stmt.append("'");
 
         Function<com.mysql.cj.result.Row, Long> rowToLong = r -> r.getValue(0, new LongValueFactory());
-        List<Long> counters = this.session.query(this.session.getMessageBuilder().buildSqlStatement(stmt.toString()), null, rowToLong, Collectors.toList());
+        List<Long> counters = this.session.query(this.session.getMessageBuilder().buildSqlStatement(stmt.toString()),
+                null, rowToLong, Collectors.toList());
         return 1 == counters.get(0);
     }
 
@@ -64,7 +66,8 @@ public class DataStoreMetadataImpl implements DataStoreMetadata {
         stmt.append("'");
 
         Function<com.mysql.cj.result.Row, Long> rowToLong = r -> r.getValue(0, new LongValueFactory());
-        List<Long> counters = this.session.query(this.session.getMessageBuilder().buildSqlStatement(stmt.toString()), null, rowToLong, Collectors.toList());
+        List<Long> counters = this.session.query(this.session.getMessageBuilder().buildSqlStatement(stmt.toString()),
+                null, rowToLong, Collectors.toList());
         return 1 == counters.get(0);
     }
 
@@ -76,7 +79,8 @@ public class DataStoreMetadataImpl implements DataStoreMetadata {
         stmt.append(ExprUnparser.quoteIdentifier(tableName));
 
         Function<com.mysql.cj.result.Row, Long> rowToLong = r -> r.getValue(0, new LongValueFactory());
-        List<Long> counters = this.session.query(this.session.getMessageBuilder().buildSqlStatement(stmt.toString()), null, rowToLong, Collectors.toList());
+        List<Long> counters = this.session.query(this.session.getMessageBuilder().buildSqlStatement(stmt.toString()),
+                null, rowToLong, Collectors.toList());
         return counters.get(0);
     }
 

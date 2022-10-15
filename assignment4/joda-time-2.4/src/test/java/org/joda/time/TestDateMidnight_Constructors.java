@@ -39,48 +39,40 @@ public class TestDateMidnight_Constructors extends TestCase {
 
     private static final DateTimeZone PARIS = DateTimeZone.forID("Europe/Paris");
     private static final DateTimeZone LONDON = DateTimeZone.forID("Europe/London");
-    
-    long y2002days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 
-                     366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 
-                     365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
-                     366 + 365;
-    long y2003days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 
-                     366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 
-                     365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
-                     366 + 365 + 365;
-    
+
+    long y2002days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 +
+            365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365;
+    long y2003days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 +
+            365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365;
+
     // 2002-06-09
-    private long TEST_TIME_NOW_UTC =
-            (y2002days + 31L + 28L + 31L + 30L + 31L + 9L -1L) * DateTimeConstants.MILLIS_PER_DAY;
-    private long TEST_TIME_NOW_LONDON =
-            TEST_TIME_NOW_UTC - DateTimeConstants.MILLIS_PER_HOUR;
-    private long TEST_TIME_NOW_PARIS =
-            TEST_TIME_NOW_UTC - 2*DateTimeConstants.MILLIS_PER_HOUR;
-    
+    private long TEST_TIME_NOW_UTC = (y2002days + 31L + 28L + 31L + 30L + 31L + 9L - 1L)
+            * DateTimeConstants.MILLIS_PER_DAY;
+    private long TEST_TIME_NOW_LONDON = TEST_TIME_NOW_UTC - DateTimeConstants.MILLIS_PER_HOUR;
+    private long TEST_TIME_NOW_PARIS = TEST_TIME_NOW_UTC - 2 * DateTimeConstants.MILLIS_PER_HOUR;
+
     // 2002-04-05
-    private long TEST_TIME1_UTC =
-            (y2002days + 31L + 28L + 31L + 5L -1L) * DateTimeConstants.MILLIS_PER_DAY
+    private long TEST_TIME1_UTC = (y2002days + 31L + 28L + 31L + 5L - 1L) * DateTimeConstants.MILLIS_PER_DAY
             + 12L * DateTimeConstants.MILLIS_PER_HOUR
             + 24L * DateTimeConstants.MILLIS_PER_MINUTE;
-    private long TEST_TIME1_LONDON =
-            (y2002days + 31L + 28L + 31L + 5L -1L) * DateTimeConstants.MILLIS_PER_DAY
+    private long TEST_TIME1_LONDON = (y2002days + 31L + 28L + 31L + 5L - 1L) * DateTimeConstants.MILLIS_PER_DAY
             - DateTimeConstants.MILLIS_PER_HOUR;
-    private long TEST_TIME1_PARIS =
-            (y2002days + 31L + 28L + 31L + 5L -1L) * DateTimeConstants.MILLIS_PER_DAY
-            - 2*DateTimeConstants.MILLIS_PER_HOUR;
-    
+    private long TEST_TIME1_PARIS = (y2002days + 31L + 28L + 31L + 5L - 1L) * DateTimeConstants.MILLIS_PER_DAY
+            - 2 * DateTimeConstants.MILLIS_PER_HOUR;
+
     // 2003-05-06
-    private long TEST_TIME2_UTC =
-            (y2003days + 31L + 28L + 31L + 30L + 6L -1L) * DateTimeConstants.MILLIS_PER_DAY
+    private long TEST_TIME2_UTC = (y2003days + 31L + 28L + 31L + 30L + 6L - 1L) * DateTimeConstants.MILLIS_PER_DAY
             + 14L * DateTimeConstants.MILLIS_PER_HOUR
             + 28L * DateTimeConstants.MILLIS_PER_MINUTE;
-    private long TEST_TIME2_LONDON =
-            (y2003days + 31L + 28L + 31L + 30L + 6L -1L) * DateTimeConstants.MILLIS_PER_DAY
-             - DateTimeConstants.MILLIS_PER_HOUR;
-    private long TEST_TIME2_PARIS =
-            (y2003days + 31L + 28L + 31L + 30L + 6L -1L) * DateTimeConstants.MILLIS_PER_DAY
-             - 2*DateTimeConstants.MILLIS_PER_HOUR;
-    
+    private long TEST_TIME2_LONDON = (y2003days + 31L + 28L + 31L + 30L + 6L - 1L) * DateTimeConstants.MILLIS_PER_DAY
+            - DateTimeConstants.MILLIS_PER_HOUR;
+    private long TEST_TIME2_PARIS = (y2003days + 31L + 28L + 31L + 30L + 6L - 1L) * DateTimeConstants.MILLIS_PER_DAY
+            - 2 * DateTimeConstants.MILLIS_PER_HOUR;
+
     private DateTimeZone zone = null;
     private Locale locale = null;
 
@@ -111,14 +103,14 @@ public class TestDateMidnight_Constructors extends TestCase {
         zone = null;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testTest() {
         assertEquals("2002-06-09T00:00:00.000Z", new Instant(TEST_TIME_NOW_UTC).toString());
         assertEquals("2002-04-05T12:24:00.000Z", new Instant(TEST_TIME1_UTC).toString());
         assertEquals("2003-05-06T14:28:00.000Z", new Instant(TEST_TIME2_UTC).toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test now ()
      */
@@ -147,7 +139,8 @@ public class TestDateMidnight_Constructors extends TestCase {
         try {
             DateMidnight.now((DateTimeZone) null);
             fail();
-        } catch (NullPointerException ex) {}
+        } catch (NullPointerException ex) {
+        }
     }
 
     /**
@@ -166,20 +159,23 @@ public class TestDateMidnight_Constructors extends TestCase {
         try {
             DateMidnight.now((Chronology) null);
             fail();
-        } catch (NullPointerException ex) {}
+        } catch (NullPointerException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testParse_noFormatter() throws Throwable {
-        assertEquals(new DateMidnight(2010, 6, 30, ISOChronology.getInstance(LONDON)), DateMidnight.parse("2010-06-30"));
+        assertEquals(new DateMidnight(2010, 6, 30, ISOChronology.getInstance(LONDON)),
+                DateMidnight.parse("2010-06-30"));
         assertEquals(new DateMidnight(2010, 1, 2, ISOChronology.getInstance(LONDON)), DateMidnight.parse("2010-002"));
     }
 
     public void testParse_formatter() throws Throwable {
-        assertEquals(new DateMidnight(2010, 6, 30, ISOChronology.getInstance(LONDON)), DateMidnight.parse("2010--30 06", DateTimeFormat.forPattern("yyyy--dd MM")));
+        assertEquals(new DateMidnight(2010, 6, 30, ISOChronology.getInstance(LONDON)),
+                DateMidnight.parse("2010--30 06", DateTimeFormat.forPattern("yyyy--dd MM")));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor ()
      */
@@ -228,7 +224,7 @@ public class TestDateMidnight_Constructors extends TestCase {
         assertEquals(TEST_TIME_NOW_LONDON, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (long)
      */
@@ -301,7 +297,7 @@ public class TestDateMidnight_Constructors extends TestCase {
         assertEquals(TEST_TIME1_LONDON, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (Object)
      */
@@ -319,7 +315,8 @@ public class TestDateMidnight_Constructors extends TestCase {
         try {
             new DateMidnight(new Object());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -362,7 +359,8 @@ public class TestDateMidnight_Constructors extends TestCase {
         try {
             new DateMidnight(new Object(), PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -424,7 +422,8 @@ public class TestDateMidnight_Constructors extends TestCase {
         try {
             new DateMidnight(new Object(), GregorianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -469,7 +468,7 @@ public class TestDateMidnight_Constructors extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (int, int, int)
      */
@@ -484,32 +483,39 @@ public class TestDateMidnight_Constructors extends TestCase {
         try {
             new DateMidnight(Integer.MIN_VALUE, 6, 9);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(Integer.MAX_VALUE, 6, 9);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 0, 9);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 13, 9);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 6, 0);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 6, 31);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         new DateMidnight(2002, 7, 31);
         try {
             new DateMidnight(2002, 7, 32);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -525,32 +531,39 @@ public class TestDateMidnight_Constructors extends TestCase {
         try {
             new DateMidnight(Integer.MIN_VALUE, 6, 9, PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(Integer.MAX_VALUE, 6, 9, PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 0, 9, PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 13, 9, PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 6, 0, PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 6, 31, PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         new DateMidnight(2002, 7, 31, PARIS);
         try {
             new DateMidnight(2002, 7, 32, PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -578,32 +591,39 @@ public class TestDateMidnight_Constructors extends TestCase {
         try {
             new DateMidnight(Integer.MIN_VALUE, 6, 9, GregorianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(Integer.MAX_VALUE, 6, 9, GregorianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 0, 9, GregorianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 13, 9, GregorianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 6, 0, GregorianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new DateMidnight(2002, 6, 31, GregorianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         new DateMidnight(2002, 7, 31, GregorianChronology.getInstance());
         try {
             new DateMidnight(2002, 7, 32, GregorianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**

@@ -5,7 +5,7 @@
 package primespackage;
 
 public class Prime {
-	
+
     public static boolean checkPrime(int num) {
         int temp;
         boolean isPrime = true;
@@ -17,7 +17,7 @@ public class Prime {
                 break;
             }
         }
-        
+
         return isPrime;
     }
 }

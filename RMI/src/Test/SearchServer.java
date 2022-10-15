@@ -3,12 +3,10 @@ package Test;
 //program for server application
 import java.rmi.*;
 import java.rmi.registry.*;
-public class SearchServer
-{
-    public static void main(String args[])
-    {
-        try
-        {
+
+public class SearchServer {
+    public static void main(String args[]) {
+        try {
             // Create an object of the interface
             // implementation class
             Search obj = new SearchQuery();
@@ -19,11 +17,9 @@ public class SearchServer
 
             // Binds the remote object by the name
             // geeksforgeeks
-            Naming.rebind("rmi://localhost:1900"+
-                    "/geeksforgeeks",obj);
-        }
-        catch(Exception ae)
-        {
+            Naming.rebind("rmi://localhost:1900" +
+                    "/geeksforgeeks", obj);
+        } catch (Exception ae) {
             System.out.println(ae);
         }
     }

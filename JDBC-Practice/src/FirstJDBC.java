@@ -20,8 +20,10 @@ public class FirstJDBC {
             System.out.println("Success: Database connection. " + connection);
 
             // creating statement object
-            // TYPE_SCROLL_SENSITIVE - The cursor can scroll forward and backward, and the result set
-            // is sensitive to changes made by others to the database that occur after the result set
+            // TYPE_SCROLL_SENSITIVE - The cursor can scroll forward and backward, and the
+            // result set
+            // is sensitive to changes made by others to the database that occur after the
+            // result set
             // was created
             // CONCUR_READ_ONLY - Creates a read-only resultset. This is the default.
             Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -32,7 +34,7 @@ public class FirstJDBC {
 
             // displaying results column wise
             System.out.println("id\t" + "firstname\t\t" + "lastname\t\t" + "email\t\t" + "reg_date\t");
-            while(rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("id");
                 String firstname = rs.getString("firstname");
                 String lastname = rs.getString("lastname");
@@ -40,21 +42,20 @@ public class FirstJDBC {
                 String reg = rs.getString("reg_date");
 
                 // updating row if id is 14
-                if(id == 14){
-                    rs.updateString("firstname","ravi");
+                if (id == 14) {
+                    rs.updateString("firstname", "ravi");
                     rs.updateRow();
                 }
                 System.out.println(id + "\t" + firstname + "\t\t" + lastname + "\t\t" + email + "\t\t" + reg + "\t");
             }
 
-        } catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Error: Couldn't connect to database " + e);
-        }
-        finally{
-            if(rs != null){
-                try{
+        } finally {
+            if (rs != null) {
+                try {
                     rs.close();
-                } catch(SQLException e){
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }

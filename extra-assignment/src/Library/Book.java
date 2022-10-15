@@ -1,7 +1,7 @@
 package Library;
 
-class InvalidQuantityException extends Exception{
-    InvalidQuantityException(String s){
+class InvalidQuantityException extends Exception {
+    InvalidQuantityException(String s) {
         super(s);
     }
 }
@@ -11,11 +11,10 @@ public class Book {
     public float price;
     public int quant;
 
-    public void purchase(int quant) throws Exception{
-        if((this.quant - quant) < 0){
+    public void purchase(int quant) throws Exception {
+        if ((this.quant - quant) < 0) {
             throw new InvalidQuantityException("Quantity cannot be below 0");
-        }
-        else{
+        } else {
             this.quant = this.quant - quant;
             System.out.println("New quantity is: " + this.quant);
         }

@@ -21,14 +21,18 @@ package org.joda.time;
  * The implementation of this interface may be mutable or immutable. This
  * interface only gives access to retrieve data, never to change it.
  * <p>
- * Methods that are passed a duration as a parameter will treat <code>null</code>
+ * Methods that are passed a duration as a parameter will treat
+ * <code>null</code>
  * as a zero length duration.
  * <p>
- * The {@code compareTo} method is no longer defined in this class in version 2.0.
- * Instead, the definition is simply inherited from the {@code Comparable} interface.
+ * The {@code compareTo} method is no longer defined in this class in version
+ * 2.0.
+ * Instead, the definition is simply inherited from the {@code Comparable}
+ * interface.
  * This approach is necessary to preserve binary compatibility.
  * The definition of the comparison is ascending order by millisecond duration.
- * Implementors are recommended to extend {@code AbstractInstant} instead of this interface.
+ * Implementors are recommended to extend {@code AbstractInstant} instead of
+ * this interface.
  *
  * @see ReadableInterval
  * @see ReadablePeriod
@@ -45,17 +49,18 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      */
     long getMillis();
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get this duration as an immutable <code>Duration</code> object.
      * <p>
-     * This will either typecast this instance, or create a new <code>Duration</code>.
+     * This will either typecast this instance, or create a new
+     * <code>Duration</code>.
      * 
      * @return a Duration created using the millisecond duration from this instance
      */
     Duration toDuration();
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this duration to a Period instance using the standard period type
      * and the ISO chronology.
@@ -79,22 +84,24 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      */
     Period toPeriod();
 
-    //-----------------------------------------------------------------------
-    // Method is no longer defined here as that would break generic backwards compatibility
-//    /**
-//     * Compares this duration with the specified duration based on length.
-//     *
-//     * @param obj  a duration to check against
-//     * @return negative value if this is less, 0 if equal, or positive value if greater
-//     * @throws NullPointerException if the object is null
-//     * @throws ClassCastException if the given object is not supported
-//     */
-//    int compareTo(ReadableDuration obj);
+    // -----------------------------------------------------------------------
+    // Method is no longer defined here as that would break generic backwards
+    // compatibility
+    // /**
+    // * Compares this duration with the specified duration based on length.
+    // *
+    // * @param obj a duration to check against
+    // * @return negative value if this is less, 0 if equal, or positive value if
+    // greater
+    // * @throws NullPointerException if the object is null
+    // * @throws ClassCastException if the given object is not supported
+    // */
+    // int compareTo(ReadableDuration obj);
 
     /**
      * Is the length of this duration equal to the duration passed in.
      *
-     * @param duration  another duration to compare to, null means zero milliseconds
+     * @param duration another duration to compare to, null means zero milliseconds
      * @return true if this duration is equal to the duration passed in
      */
     boolean isEqual(ReadableDuration duration);
@@ -102,7 +109,7 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
     /**
      * Is the length of this duration longer than the duration passed in.
      *
-     * @param duration  another duration to compare to, null means zero milliseconds
+     * @param duration another duration to compare to, null means zero milliseconds
      * @return true if this duration is greater than the duration passed in
      */
     boolean isLongerThan(ReadableDuration duration);
@@ -110,35 +117,36 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
     /**
      * Is the length of this duration shorter than the duration passed in.
      *
-     * @param duration  another duration to compare to, null means zero milliseconds
+     * @param duration another duration to compare to, null means zero milliseconds
      * @return true if this duration is less than the duration passed in
      */
     boolean isShorterThan(ReadableDuration duration);
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Compares this object with the specified object for equality based
      * on the millisecond length. All ReadableDuration instances are accepted.
      *
-     * @param readableDuration  a readable duration to check against
+     * @param readableDuration a readable duration to check against
      * @return true if the length of the duration is equal
      */
     boolean equals(Object readableDuration);
 
     /**
-     * Gets a hash code for the duration that is compatable with the 
+     * Gets a hash code for the duration that is compatable with the
      * equals method.
      * The following formula must be used:
+     * 
      * <pre>
-     *  long len = getMillis();
-     *  return (int) (len ^ (len >>> 32));
+     * long len = getMillis();
+     * return (int) (len ^ (len >>> 32));
      * </pre>
      *
      * @return a hash code
      */
     int hashCode();
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the value as a String in the ISO8601 duration format using hours,
      * minutes and seconds (including fractional milliseconds).

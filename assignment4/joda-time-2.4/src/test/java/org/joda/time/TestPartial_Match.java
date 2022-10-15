@@ -45,26 +45,23 @@ public class TestPartial_Match extends TestCase {
     private static final Chronology BUDDHIST_LONDON = BuddhistChronology.getInstance(LONDON);
     private static final Chronology BUDDHIST_TOKYO = BuddhistChronology.getInstance(TOKYO);
     private static final Chronology BUDDHIST_UTC = BuddhistChronology.getInstanceUTC();
-    
-    private long TEST_TIME_NOW =
-            10L * DateTimeConstants.MILLIS_PER_HOUR
+
+    private long TEST_TIME_NOW = 10L * DateTimeConstants.MILLIS_PER_HOUR
             + 20L * DateTimeConstants.MILLIS_PER_MINUTE
             + 30L * DateTimeConstants.MILLIS_PER_SECOND
             + 40L;
-            
-    private long TEST_TIME1 =
-        1L * DateTimeConstants.MILLIS_PER_HOUR
-        + 2L * DateTimeConstants.MILLIS_PER_MINUTE
-        + 3L * DateTimeConstants.MILLIS_PER_SECOND
-        + 4L;
-        
-    private long TEST_TIME2 =
-        1L * DateTimeConstants.MILLIS_PER_DAY
-        + 5L * DateTimeConstants.MILLIS_PER_HOUR
-        + 6L * DateTimeConstants.MILLIS_PER_MINUTE
-        + 7L * DateTimeConstants.MILLIS_PER_SECOND
-        + 8L;
-        
+
+    private long TEST_TIME1 = 1L * DateTimeConstants.MILLIS_PER_HOUR
+            + 2L * DateTimeConstants.MILLIS_PER_MINUTE
+            + 3L * DateTimeConstants.MILLIS_PER_SECOND
+            + 4L;
+
+    private long TEST_TIME2 = 1L * DateTimeConstants.MILLIS_PER_DAY
+            + 5L * DateTimeConstants.MILLIS_PER_HOUR
+            + 6L * DateTimeConstants.MILLIS_PER_MINUTE
+            + 7L * DateTimeConstants.MILLIS_PER_SECOND
+            + 8L;
+
     private DateTimeZone zone = null;
 
     public static void main(String[] args) {
@@ -91,84 +88,85 @@ public class TestPartial_Match extends TestCase {
         zone = null;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testIsMatch_Instant() {
         // Year=2005, Month=7 (July), DayOfWeek=2 (Tuesday)
         Partial test = createYMDwPartial(ISO_UTC, 2005, 7, 2);
         DateTime instant = new DateTime(2005, 7, 5, 0, 0, 0, 0);
         assertEquals(true, test.isMatch(instant));
-        
+
         instant = new DateTime(2005, 7, 4, 0, 0, 0, 0);
         assertEquals(false, test.isMatch(instant));
-        
+
         instant = new DateTime(2005, 7, 6, 0, 0, 0, 0);
         assertEquals(false, test.isMatch(instant));
-        
+
         instant = new DateTime(2005, 7, 12, 0, 0, 0, 0);
         assertEquals(true, test.isMatch(instant));
-        
+
         instant = new DateTime(2005, 7, 19, 0, 0, 0, 0);
         assertEquals(true, test.isMatch(instant));
-        
+
         instant = new DateTime(2005, 7, 26, 0, 0, 0, 0);
         assertEquals(true, test.isMatch(instant));
-        
+
         instant = new DateTime(2005, 8, 2, 0, 0, 0, 0);
         assertEquals(false, test.isMatch(instant));
-        
+
         instant = new DateTime(2006, 7, 5, 0, 0, 0, 0);
         assertEquals(false, test.isMatch(instant));
-        
+
         instant = new DateTime(2005, 6, 5, 0, 0, 0, 0);
         assertEquals(false, test.isMatch(instant));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testIsMatch_Partial() {
         // Year=2005, Month=7 (July), DayOfWeek=2 (Tuesday)
         Partial test = createYMDwPartial(ISO_UTC, 2005, 7, 2);
         LocalDate partial = new LocalDate(2005, 7, 5);
         assertEquals(true, test.isMatch(partial));
-        
+
         partial = new LocalDate(2005, 7, 4);
         assertEquals(false, test.isMatch(partial));
-        
+
         partial = new LocalDate(2005, 7, 6);
         assertEquals(false, test.isMatch(partial));
-        
+
         partial = new LocalDate(2005, 7, 12);
         assertEquals(true, test.isMatch(partial));
-        
+
         partial = new LocalDate(2005, 7, 19);
         assertEquals(true, test.isMatch(partial));
-        
+
         partial = new LocalDate(2005, 7, 26);
         assertEquals(true, test.isMatch(partial));
-        
+
         partial = new LocalDate(2005, 8, 2);
         assertEquals(false, test.isMatch(partial));
-        
+
         partial = new LocalDate(2006, 7, 5);
         assertEquals(false, test.isMatch(partial));
-        
+
         partial = new LocalDate(2005, 6, 5);
         assertEquals(false, test.isMatch(partial));
-        
+
         try {
             test.isMatch((ReadablePartial) null);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     private Partial createYMDwPartial(Chronology chrono, int year, int month, int dow) {
         return new Partial(
-            new DateTimeFieldType[] {
-                    DateTimeFieldType.year(),
-                    DateTimeFieldType.monthOfYear(),
-                    DateTimeFieldType.dayOfWeek()},
-            new int[] {year, month, dow},
-            chrono);
+                new DateTimeFieldType[] {
+                        DateTimeFieldType.year(),
+                        DateTimeFieldType.monthOfYear(),
+                        DateTimeFieldType.dayOfWeek() },
+                new int[] { year, month, dow },
+                chrono);
     }
 
 }

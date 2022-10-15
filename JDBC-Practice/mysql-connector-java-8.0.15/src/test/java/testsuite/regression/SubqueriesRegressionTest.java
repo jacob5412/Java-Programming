@@ -79,7 +79,8 @@ public class SubqueriesRegressionTest extends BaseTestCase {
         for (int i = 0; i < REPETITIONS; i++) {
 
             this.rs = this.stmt
-                    .executeQuery("select t3.colA from t3, t1 where t3.colA = 'bbbb' and t3.colB = t1.colA and exists (select 'X' from t2 where t2.colB = 2)");
+                    .executeQuery(
+                            "select t3.colA from t3, t1 where t3.colA = 'bbbb' and t3.colB = t1.colA and exists (select 'X' from t2 where t2.colB = 2)");
             assertTrue(this.rs.next());
             assertTrue("bbbb".equals(this.rs.getString(1)));
             assertTrue(!this.rs.next());
@@ -90,7 +91,8 @@ public class SubqueriesRegressionTest extends BaseTestCase {
     public void testSubQuery3() throws Exception {
         for (int i = 0; i < REPETITIONS; i++) {
 
-            this.rs = this.stmt.executeQuery("select * from t1 where t1.colA = 'efgh' and exists (select 'X' from t2 where t2.colB = t1.colB)");
+            this.rs = this.stmt.executeQuery(
+                    "select * from t1 where t1.colA = 'efgh' and exists (select 'X' from t2 where t2.colB = t1.colB)");
             assertTrue(this.rs.next());
             assertTrue("efgh".equals(this.rs.getString(1)));
             assertTrue("2".equals(this.rs.getString(2)));
@@ -135,7 +137,8 @@ public class SubqueriesRegressionTest extends BaseTestCase {
     public void testSubQuery5() throws Exception {
         for (int i = 0; i < REPETITIONS; i++) {
 
-            this.rs = this.stmt.executeQuery("select t1.colA from t1, t4 where t4.colA = t1.colA and exists (select 'X' from t2 where t2.colA = t4.colB)");
+            this.rs = this.stmt.executeQuery(
+                    "select t1.colA from t1, t4 where t4.colA = t1.colA and exists (select 'X' from t2 where t2.colA = t4.colB)");
             assertTrue(this.rs.next());
             assertTrue("abcd".equals(this.rs.getString(1)));
             assertTrue(this.rs.next());

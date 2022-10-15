@@ -187,18 +187,20 @@ public class StatementRegressionTest extends BaseTestCase {
      * Constructor for StatementRegressionTest.
      * 
      * @param name
-     *            the name of the test to run
+     *             the name of the test to run
      */
     public StatementRegressionTest(String name) {
         super(name);
     }
 
-    private void addBatchItems(Statement statement, PreparedStatement pStmt, String tableName, int i) throws SQLException {
+    private void addBatchItems(Statement statement, PreparedStatement pStmt, String tableName, int i)
+            throws SQLException {
         pStmt.setString(1, "ps_batch_" + i);
         pStmt.setString(2, "ps_batch_" + i);
         pStmt.addBatch();
 
-        statement.addBatch("INSERT INTO " + tableName + " (strdata1, strdata2) VALUES (\"s_batch_" + i + "\",\"s_batch_" + i + "\")");
+        statement.addBatch("INSERT INTO " + tableName + " (strdata1, strdata2) VALUES (\"s_batch_" + i + "\",\"s_batch_"
+                + i + "\")");
     }
 
     private void createGGKTables() throws Exception {
@@ -261,7 +263,9 @@ public class StatementRegressionTest extends BaseTestCase {
 
         int numberOfGeneratedKeys = i;
 
-        assertTrue("Didn't retrieve expected number of generated keys, expected " + newKeys + ", found " + numberOfGeneratedKeys,
+        assertTrue(
+                "Didn't retrieve expected number of generated keys, expected " + newKeys + ", found "
+                        + numberOfGeneratedKeys,
                 numberOfGeneratedKeys == newKeys);
         assertTrue("Keys didn't start with correct sequence: ", generatedKeys[0] == nextID);
 
@@ -332,7 +336,9 @@ public class StatementRegressionTest extends BaseTestCase {
 
         int numberOfGeneratedKeys = i;
 
-        assertTrue("Didn't retrieve expected number of generated keys, expected " + newKeys + ", found " + numberOfGeneratedKeys,
+        assertTrue(
+                "Didn't retrieve expected number of generated keys, expected " + newKeys + ", found "
+                        + numberOfGeneratedKeys,
                 numberOfGeneratedKeys == newKeys);
         assertTrue("Keys didn't start with correct sequence: ", generatedKeys[0] == nextID);
 
@@ -390,7 +396,8 @@ public class StatementRegressionTest extends BaseTestCase {
      */
     private void innerBug6823(boolean continueBatchOnError) throws SQLException {
         Properties continueBatchOnErrorProps = new Properties();
-        continueBatchOnErrorProps.setProperty(PropertyKey.continueBatchOnError.getKeyName(), String.valueOf(continueBatchOnError));
+        continueBatchOnErrorProps.setProperty(PropertyKey.continueBatchOnError.getKeyName(),
+                String.valueOf(continueBatchOnError));
         this.conn = getConnectionWithProps(continueBatchOnErrorProps);
         Statement statement = this.conn.createStatement();
 
@@ -399,7 +406,8 @@ public class StatementRegressionTest extends BaseTestCase {
         createTable(tableName,
                 "(id int not null primary key auto_increment, strdata1 varchar(255) not null, strdata2 varchar(255), UNIQUE INDEX (strdata1(100)))");
 
-        PreparedStatement pStmt = this.conn.prepareStatement("INSERT INTO " + tableName + " (strdata1, strdata2) VALUES (?,?)");
+        PreparedStatement pStmt = this.conn
+                .prepareStatement("INSERT INTO " + tableName + " (strdata1, strdata2) VALUES (?,?)");
 
         int c = 0;
         addBatchItems(statement, pStmt, tableName, ++c);
@@ -463,7 +471,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * client-side prepared statements.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug10155() throws Exception {
         this.conn.prepareStatement("SELECT \"Test question mark? Test single quote'\"").executeQuery().close();
@@ -560,7 +568,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
             thaiStmt.executeUpdate("TRUNCATE TABLE testBug11540");
 
-            thaiPrepStmt = ((com.mysql.cj.jdbc.JdbcConnection) thaiConn).clientPrepareStatement("INSERT INTO testBug11540 VALUES (?,?)");
+            thaiPrepStmt = ((com.mysql.cj.jdbc.JdbcConnection) thaiConn)
+                    .clientPrepareStatement("INSERT INTO testBug11540 VALUES (?,?)");
             thaiPrepStmt.setDate(1, origDate);
             thaiPrepStmt.setTimestamp(2, origTimestamp);
             thaiPrepStmt.executeUpdate();
@@ -585,10 +594,11 @@ public class StatementRegressionTest extends BaseTestCase {
      * names for server-side prepared statements.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug11663() throws Exception {
-        if (((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.useServerPrepStmts).getValue()) {
+        if (((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet()
+                .getBooleanProperty(PropertyKey.useServerPrepStmts).getValue()) {
             Connection testcaseGenCon = null;
             PrintStream oldErr = System.err;
 
@@ -635,7 +645,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * exception.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug11798() throws Exception {
         try {
@@ -656,7 +666,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * should not happen.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug13255() throws Exception {
 
@@ -735,7 +745,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * arguments to PreparedStatements.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug15024() throws Exception {
         createTable("testBug15024", "(field1 BLOB)");
@@ -773,7 +783,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * PreparedStatement should call EscapeProcessor.escapeSQL?
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug15141() throws Exception {
         try {
@@ -789,7 +799,8 @@ public class StatementRegressionTest extends BaseTestCase {
             this.pstmt.close();
             this.pstmt = null;
 
-            this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement("select {d '1997-05-24'} FROM testBug15141");
+            this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn)
+                    .clientPrepareStatement("select {d '1997-05-24'} FROM testBug15141");
             this.rs = this.pstmt.executeQuery();
             assertTrue(this.rs.next());
             assertEquals("1997-05-24", this.rs.getString(1));
@@ -817,7 +828,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * truncation exceptions to be thrown.
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug18041() throws Exception {
         createTable("testBug18041", "(`a` tinyint(4) NOT NULL, `b` char(4) default NULL)");
@@ -846,7 +857,8 @@ public class StatementRegressionTest extends BaseTestCase {
         }
     }
 
-    private void testStreamsForBug15024(boolean shouldBeClosedStream, boolean shouldBeClosedReader) throws SQLException {
+    private void testStreamsForBug15024(boolean shouldBeClosedStream, boolean shouldBeClosedReader)
+            throws SQLException {
         IsClosedInputStream bIn = new IsClosedInputStream(new byte[4]);
         IsClosedReader readerIn = new IsClosedReader("abcdef");
 
@@ -910,7 +922,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests fix for BUG#1774 -- Truncated words after double quote
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug1774() throws Exception {
         try {
@@ -937,7 +949,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * int) doesn't support CLOB or BLOB types.
      * 
      * @throws Exception
-     *             if this test fails for any reason
+     *                   if this test fails for any reason
      */
     public void testBug1901() throws Exception {
         try {
@@ -965,7 +977,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Test fix for BUG#1933 -- Driver property 'maxRows' has no effect.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug1933() throws Exception {
         Connection maxRowsConn = null;
@@ -1023,7 +1035,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * encountering Statement.RETURN_GENERATED_KEY
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug1934() throws Exception {
         try {
@@ -1032,7 +1044,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
             System.out.println("Before prepareStatement()");
 
-            this.pstmt = this.conn.prepareStatement("INSERT INTO testBug1934 VALUES (?)", java.sql.Statement.RETURN_GENERATED_KEYS);
+            this.pstmt = this.conn.prepareStatement("INSERT INTO testBug1934 VALUES (?)",
+                    java.sql.Statement.RETURN_GENERATED_KEYS);
 
             assertTrue(this.pstmt != null);
 
@@ -1047,7 +1060,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * PreparedStatement.setFoo().
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug1958() throws Exception {
         PreparedStatement pStmt = null;
@@ -1077,7 +1090,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * datatype YEAR correctly.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug2606() throws Exception {
         try {
@@ -1098,10 +1111,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests the fix for BUG#2671, nulls encoded incorrectly in server-side prepared statements.
+     * Tests the fix for BUG#2671, nulls encoded incorrectly in server-side prepared
+     * statements.
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testBug2671() throws Exception {
         createTable("test3",
@@ -1133,7 +1147,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * PreparedStatement.setObject().
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      * 
      * @deprecated uses deprecated methods of Date class
      */
@@ -1160,11 +1174,14 @@ public class StatementRegressionTest extends BaseTestCase {
 
             java.util.Date retrUtilDate = new java.util.Date(this.rs.getTimestamp(1).getTime());
 
-            // We can only compare on the day/month/year hour/minute/second interval, because the timestamp has added milliseconds to the internal date...
+            // We can only compare on the day/month/year hour/minute/second interval,
+            // because the timestamp has added milliseconds to the internal date...
             assertTrue("Dates not equal",
                     (utilDate.getMonth() == retrUtilDate.getMonth()) && (utilDate.getDate() == retrUtilDate.getDate())
-                            && (utilDate.getYear() == retrUtilDate.getYear()) && (utilDate.getHours() == retrUtilDate.getHours())
-                            && (utilDate.getMinutes() == retrUtilDate.getMinutes()) && (utilDate.getSeconds() == retrUtilDate.getSeconds()));
+                            && (utilDate.getYear() == retrUtilDate.getYear())
+                            && (utilDate.getHours() == retrUtilDate.getHours())
+                            && (utilDate.getMinutes() == retrUtilDate.getMinutes())
+                            && (utilDate.getSeconds() == retrUtilDate.getSeconds()));
         } finally {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug3103");
         }
@@ -1174,7 +1191,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests fix for BUG#3520
      * 
      * @throws Exception
-     *             ...
+     *                   ...
      */
     public void testBug3520() throws Exception {
         try {
@@ -1193,13 +1210,15 @@ public class StatementRegressionTest extends BaseTestCase {
      * Test fix for BUG#3557 -- UpdatableResultSet not picking up default values
      * 
      * @throws Exception
-     *             if test fails.
+     *                   if test fails.
      */
     public void testBug3557() throws Exception {
-        boolean populateDefaults = ((JdbcConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.populateInsertRowWithDefaultValues).getValue();
+        boolean populateDefaults = ((JdbcConnection) this.conn).getPropertySet()
+                .getBooleanProperty(PropertyKey.populateInsertRowWithDefaultValues).getValue();
 
         try {
-            ((JdbcConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.populateInsertRowWithDefaultValues).setValue(true);
+            ((JdbcConnection) this.conn).getPropertySet()
+                    .getBooleanProperty(PropertyKey.populateInsertRowWithDefaultValues).setValue(true);
 
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug3557");
 
@@ -1216,7 +1235,8 @@ public class StatementRegressionTest extends BaseTestCase {
             assertEquals("XYZ", this.rs.getObject(1));
             assertEquals("123", this.rs.getObject(2));
         } finally {
-            ((JdbcConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.populateInsertRowWithDefaultValues).setValue(populateDefaults);
+            ((JdbcConnection) this.conn).getPropertySet()
+                    .getBooleanProperty(PropertyKey.populateInsertRowWithDefaultValues).setValue(populateDefaults);
 
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug3557");
         }
@@ -1226,7 +1246,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests fix for BUG#3620 -- Timezone not respected correctly.
      * 
      * @throws SQLException
-     *             if the test fails.
+     *                      if the test fails.
      */
     public void testBug3620() throws SQLException {
         // FIXME: This test is sensitive to being in CST/CDT it seems
@@ -1280,7 +1300,8 @@ public class StatementRegressionTest extends BaseTestCase {
             Timestamp tsValueUTC = this.rs.getTimestamp(1, cal);
 
             //
-            // We use this testcase with other vendors, JDBC spec requires result set fields can only be read once, although MySQL doesn't require this ;)
+            // We use this testcase with other vendors, JDBC spec requires result set fields
+            // can only be read once, although MySQL doesn't require this ;)
             //
             this.rs = tsStmt.executeQuery("SELECT field1 FROM testBug3620");
             this.rs.next();
@@ -1296,35 +1317,42 @@ public class StatementRegressionTest extends BaseTestCase {
 
             Timestamp tsValuePstmtUTC = this.rs.getTimestamp(1, cal);
 
-            System.out.println("Timestamp specifying UTC calendar from prepared statement: " + tsValuePstmtUTC.toString());
+            System.out.println(
+                    "Timestamp specifying UTC calendar from prepared statement: " + tsValuePstmtUTC.toString());
 
             //
-            // We use this testcase with other vendors, JDBC spec requires result set fields can only be read once, although MySQL doesn't require this ;)
+            // We use this testcase with other vendors, JDBC spec requires result set fields
+            // can only be read once, although MySQL doesn't require this ;)
             //
             this.rs = tsPstmtRetr.executeQuery();
             this.rs.next();
 
             Timestamp tsValuePstmtNoCal = this.rs.getTimestamp(1);
 
-            System.out.println("Timestamp specifying no calendar from prepared statement: " + tsValuePstmtNoCal.toString());
+            System.out.println(
+                    "Timestamp specifying no calendar from prepared statement: " + tsValuePstmtNoCal.toString());
 
             long stmtDeltaTWithCal = (ts.getTime() - tsValueStmtNoCal.getTime());
 
             long deltaOrig = Math.abs(stmtDeltaTWithCal - pointInTimeOffset);
 
             assertTrue("Difference between original timestamp and timestamp retrieved using java.sql.Statement "
-                    + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + deltaOrig, (deltaOrig < epsillon));
+                    + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + deltaOrig,
+                    (deltaOrig < epsillon));
 
             long pStmtDeltaTWithCal = (ts.getTime() - tsValuePstmtNoCal.getTime());
 
             System.out.println(
-                    Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) + " < " + epsillon + (Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) < epsillon));
+                    Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) + " < " + epsillon
+                            + (Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) < epsillon));
             assertTrue(
                     "Difference between original timestamp and timestamp retrieved using java.sql.PreparedStatement "
-                            + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + pStmtDeltaTWithCal,
+                            + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually "
+                            + pStmtDeltaTWithCal,
                     (Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) < epsillon));
 
-            System.out.println("Difference between original ts and ts with no calendar: " + (ts.getTime() - tsValuePstmtNoCal.getTime()) + ", offset should be "
+            System.out.println("Difference between original ts and ts with no calendar: "
+                    + (ts.getTime() - tsValuePstmtNoCal.getTime()) + ", offset should be "
                     + pointInTimeOffset);
         } finally {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug3620");
@@ -1335,13 +1363,14 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests fix for BUG#3620 -- Timezone not respected correctly.
      * 
      * @throws SQLException
-     *             if the test fails.
+     *                      if the test fails.
      *
      */
     public void testBug3620new() throws SQLException {
         // TODO: should replace testBug3620()
         if (this.DISABLED_testBug3620new) {
-            // TODO: this test is working in c/J 5.1 but fails here; disable for later analysis
+            // TODO: this test is working in c/J 5.1 but fails here; disable for later
+            // analysis
             return;
         }
 
@@ -1400,7 +1429,8 @@ public class StatementRegressionTest extends BaseTestCase {
             Timestamp tsValueUTC = this.rs.getTimestamp(1, cal);
             System.out.println("Timestamp specifying UTC calendar from statement: " + tsValueUTC.toString());
 
-            // We use this testcase with other vendors, JDBC spec requires result set fields can only be read once, although MySQL doesn't require this ;)
+            // We use this testcase with other vendors, JDBC spec requires result set fields
+            // can only be read once, although MySQL doesn't require this ;)
             this.rs = tsStmt.executeQuery("SELECT field1 FROM testBug3620");
             this.rs.next();
             Timestamp tsValueStmtNoCal = this.rs.getTimestamp(1);
@@ -1410,25 +1440,31 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs = tsPstmtRetr.executeQuery();
             this.rs.next();
             Timestamp tsValuePstmtUTC = this.rs.getTimestamp(1, cal);
-            System.out.println("Timestamp specifying UTC calendar from prepared statement: " + tsValuePstmtUTC.toString());
+            System.out.println(
+                    "Timestamp specifying UTC calendar from prepared statement: " + tsValuePstmtUTC.toString());
 
-            // We use this testcase with other vendors, JDBC spec requires result set fields can only be read once, although MySQL doesn't require this ;)
+            // We use this testcase with other vendors, JDBC spec requires result set fields
+            // can only be read once, although MySQL doesn't require this ;)
             this.rs = tsPstmtRetr.executeQuery();
             this.rs.next();
             Timestamp tsValuePstmtNoCal = this.rs.getTimestamp(1);
-            System.out.println("Timestamp specifying no calendar from prepared statement: " + tsValuePstmtNoCal.toString());
+            System.out.println(
+                    "Timestamp specifying no calendar from prepared statement: " + tsValuePstmtNoCal.toString());
 
             long stmtDeltaTWithCal = (tsValueStmtNoCal.getTime() - ts.getTime());
             long deltaOrig = Math.abs(stmtDeltaTWithCal - pointInTimeOffset);
             assertTrue("Difference between original timestamp and timestamp retrieved using java.sql.Statement "
-                    + "set in database using UTC calendar is not ~= " + epsillon + " it is actually " + deltaOrig, (deltaOrig < epsillon));
+                    + "set in database using UTC calendar is not ~= " + epsillon + " it is actually " + deltaOrig,
+                    (deltaOrig < epsillon));
 
             long pStmtDeltaTWithCal = (tsValuePstmtNoCal.getTime() - ts.getTime());
             deltaOrig = Math.abs(pStmtDeltaTWithCal - pointInTimeOffset);
             assertTrue("Difference between original timestamp and timestamp retrieved using java.sql.PreparedStatement "
-                    + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + deltaOrig, (deltaOrig < epsillon));
+                    + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + deltaOrig,
+                    (deltaOrig < epsillon));
 
-            System.out.println("Difference between original ts and ts with no calendar: " + (tsValuePstmtNoCal.getTime() - ts.getTime()) + ", offset should be "
+            System.out.println("Difference between original ts and ts with no calendar: "
+                    + (tsValuePstmtNoCal.getTime() - ts.getTime()) + ", offset should be "
                     + pointInTimeOffset);
         } finally {
             TimeZone.setDefault(defaultTimeZone);
@@ -1439,7 +1475,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests that DataTruncation is thrown when data is truncated.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug3697() throws Exception {
         try {
@@ -1473,7 +1509,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * DataTruncation exception.
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug3804() throws Exception {
         try {
@@ -1500,15 +1536,17 @@ public class StatementRegressionTest extends BaseTestCase {
      * generated keys (even though that's not JDBC compliant).
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug3873() throws Exception {
         PreparedStatement batchStmt = null;
 
         try {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug3873");
-            this.stmt.executeUpdate("CREATE TABLE testBug3873 (keyField INT NOT NULL PRIMARY KEY AUTO_INCREMENT, dataField VARCHAR(32))");
-            batchStmt = this.conn.prepareStatement("INSERT INTO testBug3873 (dataField) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            this.stmt.executeUpdate(
+                    "CREATE TABLE testBug3873 (keyField INT NOT NULL PRIMARY KEY AUTO_INCREMENT, dataField VARCHAR(32))");
+            batchStmt = this.conn.prepareStatement("INSERT INTO testBug3873 (dataField) VALUES (?)",
+                    Statement.RETURN_GENERATED_KEYS);
             batchStmt.setString(1, "abc");
             batchStmt.addBatch();
             batchStmt.setString(1, "def");
@@ -1547,15 +1585,16 @@ public class StatementRegressionTest extends BaseTestCase {
      * MVCSoft JDO
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug4119() throws Exception {
         try {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug4119");
-            this.stmt.executeUpdate("CREATE TABLE `testBug4119` (`field1` varchar(255) NOT NULL default '', `field2` bigint(20) default NULL,"
-                    + "`field3` int(11) default NULL, `field4` datetime default NULL, `field5` varchar(75) default NULL,"
-                    + "`field6` varchar(75) default NULL, `field7` varchar(75) default NULL, `field8` datetime default NULL,"
-                    + " PRIMARY KEY  (`field1`(100)))");
+            this.stmt.executeUpdate(
+                    "CREATE TABLE `testBug4119` (`field1` varchar(255) NOT NULL default '', `field2` bigint(20) default NULL,"
+                            + "`field3` int(11) default NULL, `field4` datetime default NULL, `field5` varchar(75) default NULL,"
+                            + "`field6` varchar(75) default NULL, `field7` varchar(75) default NULL, `field8` datetime default NULL,"
+                            + " PRIMARY KEY  (`field1`(100)))");
 
             PreparedStatement pStmt = this.conn.prepareStatement(
                     "insert into testBug4119 (field2, field3, field4, field5, field6, field7, field8, field1) values (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -1579,7 +1618,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * using prepared statements and binary result sets.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug4311() throws Exception {
         try {
@@ -1605,15 +1644,17 @@ public class StatementRegressionTest extends BaseTestCase {
      * 32767
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug4510() throws Exception {
         try {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug4510");
-            this.stmt.executeUpdate("CREATE TABLE testBug4510 (field1 INT NOT NULL PRIMARY KEY AUTO_INCREMENT, field2 VARCHAR(100))");
+            this.stmt.executeUpdate(
+                    "CREATE TABLE testBug4510 (field1 INT NOT NULL PRIMARY KEY AUTO_INCREMENT, field2 VARCHAR(100))");
             this.stmt.executeUpdate("INSERT INTO testBug4510 (field1, field2) VALUES (32767, 'bar')");
 
-            PreparedStatement p = this.conn.prepareStatement("insert into testBug4510 (field2) values (?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement p = this.conn.prepareStatement("insert into testBug4510 (field2) values (?)",
+                    Statement.RETURN_GENERATED_KEYS);
 
             p.setString(1, "blah");
 
@@ -1635,7 +1676,8 @@ public class StatementRegressionTest extends BaseTestCase {
      * @throws SQLException
      */
     public void testBug4718() throws SQLException {
-        if (((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.useServerPrepStmts).getValue()) {
+        if (((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet()
+                .getBooleanProperty(PropertyKey.useServerPrepStmts).getValue()) {
             this.pstmt = this.conn.prepareStatement("SELECT 1 LIMIT ?");
             assertTrue(this.pstmt instanceof ClientPreparedStatement);
 
@@ -1678,7 +1720,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * DECIMAL type don't work.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug5012() throws Exception {
         PreparedStatement pStmt = null;
@@ -1721,7 +1763,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * OutOfMemoryError
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug5191() throws Exception {
         PreparedStatement pStmt = null;
@@ -1730,18 +1772,21 @@ public class StatementRegressionTest extends BaseTestCase {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug5191Q");
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBug5191C");
 
-            this.stmt.executeUpdate("CREATE TABLE testBug5191Q (QuestionId int NOT NULL AUTO_INCREMENT, Text VARCHAR(200), PRIMARY KEY(QuestionId))");
+            this.stmt.executeUpdate(
+                    "CREATE TABLE testBug5191Q (QuestionId int NOT NULL AUTO_INCREMENT, Text VARCHAR(200), PRIMARY KEY(QuestionId))");
 
             this.stmt.executeUpdate("CREATE TABLE testBug5191C (CategoryId int, QuestionId int)");
 
-            String[] questions = new String[] { "What is your name?", "What is your quest?", "What is the airspeed velocity of an unladen swollow?",
+            String[] questions = new String[] { "What is your name?", "What is your quest?",
+                    "What is the airspeed velocity of an unladen swollow?",
                     "How many roads must a man walk?", "Where's the tea?", };
 
             for (int i = 0; i < questions.length; i++) {
                 this.stmt.executeUpdate("INSERT INTO testBug5191Q(Text) VALUES (\"" + questions[i] + "\")");
                 int catagory = (i < 3) ? 0 : i;
 
-                this.stmt.executeUpdate("INSERT INTO testBug5191C (CategoryId, QuestionId) VALUES (" + catagory + ", " + i + ")");
+                this.stmt.executeUpdate(
+                        "INSERT INTO testBug5191C (CategoryId, QuestionId) VALUES (" + catagory + ", " + i + ")");
                 /*
                  * this.stmt.executeUpdate("INSERT INTO testBug5191C" +
                  * "(CategoryId, QuestionId) VALUES (" + catagory + ", (SELECT
@@ -1773,7 +1818,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * zeroDatetimeBehavior is 'CONVERT_TO_NULL'.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug5235() throws Exception {
         Properties props = new Properties();
@@ -1821,8 +1866,9 @@ public class StatementRegressionTest extends BaseTestCase {
 
             this.stmt.executeUpdate("DROP TABLE IF EXISTS " + table);
 
-            this.stmt.executeUpdate("CREATE TABLE " + table + "(policyid int NOT NULL AUTO_INCREMENT, " + column + " VARCHAR(200), "
-                    + "PRIMARY KEY(policyid)) DEFAULT CHARACTER SET utf8");
+            this.stmt.executeUpdate(
+                    "CREATE TABLE " + table + "(policyid int NOT NULL AUTO_INCREMENT, " + column + " VARCHAR(200), "
+                            + "PRIMARY KEY(policyid)) DEFAULT CHARACTER SET utf8");
 
             String pname0 = "inserted \uac00 - foo - \u4e00";
 
@@ -1852,12 +1898,14 @@ public class StatementRegressionTest extends BaseTestCase {
             s1.setBytes(1, newbytes);
             s1.executeUpdate();
 
-            this.rs = utfStmt.executeQuery("select " + column + " from " + table + " where " + column + " like 'insert%'");
+            this.rs = utfStmt
+                    .executeQuery("select " + column + " from " + table + " where " + column + " like 'insert%'");
             this.rs.first();
             String pname3 = this.rs.getString(column);
             assertEquals(pname0, pname3);
 
-            this.rs = utfStmt.executeQuery("select " + column + " from " + table + " where " + column + " like 'byte insert%'");
+            this.rs = utfStmt
+                    .executeQuery("select " + column + " from " + table + " where " + column + " like 'byte insert%'");
             this.rs.first();
 
             String pname4 = this.rs.getString(column);
@@ -1882,14 +1930,16 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#5874, timezone correction goes in wrong 'direction' (when useTimezone=true and server timezone differs from client timezone).
+     * Tests fix for BUG#5874, timezone correction goes in wrong 'direction' (when
+     * useTimezone=true and server timezone differs from client timezone).
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug5874() throws Exception {
         if (this.DISABLED_testBug5874) {
-            // TODO: this test is working in c/J 5.1 but fails here; disable for later analysis
+            // TODO: this test is working in c/J 5.1 but fails here; disable for later
+            // analysis
             return;
         }
 
@@ -1928,7 +1978,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
             this.rs = tzStmt.executeQuery("SELECT * from testBug5874");
 
-            while (this.rs.next()) { // Driver now converts/checks DATE/TIME/TIMESTAMP/DATETIME types when calling getString()...
+            while (this.rs.next()) { // Driver now converts/checks DATE/TIME/TIMESTAMP/DATETIME types when calling
+                                     // getString()...
                 String retrTimestampString = new String(this.rs.getBytes(1));
                 Timestamp retrTimestamp = this.rs.getTimestamp(1);
 
@@ -1936,7 +1987,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
                 long retrievedOffsetForTimestamp = retrTimestamp.getTime() - timestampOnServer.getTime();
 
-                assertEquals("Original timestamp and timestamp retrieved using client timezone are not the same", offsetDifference,
+                assertEquals("Original timestamp and timestamp retrieved using client timezone are not the same",
+                        offsetDifference,
                         retrievedOffsetForTimestamp);
 
                 String retrTimeString = new String(this.rs.getBytes(2));
@@ -1947,7 +1999,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
                 long retrievedOffsetForTime = retrTime.getTime() - timeOnServer.getTime();
 
-                assertEquals("Original time and time retrieved using client timezone are not the same", offsetDifference, retrievedOffsetForTime);
+                assertEquals("Original time and time retrieved using client timezone are not the same",
+                        offsetDifference, retrievedOffsetForTime);
             }
 
             tzConn.close();
@@ -2015,11 +2068,12 @@ public class StatementRegressionTest extends BaseTestCase {
      * sets.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug8487() throws Exception {
         try {
-            this.pstmt = this.conn.prepareStatement("SELECT 1", ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            this.pstmt = this.conn.prepareStatement("SELECT 1", ResultSet.TYPE_FORWARD_ONLY,
+                    ResultSet.CONCUR_READ_ONLY);
 
             this.pstmt.setFetchSize(Integer.MIN_VALUE);
             this.rs = this.pstmt.executeQuery();
@@ -2062,11 +2116,13 @@ public class StatementRegressionTest extends BaseTestCase {
             multiStmt = multiStmtConn.createStatement();
 
             multiStmt.executeUpdate("DROP TABLE IF EXISTS testMultiStatements");
-            multiStmt.executeUpdate("CREATE TABLE testMultiStatements (field1 VARCHAR(255), field2 INT, field3 DOUBLE)");
+            multiStmt
+                    .executeUpdate("CREATE TABLE testMultiStatements (field1 VARCHAR(255), field2 INT, field3 DOUBLE)");
             multiStmt.executeUpdate("INSERT INTO testMultiStatements VALUES ('abcd', 1, 2)");
 
-            multiStmt.execute("SELECT field1 FROM testMultiStatements WHERE field1='abcd'; UPDATE testMultiStatements SET field3=3;"
-                    + "SELECT field3 FROM testMultiStatements WHERE field3=3");
+            multiStmt.execute(
+                    "SELECT field1 FROM testMultiStatements WHERE field1='abcd'; UPDATE testMultiStatements SET field3=3;"
+                            + "SELECT field3 FROM testMultiStatements WHERE field3=3");
 
             this.rs = multiStmt.getResultSet();
 
@@ -2078,7 +2134,8 @@ public class StatementRegressionTest extends BaseTestCase {
             // Next should be an update count...
             assertTrue(!multiStmt.getMoreResults());
 
-            assertTrue("Update count was " + multiStmt.getUpdateCount() + ", expected 1", multiStmt.getUpdateCount() == 1);
+            assertTrue("Update count was " + multiStmt.getUpdateCount() + ", expected 1",
+                    multiStmt.getUpdateCount() == 1);
 
             assertTrue(multiStmt.getMoreResults());
 
@@ -2108,7 +2165,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests that you can close a statement twice without an NPE.
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testCloseTwice() throws Exception {
         Statement closeMe = this.conn.createStatement();
@@ -2196,7 +2253,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests all forms of statements influencing getGeneratedKeys().
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testGetGeneratedKeysAllCases() throws Exception {
         System.out.println("Using Statement.executeUpdate()\n");
@@ -2265,7 +2322,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests that max_rows and 'limit' don't cause exceptions to be thrown.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testLimitAndMaxRows() throws Exception {
         try {
@@ -2332,11 +2389,11 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests that 'LOAD DATA LOCAL INFILE' works
      * 
      * @throws Exception
-     *             if any errors occur
+     *                   if any errors occur
      */
     public void testLoadData() throws Exception {
         try {
-            //int maxAllowedPacket = 1048576;
+            // int maxAllowedPacket = 1048576;
 
             this.stmt.executeUpdate("DROP TABLE IF EXISTS loadDataRegress");
             this.stmt.executeUpdate("CREATE TABLE loadDataRegress (field1 int, field2 int)");
@@ -2379,21 +2436,26 @@ public class StatementRegressionTest extends BaseTestCase {
             }
             final String fileName = fileNameBuf.toString();
 
-            assertThrows(SQLSyntaxErrorException.class, "The used command is not allowed with this MySQL version", () -> {
-                this.stmt.executeUpdate("LOAD DATA LOCAL INFILE '" + fileName + "' INTO TABLE loadDataRegress CHARACTER SET "
-                        + CharsetMapping.getMysqlCharsetForJavaEncoding(
-                                ((MysqlConnection) this.conn).getPropertySet().getStringProperty(PropertyKey.characterEncoding).getValue(),
-                                this.serverVersion));
-                return null;
-            });
+            assertThrows(SQLSyntaxErrorException.class, "The used command is not allowed with this MySQL version",
+                    () -> {
+                        this.stmt.executeUpdate(
+                                "LOAD DATA LOCAL INFILE '" + fileName + "' INTO TABLE loadDataRegress CHARACTER SET "
+                                        + CharsetMapping.getMysqlCharsetForJavaEncoding(
+                                                ((MysqlConnection) this.conn).getPropertySet()
+                                                        .getStringProperty(PropertyKey.characterEncoding).getValue(),
+                                                this.serverVersion));
+                        return null;
+                    });
 
             Properties props = new Properties();
             props.setProperty(PropertyKey.allowLoadLocalInfile.getKeyName(), "true");
             Connection testConn = getConnectionWithProps(props);
             int updateCount = testConn.createStatement()
-                    .executeUpdate("LOAD DATA LOCAL INFILE '" + fileNameBuf.toString() + "' INTO TABLE loadDataRegress CHARACTER SET "
+                    .executeUpdate("LOAD DATA LOCAL INFILE '" + fileNameBuf.toString()
+                            + "' INTO TABLE loadDataRegress CHARACTER SET "
                             + CharsetMapping.getMysqlCharsetForJavaEncoding(
-                                    ((MysqlConnection) this.conn).getPropertySet().getStringProperty(PropertyKey.characterEncoding).getValue(),
+                                    ((MysqlConnection) this.conn).getPropertySet()
+                                            .getStringProperty(PropertyKey.characterEncoding).getValue(),
                                     this.serverVersion));
             assertTrue(updateCount == rowCount);
         } finally {
@@ -2421,14 +2483,15 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests fix for BUG#1658
      * 
      * @throws Exception
-     *             if the fix for parameter bounds checking doesn't work.
+     *                   if the fix for parameter bounds checking doesn't work.
      */
     public void testParameterBoundsCheck() throws Exception {
         try {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testParameterBoundsCheck");
             this.stmt.executeUpdate("CREATE TABLE testParameterBoundsCheck(f1 int, f2 int, f3 int, f4 int, f5 int)");
 
-            PreparedStatement _pstmt = this.conn.prepareStatement("UPDATE testParameterBoundsCheck SET f1=?, f2=?,f3=?,f4=? WHERE f5=?");
+            PreparedStatement _pstmt = this.conn
+                    .prepareStatement("UPDATE testParameterBoundsCheck SET f1=?, f2=?,f3=?,f4=? WHERE f5=?");
 
             _pstmt.setString(1, "");
             _pstmt.setString(2, "");
@@ -2464,7 +2527,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * present in query.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     /*
      * public void testBug9288() throws Exception { String tableName =
@@ -2532,7 +2595,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests that binary dates/times are encoded/decoded correctly.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      * 
      * @deprecated because we need to use this particular constructor for the
      *             date class, as Calendar-constructed dates don't pass the
@@ -2544,7 +2607,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 "(`P_ID` int(10) NOT NULL default '0', `R_Date` date default NULL, UNIQUE KEY `P_ID` (`P_ID`), KEY `R_Date` (`R_Date`))");
         Date dt = new java.sql.Date(102, 1, 2); // Note, this represents the date 2002-02-02
 
-        PreparedStatement pStmt2 = this.conn.prepareStatement("INSERT INTO testServerPrepStmtAndDate (P_ID, R_Date) VALUES (171576, ?)");
+        PreparedStatement pStmt2 = this.conn
+                .prepareStatement("INSERT INTO testServerPrepStmtAndDate (P_ID, R_Date) VALUES (171576, ?)");
         pStmt2.setDate(1, dt);
         pStmt2.executeUpdate();
         pStmt2.close();
@@ -2554,7 +2618,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
         System.out.println("Date that was stored (as String) " + this.rs.getString(1)); // comes back as 2002-02-02
 
-        PreparedStatement pStmt = this.conn.prepareStatement("Select P_ID,R_Date from testServerPrepStmtAndDate Where R_Date = ?   and P_ID = 171576");
+        PreparedStatement pStmt = this.conn.prepareStatement(
+                "Select P_ID,R_Date from testServerPrepStmtAndDate Where R_Date = ?   and P_ID = 171576");
         pStmt.setDate(1, dt);
 
         this.rs = pStmt.executeQuery();
@@ -2583,11 +2648,12 @@ public class StatementRegressionTest extends BaseTestCase {
      * streams
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testSetCharacterStream() throws Exception {
         try {
-            ((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.traceProtocol).setValue(true);
+            ((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet()
+                    .getBooleanProperty(PropertyKey.traceProtocol).setValue(true);
 
             this.stmt.executeUpdate("DROP TABLE IF EXISTS charStreamRegressTest");
             this.stmt.executeUpdate("CREATE TABLE charStreamRegressTest(field1 text)");
@@ -2640,7 +2706,9 @@ public class StatementRegressionTest extends BaseTestCase {
 
             result = this.rs.getString(1);
 
-            assertTrue("Retrieved value of length " + result.length() + " != length of inserted value " + charBuf.length, result.length() == charBuf.length);
+            assertTrue(
+                    "Retrieved value of length " + result.length() + " != length of inserted value " + charBuf.length,
+                    result.length() == charBuf.length);
 
             // Test single quotes inside identifers
             this.stmt.executeUpdate("DROP TABLE IF EXISTS `charStream'RegressTest`");
@@ -2658,9 +2726,12 @@ public class StatementRegressionTest extends BaseTestCase {
 
             result = this.rs.getString(1);
 
-            assertTrue("Retrieved value of length " + result.length() + " != length of inserted value " + charBuf.length, result.length() == charBuf.length);
+            assertTrue(
+                    "Retrieved value of length " + result.length() + " != length of inserted value " + charBuf.length,
+                    result.length() == charBuf.length);
         } finally {
-            ((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.traceProtocol).setValue(false);
+            ((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet()
+                    .getBooleanProperty(PropertyKey.traceProtocol).setValue(false);
 
             if (this.rs != null) {
                 try {
@@ -2682,7 +2753,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * than 0 or Integer.MIN_VALUE
      * 
      * @throws Exception
-     *             if any errors occur
+     *                   if any errors occur
      */
     public void testSetFetchSize() throws Exception {
         int oldFetchSize = this.stmt.getFetchSize();
@@ -2698,7 +2769,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests fix for BUG#907
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testSetMaxRows() throws Exception {
         Statement maxRowsStmt = null;
@@ -2744,9 +2815,12 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs.getDate(1);
 
             Timestamp rTs = this.rs.getTimestamp(1);
-            assertTrue("Retrieved year of " + rTs.getYear() + " does not match " + ts.getYear(), rTs.getYear() == ts.getYear());
-            assertTrue("Retrieved month of " + rTs.getMonth() + " does not match " + ts.getMonth(), rTs.getMonth() == ts.getMonth());
-            assertTrue("Retrieved date of " + rTs.getDate() + " does not match " + ts.getDate(), rTs.getDate() == ts.getDate());
+            assertTrue("Retrieved year of " + rTs.getYear() + " does not match " + ts.getYear(),
+                    rTs.getYear() == ts.getYear());
+            assertTrue("Retrieved month of " + rTs.getMonth() + " does not match " + ts.getMonth(),
+                    rTs.getMonth() == ts.getMonth());
+            assertTrue("Retrieved date of " + rTs.getDate() + " does not match " + ts.getDate(),
+                    rTs.getDate() == ts.getDate());
 
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testTimestampNPE");
 
@@ -2771,18 +2845,20 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests fix for updatable streams being supported in updatable result sets.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testUpdatableStream() throws Exception {
         try {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS updateStreamTest");
-            this.stmt.executeUpdate("CREATE TABLE updateStreamTest (keyField INT NOT NULL AUTO_INCREMENT PRIMARY KEY, field1 BLOB)");
+            this.stmt.executeUpdate(
+                    "CREATE TABLE updateStreamTest (keyField INT NOT NULL AUTO_INCREMENT PRIMARY KEY, field1 BLOB)");
 
             int streamLength = 16385;
             byte[] streamData = new byte[streamLength];
 
             /* create an updatable statement */
-            Statement updStmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            Statement updStmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
 
             /* fill the resultset with some values */
             ResultSet updRs = updStmt.executeQuery("SELECT * FROM updateStreamTest");
@@ -2805,10 +2881,12 @@ public class StatementRegressionTest extends BaseTestCase {
      * not complementary to .getObject() on an UNSIGNED LONG type).
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug15383() throws Exception {
-        createTable("testBug15383", "(id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,value BIGINT UNSIGNED NULL DEFAULT 0,PRIMARY KEY(id))", "InnoDB");
+        createTable("testBug15383",
+                "(id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,value BIGINT UNSIGNED NULL DEFAULT 0,PRIMARY KEY(id))",
+                "InnoDB");
 
         this.stmt.executeUpdate("INSERT INTO testBug15383(value) VALUES(1)");
 
@@ -2844,14 +2922,15 @@ public class StatementRegressionTest extends BaseTestCase {
      * query has been processed.
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug17099() throws Exception {
 
         PreparedStatement pStmt = this.conn.prepareStatement("SELECT 1", Statement.RETURN_GENERATED_KEYS);
         assertNotNull(pStmt.getGeneratedKeys());
 
-        pStmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement("SELECT 1", Statement.RETURN_GENERATED_KEYS);
+        pStmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement("SELECT 1",
+                Statement.RETURN_GENERATED_KEYS);
         assertNotNull(pStmt.getGeneratedKeys());
     }
 
@@ -2860,7 +2939,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * statement causes NPE.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug17587() throws Exception {
         createTable("testBug17857", "(field1 int)");
@@ -2875,7 +2954,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 assertEquals(MysqlErrorNumbers.SQL_STATE_ILLEGAL_ARGUMENT, sqlEx.getSQLState());
             }
 
-            pStmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement("INSERT INTO testBug17857 VALUES (?)");
+            pStmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn)
+                    .clientPrepareStatement("INSERT INTO testBug17857 VALUES (?)");
             pStmt.close();
             try {
                 pStmt.clearParameters();
@@ -2895,7 +2975,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * doesn't respect scale of BigDecimals.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug19615() throws Exception {
         createTable("testBug19615", "(field1 DECIMAL(19, 12))");
@@ -2913,7 +2993,8 @@ public class StatementRegressionTest extends BaseTestCase {
         this.rs.close();
         this.stmt.executeUpdate("TRUNCATE TABLE testBug19615");
 
-        this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement("INSERT INTO testBug19615 VALUES (?)");
+        this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn)
+                .clientPrepareStatement("INSERT INTO testBug19615 VALUES (?)");
         this.pstmt.setObject(1, dec, Types.DECIMAL);
         this.pstmt.executeUpdate();
         this.pstmt.close();
@@ -2932,7 +3013,8 @@ public class StatementRegressionTest extends BaseTestCase {
     public void testBug20029() throws Exception {
         createTable("testBug20029", ("(field1 int)"));
 
-        long initialTimeout = 20; // may need to raise this depending on environment we try and do this automatically in this testcase
+        long initialTimeout = 20; // may need to raise this depending on environment we try and do this
+                                  // automatically in this testcase
 
         for (int i = 0; i < 10; i++) {
             final Connection toBeKilledConn = getConnectionWithProps(new Properties());
@@ -2940,7 +3022,8 @@ public class StatementRegressionTest extends BaseTestCase {
             PreparedStatement toBeKilledPstmt = null;
 
             try {
-                toBeKilledPstmt = ((com.mysql.cj.jdbc.JdbcConnection) toBeKilledConn).clientPrepareStatement("INSERT INTO testBug20029 VALUES (?)");
+                toBeKilledPstmt = ((com.mysql.cj.jdbc.JdbcConnection) toBeKilledConn)
+                        .clientPrepareStatement("INSERT INTO testBug20029 VALUES (?)");
 
                 for (int j = 0; j < 1000; j++) {
                     toBeKilledPstmt.setInt(1, j);
@@ -2995,7 +3078,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * raised when re-using them.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug20687() throws Exception {
         createTable("testBug20687", "(field1 int)");
@@ -3059,7 +3142,8 @@ public class StatementRegressionTest extends BaseTestCase {
             String select_sql = "select user0_.userName as userName0_0_, user0_.ivalue as ivalue0_0_, user0_.CNAME as CNAME0_0_, user0_.bvalue as bvalue0_0_, user0_.svalue as svalue0_0_, user0_.ACTIVE as ACTIVE0_0_ from X_TEST user0_ where user0_.userName like ?";
             this.pstmt = noBackslashEscapesConn.prepareStatement(select_sql);
             this.pstmt.setString(1, "c:\\j%");
-            // if we comment out the previous line and uncomment the following, the like clause matches
+            // if we comment out the previous line and uncomment the following, the like
+            // clause matches
             // this.pstmt.setString(1,"c:\\\\j%");
             System.out.println("about to execute query " + select_sql);
             this.rs = this.pstmt.executeQuery();
@@ -3076,7 +3160,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * if underlying connection has been closed due to server failure.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug20650() throws Exception {
         Connection closedConn = null;
@@ -3105,7 +3189,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * statements parsing not respected.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug20888() throws Exception {
         String s = "SELECT 'What do you think about D\\'Artanian''?', \"What do you think about D\\\"Artanian\"\"?\"";
@@ -3122,7 +3206,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * have been closed (in asSQL()).
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug21207() throws Exception {
         this.pstmt = this.conn.prepareStatement("SELECT 1");
@@ -3136,7 +3220,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * &jdbcCompliantTruncation=false) test succedes.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
 
     @SuppressWarnings("deprecation")
@@ -3163,7 +3247,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Statement.setQueryTimeout() when spec says argument is seconds.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug22359() throws Exception {
         Statement timeoutStmt = null;
@@ -3195,11 +3279,13 @@ public class StatementRegressionTest extends BaseTestCase {
      * server-side prepared statement).
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug22290() throws Exception {
 
-        createTable("testbug22290", "(`id` int(11) NOT NULL default '1',`cost` decimal(10,2) NOT NULL,PRIMARY KEY  (`id`)) DEFAULT CHARSET=utf8", "InnoDB");
+        createTable("testbug22290",
+                "(`id` int(11) NOT NULL default '1',`cost` decimal(10,2) NOT NULL,PRIMARY KEY  (`id`)) DEFAULT CHARSET=utf8",
+                "InnoDB");
         assertEquals(this.stmt.executeUpdate("INSERT INTO testbug22290 (`id`,`cost`) VALUES (1,'1.00')"), 1);
 
         Connection configuredConn = null;
@@ -3215,7 +3301,8 @@ public class StatementRegressionTest extends BaseTestCase {
             assertEquals(this.pstmt.executeUpdate(), 1);
 
             assertEquals(this.stmt.executeUpdate("UPDATE testbug22290 SET cost='1.00'"), 1);
-            this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) configuredConn).clientPrepareStatement("update testbug22290 set cost = cost + ? where id = 1");
+            this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) configuredConn)
+                    .clientPrepareStatement("update testbug22290 set cost = cost + ? where id = 1");
             this.pstmt.setBigDecimal(1, new BigDecimal("1.11"));
             assertEquals(this.pstmt.executeUpdate(), 1);
         } finally {
@@ -3238,7 +3325,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * commands.
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug24360() throws Exception {
 
@@ -3270,10 +3357,11 @@ public class StatementRegressionTest extends BaseTestCase {
      * or if it is an existing deployment that is switching to client-side
      * prepared statements from server-side prepared statements.
      * 
-     * Note: The properties 'useJDBCCompliantTimezoneShift' and 'useSSPSCompatibleTimezoneShift' no longer exist in Connector/J 6.0.
+     * Note: The properties 'useJDBCCompliantTimezoneShift' and
+     * 'useSSPSCompatibleTimezoneShift' no longer exist in Connector/J 6.0.
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug24344() throws Exception {
 
@@ -3324,7 +3412,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * statement instances, and causes a memory leak.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug25073() throws Exception {
         Properties props = new Properties();
@@ -3376,7 +3464,8 @@ public class StatementRegressionTest extends BaseTestCase {
         props.setProperty(PropertyKey.dumpQueriesOnException.getKeyName(), "true");
         props.setProperty(PropertyKey.maxQuerySizeToLog.getKeyName(), String.valueOf(1024 * 1024 * 2));
         multiConn = getConnectionWithProps(props);
-        PreparedStatement pStmt = multiConn.prepareStatement("INSERT INTO testBug25073(field1) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement pStmt = multiConn.prepareStatement("INSERT INTO testBug25073(field1) VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS);
 
         for (int i = 0; i < 1000; i++) {
             pStmt.setInt(1, i);
@@ -3398,7 +3487,8 @@ public class StatementRegressionTest extends BaseTestCase {
         props.setProperty(PropertyKey.dumpQueriesOnException.getKeyName(), "true");
         props.setProperty(PropertyKey.maxQuerySizeToLog.getKeyName(), String.valueOf(1024 * 1024 * 2));
         multiConn = getConnectionWithProps(props);
-        pStmt = multiConn.prepareStatement("INSERT INTO testBug25073(field1) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+        pStmt = multiConn.prepareStatement("INSERT INTO testBug25073(field1) VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS);
 
         for (int i = 0; i < 1000; i++) {
             pStmt.setInt(1, i);
@@ -3419,7 +3509,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * multi-statement queries.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug25009() throws Exception {
         Properties props = new Properties();
@@ -3463,7 +3553,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * used.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug25025() throws Exception {
 
@@ -3479,7 +3569,8 @@ public class StatementRegressionTest extends BaseTestCase {
             multiConn = getConnectionWithProps(props);
 
             this.pstmt = multiConn
-                    .prepareStatement("/* insert foo.bar.baz INSERT INTO foo VALUES (?,?,?,?) to trick parser */ INSERT into testBug25025 VALUES (?)");
+                    .prepareStatement(
+                            "/* insert foo.bar.baz INSERT INTO foo VALUES (?,?,?,?) to trick parser */ INSERT into testBug25025 VALUES (?)");
             this.pstmt.setInt(1, 1);
             this.pstmt.addBatch();
             this.pstmt.setInt(1, 2);
@@ -3493,7 +3584,8 @@ public class StatementRegressionTest extends BaseTestCase {
             assertEquals(Statement.SUCCESS_NO_INFO, counts[0]);
             assertEquals(Statement.SUCCESS_NO_INFO, counts[1]);
             assertEquals(Statement.SUCCESS_NO_INFO, counts[2]);
-            assertEquals(true, ((ClientPreparedStatement) this.pstmt).getParseInfo().canRewriteAsMultiValueInsertAtSqlLevel());
+            assertEquals(true,
+                    ((ClientPreparedStatement) this.pstmt).getParseInfo().canRewriteAsMultiValueInsertAtSqlLevel());
         } finally {
             if (multiConn != null) {
                 multiConn.close();
@@ -3511,7 +3603,8 @@ public class StatementRegressionTest extends BaseTestCase {
         PreparedStatement pStmt = null;
 
         try {
-            pStmt = this.conn.prepareStatement("UPDATE sequence SET next_val=LAST_INSERT_ID(next_val + ?) WHERE sequence_name = ?",
+            pStmt = this.conn.prepareStatement(
+                    "UPDATE sequence SET next_val=LAST_INSERT_ID(next_val + ?) WHERE sequence_name = ?",
                     Statement.RETURN_GENERATED_KEYS);
 
             pStmt.setInt(1, 4);
@@ -3539,7 +3632,8 @@ public class StatementRegressionTest extends BaseTestCase {
             this.conn.setReadOnly(true);
             this.stmt.execute("(SELECT 1) UNION (SELECT 2)");
             this.conn.prepareStatement("(SELECT 1) UNION (SELECT 2)").execute();
-            ((com.mysql.cj.jdbc.JdbcConnection) this.conn).serverPrepareStatement("(SELECT 1) UNION (SELECT 2)").execute();
+            ((com.mysql.cj.jdbc.JdbcConnection) this.conn).serverPrepareStatement("(SELECT 1) UNION (SELECT 2)")
+                    .execute();
         } finally {
             this.conn.setReadOnly(false);
         }
@@ -3580,7 +3674,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
             createTable("testBug28469", "(field1 INT)");
 
-            String[] updatesToTest = { "-- COMMENT\nUPDATE testBug28469 SET field1 = 2", "# COMMENT\nUPDATE testBug28469 SET field1 = 2",
+            String[] updatesToTest = { "-- COMMENT\nUPDATE testBug28469 SET field1 = 2",
+                    "# COMMENT\nUPDATE testBug28469 SET field1 = 2",
                     "/* comment */ UPDATE testBug28469 SET field1 = 2" };
 
             for (int i = 0; i < updatesToTest.length; i++) {
@@ -3613,12 +3708,13 @@ public class StatementRegressionTest extends BaseTestCase {
      * Tests error with slash-star comment at EOL
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testCommentParsing() throws Exception {
         createTable("PERSON", "(NAME VARCHAR(32), PERID VARCHAR(32))");
 
-        this.pstmt = this.conn.prepareStatement("SELECT NAME AS name2749_0_, PERID AS perid2749_0_ FROM PERSON WHERE PERID=? /*FOR UPDATE*/");
+        this.pstmt = this.conn.prepareStatement(
+                "SELECT NAME AS name2749_0_, PERID AS perid2749_0_ FROM PERSON WHERE PERID=? /*FOR UPDATE*/");
     }
 
     /**
@@ -3626,7 +3722,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * character following '/' if it's not a multi-line comment.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug28851() throws Exception {
         this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement("SELECT 1/?");
@@ -3646,7 +3742,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * Also added support for '--' single-line comments
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug28596() throws Exception {
         String query = "SELECT #\n?, #\n? #?\r\n,-- abcdefg \n?";
@@ -3672,7 +3768,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * enabled.
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug30550() throws Exception {
         createTable("testBug30550", "(field1 int)");
@@ -3739,11 +3835,13 @@ public class StatementRegressionTest extends BaseTestCase {
         this.stmt.executeUpdate("INSERT INTO testBustedGGKColumnNames VALUES (null)", Statement.RETURN_GENERATED_KEYS);
         assertEquals("GENERATED_KEY", this.stmt.getGeneratedKeys().getMetaData().getColumnName(1));
 
-        this.pstmt = this.conn.prepareStatement("INSERT INTO testBustedGGKColumnNames VALUES (null)", Statement.RETURN_GENERATED_KEYS);
+        this.pstmt = this.conn.prepareStatement("INSERT INTO testBustedGGKColumnNames VALUES (null)",
+                Statement.RETURN_GENERATED_KEYS);
         this.pstmt.executeUpdate();
         assertEquals("GENERATED_KEY", this.pstmt.getGeneratedKeys().getMetaData().getColumnName(1));
 
-        this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).serverPrepareStatement("INSERT INTO testBustedGGKColumnNames VALUES (null)",
+        this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).serverPrepareStatement(
+                "INSERT INTO testBustedGGKColumnNames VALUES (null)",
                 Statement.RETURN_GENERATED_KEYS);
         this.pstmt.executeUpdate();
         assertEquals("GENERATED_KEY", this.pstmt.getGeneratedKeys().getMetaData().getColumnName(1));
@@ -3752,7 +3850,9 @@ public class StatementRegressionTest extends BaseTestCase {
 
     public void testLancesBitMappingBug() throws Exception {
 
-        createTable("Bit_TabXXX", "( `MAX_VAL` BIT default NULL, `MIN_VAL` BIT default NULL, `NULL_VAL` BIT default NULL) DEFAULT CHARSET=latin1", "InnoDB");
+        createTable("Bit_TabXXX",
+                "( `MAX_VAL` BIT default NULL, `MIN_VAL` BIT default NULL, `NULL_VAL` BIT default NULL) DEFAULT CHARSET=latin1",
+                "InnoDB");
 
         // add Bit_In_MinXXX procedure
         createProcedure("Bit_In_MinXXX", "(MIN_PARAM TINYINT(1)) begin update Bit_TabXXX set MIN_VAL=MIN_PARAM; end");
@@ -3827,8 +3927,10 @@ public class StatementRegressionTest extends BaseTestCase {
      * that happens over the DST switchover, as the hours end up being the same
      * when sent as the literal that MySQL requires.
      * 
-     * Note that to get this scenario to work with MySQL (since it doesn't support per-value timezones), you need to configure your server (or session) to be in
-     * UTC. This will cause the driver to always convert to/from the server and client timezone consistently.
+     * Note that to get this scenario to work with MySQL (since it doesn't support
+     * per-value timezones), you need to configure your server (or session) to be in
+     * UTC. This will cause the driver to always convert to/from the server and
+     * client timezone consistently.
      * 
      * @throws Exception
      */
@@ -3858,19 +3960,20 @@ public class StatementRegressionTest extends BaseTestCase {
             this.pstmt.executeUpdate();
 
             this.rs = nonLegacyConn.createStatement()
-                    .executeQuery("SELECT id, field_datetime, field_timestamp , UNIX_TIMESTAMP(field_datetime), UNIX_TIMESTAMP(field_timestamp) "
-                            + "FROM testBug32577 ORDER BY id ASC");
+                    .executeQuery(
+                            "SELECT id, field_datetime, field_timestamp , UNIX_TIMESTAMP(field_datetime), UNIX_TIMESTAMP(field_timestamp) "
+                                    + "FROM testBug32577 ORDER BY id ASC");
 
             this.rs.next();
 
-            //java.util.Date date1 = new Date(this.rs.getTimestamp(2).getTime());
+            // java.util.Date date1 = new Date(this.rs.getTimestamp(2).getTime());
             Timestamp ts1 = this.rs.getTimestamp(3);
             long datetimeSeconds1 = this.rs.getLong(4) * 1000;
             long timestampSeconds1 = this.rs.getLong(5) * 1000;
 
             this.rs.next();
 
-            //java.util.Date date2 = new Date(this.rs.getTimestamp(2).getTime());
+            // java.util.Date date2 = new Date(this.rs.getTimestamp(2).getTime());
             Timestamp ts2 = this.rs.getTimestamp(3);
             long datetimeSeconds2 = this.rs.getLong(4) * 1000;
             long timestampSeconds2 = this.rs.getLong(5) * 1000;
@@ -3880,7 +3983,8 @@ public class StatementRegressionTest extends BaseTestCase {
             assertEquals(earlier, datetimeSeconds1);
             assertEquals(earlier, timestampSeconds1);
 
-            SimpleDateFormat sdf = TimeUtil.getSimpleDateFormat(null, "MM/dd/yyyy HH:mm z", null, TimeZone.getTimeZone("America/New_York"));
+            SimpleDateFormat sdf = TimeUtil.getSimpleDateFormat(null, "MM/dd/yyyy HH:mm z", null,
+                    TimeZone.getTimeZone("America/New_York"));
             System.out.println(sdf.format(ts2));
             System.out.println(sdf.format(ts1));
         } finally {
@@ -3937,7 +4041,9 @@ public class StatementRegressionTest extends BaseTestCase {
 
     public void testMoreLanceBugs() throws Exception {
 
-        createTable("Bit_Tab", "( `MAX_VAL` BIT default NULL, `MIN_VAL` BIT default NULL, `NULL_VAL` BIT default NULL) DEFAULT CHARSET=latin1", "InnoDB");
+        createTable("Bit_Tab",
+                "( `MAX_VAL` BIT default NULL, `MIN_VAL` BIT default NULL, `NULL_VAL` BIT default NULL) DEFAULT CHARSET=latin1",
+                "InnoDB");
         // this.stmt.execute("insert into Bit_Tab values(null,0,null)");
         createProcedure("Bit_Proc", "(out MAX_PARAM TINYINT, out MIN_PARAM TINYINT, out NULL_PARAM TINYINT) "
                 + "begin select MAX_VAL, MIN_VAL, NULL_VAL  into MAX_PARAM, MIN_PARAM, NULL_PARAM from Bit_Tab; end ");
@@ -3992,7 +4098,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 return null;
             }
 
-            public Object getObjectStoredProc(String colName, Map<Object, Object> map, int desiredSqlType) throws SQLException {
+            public Object getObjectStoredProc(String colName, Map<Object, Object> map, int desiredSqlType)
+                    throws SQLException {
                 return null;
             }
 
@@ -4808,7 +4915,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * set to "true", and the statement has an "ON DUPLICATE KEY UPDATE" clause.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug34093() throws Exception {
         Connection rewriteConn = null;
@@ -4863,7 +4970,9 @@ public class StatementRegressionTest extends BaseTestCase {
 
                 createTable("testBug30493", ddl);
                 this.stmt.executeUpdate(tablePrimeSql);
-                int expectedUpdateCount = versionMeetsMinimum(5, 5, 16) ? 1 : 2; // behavior changed by fix of Bug#46675, affects servers starting from 5.5.16 and 5.6.3
+                int expectedUpdateCount = versionMeetsMinimum(5, 5, 16) ? 1 : 2; // behavior changed by fix of
+                                                                                 // Bug#46675, affects servers starting
+                                                                                 // from 5.5.16 and 5.6.3
 
                 int rwUpdateCounts[] = testStmts[1].executeBatch();
                 ResultSet rewrittenRsKeys = testStmts[1].getGeneratedKeys();
@@ -4897,14 +5006,17 @@ public class StatementRegressionTest extends BaseTestCase {
                 createTable("testBug30493", ddl);
             } catch (SQLException sqlEx) {
                 if (sqlEx.getMessage().indexOf("max key length") != -1) {
-                    createTable("testBug30493", "(autoIncId INT NOT NULL PRIMARY KEY AUTO_INCREMENT, uniqueTextKey VARCHAR(180) UNIQUE KEY)");
+                    createTable("testBug30493",
+                            "(autoIncId INT NOT NULL PRIMARY KEY AUTO_INCREMENT, uniqueTextKey VARCHAR(180) UNIQUE KEY)");
                 }
             }
             this.stmt.executeUpdate(tablePrimeSql);
 
             Statement stmt1 = this.conn.createStatement();
             stmt1.execute(sql, Statement.RETURN_GENERATED_KEYS);
-            int expectedUpdateCount = versionMeetsMinimum(5, 5, 16) ? 1 : 2; // behavior changed by fix of Bug#46675, affects servers starting from 5.5.16 and 5.6.3
+            int expectedUpdateCount = versionMeetsMinimum(5, 5, 16) ? 1 : 2; // behavior changed by fix of Bug#46675,
+                                                                             // affects servers starting from 5.5.16 and
+                                                                             // 5.6.3
 
             assertEquals(expectedUpdateCount, stmt1.getUpdateCount());
             ResultSet stmtKeys = stmt1.getGeneratedKeys();
@@ -4914,7 +5026,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 createTable("testBug30493", ddl);
             } catch (SQLException sqlEx) {
                 if (sqlEx.getMessage().indexOf("max key length") != -1) {
-                    createTable("testBug30493", "(autoIncId INT NOT NULL PRIMARY KEY AUTO_INCREMENT, uniqueTextKey VARCHAR(180) UNIQUE KEY)");
+                    createTable("testBug30493",
+                            "(autoIncId INT NOT NULL PRIMARY KEY AUTO_INCREMENT, uniqueTextKey VARCHAR(180) UNIQUE KEY)");
                 }
             }
             this.stmt.executeUpdate(tablePrimeSql);
@@ -5039,15 +5152,18 @@ public class StatementRegressionTest extends BaseTestCase {
 
             createTable("bug39352", "(id INT PRIMARY KEY, data VARCHAR(100))");
             assertEquals(1, this.stmt.executeUpdate("INSERT INTO bug39352 (id,data) values (1,'a')"));
-            int rowsAffected = this.stmt.executeUpdate("INSERT INTO bug39352 (id, data) VALUES(2, 'bb') ON DUPLICATE KEY UPDATE data=values(data)");
+            int rowsAffected = this.stmt.executeUpdate(
+                    "INSERT INTO bug39352 (id, data) VALUES(2, 'bb') ON DUPLICATE KEY UPDATE data=values(data)");
             assertEquals("First UPD failed", 1, rowsAffected);
 
             rowsAffected = affectedRowsConn.createStatement()
-                    .executeUpdate("INSERT INTO bug39352 (id, data) VALUES(2, 'bbb') ON DUPLICATE KEY UPDATE data=values(data)");
+                    .executeUpdate(
+                            "INSERT INTO bug39352 (id, data) VALUES(2, 'bbb') ON DUPLICATE KEY UPDATE data=values(data)");
             assertEquals("2nd UPD failed", 2, rowsAffected);
 
             rowsAffected = affectedRowsConn.createStatement()
-                    .executeUpdate("INSERT INTO bug39352 (id, data) VALUES(2, 'bbb') ON DUPLICATE KEY UPDATE data=values(data)");
+                    .executeUpdate(
+                            "INSERT INTO bug39352 (id, data) VALUES(2, 'bbb') ON DUPLICATE KEY UPDATE data=values(data)");
             assertEquals("3rd UPD failed", 0, rowsAffected);
 
         } finally {
@@ -5058,7 +5174,8 @@ public class StatementRegressionTest extends BaseTestCase {
     public void testBug38747() throws Exception {
         try {
             this.conn.setReadOnly(true);
-            this.pstmt = this.conn.prepareStatement("SELECT 1", ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            this.pstmt = this.conn.prepareStatement("SELECT 1", ResultSet.TYPE_FORWARD_ONLY,
+                    ResultSet.CONCUR_READ_ONLY);
             this.pstmt.setFetchSize(Integer.MIN_VALUE);
 
             this.rs = this.pstmt.executeQuery();
@@ -5079,12 +5196,15 @@ public class StatementRegressionTest extends BaseTestCase {
         ResultSet enginesRs = this.conn.createStatement().executeQuery("SHOW ENGINES");
 
         while (enginesRs.next()) {
-            if ("YES".equalsIgnoreCase(enginesRs.getString("Support")) || "DEFAULT".equalsIgnoreCase(enginesRs.getString("Support"))) {
+            if ("YES".equalsIgnoreCase(enginesRs.getString("Support"))
+                    || "DEFAULT".equalsIgnoreCase(enginesRs.getString("Support"))) {
 
                 String engineName = enginesRs.getString("Engine");
 
-                if ("CSV".equalsIgnoreCase(engineName) || "BLACKHOLE".equalsIgnoreCase(engineName) || "FEDERATED".equalsIgnoreCase(engineName)
-                        || "MRG_MYISAM".equalsIgnoreCase(engineName) || "PARTITION".equalsIgnoreCase(engineName) || "EXAMPLE".equalsIgnoreCase(engineName)
+                if ("CSV".equalsIgnoreCase(engineName) || "BLACKHOLE".equalsIgnoreCase(engineName)
+                        || "FEDERATED".equalsIgnoreCase(engineName)
+                        || "MRG_MYISAM".equalsIgnoreCase(engineName) || "PARTITION".equalsIgnoreCase(engineName)
+                        || "EXAMPLE".equalsIgnoreCase(engineName)
                         || "PERFORMANCE_SCHEMA".equalsIgnoreCase(engineName) || engineName.endsWith("_SCHEMA")) {
                     continue; // not supported
                 }
@@ -5097,9 +5217,11 @@ public class StatementRegressionTest extends BaseTestCase {
                     for (int i = 0; i < 2; i++) {
                         createTable(tableName, "(k int primary key auto_increment, p varchar(4)) ENGINE=" + engineName);
 
-                        ((com.mysql.cj.jdbc.JdbcConnection) twoConn).getPropertySet().getBooleanProperty(PropertyKey.rewriteBatchedStatements).setValue(i == 1);
+                        ((com.mysql.cj.jdbc.JdbcConnection) twoConn).getPropertySet()
+                                .getBooleanProperty(PropertyKey.rewriteBatchedStatements).setValue(i == 1);
 
-                        this.pstmt = twoConn.prepareStatement("INSERT INTO " + tableName + " (p) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+                        this.pstmt = twoConn.prepareStatement("INSERT INTO " + tableName + " (p) VALUES (?)",
+                                Statement.RETURN_GENERATED_KEYS);
                         this.pstmt.setString(1, "a");
                         this.pstmt.addBatch();
                         this.pstmt.setString(1, "b");
@@ -5109,9 +5231,11 @@ public class StatementRegressionTest extends BaseTestCase {
                         this.rs = this.pstmt.getGeneratedKeys();
 
                         this.rs.next();
-                        assertEquals("For engine " + engineName + ((i == 1) ? " rewritten " : " plain "), 1, this.rs.getInt(1));
+                        assertEquals("For engine " + engineName + ((i == 1) ? " rewritten " : " plain "), 1,
+                                this.rs.getInt(1));
                         this.rs.next();
-                        assertEquals("For engine " + engineName + ((i == 1) ? " rewritten " : " plain "), 3, this.rs.getInt(1));
+                        assertEquals("For engine " + engineName + ((i == 1) ? " rewritten " : " plain "), 3,
+                                this.rs.getInt(1));
 
                         createTable(tableName, "(k int primary key auto_increment, p varchar(4)) ENGINE=" + engineName);
                         Statement twoStmt = twoConn.createStatement();
@@ -5119,14 +5243,16 @@ public class StatementRegressionTest extends BaseTestCase {
                             twoStmt.addBatch("INSERT INTO " + tableName + " (p) VALUES ('" + j + "')");
                         }
 
-                        twoStmt.executeBatch(); // No getGeneratedKeys() support in JDBC spec, but we allow it...might have to rewrite test if/when we don't
+                        twoStmt.executeBatch(); // No getGeneratedKeys() support in JDBC spec, but we allow it...might
+                                                // have to rewrite test if/when we don't
                         this.rs = twoStmt.getGeneratedKeys();
 
                         int key = 1;
 
                         for (int j = 0; j < 10; j++) {
                             this.rs.next();
-                            assertEquals("For engine " + engineName + ((i == 1) ? " rewritten " : " plain "), key, this.rs.getInt(1));
+                            assertEquals("For engine " + engineName + ((i == 1) ? " rewritten " : " plain "), key,
+                                    this.rs.getInt(1));
                             key += 2;
                         }
                     }
@@ -5227,7 +5353,8 @@ public class StatementRegressionTest extends BaseTestCase {
             // expected
         }
 
-        this.pstmt = this.conn.prepareStatement("INSERT INTO testBug41448 (field1) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+        this.pstmt = this.conn.prepareStatement("INSERT INTO testBug41448 (field1) VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS);
         this.pstmt.setString(1, "abc");
         this.pstmt.executeUpdate();
         this.pstmt.getGeneratedKeys();
@@ -5271,7 +5398,8 @@ public class StatementRegressionTest extends BaseTestCase {
     public void testBug48172() throws Exception {
         createTable("testBatchInsert", "(a INT PRIMARY KEY AUTO_INCREMENT)");
         Connection rewriteConn = getConnectionWithProps("rewriteBatchedStatements=true,dumpQueriesOnException=true");
-        assertEquals("0", getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
+        assertEquals("0",
+                getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
 
         this.pstmt = rewriteConn.prepareStatement("INSERT INTO testBatchInsert VALUES (?)");
         this.pstmt.setNull(1, java.sql.Types.INTEGER);
@@ -5282,7 +5410,8 @@ public class StatementRegressionTest extends BaseTestCase {
         this.pstmt.addBatch();
         this.pstmt.executeBatch();
 
-        assertEquals("1", getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
+        assertEquals("1",
+                getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
         this.pstmt = rewriteConn.prepareStatement("INSERT INTO `testBatchInsert`VALUES (?)");
         this.pstmt.setNull(1, java.sql.Types.INTEGER);
         this.pstmt.addBatch();
@@ -5292,7 +5421,8 @@ public class StatementRegressionTest extends BaseTestCase {
         this.pstmt.addBatch();
         this.pstmt.executeBatch();
 
-        assertEquals("2", getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
+        assertEquals("2",
+                getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
 
         this.pstmt = rewriteConn.prepareStatement("INSERT INTO testBatchInsert VALUES(?)");
         this.pstmt.setNull(1, java.sql.Types.INTEGER);
@@ -5303,7 +5433,8 @@ public class StatementRegressionTest extends BaseTestCase {
         this.pstmt.addBatch();
         this.pstmt.executeBatch();
 
-        assertEquals("3", getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
+        assertEquals("3",
+                getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
 
         this.pstmt = rewriteConn.prepareStatement("INSERT INTO testBatchInsert VALUES\n(?)");
         this.pstmt.setNull(1, java.sql.Types.INTEGER);
@@ -5314,7 +5445,8 @@ public class StatementRegressionTest extends BaseTestCase {
         this.pstmt.addBatch();
         this.pstmt.executeBatch();
 
-        assertEquals("4", getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
+        assertEquals("4",
+                getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
 
     }
 
@@ -5323,21 +5455,27 @@ public class StatementRegressionTest extends BaseTestCase {
      * when using ON DUPLICATE KEY UPDATE
      */
     public void testBug41532() throws Exception {
-        createTable("testBug41532", "(ID INTEGER, S1 VARCHAR(100), S2 VARCHAR(100), S3 VARCHAR(100), D1 DATETIME, D2 DATETIME, D3 DATETIME, "
-                + "N1 DECIMAL(28,6), N2 DECIMAL(28,6), N3 DECIMAL(28,6), UNIQUE KEY UNIQUE_KEY_TEST_DUPLICATE (ID) )");
+        createTable("testBug41532",
+                "(ID INTEGER, S1 VARCHAR(100), S2 VARCHAR(100), S3 VARCHAR(100), D1 DATETIME, D2 DATETIME, D3 DATETIME, "
+                        + "N1 DECIMAL(28,6), N2 DECIMAL(28,6), N3 DECIMAL(28,6), UNIQUE KEY UNIQUE_KEY_TEST_DUPLICATE (ID) )");
 
         int numTests = 5000;
-        Connection rewriteConn = getConnectionWithProps("useSSL=false,allowPublicKeyRetrieval=true,rewriteBatchedStatements=true,dumpQueriesOnException=true");
+        Connection rewriteConn = getConnectionWithProps(
+                "useSSL=false,allowPublicKeyRetrieval=true,rewriteBatchedStatements=true,dumpQueriesOnException=true");
 
-        assertEquals("0", getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
+        assertEquals("0",
+                getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
         long batchedTime = timeBatch(rewriteConn, numTests);
-        assertEquals("1", getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
+        assertEquals("1",
+                getSingleIndexedValueWithQuery(rewriteConn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
 
         this.stmt.executeUpdate("TRUNCATE TABLE testBug41532");
 
-        assertEquals("0", getSingleIndexedValueWithQuery(this.conn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
+        assertEquals("0",
+                getSingleIndexedValueWithQuery(this.conn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
         long unbatchedTime = timeBatch(this.conn, numTests);
-        assertEquals(String.valueOf(numTests), getSingleIndexedValueWithQuery(this.conn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
+        assertEquals(String.valueOf(numTests),
+                getSingleIndexedValueWithQuery(this.conn, 2, "SHOW SESSION STATUS LIKE 'Com_insert'").toString());
         assertTrue(batchedTime < unbatchedTime);
 
         rewriteConn = getConnectionWithProps(
@@ -5346,9 +5484,10 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     private long timeBatch(Connection c, int numberOfRows) throws SQLException {
-        this.pstmt = c.prepareStatement("INSERT INTO testBug41532(ID, S1, S2, S3, D1, D2, D3, N1, N2, N3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                + " ON DUPLICATE KEY UPDATE S1 = VALUES(S1), S2 = VALUES(S2), S3 = VALUES(S3), D1 = VALUES(D1), D2 ="
-                + " VALUES(D2), D3 = VALUES(D3), N1 = N1 + VALUES(N1), N2 = N2 + VALUES(N2), N2 = N2 + VALUES(N2)");
+        this.pstmt = c.prepareStatement(
+                "INSERT INTO testBug41532(ID, S1, S2, S3, D1, D2, D3, N1, N2, N3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                        + " ON DUPLICATE KEY UPDATE S1 = VALUES(S1), S2 = VALUES(S2), S3 = VALUES(S3), D1 = VALUES(D1), D2 ="
+                        + " VALUES(D2), D3 = VALUES(D3), N1 = N1 + VALUES(N1), N2 = N2 + VALUES(N2), N2 = N2 + VALUES(N2)");
         c.setAutoCommit(false);
         c.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         Date d1 = new Date(currentTimeMillis());
@@ -5392,10 +5531,12 @@ public class StatementRegressionTest extends BaseTestCase {
         try {
             newStmt.executeUpdate("INSERT INTO testBug44056 VALUES (null)", Statement.RETURN_GENERATED_KEYS);
             checkOpenResultsFor44056(newStmt);
-            this.pstmt = this.conn.prepareStatement("INSERT INTO testBug44056 VALUES (null)", Statement.RETURN_GENERATED_KEYS);
+            this.pstmt = this.conn.prepareStatement("INSERT INTO testBug44056 VALUES (null)",
+                    Statement.RETURN_GENERATED_KEYS);
             this.pstmt.executeUpdate();
             checkOpenResultsFor44056(this.pstmt);
-            this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).serverPrepareStatement("INSERT INTO testBug44056 VALUES (null)",
+            this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).serverPrepareStatement(
+                    "INSERT INTO testBug44056 VALUES (null)",
                     Statement.RETURN_GENERATED_KEYS);
             this.pstmt.executeUpdate();
             checkOpenResultsFor44056(this.pstmt);
@@ -5452,7 +5593,8 @@ public class StatementRegressionTest extends BaseTestCase {
         Connection conn1 = null;
 
         try {
-            assertEquals(1, this.stmt.executeUpdate("INSERT INTO bug43196 (a) VALUES (1)", Statement.RETURN_GENERATED_KEYS));
+            assertEquals(1,
+                    this.stmt.executeUpdate("INSERT INTO bug43196 (a) VALUES (1)", Statement.RETURN_GENERATED_KEYS));
 
             this.rs = this.stmt.getGeneratedKeys();
 
@@ -5477,7 +5619,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
             // insert a id > Long.MAX_VALUE(9223372036854775807)
 
-            assertEquals(1, this.stmt.executeUpdate("insert into bug43196(id,a) values(18446744073709551200,1)", Statement.RETURN_GENERATED_KEYS));
+            assertEquals(1, this.stmt.executeUpdate("insert into bug43196(id,a) values(18446744073709551200,1)",
+                    Statement.RETURN_GENERATED_KEYS));
 
             this.rs = this.stmt.getGeneratedKeys();
 
@@ -5559,8 +5702,9 @@ public class StatementRegressionTest extends BaseTestCase {
                     vals.add(new Integer(b.getInt(1)));
 
                     // TODO
-                    //QueryBindings<?> b = ((com.mysql.cj.jdbc.PreparedStatement) interceptedQuery).getQueryBindings();
-                    //vals.add(new Integer(new String(b.getBindValues()[0].getByteValue())));
+                    // QueryBindings<?> b = ((com.mysql.cj.jdbc.PreparedStatement)
+                    // interceptedQuery).getQueryBindings();
+                    // vals.add(new Integer(new String(b.getBindValues()[0].getByteValue())));
                 } catch (SQLException ex) {
                     throw ExceptionFactory.createException(ex.getMessage(), ex);
                 }
@@ -5570,13 +5714,15 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Bug #39426 - executeBatch passes most recent PreparedStatement params to StatementInterceptor
+     * Bug #39426 - executeBatch passes most recent PreparedStatement params to
+     * StatementInterceptor
      */
     public void testBug39426() throws Exception {
         Connection c = null;
         try {
             createTable("testBug39426", "(x int)");
-            c = getConnectionWithProps("queryInterceptors=testsuite.regression.StatementRegressionTest$Bug39426Interceptor,useServerPrepStmts=false");
+            c = getConnectionWithProps(
+                    "queryInterceptors=testsuite.regression.StatementRegressionTest$Bug39426Interceptor,useServerPrepStmts=false");
             PreparedStatement ps = c.prepareStatement("insert into testBug39426 values (?)");
             ps.setInt(1, 1);
             ps.addBatch();
@@ -5602,7 +5748,8 @@ public class StatementRegressionTest extends BaseTestCase {
         try {
             conn2 = getConnectionWithProps("rewriteBatchedStatements=true");
 
-            this.pstmt = conn2.prepareStatement("INSERT INTO testBugDupeKeySingle VALUES (?) ON DUPLICATE KEY UPDATE field1=VALUES(field1)");
+            this.pstmt = conn2.prepareStatement(
+                    "INSERT INTO testBugDupeKeySingle VALUES (?) ON DUPLICATE KEY UPDATE field1=VALUES(field1)");
             this.pstmt.setInt(1, 1);
             this.pstmt.addBatch();
             this.pstmt.executeBatch();
@@ -5637,9 +5784,11 @@ public class StatementRegressionTest extends BaseTestCase {
     public void testBug37458() throws Exception {
         int ids[] = { 13, 1, 8 };
         String vals[] = { "c", "a", "b" };
-        createTable("testBug37458", "(id int not null auto_increment, val varchar(100), primary key (id), unique (val))");
+        createTable("testBug37458",
+                "(id int not null auto_increment, val varchar(100), primary key (id), unique (val))");
         this.stmt.executeUpdate("insert into testBug37458 values (1, 'a'), (8, 'b'), (13, 'c')");
-        this.pstmt = this.conn.prepareStatement("insert into testBug37458 (val) values (?) on duplicate key update id = last_insert_id(id)",
+        this.pstmt = this.conn.prepareStatement(
+                "insert into testBug37458 (val) values (?) on duplicate key update id = last_insert_id(id)",
                 Statement.RETURN_GENERATED_KEYS);
         for (int i = 0; i < ids.length; ++i) {
             this.pstmt.setString(1, vals[i]);
@@ -5686,7 +5835,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
         Connection rewriteConn = getConnectionWithProps("rewriteBatchedStatements=true");
 
-        this.pstmt = rewriteConn.prepareStatement("insert into testBug46788 (modified,id) values (?,?) ON DUPLICATE KEY UPDATE modified=?");
+        this.pstmt = rewriteConn.prepareStatement(
+                "insert into testBug46788 (modified,id) values (?,?) ON DUPLICATE KEY UPDATE modified=?");
 
         this.pstmt.setString(1, "theID");
         this.pstmt.setString(2, "Hello_world_");
@@ -5743,7 +5893,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     public void testBug51666() throws Exception {
-        Connection testConn = getConnectionWithProps("queryInterceptors=" + TestBug51666QueryInterceptor.class.getName());
+        Connection testConn = getConnectionWithProps(
+                "queryInterceptors=" + TestBug51666QueryInterceptor.class.getName());
         createTable("testQueryInterceptorCount", "(field1 int)");
         this.stmt.executeUpdate("INSERT INTO testQueryInterceptorCount VALUES (0)");
         ResultSet testRs = testConn.createStatement().executeQuery("SHOW SESSION STATUS LIKE 'Com_select'");
@@ -5790,7 +5941,8 @@ public class StatementRegressionTest extends BaseTestCase {
         createTable("testReversalOfScanFlags", "(field1 int)");
         this.stmt.executeUpdate("INSERT INTO testReversalOfScanFlags VALUES (1),(2),(3)");
 
-        Connection scanningConn = getConnectionWithProps("queryInterceptors=" + ScanDetectingInterceptor.class.getName());
+        Connection scanningConn = getConnectionWithProps(
+                "queryInterceptors=" + ScanDetectingInterceptor.class.getName());
 
         try {
             this.rs = scanningConn.createStatement().executeQuery("SELECT field1 FROM testReversalOfScanFlags");
@@ -5807,7 +5959,8 @@ public class StatementRegressionTest extends BaseTestCase {
         static boolean hasSeenBadIndex = false;
 
         @Override
-        public <T extends Resultset> T postProcess(Supplier<String> sql, Query interceptedQuery, T originalResultSet, ServerSession serverSession) {
+        public <T extends Resultset> T postProcess(Supplier<String> sql, Query interceptedQuery, T originalResultSet,
+                ServerSession serverSession) {
 
             if (serverSession.noIndexUsed()) {
                 hasSeenScan = true;
@@ -5837,8 +5990,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 rewriteStmt.addBatch("INSERT INTO testBug51704 VALUES ({tsp '2002-11-12 10:00:00'})");
             }
 
-            rewriteStmt.executeBatch(); // this should pass, because mysqld doesn't validate any escape sequences, 
-                                       // it just strips them, where our escape processor validates them
+            rewriteStmt.executeBatch(); // this should pass, because mysqld doesn't validate any escape sequences,
+                                        // it just strips them, where our escape processor validates them
 
             Statement batchStmt = this.conn.createStatement();
             batchStmt.setEscapeProcessing(false);
@@ -5961,18 +6114,20 @@ public class StatementRegressionTest extends BaseTestCase {
 
     public void testbug61866() throws Exception {
 
-        createProcedure("WARN_PROCEDURE", "() BEGIN	DECLARE l_done INT;	SELECT 1 	INTO l_done	FROM DUAL	WHERE 1=2; END");
+        createProcedure("WARN_PROCEDURE",
+                "() BEGIN	DECLARE l_done INT;	SELECT 1 	INTO l_done	FROM DUAL	WHERE 1=2; END");
         this.pstmt = this.conn.prepareCall("{CALL WARN_PROCEDURE()}");
         this.pstmt.execute();
         assertTrue("No warning when expected",
-                this.pstmt.getWarnings().toString().contentEquals("java.sql.SQLWarning: No data - zero rows fetched, selected, or processed"));
+                this.pstmt.getWarnings().toString()
+                        .contentEquals("java.sql.SQLWarning: No data - zero rows fetched, selected, or processed"));
         this.pstmt.clearWarnings();
         assertNull("Warning when not expected", this.pstmt.getWarnings());
     }
 
     public void testbug12565726() throws Exception {
         // Not putting the space between VALUES() and ON DUPLICATE KEY UPDATE
-        // causes C/J a) enter rewriting the query altrhough it has ON UPDATE 
+        // causes C/J a) enter rewriting the query altrhough it has ON UPDATE
         // and b) to generate the wrong query with multiple ON DUPLICATE KEY
 
         Properties props = new Properties();
@@ -5986,7 +6141,8 @@ public class StatementRegressionTest extends BaseTestCase {
             createTable("testbug12565726", "(id int primary key, txt1 varchar(32))");
             this.stmt.executeUpdate("INSERT INTO testbug12565726 (id, txt1) VALUES (1, 'something')");
 
-            this.pstmt = this.conn.prepareStatement("INSERT INTO testbug12565726 (id, txt1) VALUES (?, ?)ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)+10");
+            this.pstmt = this.conn.prepareStatement(
+                    "INSERT INTO testbug12565726 (id, txt1) VALUES (?, ?)ON DUPLICATE KEY UPDATE id=LAST_INSERT_ID(id)+10");
 
             this.pstmt.setInt(1, 1);
             this.pstmt.setString(2, "something else");
@@ -6005,7 +6161,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
     public void testBug36478() throws Exception {
 
-        createTable("testBug36478", "(`limit` varchar(255) not null primary key, id_limit INT, limit1 INT, maxlimit2 INT)");
+        createTable("testBug36478",
+                "(`limit` varchar(255) not null primary key, id_limit INT, limit1 INT, maxlimit2 INT)");
 
         this.stmt.execute("INSERT INTO testBug36478 VALUES ('bahblah',1,1,1)");
         this.stmt.execute("INSERT INTO testBug36478 VALUES ('bahblah2',2,2,2)");
@@ -6024,7 +6181,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(this.rs.isFirst());
         assertFalse(this.rs.isLast());
 
-        //SSPS
+        // SSPS
         Connection _conn = null;
         PreparedStatement s = null;
         try {
@@ -6060,7 +6217,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#40279 - Timestamp values get truncated when passed as prepared statement parameters
+     * Tests fix for BUG#40279 - Timestamp values get truncated when passed as
+     * prepared statement parameters
      * (and duplicate BUG#60584 - prepared statements truncate milliseconds)
      * 
      * @throws Exception
@@ -6115,7 +6273,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#35653 - executeQuery() in Statement.java let "TRUNCATE" queries being executed.
+     * Tests fix for BUG#35653 - executeQuery() in Statement.java let "TRUNCATE"
+     * queries being executed.
      * "RENAME" is also filtered now.
      * 
      * @throws Exception
@@ -6140,7 +6299,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#64805 - StatementImpl$CancelTask occasionally throws NullPointerExceptions.
+     * Tests fix for BUG#64805 - StatementImpl$CancelTask occasionally throws
+     * NullPointerExceptions.
      * 
      * @throws Exception
      */
@@ -6165,13 +6325,16 @@ public class StatementRegressionTest extends BaseTestCase {
     /**
      * WL#4897 - Add EXPLAIN INSERT/UPDATE/DELETE
      * 
-     * Added support for EXPLAIN INSERT/REPLACE/UPDATE/DELETE. Connector/J must issue a warning containing the execution
-     * plan for slow queries when connection properties logSlowQueries=true and explainSlowQueries=true are used.
+     * Added support for EXPLAIN INSERT/REPLACE/UPDATE/DELETE. Connector/J must
+     * issue a warning containing the execution
+     * plan for slow queries when connection properties logSlowQueries=true and
+     * explainSlowQueries=true are used.
      * 
      * @throws SQLException
      */
     public void testExecutionPlanForSlowQueries() throws Exception {
-        // once slow query (with execution plan) warning is sent to System.err, we capture messages sent here to check proper operation.
+        // once slow query (with execution plan) warning is sent to System.err, we
+        // capture messages sent here to check proper operation.
         final class TestHandler {
             // System.err diversion handling
             PrintStream systemErrBackup = null;
@@ -6211,7 +6374,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 releaseConnectionResources();
                 this.testConn = getConnectionWithProps("logSlowQueries=true,explainSlowQueries=true");
                 Statement st = this.testConn.createStatement();
-                // execute several fast queries to unlock slow query analysis and lower query execution time mean
+                // execute several fast queries to unlock slow query analysis and lower query
+                // execution time mean
                 for (int i = 0; i < 25; i++) {
                     st.execute("SELECT 1");
                 }
@@ -6233,16 +6397,20 @@ public class StatementRegressionTest extends BaseTestCase {
             if (versionMeetsMinimum(5, 6, 3)) {
                 createTable("testWL4897", "(f1 INT NOT NULL PRIMARY KEY, f2 CHAR(50))");
 
-                // when executed in the following sequence, each one of these queries take approximately 1 sec.
-                final String[] slowQueries = { "INSERT INTO testWL4897 VALUES (SLEEP(0.5) + 1, 'MySQL'), (SLEEP(0.5) + 2, 'Connector/J')",
+                // when executed in the following sequence, each one of these queries take
+                // approximately 1 sec.
+                final String[] slowQueries = {
+                        "INSERT INTO testWL4897 VALUES (SLEEP(0.5) + 1, 'MySQL'), (SLEEP(0.5) + 2, 'Connector/J')",
                         "SELECT * FROM testWL4897 WHERE f1 + SLEEP(0.5) = f1",
                         "REPLACE INTO testWL4897 VALUES (SLEEP(0.33) + 2, 'Database'), (SLEEP(0.33) + 3, 'Connector'), (SLEEP(0.33) + 4, 'Java')",
-                        "UPDATE testWL4897 SET f1 = f1 * 10 + SLEEP(0.25)", "DELETE FROM testWL4897 WHERE f1 + SLEEP(0.25) = f1" };
+                        "UPDATE testWL4897 SET f1 = f1 * 10 + SLEEP(0.25)",
+                        "DELETE FROM testWL4897 WHERE f1 + SLEEP(0.25) = f1" };
 
                 for (String query : slowQueries) {
                     testStatement = testHandler.getNewConnectionForSlowQueries().createStatement();
                     testStatement.execute(query);
-                    assertTrue("A slow query explain results warning should have been issued for: '" + query + "'.", testHandler.containsSlowQueryMsg(query));
+                    assertTrue("A slow query explain results warning should have been issued for: '" + query + "'.",
+                            testHandler.containsSlowQueryMsg(query));
                     testStatement.close();
                 }
             } else {
@@ -6251,7 +6419,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
                 testStatement = testHandler.getNewConnectionForSlowQueries().createStatement();
                 testStatement.execute(query);
-                assertTrue("A slow query explain results warning should have been issued for: '" + query + "'.", testHandler.containsSlowQueryMsg(query));
+                assertTrue("A slow query explain results warning should have been issued for: '" + query + "'.",
+                        testHandler.containsSlowQueryMsg(query));
                 testStatement.close();
             }
         } finally {
@@ -6261,10 +6430,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#68562 - Combination rewriteBatchedStatements and useAffectedRows not working as expected
+     * Tests fix for BUG#68562 - Combination rewriteBatchedStatements and
+     * useAffectedRows not working as expected
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug68562() throws Exception {
         testBug68562BatchWithSize(1);
@@ -6273,8 +6443,10 @@ public class StatementRegressionTest extends BaseTestCase {
 
     private void testBug68562BatchWithSize(int batchSize) throws Exception {
 
-        createTable("testBug68562_found", "(id INTEGER NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, version VARCHAR(255)) ENGINE=InnoDB;");
-        createTable("testBug68562_affected", "(id INTEGER NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, version VARCHAR(255)) ENGINE=InnoDB;");
+        createTable("testBug68562_found",
+                "(id INTEGER NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, version VARCHAR(255)) ENGINE=InnoDB;");
+        createTable("testBug68562_affected",
+                "(id INTEGER NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, version VARCHAR(255)) ENGINE=InnoDB;");
 
         // insert the records (no update)
         int[] foundRows = testBug68562ExecuteBatch(batchSize, false, false, false);
@@ -6317,7 +6489,8 @@ public class StatementRegressionTest extends BaseTestCase {
         }
     }
 
-    private int[] testBug68562ExecuteBatch(int batchSize, boolean useAffectedRows, boolean rewriteBatchedStatements, boolean realUpdate)
+    private int[] testBug68562ExecuteBatch(int batchSize, boolean useAffectedRows, boolean rewriteBatchedStatements,
+            boolean realUpdate)
             throws ClassNotFoundException, SQLException {
 
         String tableName = "testBug68562";
@@ -6335,8 +6508,10 @@ public class StatementRegressionTest extends BaseTestCase {
         Connection connection = getConnectionWithProps(properties);
 
         PreparedStatement statement = connection
-                .prepareStatement("INSERT INTO " + tableName + "(id, name, version) VALUES(?,?,?) ON DUPLICATE KEY UPDATE version = "
-                        + (realUpdate ? "CONCAT(VALUES(version),'updated'), name = CONCAT(VALUES(name),'updated')" : "VALUES(version), name = VALUES(name)"));
+                .prepareStatement("INSERT INTO " + tableName
+                        + "(id, name, version) VALUES(?,?,?) ON DUPLICATE KEY UPDATE version = "
+                        + (realUpdate ? "CONCAT(VALUES(version),'updated'), name = CONCAT(VALUES(name),'updated')"
+                                : "VALUES(version), name = VALUES(name)"));
         for (int i = 0; i < batchSize; i++) {
             statement.setInt(1, i);
             statement.setString(2, "name" + i);
@@ -6354,10 +6529,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#55340 - initializeResultsMetadataFromCache fails on second call to stored proc
+     * Tests fix for BUG#55340 - initializeResultsMetadataFromCache fails on second
+     * call to stored proc
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug55340() throws Exception {
         Connection testConnCacheRSMD = getConnectionWithProps("cacheResultSetMetadata=true");
@@ -6366,14 +6542,17 @@ public class StatementRegressionTest extends BaseTestCase {
         createTable("testBug55340", "(col1 INT, col2 CHAR(10))");
         createProcedure("testBug55340", "() BEGIN SELECT * FROM testBug55340; END");
 
-        assertEquals(this.stmt.executeUpdate("INSERT INTO testBug55340 (col1, col2) VALUES (1, 'one'), (2, 'two'), (3, 'three')"), 3);
+        assertEquals(this.stmt
+                .executeUpdate("INSERT INTO testBug55340 (col1, col2) VALUES (1, 'one'), (2, 'two'), (3, 'three')"), 3);
 
         for (Connection testConn : new Connection[] { this.conn, testConnCacheRSMD }) {
-            String testDesc = testConn == testConnCacheRSMD ? "Conn. with 'cacheResultSetMetadata=true'" : "Default connection";
+            String testDesc = testConn == testConnCacheRSMD ? "Conn. with 'cacheResultSetMetadata=true'"
+                    : "Default connection";
 
             // bug occurs in 2nd call only
             for (int i = 1; i <= 2; i++) {
-                for (PreparedStatement testStmt : new PreparedStatement[] { testConn.prepareStatement("SELECT * FROM testBug55340"),
+                for (PreparedStatement testStmt : new PreparedStatement[] {
+                        testConn.prepareStatement("SELECT * FROM testBug55340"),
                         testConn.prepareCall("CALL testBug55340()") }) {
 
                     assertTrue(testStmt.execute());
@@ -6381,11 +6560,18 @@ public class StatementRegressionTest extends BaseTestCase {
                     assertResultSetLength(this.rs, 3);
 
                     rsmd = this.rs.getMetaData();
-                    assertEquals("(" + i + ") " + testDesc + " - " + testStmt.getClass().getSimpleName() + ":RSMetaData - wrong column count.", 2,
+                    assertEquals(
+                            "(" + i + ") " + testDesc + " - " + testStmt.getClass().getSimpleName()
+                                    + ":RSMetaData - wrong column count.",
+                            2,
                             rsmd.getColumnCount());
-                    assertEquals("(" + i + ") " + testDesc + " - " + testStmt.getClass().getSimpleName() + ":RSMetaData - wrong column(1) type.",
+                    assertEquals(
+                            "(" + i + ") " + testDesc + " - " + testStmt.getClass().getSimpleName()
+                                    + ":RSMetaData - wrong column(1) type.",
                             Integer.class.getName(), rsmd.getColumnClassName(1));
-                    assertEquals("(" + i + ") " + testDesc + " - " + testStmt.getClass().getSimpleName() + ":RSMetaData - wrong column(2) type.",
+                    assertEquals(
+                            "(" + i + ") " + testDesc + " - " + testStmt.getClass().getSimpleName()
+                                    + ":RSMetaData - wrong column(2) type.",
                             String.class.getName(), rsmd.getColumnClassName(2));
 
                     testStmt.close();
@@ -6397,10 +6583,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#71396 - setMaxRows (SQL_SELECT_LIMIT) from one query used in later queries (sometimes)
+     * Tests fix for BUG#71396 - setMaxRows (SQL_SELECT_LIMIT) from one query used
+     * in later queries (sometimes)
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug71396() throws Exception {
         final String queryLimitClause = "SELECT * FROM testBug71396 LIMIT 2";
@@ -6409,7 +6596,8 @@ public class StatementRegressionTest extends BaseTestCase {
         final String queryLimitInComment = "SELECT * FROM testBug71396 -- Unlimited";
         final String queryNoLimit = "SELECT * FROM testBug71396";
 
-        final String[] queries = new String[] { queryLimitClause, queryLimitClauseInJoin, queryLimitInQuotes, queryLimitInComment, queryNoLimit };
+        final String[] queries = new String[] { queryLimitClause, queryLimitClauseInJoin, queryLimitInQuotes,
+                queryLimitInComment, queryNoLimit };
 
         Connection testConn;
         Statement testStmt;
@@ -6420,49 +6608,59 @@ public class StatementRegressionTest extends BaseTestCase {
         this.stmt.execute("INSERT INTO testBug71396 VALUES ('One'), ('Two'), ('Three')");
 
         /*
-         * Case 1: Statement.executeQuery() and Statement.execute() with plain Connection.
+         * Case 1: Statement.executeQuery() and Statement.execute() with plain
+         * Connection.
          */
         testConn = getConnectionWithProps("");
 
         // safety check
         testBug71396StatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep open until end of the
+        // case
         testStmt = testBug71396StatementInit(testConn, 1);
 
         // check results count using the same Statement[maxRows = 1] for all queries
         testBug71396StatementMultiCheck(testStmt, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new Statement[default maxRows] per query
+        // check results count using same Connection and one new Statement[default
+        // maxRows] per query
         testBug71396StatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // recheck results count reusing the first Statement[maxRows = 1] for all queries - confirm maxRows wasn't lost
+        // recheck results count reusing the first Statement[maxRows = 1] for all
+        // queries - confirm maxRows wasn't lost
         testBug71396StatementMultiCheck(testStmt, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testStmt.close();
         testConn.close();
 
         /*
-         * Case 2: PreparedStatement.executeQuery() and PreparedStatement.execute() with plain Connection.
+         * Case 2: PreparedStatement.executeQuery() and PreparedStatement.execute() with
+         * plain Connection.
          */
         testConn = getConnectionWithProps("");
 
         // safety check
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep open until end of the
+        // case
         testStmt = testBug71396StatementInit(testConn, 1);
 
-        // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
+        // initialize a set of PreparedStatements with a given maxRow value, keep open
+        // until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
-        // check results count using same Connection and one PreparedStatement[maxRows = 1] per query
+        // check results count using same Connection and one PreparedStatement[maxRows =
+        // 1] per query
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new PreparedStatement[default maxRows] per query
+        // check results count using same Connection and one new
+        // PreparedStatement[default maxRows] per query
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // check results count reusing the first PreparedStatement[maxRows = 1] per query - confirm maxRows wasn't lost
+        // check results count reusing the first PreparedStatement[maxRows = 1] per
+        // query - confirm maxRows wasn't lost
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testBug71396PrepStatementClose(testPStmtSet);
@@ -6478,19 +6676,24 @@ public class StatementRegressionTest extends BaseTestCase {
         // safety check
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case.
+        // initialize Statement with a given maxRow value, keep open until end of the
+        // case.
         testStmt = testBug71396StatementInit(testConn, 1);
 
-        // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
+        // initialize a set of PreparedStatements with a given maxRow value, keep open
+        // until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
-        // check results count using same Connection and one PreparedStatement[maxRows = 1] per query
+        // check results count using same Connection and one PreparedStatement[maxRows =
+        // 1] per query
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new PreparedStatement[default maxRows] per query
+        // check results count using same Connection and one new
+        // PreparedStatement[default maxRows] per query
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // check results count reusing the first PreparedStatement[maxRows = 1] per query - confirm maxRows wasn't lost
+        // check results count reusing the first PreparedStatement[maxRows = 1] per
+        // query - confirm maxRows wasn't lost
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testBug71396PrepStatementClose(testPStmtSet);
@@ -6498,49 +6701,59 @@ public class StatementRegressionTest extends BaseTestCase {
         testConn.close();
 
         /*
-         * Case 4: Statement.executeQuery() and Statement.execute() with Connection[maxRows=2].
+         * Case 4: Statement.executeQuery() and Statement.execute() with
+         * Connection[maxRows=2].
          */
         testConn = getConnectionWithProps("maxRows=2");
 
         // safety check
         testBug71396StatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep open until end of the
+        // case
         testStmt = testBug71396StatementInit(testConn, 1);
 
         // check results count using the same Statement[maxRows = 1] for all queries
         testBug71396StatementMultiCheck(testStmt, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new Statement[default maxRows] per query
+        // check results count using same Connection and one new Statement[default
+        // maxRows] per query
         testBug71396StatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // recheck results count reusing the first Statement[maxRows = 1] for all queries - confirm maxRows wasn't lost
+        // recheck results count reusing the first Statement[maxRows = 1] for all
+        // queries - confirm maxRows wasn't lost
         testBug71396StatementMultiCheck(testStmt, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testStmt.close();
         testConn.close();
 
         /*
-         * Case 5: PreparedStatement.executeQuery() and PreparedStatement.execute() with Connection[maxRows=2].
+         * Case 5: PreparedStatement.executeQuery() and PreparedStatement.execute() with
+         * Connection[maxRows=2].
          */
         testConn = getConnectionWithProps("maxRows=2");
 
         // safety check
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep open until end of the
+        // case
         testStmt = testBug71396StatementInit(testConn, 1);
 
-        // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
+        // initialize a set of PreparedStatements with a given maxRow value, keep open
+        // until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
-        // check results count using same Connection and one PreparedStatement[maxRows = 1] per query
+        // check results count using same Connection and one PreparedStatement[maxRows =
+        // 1] per query
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new PreparedStatement[default maxRows] per query
+        // check results count using same Connection and one new
+        // PreparedStatement[default maxRows] per query
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // check results count reusing the first PreparedStatement[maxRows = 1] per query - confirm maxRows wasn't lost
+        // check results count reusing the first PreparedStatement[maxRows = 1] per
+        // query - confirm maxRows wasn't lost
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testBug71396PrepStatementClose(testPStmtSet);
@@ -6556,19 +6769,24 @@ public class StatementRegressionTest extends BaseTestCase {
         // safety check
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep open until end of the
+        // case
         testStmt = testBug71396StatementInit(testConn, 1);
 
-        // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
+        // initialize a set of PreparedStatements with a given maxRow value, keep open
+        // until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
-        // check results count using same Connection and one PreparedStatement[maxRows = 1] per query
+        // check results count using same Connection and one PreparedStatement[maxRows =
+        // 1] per query
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new PreparedStatement[default maxRows] per query
+        // check results count using same Connection and one new
+        // PreparedStatement[default maxRows] per query
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // check results count reusing the first PreparedStatement[maxRows = 1] per query - confirm maxRows wasn't lost
+        // check results count reusing the first PreparedStatement[maxRows = 1] per
+        // query - confirm maxRows wasn't lost
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testBug71396PrepStatementClose(testPStmtSet);
@@ -6576,7 +6794,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testConn.close();
 
         /*
-         * Case 7: Multiple combinations between maxRows connection prop, Statement.setMaxRows() and LIMIT clause.
+         * Case 7: Multiple combinations between maxRows connection prop,
+         * Statement.setMaxRows() and LIMIT clause.
          * Covers some cases not tested previously.
          */
         testBug71396MultiSettingsCheck("", -1, 1, 1);
@@ -6651,7 +6870,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Initializes and returns a Statement with maxRows defined. Tests the SQL_SELECT_LIMIT defined. Executing this
+     * Initializes and returns a Statement with maxRows defined. Tests the
+     * SQL_SELECT_LIMIT defined. Executing this
      * query also forces this limit to be defined at session level.
      */
     private Statement testBug71396StatementInit(Connection testConn, int maxRows) throws SQLException {
@@ -6659,7 +6879,8 @@ public class StatementRegressionTest extends BaseTestCase {
         Statement testStmt = testConn.createStatement();
 
         testStmt.setMaxRows(maxRows);
-        // while consulting SQL_SELECT_LIMIT setting also forces limit to be applied into current session
+        // while consulting SQL_SELECT_LIMIT setting also forces limit to be applied
+        // into current session
         testRS = testStmt.executeQuery("SELECT @@SESSION.SQL_SELECT_LIMIT");
         testRS.next();
         assertEquals("Wrong @@SESSION.SQL_SELECT_LIMIT", maxRows, testRS.getInt(1));
@@ -6668,9 +6889,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes a set of queries using a Statement (newly created) and tests if the results count is the expected.
+     * Executes a set of queries using a Statement (newly created) and tests if the
+     * results count is the expected.
      */
-    private void testBug71396StatementMultiCheck(Connection testConn, String[] queries, int[] expRowCount) throws SQLException {
+    private void testBug71396StatementMultiCheck(Connection testConn, String[] queries, int[] expRowCount)
+            throws SQLException {
         if (queries.length != expRowCount.length) {
             fail("Bad arguments!");
         }
@@ -6680,9 +6903,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes a set of queries using a Statement and tests if the results count is the expected.
+     * Executes a set of queries using a Statement and tests if the results count is
+     * the expected.
      */
-    private void testBug71396StatementMultiCheck(Statement testStmt, String[] queries, int[] expRowCount) throws SQLException {
+    private void testBug71396StatementMultiCheck(Statement testStmt, String[] queries, int[] expRowCount)
+            throws SQLException {
         if (queries.length != expRowCount.length) {
             fail("Bad arguments!");
         }
@@ -6692,7 +6917,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes one query using a Statement and tests if the results count is the expected.
+     * Executes one query using a Statement and tests if the results count is the
+     * expected.
      */
     private void testBug71396StatementCheck(Statement testStmt, String query, int expRowCount) throws SQLException {
         ResultSet testRS;
@@ -6710,9 +6936,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Initializes and returns an array of PreparedStatements, with maxRows defined, for a set of queries.
+     * Initializes and returns an array of PreparedStatements, with maxRows defined,
+     * for a set of queries.
      */
-    private PreparedStatement[] testBug71396PrepStatementInit(Connection testConn, String[] queries, int maxRows) throws SQLException {
+    private PreparedStatement[] testBug71396PrepStatementInit(Connection testConn, String[] queries, int maxRows)
+            throws SQLException {
         PreparedStatement[] testPStmt = new PreparedStatement[queries.length];
 
         for (int i = 0; i < queries.length; i++) {
@@ -6734,9 +6962,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes a set of queries using newly created PreparedStatements and tests if the results count is the expected.
+     * Executes a set of queries using newly created PreparedStatements and tests if
+     * the results count is the expected.
      */
-    private void testBug71396PrepStatementMultiCheck(Connection testConn, String[] queries, int[] expRowCount) throws SQLException {
+    private void testBug71396PrepStatementMultiCheck(Connection testConn, String[] queries, int[] expRowCount)
+            throws SQLException {
         if (queries.length != expRowCount.length) {
             fail("Bad arguments!");
         }
@@ -6746,9 +6976,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes a set of queries using the given PreparedStatements and tests if the results count is the expected.
+     * Executes a set of queries using the given PreparedStatements and tests if the
+     * results count is the expected.
      */
-    private void testBug71396PrepStatementMultiCheck(PreparedStatement[] testPStmt, String[] queries, int[] expRowCount) throws SQLException {
+    private void testBug71396PrepStatementMultiCheck(PreparedStatement[] testPStmt, String[] queries, int[] expRowCount)
+            throws SQLException {
         if (testPStmt.length != queries.length || testPStmt.length != expRowCount.length) {
             fail("Bad arguments!");
         }
@@ -6758,10 +6990,12 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes one query using a newly created PreparedStatement, setting its maxRows limit, and tests if the results
+     * Executes one query using a newly created PreparedStatement, setting its
+     * maxRows limit, and tests if the results
      * count is the expected.
      */
-    private void testBug71396PrepStatementCheck(Connection testConn, String query, int expRowCount, int maxRows) throws SQLException {
+    private void testBug71396PrepStatementCheck(Connection testConn, String query, int expRowCount, int maxRows)
+            throws SQLException {
         PreparedStatement chkPStmt;
 
         chkPStmt = testConn.prepareStatement(query);
@@ -6773,9 +7007,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes one query using a PreparedStatement and tests if the results count is the expected.
+     * Executes one query using a PreparedStatement and tests if the results count
+     * is the expected.
      */
-    private void testBug71396PrepStatementCheck(PreparedStatement testPStmt, String query, int expRowCount) throws SQLException {
+    private void testBug71396PrepStatementCheck(PreparedStatement testPStmt, String query, int expRowCount)
+            throws SQLException {
         ResultSet testRS;
 
         testRS = testPStmt.executeQuery();
@@ -6791,10 +7027,13 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes a query containing the clause LIMIT with a Statement and a PreparedStatement, using a combination of
-     * Connection properties, maxRows value and limit clause value, and tests if the results count is the expected.
+     * Executes a query containing the clause LIMIT with a Statement and a
+     * PreparedStatement, using a combination of
+     * Connection properties, maxRows value and limit clause value, and tests if the
+     * results count is the expected.
      */
-    private void testBug71396MultiSettingsCheck(String connProps, int maxRows, int limitClause, int expRowCount) throws SQLException {
+    private void testBug71396MultiSettingsCheck(String connProps, int maxRows, int limitClause, int expRowCount)
+            throws SQLException {
         Connection testConn = getConnectionWithProps(connProps);
 
         Statement testStmt = testConn.createStatement();
@@ -6803,18 +7042,21 @@ public class StatementRegressionTest extends BaseTestCase {
         }
         testStmt.execute("SELECT 1"); // force limit to be applied into current session
 
-        testBug71396StatementCheck(testStmt, String.format("SELECT * FROM testBug71396 LIMIT %d", limitClause), expRowCount);
-        testBug71396PrepStatementCheck(testConn, String.format("SELECT * FROM testBug71396 LIMIT %d", limitClause), expRowCount, maxRows);
+        testBug71396StatementCheck(testStmt, String.format("SELECT * FROM testBug71396 LIMIT %d", limitClause),
+                expRowCount);
+        testBug71396PrepStatementCheck(testConn, String.format("SELECT * FROM testBug71396 LIMIT %d", limitClause),
+                expRowCount, maxRows);
 
         testStmt.close();
         testConn.close();
     }
 
     /**
-     * Tests fix for 18091639 - STRINGINDEXOUTOFBOUNDSEXCEPTION IN PREPAREDSTATEMENT.SETTIMESTAMP WITH 5.6.15
+     * Tests fix for 18091639 - STRINGINDEXOUTOFBOUNDSEXCEPTION IN
+     * PREPAREDSTATEMENT.SETTIMESTAMP WITH 5.6.15
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug18091639() throws SQLException {
         String str = TimeUtil.formatNanos(900000000, 1);
@@ -6845,19 +7087,21 @@ public class StatementRegressionTest extends BaseTestCase {
         str = TimeUtil.formatNanos(123999, 4);
         assertEquals("0001", str);
 
-        assertThrows(WrongArgumentException.class, "nanos value must be in 0 to 999999999 range but was 1000000010", new Callable<Void>() {
-            public Void call() throws Exception {
-                TimeUtil.formatNanos(1000000010, 6);
-                return null;
-            }
-        });
+        assertThrows(WrongArgumentException.class, "nanos value must be in 0 to 999999999 range but was 1000000010",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        TimeUtil.formatNanos(1000000010, 6);
+                        return null;
+                    }
+                });
 
         str = TimeUtil.formatNanos(100000000, 6);
         assertEquals("1", str);
     }
 
     /**
-     * Tests fix for Bug#66947 (16004987) - Calling ServerPreparedStatement.close() twice corrupts cached statements
+     * Tests fix for Bug#66947 (16004987) - Calling ServerPreparedStatement.close()
+     * twice corrupts cached statements
      * 
      * @throws Exception
      */
@@ -6929,12 +7173,13 @@ public class StatementRegressionTest extends BaseTestCase {
     /**
      * Tests fix for BUG#68916 - closeOnCompletion doesn't work.
      * 
-     * This test requires help and timezone tables in mysql database to be initialized,
+     * This test requires help and timezone tables in mysql database to be
+     * initialized,
      * see http://dev.mysql.com/doc/refman/5.7/en/time-zone-support.html and
      * http://dev.mysql.com/doc/refman/5.7/en/server-side-help-support.html
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug68916() throws Exception {
         // Prepare common test objects
@@ -6962,8 +7207,10 @@ public class StatementRegressionTest extends BaseTestCase {
         String testStep;
         ResultSet testResultSet1, testResultSet2, testResultSet3;
 
-        // We are testing against code that was compiled with Java 6, so methods isCloseOnCompletion() and
-        // closeOnCompletion() aren't available in the Statement interface. We need to test directly our implementations.
+        // We are testing against code that was compiled with Java 6, so methods
+        // isCloseOnCompletion() and
+        // closeOnCompletion() aren't available in the Statement interface. We need to
+        // test directly our implementations.
         StatementImpl testStatement = null;
         PreparedStatement testPrepStatement = null;
         CallableStatement testCallStatement = null;
@@ -6980,17 +7227,20 @@ public class StatementRegressionTest extends BaseTestCase {
         // ResultSets should be closed when owning Statement is closed
         testStatement = (StatementImpl) testConnection.createStatement();
 
-        assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false by default.", testStatement.isCloseOnCompletion());
+        assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false by default.",
+                testStatement.isCloseOnCompletion());
         assertFalse(testStep + ".ST:0. Statement.isClosed(): false.", testStatement.isClosed());
 
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after Statement.closeOnCompletion().", testStatement.isCloseOnCompletion());
+        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+                testStatement.isCloseOnCompletion());
         assertFalse(testStep + ".ST:0. Statement.isClosed(): false.", testStatement.isClosed());
 
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().", testStatement.isCloseOnCompletion());
+        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
+                testStatement.isCloseOnCompletion());
 
         // test Statement.close()
         testResultSet1 = testStatement.executeQuery("SELECT 1");
@@ -7007,18 +7257,21 @@ public class StatementRegressionTest extends BaseTestCase {
         // ResultSets should be closed when owning PreparedStatement is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
 
-        assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.", testPrepStatement.isCloseOnCompletion());
-        assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
-
-        testPrepStatement.closeOnCompletion();
-
-        assertTrue(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+        assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.",
                 testPrepStatement.isCloseOnCompletion());
         assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
         testPrepStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
+        assertTrue(
+                testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+                testPrepStatement.isCloseOnCompletion());
+        assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
+
+        testPrepStatement.closeOnCompletion();
+
+        assertTrue(testStep
+                + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
                 testPrepStatement.isCloseOnCompletion());
 
         // test PreparedStatement.close()
@@ -7030,14 +7283,17 @@ public class StatementRegressionTest extends BaseTestCase {
 
         testPrepStatement.close();
 
-        assertTrue(testStep + ".PS:0. ResultSet.isClosed(): true after PreparedStatement.close().", testResultSet1.isClosed());
-        assertTrue(testStep + ".PS:0. PreparedStatement.isClosed(): true after PreparedStatement.close().", testPrepStatement.isClosed());
+        assertTrue(testStep + ".PS:0. ResultSet.isClosed(): true after PreparedStatement.close().",
+                testResultSet1.isClosed());
+        assertTrue(testStep + ".PS:0. PreparedStatement.isClosed(): true after PreparedStatement.close().",
+                testPrepStatement.isClosed());
 
         /*
          * SUB-STEP 1: One ResultSet (connection without properties)
          */
         // **testing Statement**
-        // Statement using closeOnCompletion should be closed when last ResultSet is closed
+        // Statement using closeOnCompletion should be closed when last ResultSet is
+        // closed
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7049,15 +7305,18 @@ public class StatementRegressionTest extends BaseTestCase {
         while (testResultSet1.next()) {
         }
 
-        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
-        // test implicit resultset close, keeping statement open, when following with an executeBatch()
+        // test implicit resultset close, keeping statement open, when following with an
+        // executeBatch()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7065,33 +7324,40 @@ public class StatementRegressionTest extends BaseTestCase {
         testStatement.addBatch("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)");
         testStatement.executeBatch();
 
-        assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true after executeBatch() in same Statement.", testResultSet1.isClosed());
+        assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true after executeBatch() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
-        // test implicit resultset close keeping statement open, when following with an executeUpdate()
+        // test implicit resultset close keeping statement open, when following with an
+        // executeUpdate()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
         testResultSet1 = testStatement.executeQuery("SELECT 1");
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)",
+                Statement.RETURN_GENERATED_KEYS);
 
-        assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true after executeUpdate() in same Statement.", testResultSet1.isClosed());
+        assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true after executeUpdate() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // **testing PreparedStatement**
-        // PreparedStatement using closeOnCompletion should be closed when last ResultSet is closed
+        // PreparedStatement using closeOnCompletion should be closed when last
+        // ResultSet is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
         testPrepStatement.closeOnCompletion();
 
@@ -7103,13 +7369,15 @@ public class StatementRegressionTest extends BaseTestCase {
         while (testResultSet1.next()) {
         }
 
-        assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
+        assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".PS:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".PS:1. PreparedStatement.isClosed(): true when last ResultSet is closed.", testPrepStatement.isClosed());
+        assertTrue(testStep + ".PS:1. PreparedStatement.isClosed(): true when last ResultSet is closed.",
+                testPrepStatement.isClosed());
 
         /*
          * SUB-STEP 2: Multiple ResultSets, sequentially (connection without properties)
@@ -7120,7 +7388,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testResultSet1 = testStatement.executeQuery("SELECT 1");
         testResultSet2 = testStatement.executeQuery("SELECT 2"); // closes testResultSet1
 
-        assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true after 2nd Statement.executeQuery().", testResultSet1.isClosed());
+        assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true after 2nd Statement.executeQuery().",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7128,13 +7397,15 @@ public class StatementRegressionTest extends BaseTestCase {
         }
 
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet2.isClosed());
+        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet3 = testStatement.executeQuery("SELECT 3"); // closes testResultSet2
 
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true after 3rd Statement.executeQuery().", testResultSet2.isClosed());
+        assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true after 3rd Statement.executeQuery().",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7143,34 +7414,46 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet2.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet3.isClosed());
-        assertTrue(testStep + ".ST:2. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:2. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         /*
-         * SUB-STEP 3: Multiple ResultSets, returned at once (connection without properties)
+         * SUB-STEP 3: Multiple ResultSets, returned at once (connection without
+         * properties)
          */
         // **testing Statement**
-        // Statement using closeOnCompletion should be closed when last ResultSet is closed
+        // Statement using closeOnCompletion should be closed when last ResultSet is
+        // closed
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:3. There should be some ResultSets.", testStatement.execute("CALL testBug68916_proc"));
+        assertTrue(testStep + ".ST:3. There should be some ResultSets.",
+                testStatement.execute("CALL testBug68916_proc"));
         testResultSet1 = testStatement.getResultSet();
 
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
-        assertTrue(testStep + ".ST:3. There should be more ResultSets.", testStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
+        assertTrue(testStep + ".ST:3. There should be more ResultSets.",
+                testStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
         testResultSet2 = testStatement.getResultSet();
 
-        assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).", testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
-        assertTrue(testStep + ".ST:3. There should be more ResultSets.", testStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
+        assertTrue(testStep + ".ST:3. There should be more ResultSets.",
+                testStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
         testResultSet3 = testStatement.getResultSet();
 
-        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet2.isClosed());
+        assertTrue(testStep
+                + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet1.isClosed());
+        assertTrue(testStep
+                + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7179,11 +7462,14 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after last Satement.getMoreResults().", testResultSet3.isClosed());
-        assertTrue(testStep + ".ST:3. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after last Satement.getMoreResults().",
+                testResultSet3.isClosed());
+        assertTrue(testStep + ".ST:3. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // **testing CallableStatement**
-        // CallableStatement using closeOnCompletion should be closed when last ResultSet is closed
+        // CallableStatement using closeOnCompletion should be closed when last
+        // ResultSet is closed
         testCallStatement = testConnection.prepareCall("CALL testBug68916_proc");
         testCallStatement.closeOnCompletion();
 
@@ -7193,18 +7479,26 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
-        assertTrue(testStep + ".CS:3. There should be more ResultSets.", testCallStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
+        assertTrue(testStep + ".CS:3. There should be more ResultSets.",
+                testCallStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
         testResultSet2 = testCallStatement.getResultSet();
 
-        assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).", testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
-        assertTrue(testStep + ".CS:3. There should be more ResultSets.", testCallStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
+        assertTrue(testStep + ".CS:3. There should be more ResultSets.",
+                testCallStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
         testResultSet3 = testCallStatement.getResultSet();
 
-        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet1.isClosed());
-        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet2.isClosed());
+        assertTrue(testStep
+                + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet1.isClosed());
+        assertTrue(testStep
+                + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
@@ -7213,8 +7507,10 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after last Satement.getMoreResults().", testResultSet3.isClosed());
-        assertTrue(testStep + ".CS:3. CallableStatement.isClosed(): true when last ResultSet is closed.", testCallStatement.isClosed());
+        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after last Satement.getMoreResults().",
+                testResultSet3.isClosed());
+        assertTrue(testStep + ".CS:3. CallableStatement.isClosed(): true when last ResultSet is closed.",
+                testCallStatement.isClosed());
 
         /*
          * SUB-STEP 4: Generated Keys ResultSet (connection without properties)
@@ -7222,7 +7518,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)",
+                Statement.RETURN_GENERATED_KEYS);
 
         testResultSet1 = testStatement.getGeneratedKeys();
         assertTrue(testStep + ".ST:4. Statement.getGeneratedKeys(): should return some values.", testResultSet1.next());
@@ -7233,20 +7530,23 @@ public class StatementRegressionTest extends BaseTestCase {
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // test again and combine with simple query
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)",
+                Statement.RETURN_GENERATED_KEYS);
 
         testResultSet1 = testStatement.getGeneratedKeys();
         assertTrue(testStep + ".ST:4. Statement.getGeneratedKeys(): should return some values.", testResultSet1.next());
 
         testResultSet2 = testStatement.executeQuery("SELECT 2");
 
-        assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true after executeQuery() in same Statement.", testResultSet1.isClosed());
+        assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true after executeQuery() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7254,7 +7554,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
     }
 
     private void subTestBug68916ForHoldResultsOpenOverStatementClose() throws Exception {
@@ -7262,8 +7563,10 @@ public class StatementRegressionTest extends BaseTestCase {
         String testStep;
         ResultSet testResultSet1, testResultSet2, testResultSet3;
 
-        // We are testing against code that was compiled with Java 6, so methods isCloseOnCompletion() and
-        // closeOnCompletion() aren't available in the Statement interface. We need to test directly our
+        // We are testing against code that was compiled with Java 6, so methods
+        // isCloseOnCompletion() and
+        // closeOnCompletion() aren't available in the Statement interface. We need to
+        // test directly our
         // implementations.
         StatementImpl testStatement = null;
         PreparedStatement testPrepStatement = null;
@@ -7282,17 +7585,20 @@ public class StatementRegressionTest extends BaseTestCase {
         // ResultSets should stay open when owning Statement is closed
         testStatement = (StatementImpl) testConnection.createStatement();
 
-        assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false dy default.", testStatement.isCloseOnCompletion());
+        assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false dy default.",
+                testStatement.isCloseOnCompletion());
         assertFalse(testStep + ".ST:0. Statement.isClosed(): false.", testStatement.isClosed());
 
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after Statement.closeOnCompletion().", testStatement.isCloseOnCompletion());
+        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+                testStatement.isCloseOnCompletion());
         assertFalse(testStep + ".ST:0. Statement.isClosed(): false.", testStatement.isClosed());
 
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().", testStatement.isCloseOnCompletion());
+        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
+                testStatement.isCloseOnCompletion());
 
         // test Statement.close()
         testResultSet1 = testStatement.executeQuery("SELECT 1");
@@ -7302,25 +7608,29 @@ public class StatementRegressionTest extends BaseTestCase {
 
         testStatement.close();
 
-        assertFalse(testStep + ".ST:0. ResultSet.isClosed(): false after Statement.Close().", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:0. ResultSet.isClosed(): false after Statement.Close().",
+                testResultSet1.isClosed());
         assertTrue(testStep + ".ST:0. Statement.isClosed(): true after Statement.Close().", testStatement.isClosed());
 
         // **testing PreparedStatement**
         // ResultSets should stay open when owning PreparedStatement is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
 
-        assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.", testPrepStatement.isCloseOnCompletion());
-        assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
-
-        testPrepStatement.closeOnCompletion();
-
-        assertTrue(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+        assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.",
                 testPrepStatement.isCloseOnCompletion());
         assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
         testPrepStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
+        assertTrue(
+                testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+                testPrepStatement.isCloseOnCompletion());
+        assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
+
+        testPrepStatement.closeOnCompletion();
+
+        assertTrue(testStep
+                + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
                 testPrepStatement.isCloseOnCompletion());
 
         // test PreparedStatement.close()
@@ -7332,14 +7642,17 @@ public class StatementRegressionTest extends BaseTestCase {
 
         testPrepStatement.close();
 
-        assertFalse(testStep + ".PS:0. ResultSet.isClosed(): false after PreparedStatement.close().", testResultSet1.isClosed());
-        assertTrue(testStep + ".PS:0. PreparedStatement.isClosed(): true after PreparedStatement.close().", testPrepStatement.isClosed());
+        assertFalse(testStep + ".PS:0. ResultSet.isClosed(): false after PreparedStatement.close().",
+                testResultSet1.isClosed());
+        assertTrue(testStep + ".PS:0. PreparedStatement.isClosed(): true after PreparedStatement.close().",
+                testPrepStatement.isClosed());
 
         /*
          * SUB-STEP 1: One ResultSet (holdResultsOpenOverStatementClose=true)
          */
         // **testing Statement**
-        // Statement using closeOnCompletion should be closed when last ResultSet is closed
+        // Statement using closeOnCompletion should be closed when last ResultSet is
+        // closed
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7351,15 +7664,18 @@ public class StatementRegressionTest extends BaseTestCase {
         while (testResultSet1.next()) {
         }
 
-        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
-        // test implicit resultset close keeping statement open, when following with an executeBatch()
+        // test implicit resultset close keeping statement open, when following with an
+        // executeBatch()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7367,33 +7683,40 @@ public class StatementRegressionTest extends BaseTestCase {
         testStatement.addBatch("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)");
         testStatement.executeBatch();
 
-        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after executeBatch() in same Statement.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after executeBatch() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
-        // test implicit resultset close keeping statement open, when following with an executeUpdate()
+        // test implicit resultset close keeping statement open, when following with an
+        // executeUpdate()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
         testResultSet1 = testStatement.executeQuery("SELECT 1");
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)",
+                Statement.RETURN_GENERATED_KEYS);
 
-        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after executeUpdate() in same Statement.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after executeUpdate() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // **testing PreparedStatement**
-        // PreparedStatement using closeOnCompletion should be closed when last ResultSet is closed
+        // PreparedStatement using closeOnCompletion should be closed when last
+        // ResultSet is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
         testPrepStatement.closeOnCompletion();
 
@@ -7405,16 +7728,19 @@ public class StatementRegressionTest extends BaseTestCase {
         while (testResultSet1.next()) {
         }
 
-        assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
+        assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".PS:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".PS:1. PreparedStatement.isClosed(): true when last ResultSet is closed.", testPrepStatement.isClosed());
+        assertTrue(testStep + ".PS:1. PreparedStatement.isClosed(): true when last ResultSet is closed.",
+                testPrepStatement.isClosed());
 
         /*
-         * SUB-STEP 2: Multiple ResultSets, sequentially (holdResultsOpenOverStatementClose=true)
+         * SUB-STEP 2: Multiple ResultSets, sequentially
+         * (holdResultsOpenOverStatementClose=true)
          */
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
@@ -7422,7 +7748,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testResultSet1 = testStatement.executeQuery("SELECT 1");
         testResultSet2 = testStatement.executeQuery("SELECT 2"); // mustn't close testResultSet1
 
-        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after 2nd Statement.executeQuery().", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after 2nd Statement.executeQuery().",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7430,13 +7757,15 @@ public class StatementRegressionTest extends BaseTestCase {
         }
 
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet2.isClosed());
+        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet3 = testStatement.executeQuery("SELECT 3"); // mustn't close testResultSet1 nor testResultSet2
 
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after 3rd Statement.executeQuery().", testResultSet2.isClosed());
+        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after 3rd Statement.executeQuery().",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7453,34 +7782,46 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet2.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet3.isClosed());
-        assertTrue(testStep + ".ST:2. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:2. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         /*
-         * SUB-STEP 3: Multiple ResultSets, returned at once (holdResultsOpenOverStatementClose=true)
+         * SUB-STEP 3: Multiple ResultSets, returned at once
+         * (holdResultsOpenOverStatementClose=true)
          */
         // **testing Statement**
-        // Statement using closeOnCompletion should be closed when last ResultSet is closed
+        // Statement using closeOnCompletion should be closed when last ResultSet is
+        // closed
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:3. There should be some ResultSets.", testStatement.execute("CALL testBug68916_proc"));
+        assertTrue(testStep + ".ST:3. There should be some ResultSets.",
+                testStatement.execute("CALL testBug68916_proc"));
         testResultSet1 = testStatement.getResultSet();
 
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
-        assertTrue(testStep + ".ST:3. There should be more ResultSets.", testStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
+        assertTrue(testStep + ".ST:3. There should be more ResultSets.",
+                testStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
         testResultSet2 = testStatement.getResultSet();
 
-        assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).", testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
-        assertTrue(testStep + ".ST:3. There should be more ResultSets.", testStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
+        assertTrue(testStep + ".ST:3. There should be more ResultSets.",
+                testStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
         testResultSet3 = testStatement.getResultSet();
 
-        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet2.isClosed());
+        assertTrue(testStep
+                + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet1.isClosed());
+        assertTrue(testStep
+                + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7489,11 +7830,14 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after last Satement.getMoreResults().", testResultSet3.isClosed());
-        assertTrue(testStep + ".ST:3. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after last Satement.getMoreResults().",
+                testResultSet3.isClosed());
+        assertTrue(testStep + ".ST:3. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // **testing CallableStatement**
-        // CallableStatement using closeOnCompletion should be closed when last ResultSet is closed
+        // CallableStatement using closeOnCompletion should be closed when last
+        // ResultSet is closed
         testCallStatement = testConnection.prepareCall("CALL testBug68916_proc");
         testCallStatement.closeOnCompletion();
 
@@ -7503,18 +7847,26 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
-        assertTrue(testStep + ".CS:3. There should be more ResultSets.", testCallStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
+        assertTrue(testStep + ".CS:3. There should be more ResultSets.",
+                testCallStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
         testResultSet2 = testCallStatement.getResultSet();
 
-        assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).", testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
-        assertTrue(testStep + ".CS:3. There should be more ResultSets.", testCallStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
+        assertTrue(testStep + ".CS:3. There should be more ResultSets.",
+                testCallStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
         testResultSet3 = testCallStatement.getResultSet();
 
-        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet1.isClosed());
-        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet2.isClosed());
+        assertTrue(testStep
+                + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet1.isClosed());
+        assertTrue(testStep
+                + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
@@ -7523,8 +7875,10 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after last Satement.getMoreResults().", testResultSet3.isClosed());
-        assertTrue(testStep + ".CS:3. CallableStatement.isClosed(): true when last ResultSet is closed.", testCallStatement.isClosed());
+        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after last Satement.getMoreResults().",
+                testResultSet3.isClosed());
+        assertTrue(testStep + ".CS:3. CallableStatement.isClosed(): true when last ResultSet is closed.",
+                testCallStatement.isClosed());
 
         /*
          * SUB-STEP 4: Generated Keys ResultSet (holdResultsOpenOverStatementClose=true)
@@ -7532,7 +7886,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)",
+                Statement.RETURN_GENERATED_KEYS);
 
         testResultSet1 = testStatement.getGeneratedKeys();
         assertTrue(testStep + ".ST:4. Statement.getGeneratedKeys(): should return some values.", testResultSet1.next());
@@ -7543,20 +7898,23 @@ public class StatementRegressionTest extends BaseTestCase {
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // test again and combine with simple query
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)",
+                Statement.RETURN_GENERATED_KEYS);
 
         testResultSet1 = testStatement.getGeneratedKeys();
         assertTrue(testStep + ".ST:4. Statement.getGeneratedKeys(): should return some values.", testResultSet1.next());
 
         testResultSet2 = testStatement.executeQuery("SELECT 2");
 
-        assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false after executeQuery() in same Statement.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false after executeQuery() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7564,13 +7922,15 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed (still one open).", testStatement.isClosed());
+        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed (still one open).",
+                testStatement.isClosed());
 
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         testConnection.close();
     }
@@ -7580,8 +7940,10 @@ public class StatementRegressionTest extends BaseTestCase {
         String testStep;
         ResultSet testResultSet1, testResultSet2, testResultSet3;
 
-        // We are testing against code that was compiled with Java 6, so methods isCloseOnCompletion() and
-        // closeOnCompletion() aren't available in the Statement interface. We need to test directly our
+        // We are testing against code that was compiled with Java 6, so methods
+        // isCloseOnCompletion() and
+        // closeOnCompletion() aren't available in the Statement interface. We need to
+        // test directly our
         // implementations.
         StatementImpl testStatement = null;
         PreparedStatement testPrepStatement = null;
@@ -7600,17 +7962,20 @@ public class StatementRegressionTest extends BaseTestCase {
         // ResultSets should stay open when owning Statement is closed
         testStatement = (StatementImpl) testConnection.createStatement();
 
-        assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false by default.", testStatement.isCloseOnCompletion());
+        assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false by default.",
+                testStatement.isCloseOnCompletion());
         assertFalse(testStep + ".ST:0. Statement.isClosed(): false.", testStatement.isClosed());
 
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after Statement.closeOnCompletion().", testStatement.isCloseOnCompletion());
+        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+                testStatement.isCloseOnCompletion());
         assertFalse(testStep + ".ST:0. Statement.isClosed(): false.", testStatement.isClosed());
 
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().", testStatement.isCloseOnCompletion());
+        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
+                testStatement.isCloseOnCompletion());
 
         // test Statement.close()
         testResultSet1 = testStatement.executeQuery("SELECT 1");
@@ -7620,25 +7985,29 @@ public class StatementRegressionTest extends BaseTestCase {
 
         testStatement.close();
 
-        assertFalse(testStep + ".ST:0. ResultSet.isClosed(): false after Statement.Close().", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:0. ResultSet.isClosed(): false after Statement.Close().",
+                testResultSet1.isClosed());
         assertTrue(testStep + ".ST:0. Statement.isClosed(): true after Statement.Close().", testStatement.isClosed());
 
         // **testing PreparedStatement**
         // ResultSets should stay open when owning PreparedStatement is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
 
-        assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.", testPrepStatement.isCloseOnCompletion());
-        assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
-
-        testPrepStatement.closeOnCompletion();
-
-        assertTrue(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+        assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.",
                 testPrepStatement.isCloseOnCompletion());
         assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
         testPrepStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
+        assertTrue(
+                testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+                testPrepStatement.isCloseOnCompletion());
+        assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
+
+        testPrepStatement.closeOnCompletion();
+
+        assertTrue(testStep
+                + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
                 testPrepStatement.isCloseOnCompletion());
 
         // test PreparedStatement.close()
@@ -7650,14 +8019,17 @@ public class StatementRegressionTest extends BaseTestCase {
 
         testPrepStatement.close();
 
-        assertFalse(testStep + ".PS:0. ResultSet.isClosed(): false after PreparedStatement.close().", testResultSet1.isClosed());
-        assertTrue(testStep + ".PS:0. PreparedStatement.isClosed(): true after PreparedStatement.close().", testPrepStatement.isClosed());
+        assertFalse(testStep + ".PS:0. ResultSet.isClosed(): false after PreparedStatement.close().",
+                testResultSet1.isClosed());
+        assertTrue(testStep + ".PS:0. PreparedStatement.isClosed(): true after PreparedStatement.close().",
+                testPrepStatement.isClosed());
 
         /*
          * SUB-STEP 1: One ResultSet (dontTrackOpenResources=true)
          */
         // **testing Statement**
-        // Statement, although using closeOnCompletion, shouldn't be closed when last ResultSet is closed
+        // Statement, although using closeOnCompletion, shouldn't be closed when last
+        // ResultSet is closed
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7669,15 +8041,18 @@ public class StatementRegressionTest extends BaseTestCase {
         while (testResultSet1.next()) {
         }
 
-        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:1. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
+        assertFalse(testStep + ".ST:1. Statement.isClosed(): false when last ResultSet is closed.",
+                testStatement.isClosed());
 
-        // test implicit resultset (not) close, keeping statement open, when following with an executeBatch()
+        // test implicit resultset (not) close, keeping statement open, when following
+        // with an executeBatch()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7685,33 +8060,40 @@ public class StatementRegressionTest extends BaseTestCase {
         testStatement.addBatch("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)");
         testStatement.executeBatch();
 
-        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after executeBatch() in same Statement.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after executeBatch() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
         testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:1. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
+        assertFalse(testStep + ".ST:1. Statement.isClosed(): false when last ResultSet is closed.",
+                testStatement.isClosed());
 
-        // test implicit resultset (not) close keeping statement open, when following with an executeUpdate()
+        // test implicit resultset (not) close keeping statement open, when following
+        // with an executeUpdate()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
         testResultSet1 = testStatement.executeQuery("SELECT 1");
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)",
+                Statement.RETURN_GENERATED_KEYS);
 
-        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after executeUpdate() in same Statement.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after executeUpdate() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
         testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:1. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
+        assertFalse(testStep + ".ST:1. Statement.isClosed(): false when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // **testing PreparedStatement**
-        // PreparedStatement, although using closeOnCompletion, shouldn't be closed when last ResultSet is closed
+        // PreparedStatement, although using closeOnCompletion, shouldn't be closed when
+        // last ResultSet is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
         testPrepStatement.closeOnCompletion();
 
@@ -7723,13 +8105,15 @@ public class StatementRegressionTest extends BaseTestCase {
         while (testResultSet1.next()) {
         }
 
-        assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
+        assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
         testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".PS:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false when last ResultSet is closed.", testPrepStatement.isClosed());
+        assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false when last ResultSet is closed.",
+                testPrepStatement.isClosed());
 
         /*
          * SUB-STEP 2: Multiple ResultSets, sequentially (dontTrackOpenResources=true)
@@ -7740,7 +8124,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testResultSet1 = testStatement.executeQuery("SELECT 1");
         testResultSet2 = testStatement.executeQuery("SELECT 2"); // mustn't close testResultSet1
 
-        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after 2nd Statement.executeQuery().", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after 2nd Statement.executeQuery().",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7748,13 +8133,15 @@ public class StatementRegressionTest extends BaseTestCase {
         }
 
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet2.isClosed());
+        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet3 = testStatement.executeQuery("SELECT 3"); // mustn't close testResultSet1 nor testResultSet2
 
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after 3rd Statement.executeQuery().", testResultSet2.isClosed());
+        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after 3rd Statement.executeQuery().",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7771,34 +8158,46 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet2.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet3.isClosed());
-        assertFalse(testStep + ".ST:2. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
+        assertFalse(testStep + ".ST:2. Statement.isClosed(): false when last ResultSet is closed.",
+                testStatement.isClosed());
 
         /*
-         * SUB-STEP 3: Multiple ResultSets, returned at once (dontTrackOpenResources=true)
+         * SUB-STEP 3: Multiple ResultSets, returned at once
+         * (dontTrackOpenResources=true)
          */
         // **testing Statement**
-        // Statement, although using closeOnCompletion, shouldn't be closed when last ResultSet is closed
+        // Statement, although using closeOnCompletion, shouldn't be closed when last
+        // ResultSet is closed
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:3. There should be some ResultSets.", testStatement.execute("CALL testBug68916_proc"));
+        assertTrue(testStep + ".ST:3. There should be some ResultSets.",
+                testStatement.execute("CALL testBug68916_proc"));
         testResultSet1 = testStatement.getResultSet();
 
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
-        assertTrue(testStep + ".ST:3. There should be more ResultSets.", testStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
+        assertTrue(testStep + ".ST:3. There should be more ResultSets.",
+                testStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
         testResultSet2 = testStatement.getResultSet();
 
-        assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).", testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
-        assertTrue(testStep + ".ST:3. There should be more ResultSets.", testStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
+        assertTrue(testStep + ".ST:3. There should be more ResultSets.",
+                testStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
         testResultSet3 = testStatement.getResultSet();
 
-        assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet2.isClosed());
+        assertFalse(testStep
+                + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7806,8 +8205,10 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
-        assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false after last Satement.getMoreResults().", testResultSet3.isClosed());
-        assertFalse(testStep + ".ST:3. Statement.isClosed(): false after last Satement.getMoreResults().", testStatement.isClosed());
+        assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false after last Satement.getMoreResults().",
+                testResultSet3.isClosed());
+        assertFalse(testStep + ".ST:3. Statement.isClosed(): false after last Satement.getMoreResults().",
+                testStatement.isClosed());
 
         // since open ResultSets aren't tracked, we need to close all manually
         testResultSet1.close();
@@ -7818,10 +8219,12 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true.", testResultSet2.isClosed());
         assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true.", testResultSet3.isClosed());
-        assertFalse(testStep + ".ST:3. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
+        assertFalse(testStep + ".ST:3. Statement.isClosed(): false when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // **testing CallableStatement**
-        // CallableStatement, although using closeOnCompletion, shouldn't be closed when last ResultSet is closed
+        // CallableStatement, although using closeOnCompletion, shouldn't be closed when
+        // last ResultSet is closed
         testCallStatement = testConnection.prepareCall("CALL testBug68916_proc");
         testCallStatement.closeOnCompletion();
 
@@ -7831,18 +8234,26 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
-        assertTrue(testStep + ".CS:3. There should be more ResultSets.", testCallStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
+        assertTrue(testStep + ".CS:3. There should be more ResultSets.",
+                testCallStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
         testResultSet2 = testCallStatement.getResultSet();
 
-        assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).", testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
-        assertTrue(testStep + ".CS:3. There should be more ResultSets.", testCallStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
+        assertTrue(testStep + ".CS:3. There should be more ResultSets.",
+                testCallStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
         testResultSet3 = testCallStatement.getResultSet();
 
-        assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet1.isClosed());
-        assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet2.isClosed());
+        assertFalse(testStep
+                + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
@@ -7850,8 +8261,10 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
-        assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false after last Satement.getMoreResults().", testResultSet3.isClosed());
-        assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false after last Satement.getMoreResults().", testCallStatement.isClosed());
+        assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false after last Satement.getMoreResults().",
+                testResultSet3.isClosed());
+        assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false after last Satement.getMoreResults().",
+                testCallStatement.isClosed());
 
         // since open ResultSets aren't tracked, we need to close all manually
         testResultSet1.close();
@@ -7862,7 +8275,8 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true.", testResultSet2.isClosed());
         assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true.", testResultSet3.isClosed());
-        assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false when last ResultSet is closed.", testCallStatement.isClosed());
+        assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false when last ResultSet is closed.",
+                testCallStatement.isClosed());
 
         /*
          * SUB-STEP 4: Generated Keys ResultSet (dontTrackOpenResources=true)
@@ -7870,7 +8284,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)",
+                Statement.RETURN_GENERATED_KEYS);
 
         testResultSet1 = testStatement.getGeneratedKeys();
         assertTrue(testStep + ".ST:4. Statement.getGeneratedKeys(): should return some values.", testResultSet1.next());
@@ -7881,20 +8296,23 @@ public class StatementRegressionTest extends BaseTestCase {
         testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
+        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // test again and combine with simple query
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)",
+                Statement.RETURN_GENERATED_KEYS);
 
         testResultSet1 = testStatement.getGeneratedKeys();
         assertTrue(testStep + ".ST:4. Statement.getGeneratedKeys(): should return some values.", testResultSet1.next());
 
         testResultSet2 = testStatement.executeQuery("SELECT 2");
 
-        assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false after executeQuery() in same Statement.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false after executeQuery() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -7902,13 +8320,15 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed (still one open).", testStatement.isClosed());
+        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed (still one open).",
+                testStatement.isClosed());
 
         testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
+        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed.",
+                testStatement.isClosed());
 
         testConnection.close();
     }
@@ -7918,8 +8338,10 @@ public class StatementRegressionTest extends BaseTestCase {
         String testStep;
         ResultSet testResultSet1, testResultSet2, testResultSet3;
 
-        // We are testing against code that was compiled with Java 6, so methods isCloseOnCompletion() and
-        // closeOnCompletion() aren't available in the Statement interface. We need to test directly our
+        // We are testing against code that was compiled with Java 6, so methods
+        // isCloseOnCompletion() and
+        // closeOnCompletion() aren't available in the Statement interface. We need to
+        // test directly our
         // implementations.
         StatementImpl testStatement = null;
         PreparedStatement testPrepStatement = null;
@@ -7938,17 +8360,20 @@ public class StatementRegressionTest extends BaseTestCase {
         // ResultSets should be closed when owning Statement is closed
         testStatement = (StatementImpl) testConnection.createStatement();
 
-        assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false by default.", testStatement.isCloseOnCompletion());
+        assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false by default.",
+                testStatement.isCloseOnCompletion());
         assertFalse(testStep + ".ST:0. Statement.isClosed(): false.", testStatement.isClosed());
 
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after Statement.closeOnCompletion().", testStatement.isCloseOnCompletion());
+        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+                testStatement.isCloseOnCompletion());
         assertFalse(testStep + ".ST:0. Statement.isClosed(): false.", testStatement.isClosed());
 
         testStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().", testStatement.isCloseOnCompletion());
+        assertTrue(testStep + ".ST:0. Statement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
+                testStatement.isCloseOnCompletion());
 
         // test Statement.close()
         testResultSet1 = testStatement.executeQuery("SELECT 1");
@@ -7965,18 +8390,21 @@ public class StatementRegressionTest extends BaseTestCase {
         // ResultSets should be closed when owning PreparedStatement is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
 
-        assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.", testPrepStatement.isCloseOnCompletion());
-        assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
-
-        testPrepStatement.closeOnCompletion();
-
-        assertTrue(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+        assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.",
                 testPrepStatement.isCloseOnCompletion());
         assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
         testPrepStatement.closeOnCompletion();
 
-        assertTrue(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
+        assertTrue(
+                testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after Statement.closeOnCompletion().",
+                testPrepStatement.isCloseOnCompletion());
+        assertFalse(testStep + ".PS:0. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
+
+        testPrepStatement.closeOnCompletion();
+
+        assertTrue(testStep
+                + ".PS:0. PreparedStatement.isCloseOnCompletion(): true after 2nd Statement.closeOnCompletion().",
                 testPrepStatement.isCloseOnCompletion());
 
         // test PreparedStatement.close()
@@ -7988,14 +8416,17 @@ public class StatementRegressionTest extends BaseTestCase {
 
         testPrepStatement.close();
 
-        assertTrue(testStep + ".PS:0. ResultSet.isClosed(): true after PreparedStatement.close().", testResultSet1.isClosed());
-        assertTrue(testStep + ".PS:0. PreparedStatement.isClosed(): true after PreparedStatement.close().", testPrepStatement.isClosed());
+        assertTrue(testStep + ".PS:0. ResultSet.isClosed(): true after PreparedStatement.close().",
+                testResultSet1.isClosed());
+        assertTrue(testStep + ".PS:0. PreparedStatement.isClosed(): true after PreparedStatement.close().",
+                testPrepStatement.isClosed());
 
         /*
          * SUB-STEP 1: One ResultSet (allowMultiQueries=true)
          */
         // **testing Statement**
-        // Statement using closeOnCompletion should be closed when last ResultSet is closed
+        // Statement using closeOnCompletion should be closed when last ResultSet is
+        // closed
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -8007,15 +8438,18 @@ public class StatementRegressionTest extends BaseTestCase {
         while (testResultSet1.next()) {
         }
 
-        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
+        assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
-        // test implicit resultset close, keeping statement open, when following with an executeBatch()
+        // test implicit resultset close, keeping statement open, when following with an
+        // executeBatch()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -8023,33 +8457,40 @@ public class StatementRegressionTest extends BaseTestCase {
         testStatement.addBatch("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)");
         testStatement.executeBatch();
 
-        assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true after executeBatch() in same Statement.", testResultSet1.isClosed());
+        assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true after executeBatch() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
-        // test implicit resultset close keeping statement open, when following with an executeUpdate()
+        // test implicit resultset close keeping statement open, when following with an
+        // executeUpdate()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
         testResultSet1 = testStatement.executeQuery("SELECT 1");
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3)",
+                Statement.RETURN_GENERATED_KEYS);
 
-        assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true after executeUpdate() in same Statement.", testResultSet1.isClosed());
+        assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true after executeUpdate() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // **testing PreparedStatement**
-        // PreparedStatement using closeOnCompletion should be closed when last ResultSet is closed
+        // PreparedStatement using closeOnCompletion should be closed when last
+        // ResultSet is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
         testPrepStatement.closeOnCompletion();
 
@@ -8061,13 +8502,15 @@ public class StatementRegressionTest extends BaseTestCase {
         while (testResultSet1.next()) {
         }
 
-        assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
+        assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".PS:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".PS:1. PreparedStatement.isClosed(): true when last ResultSet is closed.", testPrepStatement.isClosed());
+        assertTrue(testStep + ".PS:1. PreparedStatement.isClosed(): true when last ResultSet is closed.",
+                testPrepStatement.isClosed());
 
         /*
          * SUB-STEP 2: Multiple ResultSets, sequentially (allowMultiQueries=true)
@@ -8078,7 +8521,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testResultSet1 = testStatement.executeQuery("SELECT 1");
         testResultSet2 = testStatement.executeQuery("SELECT 2; SELECT 3"); // closes testResultSet1
 
-        assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true after 2nd Statement.executeQuery().", testResultSet1.isClosed());
+        assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true after 2nd Statement.executeQuery().",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -8086,15 +8530,17 @@ public class StatementRegressionTest extends BaseTestCase {
         }
 
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet2.isClosed());
+        assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false after ResultSet have reached the end.",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
         assertTrue(testStep + ".ST:3. There should be more ResultSets.", testStatement.getMoreResults()); // closes
-                                                                                                         // testResultSet2
+                                                                                                          // testResultSet2
         testResultSet3 = testStatement.getResultSet();
 
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true after Statement.getMoreResults().", testResultSet2.isClosed());
+        assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true after Statement.getMoreResults().",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -8103,13 +8549,15 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet2.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet3.isClosed());
-        assertTrue(testStep + ".ST:2. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:2. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         /*
          * SUB-STEP 3: Multiple ResultSets, returned at once (allowMultiQueries=true)
          */
         // **testing Statement**
-        // Statement using closeOnCompletion should be closed when last ResultSet is closed
+        // Statement using closeOnCompletion should be closed when last ResultSet is
+        // closed
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -8118,18 +8566,26 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
-        assertTrue(testStep + ".ST:3. There should be more ResultSets.", testStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
+        assertTrue(testStep + ".ST:3. There should be more ResultSets.",
+                testStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
         testResultSet2 = testStatement.getResultSet();
 
-        assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).", testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".ST:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
-        assertTrue(testStep + ".ST:3. There should be more ResultSets.", testStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
+        assertTrue(testStep + ".ST:3. There should be more ResultSets.",
+                testStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
         testResultSet3 = testStatement.getResultSet();
 
-        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet2.isClosed());
+        assertTrue(testStep
+                + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet1.isClosed());
+        assertTrue(testStep
+                + ".ST:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -8138,11 +8594,14 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after last Satement.getMoreResults().", testResultSet3.isClosed());
-        assertTrue(testStep + ".ST:3. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:3. ResultSet.isClosed(): true after last Satement.getMoreResults().",
+                testResultSet3.isClosed());
+        assertTrue(testStep + ".ST:3. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // **testing CallableStatement**
-        // CallableStatement using closeOnCompletion should be closed when last ResultSet is closed
+        // CallableStatement using closeOnCompletion should be closed when last
+        // ResultSet is closed
         testCallStatement = testConnection.prepareCall("CALL testBug68916_proc");
         testCallStatement.closeOnCompletion();
 
@@ -8152,18 +8611,26 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
-        assertTrue(testStep + ".CS:3. There should be more ResultSets.", testCallStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
+        assertTrue(testStep + ".CS:3. There should be more ResultSets.",
+                testCallStatement.getMoreResults(Statement.KEEP_CURRENT_RESULT));
         testResultSet2 = testCallStatement.getResultSet();
 
-        assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).", testResultSet1.isClosed());
+        assertFalse(testStep
+                + ".CS:3. ResultSet.isClosed(): false after Statement.getMoreResults(Statement.KEEP_CURRENT_RESULT).",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
-        assertTrue(testStep + ".CS:3. There should be more ResultSets.", testCallStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
+        assertTrue(testStep + ".CS:3. There should be more ResultSets.",
+                testCallStatement.getMoreResults(Statement.CLOSE_ALL_RESULTS));
         testResultSet3 = testCallStatement.getResultSet();
 
-        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet1.isClosed());
-        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).", testResultSet2.isClosed());
+        assertTrue(testStep
+                + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet1.isClosed());
+        assertTrue(testStep
+                + ".CS:3. ResultSet.isClosed(): true after Statement.getMoreResults(Statement.CLOSE_ALL_RESULTS).",
+                testResultSet2.isClosed());
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false.", testCallStatement.isClosed());
 
@@ -8172,8 +8639,10 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after last Satement.getMoreResults().", testResultSet3.isClosed());
-        assertTrue(testStep + ".CS:3. CallableStatement.isClosed(): true when last ResultSet is closed.", testCallStatement.isClosed());
+        assertTrue(testStep + ".CS:3. ResultSet.isClosed(): true after last Satement.getMoreResults().",
+                testResultSet3.isClosed());
+        assertTrue(testStep + ".CS:3. CallableStatement.isClosed(): true when last ResultSet is closed.",
+                testCallStatement.isClosed());
 
         /*
          * SUB-STEP 4: Generated Keys ResultSet (allowMultiQueries=true)
@@ -8181,7 +8650,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3); INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)",
+        testStatement.executeUpdate(
+                "INSERT INTO testBug68916_tbl (fld2) VALUES (1), (2), (3); INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)",
                 Statement.RETURN_GENERATED_KEYS);
 
         testResultSet1 = testStatement.getGeneratedKeys();
@@ -8193,20 +8663,23 @@ public class StatementRegressionTest extends BaseTestCase {
         testResultSet1.close(); // last open ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
-        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
 
         // test again and combine with simple query
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
-        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)", Statement.RETURN_GENERATED_KEYS);
+        testStatement.executeUpdate("INSERT INTO testBug68916_tbl (fld2) VALUES (4), (5), (6)",
+                Statement.RETURN_GENERATED_KEYS);
 
         testResultSet1 = testStatement.getGeneratedKeys();
         assertTrue(testStep + ".ST:4. Statement.getGeneratedKeys(): should return some values.", testResultSet1.next());
 
         testResultSet2 = testStatement.executeQuery("SELECT 2; SELECT 3");
 
-        assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true after executeQuery() in same Statement.", testResultSet1.isClosed());
+        assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true after executeQuery() in same Statement.",
+                testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
@@ -8216,7 +8689,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertFalse(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
+        assertFalse(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.",
+                testStatement.isClosed());
         testStatement.close();
 
         testConnection.close();
@@ -8226,8 +8700,10 @@ public class StatementRegressionTest extends BaseTestCase {
         ExecutorService executor = Executors.newCachedThreadPool();
         CompletionService<String> complService = new ExecutorCompletionService<>(executor);
 
-        String[] connectionProperties = new String[] { "", "holdResultsOpenOverStatementClose=true", "dontTrackOpenResources=true" };
-        // overridesCloseOnCompletion[n] refers to the effect of connectionProperties[n] on
+        String[] connectionProperties = new String[] { "", "holdResultsOpenOverStatementClose=true",
+                "dontTrackOpenResources=true" };
+        // overridesCloseOnCompletion[n] refers to the effect of connectionProperties[n]
+        // on
         // Statement.closeOnCompletion()
         boolean[] overridesCloseOnCompletion = new boolean[] { false, false, true };
         String[] sampleQueries = new String[] { "SELECT * FROM mysql.help_topic", "SELECT SLEEP(1)",
@@ -8243,7 +8719,8 @@ public class StatementRegressionTest extends BaseTestCase {
             Connection testConnection = getConnectionWithProps(connectionProperties[c]);
 
             for (int t = 0; t < threadCount; t++) {
-                complService.submit(new subTestBug68916ConcurrentTask(testConnection, sampleQueries[t], overridesCloseOnCompletion[c]));
+                complService.submit(new subTestBug68916ConcurrentTask(testConnection, sampleQueries[t],
+                        overridesCloseOnCompletion[c]));
             }
 
             for (int t = 0; t < threadCount; t++) {
@@ -8318,10 +8795,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#71672 - Every SQL statement is checked if it contains "ON DUPLICATE KEY UPDATE" or not
+     * Tests fix for Bug#71672 - Every SQL statement is checked if it contains "ON
+     * DUPLICATE KEY UPDATE" or not
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug71672() throws SQLException {
         boolean lastTest = false;
@@ -8343,7 +8821,8 @@ public class StatementRegressionTest extends BaseTestCase {
         final String tableDDL = "(id INT AUTO_INCREMENT PRIMARY KEY, ch CHAR(1) UNIQUE KEY, ct INT)";
 
         // *** CONTROL DATA SET 1: queries for both Statement and PreparedStatement
-        final String[] queries = new String[] { "INSERT INTO testBug71672 (ch, ct) VALUES ('A', 100), ('C', 100), ('D', 100)",
+        final String[] queries = new String[] {
+                "INSERT INTO testBug71672 (ch, ct) VALUES ('A', 100), ('C', 100), ('D', 100)",
                 "INSERT INTO testBug71672 (ch, ct) VALUES ('B', 2), ('C', 3), ('D', 4), ('E', 5) ON DUPLICATE KEY UPDATE ct = -1 * (ABS(ct) + VALUES(ct))",
                 "INSERT INTO testBug71672 (ch, ct) VALUES ('F', 100) ON DUPLICATE KEY UPDATE ct = -1 * (ABS(ct) + VALUES(ct))",
                 "INSERT INTO testBug71672 (ch, ct) VALUES ('B', 2), ('F', 6) ON DUPLICATE KEY UPDATE ct = -1 * (ABS(ct) + VALUES(ct))",
@@ -8353,12 +8832,14 @@ public class StatementRegressionTest extends BaseTestCase {
         final int[] expectedUpdCountDef = new int[] { 3, 6, 1, 4, 1 };
         // expected generated keys per query:
         final int[][] expectedGenKeysForChkODKU = new int[][] { { 1, 2, 3 }, { 4 }, { 8 }, { 8 }, { 11 } };
-        final int[][] expectedGenKeysForNoChkODKU = new int[][] { { 1, 2, 3 }, { 4, 5, 6, 7, 8, 9 }, { 8 }, { 8, 9, 10, 11 }, { 11 } };
+        final int[][] expectedGenKeysForNoChkODKU = new int[][] { { 1, 2, 3 }, { 4, 5, 6, 7, 8, 9 }, { 8 },
+                { 8, 9, 10, 11 }, { 11 } };
         final int[][] expectedGenKeysForBatchStmtRW = new int[][] { { 1 }, { 4 }, { 8 }, { 8 }, { 11 } };
 
         // *** CONTROL DATA SET 2: query and params for batch PrepatedStatement
         final String queryBatchPStmt = "INSERT INTO testBug71672 (ch, ct) VALUES (?, ?) ON DUPLICATE KEY UPDATE ct = -1 * (ABS(ct) + VALUES(ct))";
-        final String[] paramsBatchPStmt = new String[] { "A100", "C100", "D100", "B2", "C3", "D4", "E5", "F100", "B2", "F6", "G100" };
+        final String[] paramsBatchPStmt = new String[] { "A100", "C100", "D100", "B2", "C3", "D4", "E5", "F100", "B2",
+                "F6", "G100" };
 
         // expected update counts per param:
         final int[] expectedUpdCountBatchPStmtNoRW = new int[] { 1, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1 };
@@ -8397,8 +8878,10 @@ public class StatementRegressionTest extends BaseTestCase {
                     expectedGenKeysBatchPStmt = expectedGenKeysForBatchPStmtRW;
                     break;
                 case 4:
-                    // dontCheckOnDuplicateKeyUpdateInSQL=true is canceled by rewriteBatchedStatements=true
-                    testConn = getConnectionWithProps("rewriteBatchedStatements=true,dontCheckOnDuplicateKeyUpdateInSQL=true");
+                    // dontCheckOnDuplicateKeyUpdateInSQL=true is canceled by
+                    // rewriteBatchedStatements=true
+                    testConn = getConnectionWithProps(
+                            "rewriteBatchedStatements=true,dontCheckOnDuplicateKeyUpdateInSQL=true");
                     expectedUpdCount = expectedUpdCountDef;
                     expectedGenKeys = expectedGenKeysForChkODKU;
                     expectedGenKeysBatchStmt = expectedGenKeysForBatchStmtRW;
@@ -8437,7 +8920,8 @@ public class StatementRegressionTest extends BaseTestCase {
             for (int i = 0; i < expectedGenKeysBatchStmt.length; i++) {
                 for (int j = 0; j < expectedGenKeysBatchStmt[i].length; j++) {
                     assertTrue(testStep + ". Row expected in generated keys ResultSet", testRS.next());
-                    assertEquals(testStep + ".[" + i + "][" + j + "]. Wrong generated key", expectedGenKeysBatchStmt[i][j], testRS.getInt(1));
+                    assertEquals(testStep + ".[" + i + "][" + j + "]. Wrong generated key",
+                            expectedGenKeysBatchStmt[i][j], testRS.getInt(1));
                 }
             }
             assertFalse(testStep + ". No more rows expected in generated keys ResultSet", testRS.next());
@@ -8468,14 +8952,17 @@ public class StatementRegressionTest extends BaseTestCase {
                 testPStmt.addBatch();
             }
             res = testPStmt.executeBatch();
-            assertEquals(testStep + ". PreparedSatement.executeBatch() result", expectedUpdCountBatchPStmt.length, res.length);
+            assertEquals(testStep + ". PreparedSatement.executeBatch() result", expectedUpdCountBatchPStmt.length,
+                    res.length);
             for (int i = 0; i < expectedUpdCountBatchPStmt.length; i++) {
-                assertEquals(testStep + "." + i + ". PreparedSatement.executeBatch() result", expectedUpdCountBatchPStmt[i], res[i]);
+                assertEquals(testStep + "." + i + ". PreparedSatement.executeBatch() result",
+                        expectedUpdCountBatchPStmt[i], res[i]);
             }
             testRS = testPStmt.getGeneratedKeys();
             for (int i = 0; i < expectedGenKeysBatchPStmt.length; i++) {
                 assertTrue(testStep + ". Row expected in generated keys ResultSet", testRS.next());
-                assertEquals(testStep + ".[" + i + "]. Wrong generated key", expectedGenKeysBatchPStmt[i], testRS.getInt(1));
+                assertEquals(testStep + ".[" + i + "]. Wrong generated key", expectedGenKeysBatchPStmt[i],
+                        testRS.getInt(1));
             }
             assertFalse(testStep + ". No more rows expected in generated keys ResultSet", testRS.next());
             testRS.close();
@@ -8530,16 +9017,20 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Check the update count and returned keys for an INSERT query using a Statement object. If expectedUpdateCount < 0 then runs Statement.execute() otherwise
+     * Check the update count and returned keys for an INSERT query using a
+     * Statement object. If expectedUpdateCount < 0 then runs Statement.execute()
+     * otherwise
      * Statement.executeUpdate().
      */
-    public void testBug71672Statement(int testStep, Connection testConn, String query, int expectedUpdateCount, int[] expectedKeys) throws SQLException {
+    public void testBug71672Statement(int testStep, Connection testConn, String query, int expectedUpdateCount,
+            int[] expectedKeys) throws SQLException {
         Statement testStmt = testConn.createStatement();
 
         if (expectedUpdateCount < 0) {
             assertFalse(testStep + ". Stmt.execute() result", testStmt.execute(query, Statement.RETURN_GENERATED_KEYS));
         } else {
-            assertEquals(testStep + ". Stmt.executeUpdate() result", expectedUpdateCount, testStmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
+            assertEquals(testStep + ". Stmt.executeUpdate() result", expectedUpdateCount,
+                    testStmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
         }
 
         ResultSet testRS = testStmt.getGeneratedKeys();
@@ -8553,17 +9044,21 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Check the update count and returned keys for an INSERT query using a PreparedStatement object. If expectedUpdateCount < 0 then runs
+     * Check the update count and returned keys for an INSERT query using a
+     * PreparedStatement object. If expectedUpdateCount < 0 then runs
      * PreparedStatement.execute() otherwise PreparedStatement.executeUpdate().
      */
-    public void testBug71672PreparedStatement(int testStep, Connection testConn, String query, int expectedUpdateCount, int[] expectedKeys)
+    public void testBug71672PreparedStatement(int testStep, Connection testConn, String query, int expectedUpdateCount,
+            int[] expectedKeys)
             throws SQLException {
         PreparedStatement testPStmt = testConn.prepareStatement(query);
 
         if (expectedUpdateCount < 0) {
-            assertFalse(testStep + ". PrepStmt.execute() result", testPStmt.execute(query, Statement.RETURN_GENERATED_KEYS));
+            assertFalse(testStep + ". PrepStmt.execute() result",
+                    testPStmt.execute(query, Statement.RETURN_GENERATED_KEYS));
         } else {
-            assertEquals(testStep + ". PrepStmt.executeUpdate() result", expectedUpdateCount, testPStmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
+            assertEquals(testStep + ". PrepStmt.executeUpdate() result", expectedUpdateCount,
+                    testPStmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
         }
 
         ResultSet testRS = testPStmt.getGeneratedKeys();
@@ -8577,10 +9072,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#71923 - Incorrect generated keys if ON DUPLICATE KEY UPDATE not exact
+     * Tests fix for BUG#71923 - Incorrect generated keys if ON DUPLICATE KEY UPDATE
+     * not exact
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug71923() throws Exception {
         final String tableDDL = "(id INT AUTO_INCREMENT PRIMARY KEY, ch CHAR(1) UNIQUE KEY, ct INT, dt VARCHAR(100))";
@@ -8651,7 +9147,8 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs = this.pstmt.getGeneratedKeys();
             assertTrue(c + ".D PreparedStatment.executeUpdate() - generated keys row expected", this.rs.next());
             assertEquals(c + ".D PreparedStatment.executeUpdate() - wrong generated key value", 3, this.rs.getInt(1));
-            assertFalse(c + ".D PreparedStatment.executeUpdate() - no more generated keys rows expected", this.rs.next());
+            assertFalse(c + ".D PreparedStatment.executeUpdate() - no more generated keys rows expected",
+                    this.rs.next());
             this.rs.close();
 
             dropTable("testBug71923");
@@ -8714,10 +9211,13 @@ public class StatementRegressionTest extends BaseTestCase {
             assertEquals(2, this.pstmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
             this.rs = this.pstmt.getGeneratedKeys();
             assertTrue(c + ".H PreparedStatment.executeUpdate() - generated keys 1st row expected", this.rs.next());
-            assertEquals(c + ".H PreparedStatment.executeUpdate() - wrong 1st generated key value", 3, this.rs.getInt(1));
+            assertEquals(c + ".H PreparedStatment.executeUpdate() - wrong 1st generated key value", 3,
+                    this.rs.getInt(1));
             assertTrue(c + ".H PreparedStatment.executeUpdate() - generated keys 2nd row expected", this.rs.next());
-            assertEquals(c + ".H PreparedStatment.executeUpdate() - wrong 2nd generated key value", 4, this.rs.getInt(1));
-            assertFalse(c + ".H PreparedStatment.executeUpdate() - no more generated keys rows expected", this.rs.next());
+            assertEquals(c + ".H PreparedStatment.executeUpdate() - wrong 2nd generated key value", 4,
+                    this.rs.getInt(1));
+            assertFalse(c + ".H PreparedStatment.executeUpdate() - no more generated keys rows expected",
+                    this.rs.next());
             this.rs.close();
 
             dropTable("testBug71923");
@@ -8725,12 +9225,13 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#73163 - IndexOutOfBoundsException thrown preparing statement.
+     * Tests fix for BUG#73163 - IndexOutOfBoundsException thrown preparing
+     * statement.
      * 
      * This bug occurs only if running with Java6+.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug73163() throws Exception {
         try {
@@ -8745,26 +9246,34 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#74998 - readRemainingMultiPackets not computed correctly for rows larger than 16 MB.
+     * Tests fix for BUG#74998 - readRemainingMultiPackets not computed correctly
+     * for rows larger than 16 MB.
      * 
-     * This bug is observed only when a multipacket uses packets 127 and 128. It happens due to the transition from positive to negative values in a signed byte
+     * This bug is observed only when a multipacket uses packets 127 and 128. It
+     * happens due to the transition from positive to negative values in a signed
+     * byte
      * numeric value (127 + 1 == -128).
      * 
-     * The test case forces a multipacket to use packets 127, 128 and 129, where packet 129 is 0-length, this being another boundary case.
+     * The test case forces a multipacket to use packets 127, 128 and 129, where
+     * packet 129 is 0-length, this being another boundary case.
      * Query (*1) generates the following MySQL protocol packets from the server:
-     * - Packets 1 to 4 contain protocol control data and results metadata info. (*2)
+     * - Packets 1 to 4 contain protocol control data and results metadata info.
+     * (*2)
      * - Packets 5 to 126 contain each row "X". (*3)
-     * - Packets 127 to 129 contain row "Y..." as a multipacket (size("Y...") = 32*1024*1024-15 requires 3 packets). (*4)
+     * - Packets 127 to 129 contain row "Y..." as a multipacket (size("Y...") =
+     * 32*1024*1024-15 requires 3 packets). (*4)
      * - Packet 130 contains row "Z". (*5)
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug74998() throws Exception {
-        int maxAllowedPacketAtServer = Integer.parseInt(((JdbcConnection) this.conn).getSession().getServerSession().getServerVariable("max_allowed_packet"));
+        int maxAllowedPacketAtServer = Integer.parseInt(
+                ((JdbcConnection) this.conn).getSession().getServerSession().getServerVariable("max_allowed_packet"));
         int maxAllowedPacketMinimumForTest = 32 * 1024 * 1024;
         if (maxAllowedPacketAtServer < maxAllowedPacketMinimumForTest) {
-            fail("You need to increase max_allowed_packet to at least " + maxAllowedPacketMinimumForTest + " before running this test!");
+            fail("You need to increase max_allowed_packet to at least " + maxAllowedPacketMinimumForTest
+                    + " before running this test!");
         }
 
         createTable("testBug74998", "(id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, data LONGBLOB)"); // (*2)
@@ -8775,15 +9284,18 @@ public class StatementRegressionTest extends BaseTestCase {
         }
         assertEquals(122, this.stmt.executeUpdate(query.toString())); // (*3)
 
-        int lengthOfRowForMultiPacket = maxAllowedPacketMinimumForTest - 15; // 32MB - 15Bytes causes an empty packet at the end of the multipacket sequence
+        int lengthOfRowForMultiPacket = maxAllowedPacketMinimumForTest - 15; // 32MB - 15Bytes causes an empty packet at
+                                                                             // the end of the multipacket sequence
 
-        this.stmt.executeUpdate("INSERT INTO testBug74998 (data) VALUES (REPEAT('Y', " + lengthOfRowForMultiPacket + "))"); // (*4)
+        this.stmt.executeUpdate(
+                "INSERT INTO testBug74998 (data) VALUES (REPEAT('Y', " + lengthOfRowForMultiPacket + "))"); // (*4)
         this.stmt.executeUpdate("INSERT INTO testBug74998 (data) VALUES ('Z')"); // (*5)
 
         try {
             this.rs = this.stmt.executeQuery("SELECT id, data FROM testBug74998 ORDER BY id"); // (*1)
         } catch (CJCommunicationsException | CommunicationsException e) {
-            if (e.getCause() instanceof IOException && "Packets received out of order".compareTo(e.getCause().getMessage()) == 0) {
+            if (e.getCause() instanceof IOException
+                    && "Packets received out of order".compareTo(e.getCause().getMessage()) == 0) {
                 fail("Failed to correctly fetch all data from communications layer due to wrong processing of muli-packet number.");
             } else {
                 throw e;
@@ -8807,20 +9319,27 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#50348 - mysql connector/j 5.1.10 render the wrong value for dateTime column in GMT DB.
+     * Tests fix for BUG#50348 - mysql connector/j 5.1.10 render the wrong value for
+     * dateTime column in GMT DB.
      * 
-     * With the right time zone settings in server and client, and using the property 'useTimezone=true', time shifts are computed in the opposite direction of
+     * With the right time zone settings in server and client, and using the
+     * property 'useTimezone=true', time shifts are computed in the opposite
+     * direction of
      * those that are computed otherwise.
      * 
-     * This issue is observed when the server is configured with time zone 'GMT' and the client other than 'GMT'. However, if the server's time zone is one
-     * equivalent to 'GMT' but under a different identifier, say "UTC" or "GMT+00", the wrong behavior isn't observed anymore.
+     * This issue is observed when the server is configured with time zone 'GMT' and
+     * the client other than 'GMT'. However, if the server's time zone is one
+     * equivalent to 'GMT' but under a different identifier, say "UTC" or "GMT+00",
+     * the wrong behavior isn't observed anymore.
      */
     public void testBug50348() throws Exception {
         final TimeZone defaultTZ = TimeZone.getDefault();
 
         final Properties testConnProps = new Properties();
-        //testConnProps.setProperty("useTimezone", "true"); // TODO property was removed in 6.0
-        //testConnProps.setProperty("cacheDefaultTimezone", "false"); // TODO property isn't defined
+        // testConnProps.setProperty("useTimezone", "true"); // TODO property was
+        // removed in 6.0
+        // testConnProps.setProperty("cacheDefaultTimezone", "false"); // TODO property
+        // isn't defined
 
         Connection testConn = null;
 
@@ -8831,25 +9350,29 @@ public class StatementRegressionTest extends BaseTestCase {
             final SimpleDateFormat tFormat = TimeUtil.getSimpleDateFormat(null, "HH:mm:ss", null, null);
             final Time time = new Time(tFormat.parse("10:00:00").getTime());
 
-            // Test a number of time zones that coincide with 'GMT' on the some specifip point in time.
+            // Test a number of time zones that coincide with 'GMT' on the some specifip
+            // point in time.
             for (String tz : new String[] { "Europe/Lisbon", "UTC", "GMT+00", "GMT" }) {
-                //  Europe/Lisbon ~~ WET (UTC) on 2015-01-01; ~~ CET (UTC+01) on 1970-01-01
+                // Europe/Lisbon ~~ WET (UTC) on 2015-01-01; ~~ CET (UTC+01) on 1970-01-01
                 System.out.println("\nServer time zone: " + tz);
                 System.out.println("---------------------------------------------------");
 
                 testConnProps.setProperty(PropertyKey.serverTimezone.getKeyName(), tz);
                 testConn = getConnectionWithProps(testConnProps);
 
-                checkResultSetForTestBug50348(testConn, "2015-01-01 04:00:00.0", tz.equals("Europe/Lisbon") ? "03:00:00" : "04:00:00");
+                checkResultSetForTestBug50348(testConn, "2015-01-01 04:00:00.0",
+                        tz.equals("Europe/Lisbon") ? "03:00:00" : "04:00:00");
                 checkPreparedStatementForTestBug50348(testConn, timestamp, time,
-                        ((JdbcConnection) testConn).getSession().getServerSession().getCapabilities().serverSupportsFracSecs() ? "2015-01-01 16:00:00.0"
-                                : "2015-01-01 16:00:00",
+                        ((JdbcConnection) testConn).getSession().getServerSession().getCapabilities()
+                                .serverSupportsFracSecs() ? "2015-01-01 16:00:00.0"
+                                        : "2015-01-01 16:00:00",
                         tz.equals("Europe/Lisbon") ? "17:00:00" : "16:00:00");
 
                 testConn.close();
             }
 
-            // Cycle through a wide range of generic 'GMT+/-hh:mm' and assert the expected time shift for a specific point in time. 
+            // Cycle through a wide range of generic 'GMT+/-hh:mm' and assert the expected
+            // time shift for a specific point in time.
             for (int tzOffset = -15; tzOffset <= 15; tzOffset++) { // cover a wider range than standard
                 for (int tzSubOffset : new int[] { 0, 30 }) {
                     final StringBuilder tz = new StringBuilder("GMT");
@@ -8878,12 +9401,14 @@ public class StatementRegressionTest extends BaseTestCase {
                     cal.add(Calendar.HOUR, diffTzOffset);
                     cal.add(Calendar.MINUTE, tzOffset < 0 ? -tzSubOffset : tzSubOffset);
                     String expectedTimestampFromPS = tsFormat.format(cal.getTime())
-                            + (((JdbcConnection) testConn).getSession().getServerSession().getCapabilities().serverSupportsFracSecs() ? ".0" : "");
+                            + (((JdbcConnection) testConn).getSession().getServerSession().getCapabilities()
+                                    .serverSupportsFracSecs() ? ".0" : "");
                     cal.setTime(tFormat.parse("10:00:00"));
                     cal.add(Calendar.HOUR, diffTzOffset);
                     cal.add(Calendar.MINUTE, tzOffset < 0 ? -tzSubOffset : tzSubOffset);
                     String expectedTimeFromPS = tFormat.format(cal.getTime());
-                    checkPreparedStatementForTestBug50348(testConn, timestamp, time, expectedTimestampFromPS, expectedTimeFromPS);
+                    checkPreparedStatementForTestBug50348(testConn, timestamp, time, expectedTimestampFromPS,
+                            expectedTimeFromPS);
 
                     testConn.close();
                 }
@@ -8897,19 +9422,22 @@ public class StatementRegressionTest extends BaseTestCase {
         }
     }
 
-    private void checkResultSetForTestBug50348(Connection testConn, String expectedTimestamp, String expectedTime) throws SQLException {
+    private void checkResultSetForTestBug50348(Connection testConn, String expectedTimestamp, String expectedTime)
+            throws SQLException {
         this.rs = testConn.createStatement().executeQuery("SELECT '2015-01-01 10:00:00', '10:00:00'");
         this.rs.next();
         String timestampAsString = this.rs.getTimestamp(1).toString();
         String timeAsString = this.rs.getTime(2).toString();
-        String alert = expectedTimestamp.equals(timestampAsString) && expectedTime.equals(timeAsString) ? "" : " <-- (!)";
+        String alert = expectedTimestamp.equals(timestampAsString) && expectedTime.equals(timeAsString) ? ""
+                : " <-- (!)";
         System.out.printf("[RS] expected: '%s' | '%s'%n", expectedTimestamp, expectedTime);
         System.out.printf("       actual: '%s' | '%s' %s%n", timestampAsString, timeAsString, alert);
         assertEquals(expectedTimestamp, timestampAsString);
         assertEquals(expectedTime, timeAsString);
     }
 
-    private void checkPreparedStatementForTestBug50348(Connection testConn, Timestamp timestamp, Time time, String expectedTimestamp, String expectedTime)
+    private void checkPreparedStatementForTestBug50348(Connection testConn, Timestamp timestamp, Time time,
+            String expectedTimestamp, String expectedTime)
             throws SQLException {
         PreparedStatement testPstmt = testConn.prepareStatement("SELECT ?, ?");
         testPstmt.setTimestamp(1, timestamp);
@@ -8919,7 +9447,8 @@ public class StatementRegressionTest extends BaseTestCase {
         this.rs.next();
         String timestampAsString = new String(this.rs.getBytes(1));
         String timeAsString = new String(this.rs.getBytes(2));
-        String alert = expectedTimestamp.equals(timestampAsString) && expectedTime.equals(timeAsString) ? "" : " <-- (!)";
+        String alert = expectedTimestamp.equals(timestampAsString) && expectedTime.equals(timeAsString) ? ""
+                : " <-- (!)";
         System.out.printf("[PS] expected: '%s' | '%s'%n", expectedTimestamp, expectedTime);
         System.out.printf("       actual: '%s' | '%s' %s%n", timestampAsString, timeAsString, alert);
         assertEquals(expectedTimestamp, timestampAsString);
@@ -8927,9 +9456,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#77449 - Add 'truncateFractionalSeconds=true|false' property (contribution).
+     * Tests fix for Bug#77449 - Add 'truncateFractionalSeconds=true|false' property
+     * (contribution).
      * 
-     * The property actually added was 'sendFractionalSeconds' and works as the opposite of the proposed one.
+     * The property actually added was 'sendFractionalSeconds' and works as the
+     * opposite of the proposed one.
      */
     public void testBug77449() throws Exception {
         if (!versionMeetsMinimum(5, 6, 4)) {
@@ -8937,22 +9468,26 @@ public class StatementRegressionTest extends BaseTestCase {
         }
 
         Timestamp originalTs = new Timestamp(
-                TimeUtil.getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.SSS", null, null).parse("2014-12-31 23:59:59.999").getTime());
+                TimeUtil.getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.SSS", null, null)
+                        .parse("2014-12-31 23:59:59.999").getTime());
         Timestamp roundedTs = new Timestamp(originalTs.getTime() + 1);
         Timestamp truncatedTs = new Timestamp(originalTs.getTime() - 999);
 
         assertEquals("2014-12-31 23:59:59.999", originalTs.toString());
         assertEquals("2014-12-31 23:59:59.0", TimeUtil.truncateFractionalSeconds(originalTs).toString());
 
-        createTable("testBug77449", "(id INT PRIMARY KEY, ts_short TIMESTAMP, ts_long TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6))");
-        createProcedure("testBug77449", "(ts_short TIMESTAMP, ts_long TIMESTAMP(6)) BEGIN SELECT ts_short, ts_long; END");
+        createTable("testBug77449",
+                "(id INT PRIMARY KEY, ts_short TIMESTAMP, ts_long TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6))");
+        createProcedure("testBug77449",
+                "(ts_short TIMESTAMP, ts_long TIMESTAMP(6)) BEGIN SELECT ts_short, ts_long; END");
 
         for (int tst = 0; tst < 8; tst++) {
             boolean useLegacyDatetimeCode = (tst & 0x1) != 0;
             boolean useServerPrepStmts = (tst & 0x2) != 0;
             boolean sendFractionalSeconds = (tst & 0x4) != 0;
 
-            String testCase = String.format("Case: %d [ %s | %s | %s ]", tst, useLegacyDatetimeCode ? "useLegDTCode" : "-",
+            String testCase = String.format("Case: %d [ %s | %s | %s ]", tst,
+                    useLegacyDatetimeCode ? "useLegDTCode" : "-",
                     useServerPrepStmts ? "useSSPS" : "-", sendFractionalSeconds ? "sendFracSecs" : "-");
 
             Properties props = new Properties();
@@ -8964,19 +9499,23 @@ public class StatementRegressionTest extends BaseTestCase {
 
             // Send timestamps as Strings, using Statement -> no truncation occurs.
             Statement testStmt = testConn.createStatement();
-            testStmt.executeUpdate("INSERT INTO testBug77449 VALUES (1, '2014-12-31 23:59:59.999', '2014-12-31 23:59:59.999')/* no_ts_trunk */");
+            testStmt.executeUpdate(
+                    "INSERT INTO testBug77449 VALUES (1, '2014-12-31 23:59:59.999', '2014-12-31 23:59:59.999')/* no_ts_trunk */");
             testStmt.close();
 
-            // Send timestamps using PreparedStatement -> truncation occurs according to 'sendFractionalSeconds' value.
+            // Send timestamps using PreparedStatement -> truncation occurs according to
+            // 'sendFractionalSeconds' value.
             PreparedStatement testPStmt = testConn.prepareStatement("INSERT INTO testBug77449 VALUES (2, ?, ?)");
             testPStmt.setTimestamp(1, originalTs);
             testPStmt.setTimestamp(2, originalTs);
             assertEquals(testCase, 1, testPStmt.executeUpdate());
             testPStmt.close();
 
-            // Send timestamps using UpdatableResultSet -> truncation occurs according to 'sendFractionalSeconds' value.
+            // Send timestamps using UpdatableResultSet -> truncation occurs according to
+            // 'sendFractionalSeconds' value.
             testStmt = testConn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
-            testStmt.executeUpdate("INSERT INTO testBug77449 VALUES (3, NOW(), NOW())/* no_ts_trunk */"); // insert dummy row
+            testStmt.executeUpdate("INSERT INTO testBug77449 VALUES (3, NOW(), NOW())/* no_ts_trunk */"); // insert
+                                                                                                          // dummy row
             this.rs = testStmt.executeQuery("SELECT * FROM testBug77449 WHERE id = 3");
             assertTrue(testCase, this.rs.next());
             this.rs.updateTimestamp("ts_short", originalTs);
@@ -8995,7 +9534,8 @@ public class StatementRegressionTest extends BaseTestCase {
             assertEquals(testCase, 1, this.rs.getInt(1));
             assertEquals(testCase, roundedTs, this.rs.getTimestamp(2));
             assertEquals(testCase, originalTs, this.rs.getTimestamp(3));
-            // 2nd row: from PreparedStatement; 3rd row: from UpdatableResultSet.updateRow(); 4th row: from UpdatableResultSet.insertRow()
+            // 2nd row: from PreparedStatement; 3rd row: from
+            // UpdatableResultSet.updateRow(); 4th row: from UpdatableResultSet.insertRow()
             this.rs = testStmt.executeQuery("SELECT * FROM testBug77449 WHERE id >= 2");
             for (int i = 2; i <= 4; i++) {
                 assertTrue(testCase, this.rs.next());
@@ -9006,7 +9546,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
             this.stmt.execute("DELETE FROM testBug77449");
 
-            // Compare Connector/J with client truncation -> truncation occurs according to 'sendFractionalSeconds' value.
+            // Compare Connector/J with client truncation -> truncation occurs according to
+            // 'sendFractionalSeconds' value.
             testPStmt = testConn.prepareStatement("SELECT ? = ?");
             testPStmt.setTimestamp(1, originalTs);
             testPStmt.setTimestamp(2, truncatedTs);
@@ -9019,7 +9560,8 @@ public class StatementRegressionTest extends BaseTestCase {
             }
             testPStmt.close();
 
-            // Send timestamps using CallableStatement -> truncation occurs according to 'sendFractionalSeconds' value.
+            // Send timestamps using CallableStatement -> truncation occurs according to
+            // 'sendFractionalSeconds' value.
             CallableStatement cstmt = testConn.prepareCall("{call testBug77449(?, ?)}");
             cstmt.setTimestamp("ts_short", originalTs);
             cstmt.setTimestamp("ts_long", originalTs);
@@ -9044,15 +9586,18 @@ public class StatementRegressionTest extends BaseTestCase {
 
         @Override
         public <T extends Resultset> T preProcess(Supplier<String> sql, Query interceptedQuery) {
-            if (!(interceptedQuery instanceof ServerPreparedStatement || interceptedQuery instanceof ServerPreparedQuery)) {
+            if (!(interceptedQuery instanceof ServerPreparedStatement
+                    || interceptedQuery instanceof ServerPreparedQuery)) {
                 String query = sql.get();
-                if (query == null && (interceptedQuery instanceof ClientPreparedStatement || interceptedQuery instanceof ClientPreparedQuery)) {
+                if (query == null && (interceptedQuery instanceof ClientPreparedStatement
+                        || interceptedQuery instanceof ClientPreparedQuery)) {
                     query = interceptedQuery.toString();
                     query = query.substring(query.indexOf(':') + 2);
                 }
 
                 if (query != null
-                        && ((query.startsWith("INSERT") || query.startsWith("UPDATE") || query.startsWith("CALL")) && !query.contains("no_ts_trunk"))) {
+                        && ((query.startsWith("INSERT") || query.startsWith("UPDATE") || query.startsWith("CALL"))
+                                && !query.contains("no_ts_trunk"))) {
                     if (this.sendFracSecs ^ query.contains(".999")) {
                         fail("Wrong TIMESTAMP trunctation in query [" + query + "]");
                     }
@@ -9064,13 +9609,19 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#77681 - rewrite replace sql like insert when rewriteBatchedStatements=true (contribution)
+     * Tests fix for BUG#77681 - rewrite replace sql like insert when
+     * rewriteBatchedStatements=true (contribution)
      * 
-     * When using 'rewriteBatchedStatements=true' we rewrite several batched statements into one single query by extending its VALUES clause. Although INSERT
+     * When using 'rewriteBatchedStatements=true' we rewrite several batched
+     * statements into one single query by extending its VALUES clause. Although
+     * INSERT
      * REPLACE have the same syntax, this wasn't happening for REPLACE statements.
      * 
-     * This tests the number of queries actually sent to server when rewriteBatchedStatements is used and not by using a QueryInterceptor. The test is
-     * repeated for server side prepared statements. Without the fix, this test fails while checking the number of expected REPLACE queries.
+     * This tests the number of queries actually sent to server when
+     * rewriteBatchedStatements is used and not by using a QueryInterceptor. The
+     * test is
+     * repeated for server side prepared statements. Without the fix, this test
+     * fails while checking the number of expected REPLACE queries.
      */
     public void testBug77681() throws Exception {
         createTable("testBug77681", "(id INT, txt VARCHAR(50), PRIMARY KEY (id))");
@@ -9137,7 +9688,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     public static class TestBug77681QueryInterceptor extends BaseQueryInterceptor {
-        private static final char[] expectedNonRWBS = new char[] { 'I', 'I', 'I', 'I', 'I', 'R', 'R', 'R', 'I', 'I', 'I', 'I', 'I', 'R', 'R', 'R', 'R', 'R' };
+        private static final char[] expectedNonRWBS = new char[] { 'I', 'I', 'I', 'I', 'I', 'R', 'R', 'R', 'I', 'I',
+                'I', 'I', 'I', 'R', 'R', 'R', 'R', 'R' };
         private static final char[] expectedRWBS = new char[] { 'I', 'R', 'I', 'R' };
 
         private char[] expected;
@@ -9147,10 +9699,13 @@ public class StatementRegressionTest extends BaseTestCase {
         public QueryInterceptor init(MysqlConnection conn, Properties props, Log log) {
             // TODO Auto-generated method stub
             super.init(conn, props, log);
-            System.out.println("\nuseServerPrepStmts: " + props.getProperty(PropertyKey.useServerPrepStmts.getKeyName()) + " | rewriteBatchedStatements: "
+            System.out.println("\nuseServerPrepStmts: " + props.getProperty(PropertyKey.useServerPrepStmts.getKeyName())
+                    + " | rewriteBatchedStatements: "
                     + props.getProperty(PropertyKey.rewriteBatchedStatements.getKeyName()));
             System.out.println("--------------------------------------------------------------------------------");
-            this.expected = Boolean.parseBoolean(props.getProperty(PropertyKey.rewriteBatchedStatements.getKeyName())) ? expectedRWBS : expectedNonRWBS;
+            this.expected = Boolean.parseBoolean(props.getProperty(PropertyKey.rewriteBatchedStatements.getKeyName()))
+                    ? expectedRWBS
+                    : expectedNonRWBS;
             return this;
         }
 
@@ -9166,7 +9721,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 if (this.execCounter > this.expected.length) {
                     fail("Failed to rewrite statements");
                 }
-                assertEquals("Wrong statement at execution number " + this.execCounter, this.expected[this.execCounter++], query.charAt(0));
+                assertEquals("Wrong statement at execution number " + this.execCounter,
+                        this.expected[this.execCounter++], query.charAt(0));
             }
             return super.preProcess(sql, interceptedQuery);
         }
@@ -9174,9 +9730,11 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#21876798 - CONNECTOR/J WITH MYSQL FABRIC AND SPRING PRODUCES PROXY ERROR.
+     * Tests fix for Bug#21876798 - CONNECTOR/J WITH MYSQL FABRIC AND SPRING
+     * PRODUCES PROXY ERROR.
      * 
-     * Although this is a Fabric related bug we are able reproduce it using a couple of multi-host connections.
+     * Although this is a Fabric related bug we are able reproduce it using a couple
+     * of multi-host connections.
      */
     public void testBug21876798() throws Exception {
         createTable("testBug21876798", "(tst INT, val INT)");
@@ -9187,16 +9745,19 @@ public class StatementRegressionTest extends BaseTestCase {
 
             Properties props = new Properties();
             props.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), Boolean.toString(useServerPrepStmts));
-            props.setProperty(PropertyKey.rewriteBatchedStatements.getKeyName(), Boolean.toString(rewriteBatchedStatements));
+            props.setProperty(PropertyKey.rewriteBatchedStatements.getKeyName(),
+                    Boolean.toString(rewriteBatchedStatements));
 
             String testCase = String.format("Case: %d [ %s | %s ]", tst, useServerPrepStmts ? "useSPS" : "-",
                     rewriteBatchedStatements ? "rwBatchedStmts" : "-");
 
             Connection highLevelConn = getLoadBalancedConnection(props);
-            assertTrue(testCase, highLevelConn.getClass().getName().startsWith("com.sun.proxy") || highLevelConn.getClass().getName().startsWith("$Proxy"));
+            assertTrue(testCase, highLevelConn.getClass().getName().startsWith("com.sun.proxy")
+                    || highLevelConn.getClass().getName().startsWith("$Proxy"));
 
             Connection lowLevelConn = getMasterSlaveReplicationConnection(props);
-            // This simulates the behavior from Fabric connections that are causing the problem.
+            // This simulates the behavior from Fabric connections that are causing the
+            // problem.
             ((ReplicationConnection) lowLevelConn).setProxy((JdbcConnection) highLevelConn);
 
             // Insert data. We need at least 4 rows to force rewriting batch statements.
@@ -9240,18 +9801,23 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#78961 - Can't call MySQL procedure with InOut parameters in Fabric environment.
+     * Tests fix for Bug#78961 - Can't call MySQL procedure with InOut parameters in
+     * Fabric environment.
      * 
-     * Although this is a Fabric related bug we are able reproduce it using a couple of multi-host connections.
+     * Although this is a Fabric related bug we are able reproduce it using a couple
+     * of multi-host connections.
      */
     public void testBug78961() throws Exception {
-        createProcedure("testBug78961", "(IN c1 FLOAT, IN c2 FLOAT, OUT h FLOAT, INOUT t FLOAT) BEGIN SET h = SQRT(c1 * c1 + c2 * c2); SET t = t + h; END;");
+        createProcedure("testBug78961",
+                "(IN c1 FLOAT, IN c2 FLOAT, OUT h FLOAT, INOUT t FLOAT) BEGIN SET h = SQRT(c1 * c1 + c2 * c2); SET t = t + h; END;");
 
         Connection highLevelConn = getLoadBalancedConnection(null);
-        assertTrue(highLevelConn.getClass().getName().startsWith("com.sun.proxy") || highLevelConn.getClass().getName().startsWith("$Proxy"));
+        assertTrue(highLevelConn.getClass().getName().startsWith("com.sun.proxy")
+                || highLevelConn.getClass().getName().startsWith("$Proxy"));
 
         Connection lowLevelConn = getMasterSlaveReplicationConnection(null);
-        // This simulates the behavior from Fabric connections that are causing the problem.
+        // This simulates the behavior from Fabric connections that are causing the
+        // problem.
         ((ReplicationConnection) lowLevelConn).setProxy((JdbcConnection) highLevelConn);
 
         CallableStatement cstmt = lowLevelConn.prepareCall("{CALL testBug78961 (?, ?, ?, ?)}");
@@ -9267,7 +9833,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Test Bug#75956 - Inserting timestamps using a server PreparedStatement and useLegacyDatetimeCode=false
+     * Test Bug#75956 - Inserting timestamps using a server PreparedStatement and
+     * useLegacyDatetimeCode=false
      */
     public void testBug75956() throws Exception {
         createTable("bug75956", "(id int not null primary key auto_increment, dt1 datetime, dt2 datetime)");
@@ -9307,12 +9874,14 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#23188498 - CLIENT HANG WHILE USING SERVERPREPSTMT WHEN PROFILESQL=TRUE AND USEIS=TRUE.
+     * Tests fix for Bug#23188498 - CLIENT HANG WHILE USING SERVERPREPSTMT WHEN
+     * PROFILESQL=TRUE AND USEIS=TRUE.
      */
     public void testBug23188498() throws Exception {
         createTable("testBug23188498", "(id INT)");
 
-        JdbcConnection testConn = (JdbcConnection) getConnectionWithProps("useServerPrepStmts=true,useInformationSchema=true,profileSQL=true");
+        JdbcConnection testConn = (JdbcConnection) getConnectionWithProps(
+                "useServerPrepStmts=true,useInformationSchema=true,profileSQL=true");
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         // Insert data:
@@ -9360,7 +9929,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#23201930 - CLIENT HANG WHEN RSLT CUNCURRENCY=CONCUR_UPDATABLE AND RSLTSET TYPE=FORWARD_ONLY.
+     * Tests fix for Bug#23201930 - CLIENT HANG WHEN RSLT
+     * CUNCURRENCY=CONCUR_UPDATABLE AND RSLTSET TYPE=FORWARD_ONLY.
      */
     public void testBug23201930() throws Exception {
         boolean useSSL = false;
@@ -9373,11 +9943,13 @@ public class StatementRegressionTest extends BaseTestCase {
         final String longData = String.valueOf(chars); // Using large data makes SSL connections hang sometimes.
 
         do {
-            final String testCase = String.format("Case [SSL: %s, SPS: %s, Cursor: %s, Compr: %s]", useSSL ? "Y" : "N", useSPS ? "Y" : "N",
+            final String testCase = String.format("Case [SSL: %s, SPS: %s, Cursor: %s, Compr: %s]", useSSL ? "Y" : "N",
+                    useSPS ? "Y" : "N",
                     useCursor ? "Y" : "N", useCompr ? "Y" : "N");
 
-            createTable("testBug23201930", "(id TINYINT AUTO_INCREMENT PRIMARY KEY, f1 INT DEFAULT 1, f2 INT DEFAULT 1, f3 INT DEFAULT 1, "
-                    + "f4 INT DEFAULT 1, f5 INT DEFAULT 1, fl LONGBLOB)");
+            createTable("testBug23201930",
+                    "(id TINYINT AUTO_INCREMENT PRIMARY KEY, f1 INT DEFAULT 1, f2 INT DEFAULT 1, f3 INT DEFAULT 1, "
+                            + "f4 INT DEFAULT 1, f5 INT DEFAULT 1, fl LONGBLOB)");
 
             final Properties props = new Properties();
             props.setProperty(PropertyKey.useSSL.getKeyName(), Boolean.toString(useSSL));
@@ -9401,7 +9973,8 @@ public class StatementRegressionTest extends BaseTestCase {
                     final Statement testStmt = testConn.createStatement();
                     testStmt.execute("INSERT INTO testBug23201930 (id) VALUES (100)");
 
-                    PreparedStatement testPstmt = testConn.prepareStatement("INSERT INTO testBug23201930 (id, fl) VALUES (?, ?)", ResultSet.TYPE_FORWARD_ONLY,
+                    PreparedStatement testPstmt = testConn.prepareStatement(
+                            "INSERT INTO testBug23201930 (id, fl) VALUES (?, ?)", ResultSet.TYPE_FORWARD_ONLY,
                             ResultSet.CONCUR_UPDATABLE);
                     testPstmt.setObject(1, 101, java.sql.Types.INTEGER);
                     testPstmt.setObject(2, longData, java.sql.Types.VARCHAR);
@@ -9410,7 +9983,8 @@ public class StatementRegressionTest extends BaseTestCase {
                     testPstmt.execute();
                     testPstmt.close();
 
-                    testPstmt = testConn.prepareStatement("SELECT * FROM testBug23201930 WHERE id >= ? ORDER BY id ASC", ResultSet.TYPE_FORWARD_ONLY,
+                    testPstmt = testConn.prepareStatement("SELECT * FROM testBug23201930 WHERE id >= ? ORDER BY id ASC",
+                            ResultSet.TYPE_FORWARD_ONLY,
                             ResultSet.CONCUR_UPDATABLE);
                     testPstmt.setObject(1, 100, java.sql.Types.INTEGER);
                     final ResultSet testRs = testPstmt.executeQuery();
@@ -9436,36 +10010,59 @@ public class StatementRegressionTest extends BaseTestCase {
             executor.shutdownNow();
 
             testConn.close();
-        } while ((useSSL = !useSSL) || (useSPS = !useSPS) || (useCursor = !useCursor) || (useCompr = !useCompr)); // Cycle through all possible combinations.
+        } while ((useSSL = !useSSL) || (useSPS = !useSPS) || (useCursor = !useCursor) || (useCompr = !useCompr)); // Cycle
+                                                                                                                  // through
+                                                                                                                  // all
+                                                                                                                  // possible
+                                                                                                                  // combinations.
     }
 
     /**
-     * Tests fix for Bug#80615 - prepared statement leak when rewriteBatchedStatements=true and useServerPrepStmt.
+     * Tests fix for Bug#80615 - prepared statement leak when
+     * rewriteBatchedStatements=true and useServerPrepStmt.
      * 
      * There are two bugs here:
-     * 1. A server prepared statement leakage by not actually closing the statement on server when .close() is called in the client side. This occurs when
-     * setting 'cachePrepStmts=true&useServerPrepStmts=true' and a prepared statement is set as non-poolable ('setPoolable(false)'). By itself this doesn't
-     * cause any visible issue because the connector has a fail-safe mechanism that uses client-side prepared statements when server-side prepared statements
-     * fail to be prepared. So, the connector ends up using client-side prepared statements after the number of open prepared statements on server hits the
+     * 1. A server prepared statement leakage by not actually closing the statement
+     * on server when .close() is called in the client side. This occurs when
+     * setting 'cachePrepStmts=true&useServerPrepStmts=true' and a prepared
+     * statement is set as non-poolable ('setPoolable(false)'). By itself this
+     * doesn't
+     * cause any visible issue because the connector has a fail-safe mechanism that
+     * uses client-side prepared statements when server-side prepared statements
+     * fail to be prepared. So, the connector ends up using client-side prepared
+     * statements after the number of open prepared statements on server hits the
      * value of 'max_prepared_stmt_count'.
-     * 2. A prepared statement fails to be prepared when there are too many open prepared statements on server. By setting the options
-     * 'rewriteBatchedStatements=true&useServerPrepStmts=true' when a query happens to be rewritten a new (server-side) prepared statement is required but the
-     * fail-safe mechanism isn't implemented in this spot, so, since the leakage described above already consumed all available prepared statements on server,
+     * 2. A prepared statement fails to be prepared when there are too many open
+     * prepared statements on server. By setting the options
+     * 'rewriteBatchedStatements=true&useServerPrepStmts=true' when a query happens
+     * to be rewritten a new (server-side) prepared statement is required but the
+     * fail-safe mechanism isn't implemented in this spot, so, since the leakage
+     * described above already consumed all available prepared statements on server,
      * this ends up throwing the exception.
      * 
      * This test combines three elements:
-     * 1. Call .close() on a server prepared statement. This promotes a prepared statement for caching if prepared statements cache is enabled.
+     * 1. Call .close() on a server prepared statement. This promotes a prepared
+     * statement for caching if prepared statements cache is enabled.
      * 2. cachePrepStmts=true|false. Turns on/off the prepared statements cache.
-     * 3. Call .setPoolable(true|false) on the prepared statement. This allows canceling the prepared statement caching, on a per statement basis. It has no
-     * effect if the prepared statements cache if turned off for the current connection.
+     * 3. Call .setPoolable(true|false) on the prepared statement. This allows
+     * canceling the prepared statement caching, on a per statement basis. It has no
+     * effect if the prepared statements cache if turned off for the current
+     * connection.
      * 
      * Expected behavior:
-     * - If .close() is not called on server prepared statements then they also can't be promoted for caching. This causes a server prepared statements leak in
+     * - If .close() is not called on server prepared statements then they also
+     * can't be promoted for caching. This causes a server prepared statements leak
+     * in
      * all remaining combinations.
-     * - If .close() is called on server prepared statements and the prepared statements cache is disabled by any form (either per connection or per statement),
+     * - If .close() is called on server prepared statements and the prepared
+     * statements cache is disabled by any form (either per connection or per
+     * statement),
      * then the statements is immediately closed on server side too.
-     * - If .close() is called on server prepared statements and the prepared statements cache is enabled (both in the connection and in the statement) then the
-     * statement is cached and only effectively closed in the server side if and when removed from the cache.
+     * - If .close() is called on server prepared statements and the prepared
+     * statements cache is enabled (both in the connection and in the statement)
+     * then the
+     * statement is cached and only effectively closed in the server side if and
+     * when removed from the cache.
      */
     public void testBug80615() throws Exception {
         final int prepStmtCacheSize = 5;
@@ -9474,10 +10071,12 @@ public class StatementRegressionTest extends BaseTestCase {
         int maxPrepStmtCountOri = -1;
 
         try {
-            // Check if it is possible to create a server prepared statement with the current max_prepared_stmt_count.
+            // Check if it is possible to create a server prepared statement with the
+            // current max_prepared_stmt_count.
             Connection checkConn = getConnectionWithProps("useServerPrepStmts=true");
             PreparedStatement checkPstmt = checkConn.prepareStatement("SELECT 1");
-            assertTrue("Failed to create a server prepared statement possibly because there are too many active prepared statements on server already.",
+            assertTrue(
+                    "Failed to create a server prepared statement possibly because there are too many active prepared statements on server already.",
                     checkPstmt instanceof ServerPreparedStatement);
             checkPstmt.close();
 
@@ -9488,13 +10087,18 @@ public class StatementRegressionTest extends BaseTestCase {
             this.stmt.execute("SET GLOBAL max_prepared_stmt_count = " + maxPrepStmtCount);
             this.stmt.execute("FLUSH STATUS");
 
-            // Check if it is still possible to prepare new statements after setting the new max. This test requires at least prepStmtCacheSize + 2.
+            // Check if it is still possible to prepare new statements after setting the new
+            // max. This test requires at least prepStmtCacheSize + 2.
             // The extra two statements are:
-            // 1 - The first statement that only gets cached in the end (when calling .close() on it).
-            // 2 - The statement that triggers the expelling of the oldest element of the cache to get room for itself.  
+            // 1 - The first statement that only gets cached in the end (when calling
+            // .close() on it).
+            // 2 - The statement that triggers the expelling of the oldest element of the
+            // cache to get room for itself.
             for (int i = 1; i <= prepStmtCacheSize + 2; i++) {
                 checkPstmt = checkConn.prepareStatement("SELECT " + i);
-                assertTrue("Test ABORTED because the server doesn't allow preparing at least " + (prepStmtCacheSize + 2) + " more statements.",
+                assertTrue(
+                        "Test ABORTED because the server doesn't allow preparing at least " + (prepStmtCacheSize + 2)
+                                + " more statements.",
                         checkPstmt instanceof ServerPreparedStatement);
             }
             checkConn.close(); // Also closes all prepared statements.
@@ -9504,7 +10108,8 @@ public class StatementRegressionTest extends BaseTestCase {
             boolean useCache = false;
             boolean poolable = false;
             do {
-                final String testCase = String.format("Case: [Close STMTs: %s, Use cache: %s, Poolable: %s ]", closeStmt ? "Y" : "N", useCache ? "Y" : "N",
+                final String testCase = String.format("Case: [Close STMTs: %s, Use cache: %s, Poolable: %s ]",
+                        closeStmt ? "Y" : "N", useCache ? "Y" : "N",
                         poolable ? "Y" : "N");
 
                 System.out.println();
@@ -9538,30 +10143,40 @@ public class StatementRegressionTest extends BaseTestCase {
                 int expectedExecCount = 0;
                 int expectedCloseCount = 0;
 
-                testBug80615CheckComStmtStatus(prepCount, true, testCase, checkStmt, expectedPrepCount, expectedExecCount, expectedCloseCount);
+                testBug80615CheckComStmtStatus(prepCount, true, testCase, checkStmt, expectedPrepCount,
+                        expectedExecCount, expectedCloseCount);
 
-                // Prepare a number of statements higher than the limit set on server. There are at most (*) maxPrepStmtCount - 1 prepares available.
-                // This should exhaust the number of allowed prepared statements, forcing the connector to use client-side prepared statements from that point
+                // Prepare a number of statements higher than the limit set on server. There are
+                // at most (*) maxPrepStmtCount - 1 prepares available.
+                // This should exhaust the number of allowed prepared statements, forcing the
+                // connector to use client-side prepared statements from that point
                 // forward unless statements are closed correctly.
-                // Under the tested circumstances there where some unexpected server prepared statements leaks (1st bug).
-                // (*) There's no canonical way of knowing exactly how many preparing statement slots are available because other sessions may be using them.
+                // Under the tested circumstances there where some unexpected server prepared
+                // statements leaks (1st bug).
+                // (*) There's no canonical way of knowing exactly how many preparing statement
+                // slots are available because other sessions may be using them.
                 boolean isSPS = true;
                 do {
-                    PreparedStatement testPstmt2 = testConn.prepareStatement("INSERT INTO testBug80615 VALUES (" + prepCount + " + ?)");
+                    PreparedStatement testPstmt2 = testConn
+                            .prepareStatement("INSERT INTO testBug80615 VALUES (" + prepCount + " + ?)");
                     prepCount++;
 
                     isSPS = testPstmt2 instanceof ServerPreparedStatement;
                     if (closeStmt) {
-                        // Statements are being correctly closed so there is room to create new ones every time.
+                        // Statements are being correctly closed so there is room to create new ones
+                        // every time.
                         assertTrue(testCase, isSPS);
                     } else if (prepCount > maxPrepStmtCount) {
                         // Not closing statements causes a server prepared statements leak on server.
-                        // In this iteration (if not before) it should have started failing-over to a client-side prepared statement.
+                        // In this iteration (if not before) it should have started failing-over to a
+                        // client-side prepared statement.
                         assertFalse(testCase, isSPS);
                     } else if (prepCount <= prepStmtCacheSize + 2) {
-                        // There should be enough room to prepare server-side prepared statements. (This was checked in the beginning.)
+                        // There should be enough room to prepare server-side prepared statements. (This
+                        // was checked in the beginning.)
                         assertTrue(testCase, isSPS);
-                    } // prepStmtCacheSize + 1 < prepCount <= maxPrepStmtCount --> can't assert anything as there can statements prepared externally.
+                    } // prepStmtCacheSize + 1 < prepCount <= maxPrepStmtCount --> can't assert
+                      // anything as there can statements prepared externally.
 
                     ((StatementImpl) testPstmt2).setPoolable(poolable); // Need to cast, this is a JDBC 4.0 feature.
                     testPstmt2.setInt(1, 0);
@@ -9573,8 +10188,10 @@ public class StatementRegressionTest extends BaseTestCase {
                     if (closeStmt) {
                         testPstmt2.close();
                         if (isSPS) {
-                            if (useCache && poolable && (prepCount - 1) > prepStmtCacheSize) { // The first statement isn't cached yet.
-                                // A statement (oldest in cache) is effectively closed on server side only after local statements cache is full.
+                            if (useCache && poolable && (prepCount - 1) > prepStmtCacheSize) { // The first statement
+                                                                                               // isn't cached yet.
+                                // A statement (oldest in cache) is effectively closed on server side only after
+                                // local statements cache is full.
                                 expectedCloseCount++;
                             } else if (!useCache || !poolable) {
                                 // The statement is closed immediately on server side.
@@ -9583,7 +10200,8 @@ public class StatementRegressionTest extends BaseTestCase {
                         }
                     }
 
-                    testBug80615CheckComStmtStatus(prepCount, isSPS, testCase, checkStmt, expectedPrepCount, expectedExecCount, expectedCloseCount);
+                    testBug80615CheckComStmtStatus(prepCount, isSPS, testCase, checkStmt, expectedPrepCount,
+                            expectedExecCount, expectedCloseCount);
                 } while (prepCount < testRepetitions && isSPS);
 
                 if (closeStmt) {
@@ -9593,8 +10211,10 @@ public class StatementRegressionTest extends BaseTestCase {
                     assertTrue(testCase, prepCount <= maxPrepStmtCount + 1);
                 }
 
-                // Batched statements are being rewritten so this will prepare another statement underneath.
-                // It was failing before if the the number of stmt prepares on server was exhausted at this point (2nd Bug).
+                // Batched statements are being rewritten so this will prepare another statement
+                // underneath.
+                // It was failing before if the the number of stmt prepares on server was
+                // exhausted at this point (2nd Bug).
                 testPstmt1.executeBatch();
                 testPstmt1.close();
 
@@ -9608,7 +10228,8 @@ public class StatementRegressionTest extends BaseTestCase {
         }
     }
 
-    private void testBug80615CheckComStmtStatus(int prepCount, boolean isSPS, String testCase, Statement testStmt, int expectedPrepCount, int expectedExecCount,
+    private void testBug80615CheckComStmtStatus(int prepCount, boolean isSPS, String testCase, Statement testStmt,
+            int expectedPrepCount, int expectedExecCount,
             int expectedCloseCount) throws Exception {
         System.out.print(prepCount + ". ");
         System.out.print(isSPS ? "[SPS]" : "[CPS]");
@@ -9618,7 +10239,8 @@ public class StatementRegressionTest extends BaseTestCase {
         int actualPrepCount = 0;
         int actualExecCount = 0;
         int actualCloseCount = 0;
-        this.rs = testStmt.executeQuery("SHOW SESSION STATUS WHERE Variable_name IN ('Com_stmt_prepare', 'Com_stmt_execute', 'Com_stmt_close')");
+        this.rs = testStmt.executeQuery(
+                "SHOW SESSION STATUS WHERE Variable_name IN ('Com_stmt_prepare', 'Com_stmt_execute', 'Com_stmt_close')");
         while (this.rs.next()) {
             System.out.print(" (" + this.rs.getString(1).replace("Com_stmt_", "") + " " + this.rs.getInt(2) + ")");
             if (this.rs.getString(1).equalsIgnoreCase("Com_stmt_prepare")) {
@@ -9645,7 +10267,8 @@ public class StatementRegressionTest extends BaseTestCase {
         boolean readOnly = false;
 
         do {
-            final String testCase = String.format("Case [SPS: %s, CacheRsMd: %s, Read-only: %s]", useSPS ? "Y" : "N", cacheRsMd ? "Y" : "N",
+            final String testCase = String.format("Case [SPS: %s, CacheRsMd: %s, Read-only: %s]", useSPS ? "Y" : "N",
+                    cacheRsMd ? "Y" : "N",
                     readOnly ? "Y" : "N");
 
             Properties props = new Properties();
@@ -9690,7 +10313,8 @@ public class StatementRegressionTest extends BaseTestCase {
             TestBug81706QueryInterceptor.isActive = false;
             testConn.close();
 
-        } while ((useSPS = !useSPS) || (cacheRsMd = !cacheRsMd) || (readOnly = !readOnly)); // Cycle through all possible combinations.
+        } while ((useSPS = !useSPS) || (cacheRsMd = !cacheRsMd) || (readOnly = !readOnly)); // Cycle through all
+                                                                                            // possible combinations.
     }
 
     public static class TestBug81706QueryInterceptor extends BaseQueryInterceptor {
@@ -9712,7 +10336,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#66430 - setCatalog on connection leaves ServerPreparedStatement cache for old catalog.
+     * Tests fix for Bug#66430 - setCatalog on connection leaves
+     * ServerPreparedStatement cache for old catalog.
      */
     public void testBug66430() throws Exception {
         createDatabase("testBug66430DB1");
@@ -9726,7 +10351,8 @@ public class StatementRegressionTest extends BaseTestCase {
         boolean useSPS = false;
         boolean cachePS = false;
         do {
-            final String testCase = String.format("Case: [useSPS: %s, cachePS: %s ]", useSPS ? "Y" : "N", cachePS ? "Y" : "N");
+            final String testCase = String.format("Case: [useSPS: %s, cachePS: %s ]", useSPS ? "Y" : "N",
+                    cachePS ? "Y" : "N");
 
             Properties props = new Properties();
             props.setProperty(PropertyKey.cachePrepStmts.getKeyName(), Boolean.toString(cachePS));
@@ -9803,66 +10429,73 @@ public class StatementRegressionTest extends BaseTestCase {
             testConn = getUnreliableFailoverConnection(new String[] { "host1", "host2" }, null);
             final Statement testStmtFO = testConn.createStatement();
             testStmtFO.setQueryTimeout(1);
-            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request", new Callable<Void>() {
-                public Void call() throws Exception {
-                    testStmtFO.executeQuery("SELECT SLEEP(3)");
-                    return null;
-                }
-            });
+            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request",
+                    new Callable<Void>() {
+                        public Void call() throws Exception {
+                            testStmtFO.executeQuery("SELECT SLEEP(3)");
+                            return null;
+                        }
+                    });
             final PreparedStatement testPstmtFO = testConn.prepareStatement("SELECT SLEEP(3)");
             testPstmtFO.setQueryTimeout(1);
-            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request", new Callable<Void>() {
-                public Void call() throws Exception {
-                    testPstmtFO.executeQuery();
-                    return null;
-                }
-            });
+            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request",
+                    new Callable<Void>() {
+                        public Void call() throws Exception {
+                            testPstmtFO.executeQuery();
+                            return null;
+                        }
+                    });
             testConn.close();
 
             // Test using a load-balanced connection.
             testConn = getUnreliableLoadBalancedConnection(new String[] { "host1", "host2" }, null);
             final Statement testStmtLB = testConn.createStatement();
             testStmtLB.setQueryTimeout(1);
-            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request", new Callable<Void>() {
-                public Void call() throws Exception {
-                    testStmtLB.executeQuery("SELECT SLEEP(3)");
-                    return null;
-                }
-            });
+            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request",
+                    new Callable<Void>() {
+                        public Void call() throws Exception {
+                            testStmtLB.executeQuery("SELECT SLEEP(3)");
+                            return null;
+                        }
+                    });
             final PreparedStatement testPstmtLB = testConn.prepareStatement("SELECT SLEEP(3)");
             testPstmtLB.setQueryTimeout(1);
-            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request", new Callable<Void>() {
-                public Void call() throws Exception {
-                    testPstmtLB.executeQuery();
-                    return null;
-                }
-            });
+            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request",
+                    new Callable<Void>() {
+                        public Void call() throws Exception {
+                            testPstmtLB.executeQuery();
+                            return null;
+                        }
+                    });
             testConn.close();
 
             // Test using a replication connection.
             testConn = getUnreliableReplicationConnection(new String[] { "host1", "host2" }, null);
             final Statement testStmtR = testConn.createStatement();
             testStmtR.setQueryTimeout(1);
-            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request", new Callable<Void>() {
-                public Void call() throws Exception {
-                    testStmtR.executeQuery("SELECT SLEEP(3)");
-                    return null;
-                }
-            });
+            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request",
+                    new Callable<Void>() {
+                        public Void call() throws Exception {
+                            testStmtR.executeQuery("SELECT SLEEP(3)");
+                            return null;
+                        }
+                    });
             final PreparedStatement testPstmtR = testConn.prepareStatement("SELECT SLEEP(3)");
             testPstmtR.setQueryTimeout(1);
-            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request", new Callable<Void>() {
-                public Void call() throws Exception {
-                    testPstmtR.executeQuery();
-                    return null;
-                }
-            });
+            assertThrows(testCase, SQLException.class, "Statement cancelled due to timeout or client request",
+                    new Callable<Void>() {
+                        public Void call() throws Exception {
+                            testPstmtR.executeQuery();
+                            return null;
+                        }
+                    });
             testConn.close();
         } while (useSPS = !useSPS);
     }
 
     /**
-     * Tests fix for Bug#74932 - ConnectionImp Doesn't Close Server Prepared Statement (PreparedStatement Leak).
+     * Tests fix for Bug#74932 - ConnectionImp Doesn't Close Server Prepared
+     * Statement (PreparedStatement Leak).
      */
     public void testBug74932() throws Exception {
         createTable("testBug74932", "(c1 INT, c2 INT)");
@@ -9904,7 +10537,8 @@ public class StatementRegressionTest extends BaseTestCase {
         testConn.close();
     }
 
-    private void testBug74932ExecuteStmts(final Connection testConn, final String sqlOuter, final String sqlInner) throws SQLException {
+    private void testBug74932ExecuteStmts(final Connection testConn, final String sqlOuter, final String sqlInner)
+            throws SQLException {
         PreparedStatement psOuter = null;
         PreparedStatement psInner = null;
         ResultSet rsOuter = null;
@@ -9936,7 +10570,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#78313 - proxies not handling Object.equals(Object) calls correctly.
+     * Tests fix for Bug#78313 - proxies not handling Object.equals(Object) calls
+     * correctly.
      */
     public void testBug78313() throws Exception {
         Connection testConn;
@@ -9997,7 +10632,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(this.rs.equals(this.rs));
         testConn.close();
 
-        // Load-balanced connection; all JDBC objects are proxied. 
+        // Load-balanced connection; all JDBC objects are proxied.
         testConn = getLoadBalancedConnection();
         assertTrue(testConn.getClass().getName().matches("^(?:com\\.sun\\.proxy\\.)?\\$Proxy\\d*"));
         assertTrue(testConn.equals(testConn));
@@ -10054,7 +10689,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#87429 - repeated close of ServerPreparedStatement causes memory leak.
+     * Tests fix for Bug#87429 - repeated close of ServerPreparedStatement causes
+     * memory leak.
      */
     public void testBug87429() throws Exception {
         final String sql1 = "SELECT 'sql1', ?";
@@ -10077,7 +10713,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 assertEquals(1, testConn.getActiveStatementCount());
                 this.pstmt.close();
                 assertEquals(cachedSPS ? 1 : 0, testConn.getActiveStatementCount());
-                this.pstmt.close(); // Second call effectively closes and un-caches the statement. 
+                this.pstmt.close(); // Second call effectively closes and un-caches the statement.
                 assertEquals(0, testConn.getActiveStatementCount());
                 this.pstmt.close(); // No-op.
                 assertEquals(0, testConn.getActiveStatementCount());
@@ -10086,7 +10722,7 @@ public class StatementRegressionTest extends BaseTestCase {
             assertEquals(0, testConn.getActiveStatementCount());
 
             testConn = (JdbcConnection) getConnectionWithProps(props);
-            // Multiple PreparedStatements interchanged, two queries, closed multiple times. 
+            // Multiple PreparedStatements interchanged, two queries, closed multiple times.
             for (int i = 0; i < 100; i++) {
                 for (int j = 0; j < 4; j++) {
                     PreparedStatement pstmt1 = testConn.prepareStatement(j == 0 ? sql2 : sql1);
@@ -10129,7 +10765,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#26995710 - WL#11161 : NULL POINTER EXCEPTION IN EXECUTEBATCH() AND CLOSE().
+     * Tests fix for Bug#26995710 - WL#11161 : NULL POINTER EXCEPTION IN
+     * EXECUTEBATCH() AND CLOSE().
      */
     public void testBug26995710() throws Exception {
         createTable("testBug26995710", "(c1 char(20),c2 char(20))");
@@ -10152,7 +10789,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
                 con = getConnectionWithProps(props);
 
-                PreparedStatement ps = con.prepareStatement("Insert into testBug26995710 values(?,?) ", ResultSet.TYPE_SCROLL_SENSITIVE,
+                PreparedStatement ps = con.prepareStatement("Insert into testBug26995710 values(?,?) ",
+                        ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_UPDATABLE);
                 ps.setQueryTimeout(2);
                 assertEquals(2, ps.getQueryTimeout());
@@ -10187,7 +10825,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 rset.close();
                 ps.close();
 
-                ps = con.prepareStatement("delete from testBug26995710 where c1=? ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = con.prepareStatement("delete from testBug26995710 where c1=? ", ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
                 ps.setQueryTimeout(2);
                 ps.setString(1, "abc1");
                 ps.addBatch();
@@ -10200,13 +10839,15 @@ public class StatementRegressionTest extends BaseTestCase {
                 ps.executeBatch();
                 ps.close();
 
-                ps = con.prepareStatement("select count(*) from testBug26995710 ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = con.prepareStatement("select count(*) from testBug26995710 ", ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
                 rset = ps.executeQuery();
                 rset.next();
                 assertEquals(4, rset.getInt(1));
                 rset.close();
 
-                ps = con.prepareStatement("select * from testBug26995710 ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = con.prepareStatement("select * from testBug26995710 ", ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
                 rset = ps.executeQuery();
                 rsmd = rset.getMetaData();
                 colCnt = rsmd.getColumnCount();
@@ -10220,7 +10861,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 rset.close();
                 ps.close();
 
-                ps = con.prepareStatement("insert into testBug26995710 select sleep(?)+1,sleep(?)+2 ", ResultSet.TYPE_SCROLL_SENSITIVE,
+                ps = con.prepareStatement("insert into testBug26995710 select sleep(?)+1,sleep(?)+2 ",
+                        ResultSet.TYPE_SCROLL_SENSITIVE,
                         ResultSet.CONCUR_UPDATABLE);
                 ps.setQueryTimeout(2);
                 ps.setInt(1, 2);
@@ -10247,16 +10889,18 @@ public class StatementRegressionTest extends BaseTestCase {
                 }
                 ps.close();
 
-                ps = con.prepareStatement("select count(*) from testBug26995710 ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = con.prepareStatement("select count(*) from testBug26995710 ", ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
                 rset = ps.executeQuery();
                 rset.next();
                 System.out.println(" Rec Cnt " + rset.getInt(1));
-                //  assertEquals(4,rs.getInt(1));   
+                // assertEquals(4,rs.getInt(1));
 
                 rset.close();
                 ps.close();
 
-                ps = con.prepareStatement("select * from testBug26995710 ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = con.prepareStatement("select * from testBug26995710 ", ResultSet.TYPE_SCROLL_SENSITIVE,
+                        ResultSet.CONCUR_UPDATABLE);
                 rset = ps.executeQuery();
                 rsmd = rset.getMetaData();
                 colCnt = rsmd.getColumnCount();
@@ -10278,7 +10922,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#26748909 - MASTER : ERROR - NO OPERATIONS ALLOWED AFTER STATEMENT CLOSED FOR TOSTRING()
+     * Tests fix for Bug#26748909 - MASTER : ERROR - NO OPERATIONS ALLOWED AFTER
+     * STATEMENT CLOSED FOR TOSTRING()
      * 
      * @throws Exception
      */
@@ -10325,13 +10970,19 @@ public class StatementRegressionTest extends BaseTestCase {
                 System.out.println("'" + ps3 + "'");
 
                 if (useSPS) {
-                    assertEquals(ps1.toString(), "com.mysql.cj.jdbc.ServerPreparedStatement[1]: Select 'aaaaaaaaa' from dual");
-                    assertEquals(ps2.toString(), "com.mysql.cj.jdbc.ServerPreparedStatement[2]: insert into testBug26748909 values(** NOT SPECIFIED **)");
-                    assertEquals(ps3.toString(), "com.mysql.cj.jdbc.ServerPreparedStatement[3]: select * from testBug26748909 where id=** NOT SPECIFIED **");
+                    assertEquals(ps1.toString(),
+                            "com.mysql.cj.jdbc.ServerPreparedStatement[1]: Select 'aaaaaaaaa' from dual");
+                    assertEquals(ps2.toString(),
+                            "com.mysql.cj.jdbc.ServerPreparedStatement[2]: insert into testBug26748909 values(** NOT SPECIFIED **)");
+                    assertEquals(ps3.toString(),
+                            "com.mysql.cj.jdbc.ServerPreparedStatement[3]: select * from testBug26748909 where id=** NOT SPECIFIED **");
                 } else {
-                    assertEquals(ps1.toString(), "com.mysql.cj.jdbc.ClientPreparedStatement: Select 'aaaaaaaaa' from dual");
-                    assertEquals(ps2.toString(), "com.mysql.cj.jdbc.ClientPreparedStatement: insert into testBug26748909 values(** NOT SPECIFIED **)");
-                    assertEquals(ps3.toString(), "com.mysql.cj.jdbc.ClientPreparedStatement: select * from testBug26748909 where id=** NOT SPECIFIED **");
+                    assertEquals(ps1.toString(),
+                            "com.mysql.cj.jdbc.ClientPreparedStatement: Select 'aaaaaaaaa' from dual");
+                    assertEquals(ps2.toString(),
+                            "com.mysql.cj.jdbc.ClientPreparedStatement: insert into testBug26748909 values(** NOT SPECIFIED **)");
+                    assertEquals(ps3.toString(),
+                            "com.mysql.cj.jdbc.ClientPreparedStatement: select * from testBug26748909 where id=** NOT SPECIFIED **");
                 }
 
             } catch (Exception e) {
@@ -10347,7 +10998,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#87534 - UNION ALL query fails when useServerPrepStmts=true on database connection.
+     * Tests fix for Bug#87534 - UNION ALL query fails when useServerPrepStmts=true
+     * on database connection.
      * Base Bug#27422376 - NEWDATE TYPE IS LEAKING OUT, fixed in MySQL 5.7.22.
      */
     public void testBug87534() throws Exception {
@@ -10359,7 +11011,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
         boolean useSPS = false;
         do {
-            Connection testConn = getConnectionWithProps(PropertyKey.useServerPrepStmts + "=" + Boolean.toString(useSPS));
+            Connection testConn = getConnectionWithProps(
+                    PropertyKey.useServerPrepStmts + "=" + Boolean.toString(useSPS));
 
             this.pstmt = testConn.prepareStatement("SELECT CAST(NOW() AS DATE) UNION SELECT CAST(NOW() AS DATE)");
             this.rs = this.pstmt.executeQuery();
@@ -10416,7 +11069,8 @@ public class StatementRegressionTest extends BaseTestCase {
             for (int r = 1; r <= 5; r++) {
                 for (String odku : new String[] { "", " ON DUPLICATE KEY UPDATE id = -id" }) {
                     final String testCaseExtra = odku.length() > 0 ? "/ODKU" : "/non-ODKU";
-                    this.pstmt = testConn.prepareStatement("INSERT INTO testBug84813 VALUES (NULL, 0, 0) /* Comment (?) */" + odku);
+                    this.pstmt = testConn
+                            .prepareStatement("INSERT INTO testBug84813 VALUES (NULL, 0, 0) /* Comment (?) */" + odku);
                     for (int i = 0; i < r; i++) {
                         this.pstmt.addBatch();
                     }
@@ -10424,7 +11078,8 @@ public class StatementRegressionTest extends BaseTestCase {
                     testBug84813CheckAndReset(testCase + testCaseExtra, r, true);
                     this.pstmt.close();
 
-                    this.pstmt = testConn.prepareStatement("INSERT INTO testBug84813 VALUES (NULL, ?, ?) /* Comment (?) */ " + odku);
+                    this.pstmt = testConn
+                            .prepareStatement("INSERT INTO testBug84813 VALUES (NULL, ?, ?) /* Comment (?) */ " + odku);
                     for (int i = 0; i < r; i++) {
                         this.pstmt.setInt(1, 0);
                         this.pstmt.setInt(2, i);
@@ -10453,7 +11108,8 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#81063 (23098159), w/ rewriteBatchedStatements, when 2 tables involved, the rewriting not correct.
+     * Tests fix for Bug#81063 (23098159), w/ rewriteBatchedStatements, when 2
+     * tables involved, the rewriting not correct.
      */
     public void testBug81063() throws Exception {
         createTable("testBug81063a", "(c1 INT, c2 INT, c3 INT DEFAULT 0, c4 INT DEFAULT 0)");

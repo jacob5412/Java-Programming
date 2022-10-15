@@ -23,13 +23,17 @@ package org.joda.time;
  * interface only gives access to retrieve data, never to change it.
  * <p>
  * Periods are split up into multiple fields, for example days and seconds.
- * Implementations are not required to evenly distribute the values across the fields.
+ * Implementations are not required to evenly distribute the values across the
+ * fields.
  * The value for each field may be positive or negative.
  * <p>
- * When a time period is added to an instant, the effect is to add each field in turn.
+ * When a time period is added to an instant, the effect is to add each field in
+ * turn.
  * For example, a time period could be defined as 3 months, 2 days and -1 hours.
- * In most circumstances this would be the same as 3 months, 1 day, and 23 hours.
- * However, when adding across a daylight savings boundary, a day may be 23 or 25 hours long.
+ * In most circumstances this would be the same as 3 months, 1 day, and 23
+ * hours.
+ * However, when adding across a daylight savings boundary, a day may be 23 or
+ * 25 hours long.
  * Thus, the time period is always added field by field to the datetime.
  * <p>
  * Periods are independent of chronology, and can only be treated as durations
@@ -60,7 +64,7 @@ public interface ReadablePeriod {
     /**
      * Gets the field type at the specified index.
      *
-     * @param index  the index to retrieve
+     * @param index the index to retrieve
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
@@ -69,7 +73,7 @@ public interface ReadablePeriod {
     /**
      * Gets the value at the specified index.
      *
-     * @param index  the index to retrieve
+     * @param index the index to retrieve
      * @return the value of the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
@@ -81,7 +85,7 @@ public interface ReadablePeriod {
      * If the field type specified is not supported by the period then zero
      * is returned.
      *
-     * @param field  the field type to query, null returns zero
+     * @param field the field type to query, null returns zero
      * @return the value of that field, zero if field not supported
      */
     int get(DurationFieldType field);
@@ -89,12 +93,12 @@ public interface ReadablePeriod {
     /**
      * Checks whether the field type specified is supported by this period.
      *
-     * @param field  the field to check, may be null which returns false
+     * @param field the field to check, may be null which returns false
      * @return true if the field is supported
      */
     boolean isSupported(DurationFieldType field);
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get this period as an immutable <code>Period</code> object.
      * <p>
@@ -107,13 +111,14 @@ public interface ReadablePeriod {
     /**
      * Get this object as a <code>MutablePeriod</code>.
      * <p>
-     * This will always return a new <code>MutablePeriod</code> with the same fields.
+     * This will always return a new <code>MutablePeriod</code> with the same
+     * fields.
      * 
      * @return a MutablePeriod using the same field set and values
      */
     MutablePeriod toMutablePeriod();
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Compares this object with the specified object for equality based
      * on the value and type of each supported field.
@@ -131,32 +136,34 @@ public interface ReadablePeriod {
      * {@link Duration}s, an operation that emphasises that the result may
      * differ according to the date you choose.
      *
-     * @param readablePeriod  a readable period to check against
+     * @param readablePeriod a readable period to check against
      * @return true if all the field values and types are equal, false if
-     *  not or the period is null or of an incorrect type
+     *         not or the period is null or of an incorrect type
      */
     boolean equals(Object readablePeriod);
 
     /**
      * Gets a hash code for the period that is compatible with the equals method.
      * The hashcode is calculated as follows:
+     * 
      * <pre>
-     *  int total = 17;
-     *  for (int i = 0; i < fields.length; i++) {
-     *      total = 27 * total + getValue(i);
-     *      total = 27 * total + getFieldType(i).hashCode();
-     *  }
-     *  return total;
+     * int total = 17;
+     * for (int i = 0; i < fields.length; i++) {
+     *     total = 27 * total + getValue(i);
+     *     total = 27 * total + getFieldType(i).hashCode();
+     * }
+     * return total;
      * </pre>
      *
      * @return a hash code
      */
     int hashCode();
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the value as a String in the style of the ISO8601 duration format.
-     * Technically, the output can breach the ISO specification as weeks may be included.
+     * Technically, the output can breach the ISO specification as weeks may be
+     * included.
      * <p>
      * For example, "PT6H3M5S" represents 6 hours, 3 minutes, 5 seconds.
      *

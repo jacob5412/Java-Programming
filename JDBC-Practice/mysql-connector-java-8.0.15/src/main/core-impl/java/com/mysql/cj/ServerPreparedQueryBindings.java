@@ -56,7 +56,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     private AtomicBoolean sendTypesToServer = new AtomicBoolean(false);
 
     /**
-     * Flag indicating whether or not the long parameters have been 'switched' back to normal parameters.
+     * Flag indicating whether or not the long parameters have been 'switched' back
+     * to normal parameters.
      * We cannot execute() if clearParameters() has not been called in this case.
      */
     private boolean longParameterSwitchDetected = false;
@@ -92,15 +93,15 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
      * bound at the given parameter index.
      * 
      * @param parameterIndex
-     *            0-based
+     *                       0-based
      * @param forLongData
-     *            is this for a stream?
+     *                       is this for a stream?
      * @return ServerPreparedQueryBindValue
      */
     public ServerPreparedQueryBindValue getBinding(int parameterIndex, boolean forLongData) {
 
         if (this.bindValues[parameterIndex] == null) {
-            //            this.bindValues[parameterIndex] = new ServerPreparedQueryBindValue();
+            // this.bindValues[parameterIndex] = new ServerPreparedQueryBindValue();
         } else {
             if (this.bindValues[parameterIndex].isStream && !forLongData) {
                 this.longParameterSwitchDetected = true;
@@ -114,7 +115,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     public void checkParameterSet(int columnIndex) {
         if (!this.bindValues[columnIndex].isSet()) {
             throw ExceptionFactory.createException(WrongArgumentException.class,
-                    Messages.getString("ServerPreparedStatement.13") + (columnIndex + 1) + Messages.getString("ServerPreparedStatement.14"));
+                    Messages.getString("ServerPreparedStatement.13") + (columnIndex + 1)
+                            + Messages.getString("ServerPreparedStatement.14"));
         }
     }
 
@@ -141,7 +143,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, true);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
             binding.value = x;
             binding.isStream = true;
             binding.streamLength = this.useStreamLengthsInPrepStmts.getValue() ? length : -1;
@@ -151,7 +154,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     @Override
     public void setAsciiStream(int parameterIndex, InputStream x, long length) {
         setAsciiStream(parameterIndex, x, (int) length);
-        this.bindValues[parameterIndex].setMysqlType(MysqlType.TEXT); // TODO was Types.CLOB, check; use length to find right TEXT type
+        this.bindValues[parameterIndex].setMysqlType(MysqlType.TEXT); // TODO was Types.CLOB, check; use length to find
+                                                                      // right TEXT type
     }
 
     @Override
@@ -160,7 +164,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_NEWDECIMAL, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_NEWDECIMAL, this.numberOfExecutions));
             binding.value = StringUtils.fixDecimalExponent(x.toPlainString());
         }
     }
@@ -181,7 +186,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, true);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
             binding.value = x;
             binding.isStream = true;
             binding.streamLength = this.useStreamLengthsInPrepStmts.getValue() ? length : -1;
@@ -211,7 +217,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
         } else {
             try {
                 ServerPreparedQueryBindValue binding = getBinding(parameterIndex, true);
-                this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
+                this.sendTypesToServer.compareAndSet(false,
+                        binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
                 binding.value = x;
                 binding.isStream = true;
                 binding.streamLength = this.useStreamLengthsInPrepStmts.getValue() ? x.length() : -1;
@@ -229,7 +236,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     @Override
     public void setByte(int parameterIndex, byte x) {
         ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-        this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_TINY, this.numberOfExecutions));
+        this.sendTypesToServer.compareAndSet(false,
+                binding.resetToType(MysqlType.FIELD_TYPE_TINY, this.numberOfExecutions));
         binding.value = Long.valueOf(x);
     }
 
@@ -239,7 +247,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_VAR_STRING, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_VAR_STRING, this.numberOfExecutions));
             binding.value = x;
         }
     }
@@ -270,7 +279,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, true);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
             binding.value = reader;
             binding.isStream = true;
             binding.streamLength = this.useStreamLengthsInPrepStmts.getValue() ? length : -1;
@@ -299,7 +309,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
         } else {
             try {
                 ServerPreparedQueryBindValue binding = getBinding(parameterIndex, true);
-                this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
+                this.sendTypesToServer.compareAndSet(false,
+                        binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
                 binding.value = x.getCharacterStream();
                 binding.isStream = true;
                 binding.streamLength = this.useStreamLengthsInPrepStmts.getValue() ? x.length() : -1;
@@ -320,7 +331,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_DATE, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_DATE, this.numberOfExecutions));
             binding.value = x;
             binding.calendar = cal == null ? null : (Calendar) cal.clone();
         }
@@ -330,32 +342,37 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     public void setDouble(int parameterIndex, double x) {
         if (!this.session.getPropertySet().getBooleanProperty(PropertyKey.allowNanAndInf).getValue()
                 && (x == Double.POSITIVE_INFINITY || x == Double.NEGATIVE_INFINITY || Double.isNaN(x))) {
-            throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("PreparedStatement.64", new Object[] { x }),
+            throw ExceptionFactory.createException(WrongArgumentException.class,
+                    Messages.getString("PreparedStatement.64", new Object[] { x }),
                     this.session.getExceptionInterceptor());
         }
         ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-        this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_DOUBLE, this.numberOfExecutions));
+        this.sendTypesToServer.compareAndSet(false,
+                binding.resetToType(MysqlType.FIELD_TYPE_DOUBLE, this.numberOfExecutions));
         binding.value = Double.valueOf(x);
     }
 
     @Override
     public void setFloat(int parameterIndex, float x) {
         ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-        this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_FLOAT, this.numberOfExecutions));
+        this.sendTypesToServer.compareAndSet(false,
+                binding.resetToType(MysqlType.FIELD_TYPE_FLOAT, this.numberOfExecutions));
         binding.value = Float.valueOf(x);
     }
 
     @Override
     public void setInt(int parameterIndex, int x) {
         ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-        this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_LONG, this.numberOfExecutions));
+        this.sendTypesToServer.compareAndSet(false,
+                binding.resetToType(MysqlType.FIELD_TYPE_LONG, this.numberOfExecutions));
         binding.value = Long.valueOf(x);
     }
 
     @Override
     public void setLong(int parameterIndex, long x) {
         ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-        this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_LONGLONG, this.numberOfExecutions));
+        this.sendTypesToServer.compareAndSet(false,
+                binding.resetToType(MysqlType.FIELD_TYPE_LONGLONG, this.numberOfExecutions));
         binding.value = Long.valueOf(x);
     }
 
@@ -367,14 +384,16 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     @Override
     public void setNCharacterStream(int parameterIndex, Reader reader, long length) {
         if (!this.charEncoding.equalsIgnoreCase("UTF-8") && !this.charEncoding.equalsIgnoreCase("utf8")) {
-            throw ExceptionFactory.createException(Messages.getString("ServerPreparedStatement.28"), this.session.getExceptionInterceptor());
+            throw ExceptionFactory.createException(Messages.getString("ServerPreparedStatement.28"),
+                    this.session.getExceptionInterceptor());
         }
 
         if (reader == null) {
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, true);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_BLOB, this.numberOfExecutions));
             binding.value = reader;
             binding.isStream = true;
             binding.streamLength = this.useStreamLengthsInPrepStmts.getValue() ? length : -1;
@@ -389,7 +408,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     @Override
     public void setNClob(int parameterIndex, Reader reader, long length) {
         if (!this.charEncoding.equalsIgnoreCase("UTF-8") && !this.charEncoding.equalsIgnoreCase("utf8")) {
-            throw ExceptionFactory.createException(Messages.getString("ServerPreparedStatement.29"), this.session.getExceptionInterceptor());
+            throw ExceptionFactory.createException(Messages.getString("ServerPreparedStatement.29"),
+                    this.session.getExceptionInterceptor());
         }
         setNCharacterStream(parameterIndex, reader, length);
     }
@@ -397,7 +417,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     @Override
     public void setNClob(int parameterIndex, NClob value) {
         try {
-            setNClob(parameterIndex, value.getCharacterStream(), this.useStreamLengthsInPrepStmts.getValue() ? value.length() : -1);
+            setNClob(parameterIndex, value.getCharacterStream(),
+                    this.useStreamLengthsInPrepStmts.getValue() ? value.length() : -1);
         } catch (Throwable t) {
             throw ExceptionFactory.createException(t.getMessage(), t, this.session.getExceptionInterceptor());
         }
@@ -408,21 +429,24 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
         if (this.charEncoding.equalsIgnoreCase("UTF-8") || this.charEncoding.equalsIgnoreCase("utf8")) {
             setString(parameterIndex, x);
         } else {
-            throw ExceptionFactory.createException(Messages.getString("ServerPreparedStatement.30"), this.session.getExceptionInterceptor());
+            throw ExceptionFactory.createException(Messages.getString("ServerPreparedStatement.30"),
+                    this.session.getExceptionInterceptor());
         }
     }
 
     @Override
     public void setNull(int parameterIndex) {
         ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-        this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_NULL, this.numberOfExecutions));
+        this.sendTypesToServer.compareAndSet(false,
+                binding.resetToType(MysqlType.FIELD_TYPE_NULL, this.numberOfExecutions));
         binding.setNull(true);
     }
 
     @Override
     public void setShort(int parameterIndex, short x) {
         ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-        this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_SHORT, this.numberOfExecutions));
+        this.sendTypesToServer.compareAndSet(false,
+                binding.resetToType(MysqlType.FIELD_TYPE_SHORT, this.numberOfExecutions));
         binding.value = Long.valueOf(x);
     }
 
@@ -432,7 +456,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_VAR_STRING, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_VAR_STRING, this.numberOfExecutions));
             binding.value = x;
         }
     }
@@ -442,7 +467,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_TIME, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_TIME, this.numberOfExecutions));
             binding.value = x;
             binding.calendar = cal == null ? null : (Calendar) cal.clone();
         }
@@ -455,9 +481,11 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     @Override
     public void setTimestamp(int parameterIndex, Timestamp x) {
         int fractLen = -1;
-        if (!this.sendFractionalSeconds.getValue() || !this.session.getServerSession().getCapabilities().serverSupportsFracSecs()) {
+        if (!this.sendFractionalSeconds.getValue()
+                || !this.session.getServerSession().getCapabilities().serverSupportsFracSecs()) {
             fractLen = 0;
-        } else if (this.columnDefinition != null && parameterIndex <= this.columnDefinition.getFields().length && parameterIndex >= 0) {
+        } else if (this.columnDefinition != null && parameterIndex <= this.columnDefinition.getFields().length
+                && parameterIndex >= 0) {
             fractLen = this.columnDefinition.getFields()[parameterIndex].getDecimals();
         }
 
@@ -467,9 +495,11 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
     @Override
     public void setTimestamp(int parameterIndex, Timestamp x, Calendar cal) {
         int fractLen = -1;
-        if (!this.sendFractionalSeconds.getValue() || !this.session.getServerSession().getCapabilities().serverSupportsFracSecs()) {
+        if (!this.sendFractionalSeconds.getValue()
+                || !this.session.getServerSession().getCapabilities().serverSupportsFracSecs()) {
             fractLen = 0;
-        } else if (this.columnDefinition != null && parameterIndex <= this.columnDefinition.getFields().length && parameterIndex >= 0
+        } else if (this.columnDefinition != null && parameterIndex <= this.columnDefinition.getFields().length
+                && parameterIndex >= 0
                 && this.columnDefinition.getFields()[parameterIndex].getDecimals() > 0) {
             fractLen = this.columnDefinition.getFields()[parameterIndex].getDecimals();
         }
@@ -483,7 +513,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
             setNull(parameterIndex);
         } else {
             ServerPreparedQueryBindValue binding = getBinding(parameterIndex, false);
-            this.sendTypesToServer.compareAndSet(false, binding.resetToType(MysqlType.FIELD_TYPE_DATETIME, this.numberOfExecutions));
+            this.sendTypesToServer.compareAndSet(false,
+                    binding.resetToType(MysqlType.FIELD_TYPE_DATETIME, this.numberOfExecutions));
 
             x = (Timestamp) x.clone();
 
@@ -497,7 +528,8 @@ public class ServerPreparedQueryBindings extends AbstractQueryBindings<ServerPre
                 fractionalLength = 6;
             }
 
-            x = TimeUtil.adjustTimestampNanosPrecision(x, fractionalLength, !this.session.getServerSession().isServerTruncatesFracSecs());
+            x = TimeUtil.adjustTimestampNanosPrecision(x, fractionalLength,
+                    !this.session.getServerSession().isServerTruncatesFracSecs());
 
             binding.value = x;
             binding.calendar = targetCalendar == null ? null : (Calendar) targetCalendar.clone();

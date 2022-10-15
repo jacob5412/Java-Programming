@@ -45,7 +45,7 @@ public class TestDurationField extends TestCase {
     protected void tearDown() throws Exception {
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void test_subtract() throws Exception {
         DurationField fld = ISOChronology.getInstanceUTC().millis();
         assertEquals(900, fld.subtract(1000L, 100));
@@ -56,7 +56,8 @@ public class TestDurationField extends TestCase {
         try {
             fld.subtract(-1000L, Long.MIN_VALUE);
             fail();
-        } catch (ArithmeticException ex) {}
+        } catch (ArithmeticException ex) {
+        }
     }
 
 }

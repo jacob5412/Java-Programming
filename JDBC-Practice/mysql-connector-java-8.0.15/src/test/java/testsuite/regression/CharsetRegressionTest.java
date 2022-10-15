@@ -54,9 +54,11 @@ public class CharsetRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#73663 (19479242), utf8mb4 does not work for connector/j >=5.1.13
+     * Tests fix for Bug#73663 (19479242), utf8mb4 does not work for connector/j
+     * >=5.1.13
      * 
-     * This test is only run when character_set_server=utf8mb4 and collation-server set to one of utf8mb4 collations (it's better to test two configurations:
+     * This test is only run when character_set_server=utf8mb4 and collation-server
+     * set to one of utf8mb4 collations (it's better to test two configurations:
      * with default utf8mb4_general_ci and one of non-default, say utf8mb4_bin)
      * 
      * @throws Exception
@@ -68,13 +70,15 @@ public class CharsetRegressionTest extends BaseTestCase {
         String collation = this.rs.getString(2);
 
         if (collation != null && collation.startsWith("utf8mb4")
-                && "utf8mb4".equals(((MysqlConnection) this.conn).getSession().getServerSession().getServerVariable("character_set_server"))) {
+                && "utf8mb4".equals(((MysqlConnection) this.conn).getSession().getServerSession()
+                        .getServerVariable("character_set_server"))) {
             Properties p = new Properties();
             p.setProperty(PropertyKey.characterEncoding.getKeyName(), "UTF-8");
             p.setProperty(PropertyKey.queryInterceptors.getKeyName(), Bug73663QueryInterceptor.class.getName());
 
             getConnectionWithProps(p);
-            // exception will be thrown from the statement interceptor if any "SET NAMES utf8" statement is issued instead of "SET NAMES utf8mb4"
+            // exception will be thrown from the statement interceptor if any "SET NAMES
+            // utf8" statement is issued instead of "SET NAMES utf8mb4"
         } else {
             System.out.println(
                     "testBug73663 was skipped: This test is only run when character_set_server=utf8mb4 and collation-server set to one of utf8mb4 collations.");
@@ -96,44 +100,48 @@ public class CharsetRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#72630 (18758686), NullPointerException during handshake in some situations
+     * Tests fix for Bug#72630 (18758686), NullPointerException during handshake in
+     * some situations
      * 
      * @throws Exception
      */
     public void testBug72630() throws Exception {
-        // bug is related to authentication plugins, available only in 5.5.7+ 
+        // bug is related to authentication plugins, available only in 5.5.7+
         if (versionMeetsMinimum(5, 5, 7)) {
             try {
                 createUser("'Bug72630User'@'%'", "IDENTIFIED WITH mysql_native_password");
                 this.stmt.execute("GRANT ALL ON *.* TO 'Bug72630User'@'%'");
                 this.stmt.executeUpdate(((MysqlConnection) this.conn).getSession().versionMeetsMinimum(5, 7, 6)
-                        ? "ALTER USER 'Bug72630User'@'%' IDENTIFIED BY 'pwd'" : "set password for 'Bug72630User'@'%' = PASSWORD('pwd')");
+                        ? "ALTER USER 'Bug72630User'@'%' IDENTIFIED BY 'pwd'"
+                        : "set password for 'Bug72630User'@'%' = PASSWORD('pwd')");
 
                 final Properties props = new Properties();
                 props.setProperty(PropertyKey.USER.getKeyName(), "Bug72630User");
                 props.setProperty(PropertyKey.PASSWORD.getKeyName(), "pwd");
                 props.setProperty(PropertyKey.characterEncoding.getKeyName(), "NonexistentEncoding");
 
-                assertThrows(SQLException.class, "Unsupported character encoding 'NonexistentEncoding'", new Callable<Void>() {
-                    public Void call() throws Exception {
-                        try {
-                            getConnectionWithProps(props);
-                            return null;
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                            throw ex;
-                        }
-                    }
-                });
+                assertThrows(SQLException.class, "Unsupported character encoding 'NonexistentEncoding'",
+                        new Callable<Void>() {
+                            public Void call() throws Exception {
+                                try {
+                                    getConnectionWithProps(props);
+                                    return null;
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                    throw ex;
+                                }
+                            }
+                        });
 
                 props.remove(PropertyKey.characterEncoding.getKeyName());
                 props.setProperty(PropertyKey.passwordCharacterEncoding.getKeyName(), "NonexistentEncoding");
-                assertThrows(SQLException.class, "Unsupported character encoding 'NonexistentEncoding'", new Callable<Void>() {
-                    public Void call() throws Exception {
-                        getConnectionWithProps(props);
-                        return null;
-                    }
-                });
+                assertThrows(SQLException.class, "Unsupported character encoding 'NonexistentEncoding'",
+                        new Callable<Void>() {
+                            public Void call() throws Exception {
+                                getConnectionWithProps(props);
+                                return null;
+                            }
+                        });
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -141,7 +149,8 @@ public class CharsetRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#25504578, CONNECT FAILS WHEN CONNECTIONCOLLATION=ISO-8859-13
+     * Tests fix for Bug#25504578, CONNECT FAILS WHEN
+     * CONNECTIONCOLLATION=ISO-8859-13
      * 
      * @throws Exception
      */
@@ -155,7 +164,8 @@ public class CharsetRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#81196 (23227334), CONNECTOR/J NOT FOLLOWING DATABASE CHARACTER SET.
+     * Tests fix for Bug#81196 (23227334), CONNECTOR/J NOT FOLLOWING DATABASE
+     * CHARACTER SET.
      * 
      * @throws Exception
      */
@@ -164,14 +174,16 @@ public class CharsetRegressionTest extends BaseTestCase {
         if (versionMeetsMinimum(5, 5, 2)) {
             final String fourBytesValue = "\ud841\udf0e";
 
-            createTable("testBug81196", //"TestDb.TestTable",
-                    "(`id` int AUTO_INCREMENT NOT NULL, `name` varchar(50)  NULL," + "CONSTRAINT `PK_LastViewedMatch_id` PRIMARY KEY  (`id`))"
+            createTable("testBug81196", // "TestDb.TestTable",
+                    "(`id` int AUTO_INCREMENT NOT NULL, `name` varchar(50)  NULL,"
+                            + "CONSTRAINT `PK_LastViewedMatch_id` PRIMARY KEY  (`id`))"
                             + " ENGINE=InnoDB AUTO_INCREMENT=1 CHARSET=utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci");
 
             Properties p = new Properties();
 
             /* With a single-byte encoding */
-            p.setProperty(PropertyKey.characterEncoding.getKeyName(), CharsetMapping.getJavaEncodingForMysqlCharset("latin1"));
+            p.setProperty(PropertyKey.characterEncoding.getKeyName(),
+                    CharsetMapping.getJavaEncodingForMysqlCharset("latin1"));
             Connection conn1 = getConnectionWithProps(p);
             Statement st1 = conn1.createStatement();
             st1.executeUpdate("INSERT INTO testBug81196(name) VALUES ('" + fourBytesValue + "')");
@@ -207,12 +219,14 @@ public class CharsetRegressionTest extends BaseTestCase {
             Connection conn3 = getConnectionWithProps(p);
             final Statement st3 = conn3.createStatement();
 
-            assertThrows(SQLException.class, "Incorrect string value: '\\\\xF0\\\\xA0\\\\x9C\\\\x8E' for column 'name' at row 1", new Callable<Void>() {
-                public Void call() throws Exception {
-                    st3.executeUpdate("INSERT INTO testBug81196(name) VALUES ('" + fourBytesValue + "')");
-                    return null;
-                }
-            });
+            assertThrows(SQLException.class,
+                    "Incorrect string value: '\\\\xF0\\\\xA0\\\\x9C\\\\x8E' for column 'name' at row 1",
+                    new Callable<Void>() {
+                        public Void call() throws Exception {
+                            st3.executeUpdate("INSERT INTO testBug81196(name) VALUES ('" + fourBytesValue + "')");
+                            return null;
+                        }
+                    });
         }
     }
 }

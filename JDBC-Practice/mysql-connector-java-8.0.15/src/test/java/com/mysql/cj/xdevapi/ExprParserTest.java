@@ -108,7 +108,8 @@ public class ExprParserTest {
     }
 
     /**
-     * Check that a string parses and is reconstituted as a string that we expect. Futher we parse the canonical version to make sure it doesn't change.
+     * Check that a string parses and is reconstituted as a string that we expect.
+     * Futher we parse the canonical version to make sure it doesn't change.
      */
     private void checkParseRoundTrip(String input, String expected) {
         if (expected == null) {
@@ -133,9 +134,12 @@ public class ExprParserTest {
         checkParseRoundTrip("now () - interval 1 hour - interval 2 minute - interval 3 second",
                 "date_sub(date_sub(date_sub(now(), 1, \"HOUR\"), 2, \"MINUTE\"), 3, \"SECOND\")");
         // this needs parens around 1+1 in interval expression
-        checkParseRoundTrip("a + interval 1 hour + 1 + interval (1 + 1) second", "(date_add(a, 1, \"HOUR\") + date_add(1, (1 + 1), \"SECOND\"))");
-        checkParseRoundTrip("a + interval 1 hour + 1 + interval 1 * 1 second", "(date_add(a, 1, \"HOUR\") + date_add(1, (1 * 1), \"SECOND\"))");
-        checkParseRoundTrip("now () - interval -2 day", "date_sub(now(), -2, \"DAY\")"); // interval exprs compile to date_add/date_sub calls
+        checkParseRoundTrip("a + interval 1 hour + 1 + interval (1 + 1) second",
+                "(date_add(a, 1, \"HOUR\") + date_add(1, (1 + 1), \"SECOND\"))");
+        checkParseRoundTrip("a + interval 1 hour + 1 + interval 1 * 1 second",
+                "(date_add(a, 1, \"HOUR\") + date_add(1, (1 * 1), \"SECOND\"))");
+        checkParseRoundTrip("now () - interval -2 day", "date_sub(now(), -2, \"DAY\")"); // interval exprs compile to
+                                                                                         // date_add/date_sub calls
         checkParseRoundTrip("1", "1");
         checkParseRoundTrip("1^0", "(1 ^ 0)");
         checkParseRoundTrip("1e1", "10.0");
@@ -176,7 +180,9 @@ public class ExprParserTest {
         checkParseRoundTrip("`ident`", "ident"); // doesn't need quoting
         checkParseRoundTrip("`ident```", "`ident```");
         checkParseRoundTrip("`ident\"'`", "`ident\"'`");
-        checkParseRoundTrip(":0 > x and func(:3, :2, :1)", "((:0 > x) && func(:1, :2, :3))"); // serialized in order of position (needs mapped externally)
+        checkParseRoundTrip(":0 > x and func(:3, :2, :1)", "((:0 > x) && func(:1, :2, :3))"); // serialized in order of
+                                                                                              // position (needs mapped
+                                                                                              // externally)
         checkParseRoundTrip("a > now() + interval (2 + x) MiNuTe", "(a > date_add(now(), (2 + x), \"MINUTE\"))");
         checkParseRoundTrip("a between 1 and 2", "(a between 1 AND 2)");
         checkParseRoundTrip("a not between 1 and 2", "(a not between 1 AND 2)");
@@ -185,7 +191,8 @@ public class ExprParserTest {
         checkParseRoundTrip("a like b escape c", "a like b ESCAPE c");
         checkParseRoundTrip("a not like b escape c", "a not like b ESCAPE c");
         checkParseRoundTrip("(1 + 3) in (3, 4, 5)", "(1 + 3) in(3, 4, 5)");
-        checkParseRoundTrip("`a crazy \"function\"``'name'`(1 + 3) in (3, 4, 5)", "`a crazy \"function\"``'name'`((1 + 3)) in(3, 4, 5)");
+        checkParseRoundTrip("`a crazy \"function\"``'name'`(1 + 3) in (3, 4, 5)",
+                "`a crazy \"function\"``'name'`((1 + 3)) in(3, 4, 5)");
         checkParseRoundTrip("a->$.b", "a->$.b");
         checkParseRoundTrip("a->'$.b'", "a->$.b");
         checkParseRoundTrip("a->$.\"bcd\"", "a->$.bcd");
@@ -213,7 +220,7 @@ public class ExprParserTest {
         checkParseRoundTrip("a is true or a is false", "((a is TRUE) || (a is FALSE))");
         checkParseRoundTrip("colId + .1e-3", "(colId + 1.0E-4)");
         // TODO: this isn't serialized correctly by the unparser
-        //checkParseRoundTrip("a@.b[0][0].c**.d.\"a weird\\\"key name\"", "");
+        // checkParseRoundTrip("a@.b[0][0].c**.d.\"a weird\\\"key name\"", "");
         // star function
         checkParseRoundTrip("*", "*");
         checkParseRoundTrip("count(*) + 1", "(count(*) + 1)");
@@ -286,7 +293,8 @@ public class ExprParserTest {
 
     @Test
     public void testOrderByParserComplexExpressions() {
-        List<Order> orderSpec = new ExprParser("field not in ('a',func('b', 2.0),'c') desc, 1-a->$**[0].*, now () + $.b + c > 2 asc").parseOrderSpec();
+        List<Order> orderSpec = new ExprParser(
+                "field not in ('a',func('b', 2.0),'c') desc, 1-a->$**[0].*, now () + $.b + c > 2 asc").parseOrderSpec();
         assertEquals(3, orderSpec.size());
         Order o1 = orderSpec.get(0);
         assertTrue(o1.hasDirection());
@@ -436,7 +444,8 @@ public class ExprParserTest {
 
         Iterator<ObjectField> fields = proj.getSource().getObject().getFldList().iterator();
 
-        Arrays.stream(new String[][] { new String[] { "a", "\"value for a\"" }, new String[] { "b", "(1 + 1)" }, new String[] { "c", ":0" },
+        Arrays.stream(new String[][] { new String[] { "a", "\"value for a\"" }, new String[] { "b", "(1 + 1)" },
+                new String[] { "c", ":0" },
                 new String[] { "d", "$.member[22]" }, new String[] { "e", "{'nested':\"doc\"}" } }).forEach(pair -> {
                     ObjectField f = fields.next();
                     assertEquals(pair[0], f.getKey());
@@ -527,7 +536,9 @@ public class ExprParserTest {
                 "NULL - INTERVAL $ ** [ 89 ] << { '' : { } - $ . V << { '' : { } + { } REGEXP ? << { } - { } < { } | { } << { '' : : 8 + : 26 ^ { } } + { } >> { } } || { } } & { } SECOND",
                 "date_sub(NULL, (($**[89] << {'':((({} - $.V) << {'':(({} + {}) regexp ((:0 << ({} - {})) < ({} | (({} << ({'':((:1 + :2) ^ {})} + {})) >> {}))))}) || {})}) & {}), \"SECOND\")");
         // TODO: check the validity of this:
-        // checkParseRoundTrip("_XJl . F ( `ho` $ [*] [*] - ~ ! { '' : { } LIKE { } && : rkc & 1 & y ->$ ** . d [*] [*] || { } ^ { } REGEXP { } } || { } - { } ^ { } < { } IN ( ) >= { } IN ( ) )", "");
+        // checkParseRoundTrip("_XJl . F ( `ho` $ [*] [*] - ~ ! { '' : { } LIKE { } && :
+        // rkc & 1 & y ->$ ** . d [*] [*] || { } ^ { } REGEXP { } } || { } - { } ^ { } <
+        // { } IN ( ) >= { } IN ( ) )", "");
     }
 
     @Test

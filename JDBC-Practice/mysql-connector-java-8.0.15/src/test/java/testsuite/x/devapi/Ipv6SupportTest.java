@@ -59,7 +59,8 @@ public class Ipv6SupportTest extends DevApiBaseTestCase {
             this.ipv6Addrs.add("::1"); // IPv6 loopback
 
             this.session.sql("DROP USER IF EXISTS '" + this.testUser + "'@'%'").execute();
-            this.session.sql("CREATE USER '" + this.testUser + "'@'%' IDENTIFIED WITH mysql_native_password BY '" + this.testUser + "'").execute();
+            this.session.sql("CREATE USER '" + this.testUser + "'@'%' IDENTIFIED WITH mysql_native_password BY '"
+                    + this.testUser + "'").execute();
             this.session.sql("GRANT ALL ON *.* TO '" + this.testUser + "'@'%'").execute();
         }
     }
@@ -73,17 +74,24 @@ public class Ipv6SupportTest extends DevApiBaseTestCase {
     }
 
     /**
-     * Tests the creation of {@link Session}s referencing the host by its IPv6. This feature was introduced in MySQL 5.7.17 and requires a server started
-     * with the option "mysqlx-bind-address=*" (future versions may set this value by default).
+     * Tests the creation of {@link Session}s referencing the host by its IPv6. This
+     * feature was introduced in MySQL 5.7.17 and requires a server started
+     * with the option "mysqlx-bind-address=*" (future versions may set this value
+     * by default).
      */
     @Test
     public void testIpv6SupportInSession() {
-        Assume.assumeTrue("Not set to run X tests. Set the url to the X server using the property " + PropertyDefinitions.SYSP_testsuite_url_mysqlx,
+        Assume.assumeTrue(
+                "Not set to run X tests. Set the url to the X server using the property "
+                        + PropertyDefinitions.SYSP_testsuite_url_mysqlx,
                 this.isSetForXTests);
-        Assume.assumeTrue("Server version 5.7.17 or higher is required.", mysqlVersionMeetsMinimum(ServerVersion.parseVersion("5.7.17")));
+        Assume.assumeTrue("Server version 5.7.17 or higher is required.",
+                mysqlVersionMeetsMinimum(ServerVersion.parseVersion("5.7.17")));
 
-        // Although per specification IPv6 addresses must be enclosed by square brackets, we actually support them directly.
-        String[] urls = new String[] { "mysqlx://%s:%s@%s:%d", "mysqlx://%s:%s@[%s]:%d", "mysqlx://%s:%s@(address=%s:%d)", "mysqlx://%s:%s@(address=[%s]:%d)",
+        // Although per specification IPv6 addresses must be enclosed by square
+        // brackets, we actually support them directly.
+        String[] urls = new String[] { "mysqlx://%s:%s@%s:%d", "mysqlx://%s:%s@[%s]:%d",
+                "mysqlx://%s:%s@(address=%s:%d)", "mysqlx://%s:%s@(address=[%s]:%d)",
                 "mysqlx://%s:%s@address=(host=%s)(port=%d)", "mysqlx://%s:%s@address=(host=[%s])(port=%d)" };
 
         int port = getTestPort();
@@ -93,7 +101,8 @@ public class Ipv6SupportTest extends DevApiBaseTestCase {
             if (TestUtils.serverListening(host, port)) {
                 atLeastOne = true;
                 for (String url : urls) {
-                    String ipv6Url = String.format(url, this.testUser, this.testUser, TestUtils.encodePercent(host), port);
+                    String ipv6Url = String.format(url, this.testUser, this.testUser, TestUtils.encodePercent(host),
+                            port);
                     Session sess = this.fact.getSession(ipv6Url);
                     Assert.assertFalse(sess.getSchemas().isEmpty());
                     sess.close();

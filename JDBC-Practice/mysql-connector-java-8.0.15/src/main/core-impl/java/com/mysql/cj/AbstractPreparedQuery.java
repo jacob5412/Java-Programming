@@ -45,7 +45,8 @@ import com.mysql.cj.protocol.a.NativePacketPayload;
 import com.mysql.cj.util.StringUtils;
 
 // TODO should not be protocol-specific
-public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends AbstractQuery implements PreparedQuery<T> {
+public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends AbstractQuery
+        implements PreparedQuery<T> {
 
     protected ParseInfo parseInfo;
 
@@ -71,8 +72,10 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
     public AbstractPreparedQuery(NativeSession sess) {
         super(sess);
 
-        this.autoClosePStmtStreams = this.session.getPropertySet().getBooleanProperty(PropertyKey.autoClosePStmtStreams);
-        this.useStreamLengthsInPrepStmts = this.session.getPropertySet().getBooleanProperty(PropertyKey.useStreamLengthsInPrepStmts);
+        this.autoClosePStmtStreams = this.session.getPropertySet()
+                .getBooleanProperty(PropertyKey.autoClosePStmtStreams);
+        this.useStreamLengthsInPrepStmts = this.session.getPropertySet()
+                .getBooleanProperty(PropertyKey.useStreamLengthsInPrepStmts);
         this.usingAnsiMode = !this.session.getServerSession().useAnsiQuotedIdentifiers();
     }
 
@@ -129,7 +132,7 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
      * without overflowing max_allowed_packet.
      * 
      * @param numBatchedArgs
-     *            original batch size
+     *                       original batch size
      * @return computed batch size
      */
     public int computeBatchSize(int numBatchedArgs) {
@@ -142,7 +145,8 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
             return numBatchedArgs;
         }
 
-        return (int) Math.max(1, (this.maxAllowedPacket.getValue() - this.originalSql.length()) / maxSizeOfParameterSet);
+        return (int) Math.max(1,
+                (this.maxAllowedPacket.getValue() - this.originalSql.length()) / maxSizeOfParameterSet);
     }
 
     /**
@@ -152,15 +156,17 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
      *            the SQL to check
      * 
      * @throws WrongArgumentException
-     *             if query is null or empty.
+     *                                if query is null or empty.
      */
     public void checkNullOrEmptyQuery(String sql) {
         if (sql == null) {
-            throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("PreparedQuery.0"), this.session.getExceptionInterceptor());
+            throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("PreparedQuery.0"),
+                    this.session.getExceptionInterceptor());
         }
 
         if (sql.length() == 0) {
-            throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("PreparedQuery.1"), this.session.getExceptionInterceptor());
+            throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("PreparedQuery.1"),
+                    this.session.getExceptionInterceptor());
         }
     }
 
@@ -178,17 +184,20 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
 
         byte[][] staticSqlStrings = this.parseInfo.getStaticSql();
         for (int i = 0; i < this.parameterCount; ++i) {
-            buf.append(this.charEncoding != null ? StringUtils.toString(staticSqlStrings[i], this.charEncoding) : StringUtils.toString(staticSqlStrings[i]));
+            buf.append(this.charEncoding != null ? StringUtils.toString(staticSqlStrings[i], this.charEncoding)
+                    : StringUtils.toString(staticSqlStrings[i]));
 
             byte val[] = null;
             if (batchArg != null && batchArg instanceof String) {
                 buf.append((String) batchArg);
                 continue;
             }
-            val = this.batchCommandIndex == -1 ? (this.queryBindings == null ? null : this.queryBindings.getBindValues()[i].getByteValue())
+            val = this.batchCommandIndex == -1
+                    ? (this.queryBindings == null ? null : this.queryBindings.getBindValues()[i].getByteValue())
                     : ((QueryBindings<?>) batchArg).getBindValues()[i].getByteValue();
 
-            boolean isStreamParam = this.batchCommandIndex == -1 ? (this.queryBindings == null ? false : this.queryBindings.getBindValues()[i].isStream())
+            boolean isStreamParam = this.batchCommandIndex == -1
+                    ? (this.queryBindings == null ? false : this.queryBindings.getBindValues()[i].isStream())
                     : ((QueryBindings<?>) batchArg).getBindValues()[i].isStream();
 
             if ((val == null) && !isStreamParam) {
@@ -200,7 +209,8 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
             }
         }
 
-        buf.append(this.charEncoding != null ? StringUtils.toString(staticSqlStrings[this.parameterCount], this.charEncoding)
+        buf.append(this.charEncoding != null
+                ? StringUtils.toString(staticSqlStrings[this.parameterCount], this.charEncoding)
                 : StringUtils.toAsciiString(staticSqlStrings[this.parameterCount]));
 
         return buf.toString();
@@ -225,7 +235,7 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
      * Creates the packet that contains the query to be sent to the server.
      * 
      * @param bindings
-     *            values
+     *                 values
      * 
      * @return a Buffer filled with the query that represents this statement
      */
@@ -280,7 +290,8 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
                 sendPacket.writeBytes(StringLengthDataType.STRING_FIXED, staticSqlStrings[i]);
 
                 if (bindValues[i].isStream()) {
-                    streamToBytes(sendPacket, bindValues[i].getStreamValue(), true, bindValues[i].getStreamLength(), useStreamLengths);
+                    streamToBytes(sendPacket, bindValues[i].getStreamValue(), true, bindValues[i].getStreamLength(),
+                            useStreamLengths);
                 } else {
                     sendPacket.writeBytes(StringLengthDataType.STRING_FIXED, bindValues[i].getByteValue());
                 }
@@ -292,7 +303,8 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
         }
     }
 
-    private final void streamToBytes(NativePacketPayload packet, InputStream in, boolean escape, long streamLength, boolean useLength) {
+    private final void streamToBytes(NativePacketPayload packet, InputStream in, boolean escape, long streamLength,
+            boolean useLength) {
         try {
             if (this.streamConvertBuf == null) {
                 this.streamConvertBuf = new byte[4096];
@@ -304,7 +316,8 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
                 useLength = false;
             }
 
-            int bc = useLength ? readblock(in, this.streamConvertBuf, (int) streamLength) : readblock(in, this.streamConvertBuf);
+            int bc = useLength ? readblock(in, this.streamConvertBuf, (int) streamLength)
+                    : readblock(in, this.streamConvertBuf);
 
             int lengthLeftToRead = (int) streamLength - bc;
 
@@ -350,7 +363,8 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
     }
 
     protected final byte[] streamToBytes(InputStream in, boolean escape, long streamLength, boolean useLength) {
-        in.mark(Integer.MAX_VALUE); // we may need to read this same stream several times, so we need to reset it at the end.
+        in.mark(Integer.MAX_VALUE); // we may need to read this same stream several times, so we need to reset it at
+                                    // the end.
         try {
             if (this.streamConvertBuf == null) {
                 this.streamConvertBuf = new byte[4096];
@@ -361,7 +375,8 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
 
             ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
 
-            int bc = useLength ? readblock(in, this.streamConvertBuf, (int) streamLength) : readblock(in, this.streamConvertBuf);
+            int bc = useLength ? readblock(in, this.streamConvertBuf, (int) streamLength)
+                    : readblock(in, this.streamConvertBuf);
 
             int lengthLeftToRead = (int) streamLength - bc;
 

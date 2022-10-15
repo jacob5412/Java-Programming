@@ -96,8 +96,10 @@ public class MetadataTest extends BaseTestCase {
             while (this.rs.next()) {
                 String pkColumnName = this.rs.getString("PKCOLUMN_NAME");
                 String fkColumnName = this.rs.getString("FKCOLUMN_NAME");
-                assertTrue("Primary Key not returned correctly ('" + pkColumnName + "' != 'parent_id')", pkColumnName.equalsIgnoreCase("parent_id"));
-                assertTrue("Foreign Key not returned correctly ('" + fkColumnName + "' != 'parent_id_fk')", fkColumnName.equalsIgnoreCase("parent_id_fk"));
+                assertTrue("Primary Key not returned correctly ('" + pkColumnName + "' != 'parent_id')",
+                        pkColumnName.equalsIgnoreCase("parent_id"));
+                assertTrue("Foreign Key not returned correctly ('" + fkColumnName + "' != 'parent_id_fk')",
+                        fkColumnName.equalsIgnoreCase("parent_id_fk"));
             }
 
             this.rs.close();
@@ -107,10 +109,15 @@ public class MetadataTest extends BaseTestCase {
                 String pkColumnName = this.rs.getString("PKCOLUMN_NAME");
                 String fkColumnName = this.rs.getString("FKCOLUMN_NAME");
                 String fkTableName = this.rs.getString("FKTABLE_NAME");
-                assertTrue("Primary Key not returned correctly ('" + pkColumnName + "' != 'parent_id')", pkColumnName.equalsIgnoreCase("parent_id"));
-                assertTrue("Foreign Key table not returned correctly for getExportedKeys ('" + fkTableName + "' != 'child')",
+                assertTrue("Primary Key not returned correctly ('" + pkColumnName + "' != 'parent_id')",
+                        pkColumnName.equalsIgnoreCase("parent_id"));
+                assertTrue(
+                        "Foreign Key table not returned correctly for getExportedKeys ('" + fkTableName
+                                + "' != 'child')",
                         fkTableName.equalsIgnoreCase("child"));
-                assertTrue("Foreign Key not returned correctly for getExportedKeys ('" + fkColumnName + "' != 'parent_id_fk')",
+                assertTrue(
+                        "Foreign Key not returned correctly for getExportedKeys ('" + fkColumnName
+                                + "' != 'parent_id_fk')",
                         fkColumnName.equalsIgnoreCase("parent_id_fk"));
             }
 
@@ -133,15 +140,17 @@ public class MetadataTest extends BaseTestCase {
             assertEquals(fkTableName, "cpd_foreign_4");
             assertEquals(updateAction, "CASCADE");
 
-            // SHOW CREATE TABLE `cjtest_5_1`.`cpd_foreign_4` doesn't return ON DELETE rule while it was used in a table creation:
-            //    CREATE TABLE cpd_foreign_4 (
-            //                 cpd_foreign_1_id int(8) not null, cpd_foreign_2_id int(8) not null,
-            //                 key(cpd_foreign_1_id), key(cpd_foreign_2_id),
-            //                 primary key (cpd_foreign_1_id, cpd_foreign_2_id),
-            //                 foreign key (cpd_foreign_1_id, cpd_foreign_2_id)
-            //                 references cpd_foreign_3(cpd_foreign_1_id, cpd_foreign_2_id) ON DELETE RESTRICT ON UPDATE CASCADE
-            //                 ) ENGINE = InnoDB
-            // I_S returns a correct info, thus we have different results here 
+            // SHOW CREATE TABLE `cjtest_5_1`.`cpd_foreign_4` doesn't return ON DELETE rule
+            // while it was used in a table creation:
+            // CREATE TABLE cpd_foreign_4 (
+            // cpd_foreign_1_id int(8) not null, cpd_foreign_2_id int(8) not null,
+            // key(cpd_foreign_1_id), key(cpd_foreign_2_id),
+            // primary key (cpd_foreign_1_id, cpd_foreign_2_id),
+            // foreign key (cpd_foreign_1_id, cpd_foreign_2_id)
+            // references cpd_foreign_3(cpd_foreign_1_id, cpd_foreign_2_id) ON DELETE
+            // RESTRICT ON UPDATE CASCADE
+            // ) ENGINE = InnoDB
+            // I_S returns a correct info, thus we have different results here
             if (dbmd instanceof DatabaseMetaDataUsingInfoSchema) {
                 assertEquals(deleteAction, "RESTRICT");
             } else {
@@ -169,7 +178,8 @@ public class MetadataTest extends BaseTestCase {
 
     public void testGetPrimaryKeys() throws SQLException {
         try {
-            createTable("multikey", "(d INT NOT NULL, b INT NOT NULL, a INT NOT NULL, c INT NOT NULL, PRIMARY KEY (d, b, a, c))");
+            createTable("multikey",
+                    "(d INT NOT NULL, b INT NOT NULL, a INT NOT NULL, c INT NOT NULL, PRIMARY KEY (d, b, a, c))");
             DatabaseMetaData dbmd = this.conn.getMetaData();
             this.rs = dbmd.getPrimaryKeys(this.conn.getCatalog(), "", "multikey");
 
@@ -219,7 +229,7 @@ public class MetadataTest extends BaseTestCase {
     }
 
     private void createTestTable() throws SQLException {
-        //Needed for previous runs that did not clean-up
+        // Needed for previous runs that did not clean-up
         this.stmt.executeUpdate("DROP TABLE IF EXISTS child");
         this.stmt.executeUpdate("DROP TABLE IF EXISTS parent");
         this.stmt.executeUpdate("DROP TABLE IF EXISTS multikey");
@@ -231,19 +241,25 @@ public class MetadataTest extends BaseTestCase {
         this.stmt.executeUpdate("DROP TABLE IF EXISTS fktable1");
 
         createTable("parent", "(parent_id INT NOT NULL, PRIMARY KEY (parent_id))", "INNODB");
-        createTable("child", "(child_id INT, parent_id_fk INT, INDEX par_ind (parent_id_fk), FOREIGN KEY (parent_id_fk) REFERENCES parent(parent_id)) ",
+        createTable("child",
+                "(child_id INT, parent_id_fk INT, INDEX par_ind (parent_id_fk), FOREIGN KEY (parent_id_fk) REFERENCES parent(parent_id)) ",
                 "INNODB");
 
         // Test compound foreign keys
         try {
-            createTable("cpd_foreign_1", "(id int(8) not null auto_increment primary key,name varchar(255) not null unique,key (id))", "InnoDB");
+            createTable("cpd_foreign_1",
+                    "(id int(8) not null auto_increment primary key,name varchar(255) not null unique,key (id))",
+                    "InnoDB");
         } catch (SQLException sqlEx) {
             if (sqlEx.getMessage().indexOf("max key length") != -1) {
-                createTable("cpd_foreign_1", "(id int(8) not null auto_increment primary key,name varchar(180) not null unique,key (id))", "InnoDB");
+                createTable("cpd_foreign_1",
+                        "(id int(8) not null auto_increment primary key,name varchar(180) not null unique,key (id))",
+                        "InnoDB");
             }
         }
 
-        createTable("cpd_foreign_2", "(id int(8) not null auto_increment primary key,key (id),name varchar(255)) ", "InnoDB");
+        createTable("cpd_foreign_2", "(id int(8) not null auto_increment primary key,key (id),name varchar(255)) ",
+                "InnoDB");
         createTable("cpd_foreign_3",
                 "(cpd_foreign_1_id int(8) not null,cpd_foreign_2_id int(8) not null,key(cpd_foreign_1_id),"
                         + "key(cpd_foreign_2_id),primary key (cpd_foreign_1_id, cpd_foreign_2_id),"
@@ -256,8 +272,10 @@ public class MetadataTest extends BaseTestCase {
                 "InnoDB");
 
         createTable("fktable1", "(TYPE_ID int not null, TYPE_DESC varchar(32), primary key(TYPE_ID))", "InnoDB");
-        createTable("fktable2", "(KEY_ID int not null, COF_NAME varchar(32), PRICE float, TYPE_ID int, primary key(KEY_ID), "
-                + "index(TYPE_ID), foreign key(TYPE_ID) references fktable1(TYPE_ID)) ", "InnoDB");
+        createTable("fktable2",
+                "(KEY_ID int not null, COF_NAME varchar(32), PRICE float, TYPE_ID int, primary key(KEY_ID), "
+                        + "index(TYPE_ID), foreign key(TYPE_ID) references fktable1(TYPE_ID)) ",
+                "InnoDB");
     }
 
     /**
@@ -267,7 +285,7 @@ public class MetadataTest extends BaseTestCase {
      * against supports the creation of views.
      * 
      * @throws SQLException
-     *             if the test fails.
+     *                      if the test fails.
      */
     public void testViewMetaData() throws SQLException {
         try {
@@ -283,7 +301,8 @@ public class MetadataTest extends BaseTestCase {
                     ResultSet tablesRs = null;
 
                     try {
-                        tablesRs = this.conn.getMetaData().getTables(this.conn.getCatalog(), null, "%ViewMetaData", new String[] { "TABLE", "VIEW" });
+                        tablesRs = this.conn.getMetaData().getTables(this.conn.getCatalog(), null, "%ViewMetaData",
+                                new String[] { "TABLE", "VIEW" });
                         assertTrue(tablesRs.next());
                         assertTrue("testViewMetaData".equalsIgnoreCase(tablesRs.getString(3)));
                         assertTrue(tablesRs.next());
@@ -296,7 +315,8 @@ public class MetadataTest extends BaseTestCase {
                     }
 
                     try {
-                        tablesRs = this.conn.getMetaData().getTables(this.conn.getCatalog(), null, "%ViewMetaData", new String[] { "TABLE" });
+                        tablesRs = this.conn.getMetaData().getTables(this.conn.getCatalog(), null, "%ViewMetaData",
+                                new String[] { "TABLE" });
                         assertTrue(tablesRs.next());
                         assertTrue("testViewMetaData".equalsIgnoreCase(tablesRs.getString(3)));
                         assertTrue(!tablesRs.next());
@@ -321,7 +341,7 @@ public class MetadataTest extends BaseTestCase {
      * Tests detection of read-only fields.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testRSMDIsReadOnly() throws Exception {
         try {
@@ -472,8 +492,10 @@ public class MetadataTest extends BaseTestCase {
         });
 
         assertEquals(Types.CHAR, this.rs.getMetaData().getColumnType(1));
-        assertEquals("ISO-8859-13", ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(1));
-        assertEquals("latin7", ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterSet(1));
+        assertEquals("ISO-8859-13",
+                ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(1));
+        assertEquals("latin7",
+                ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterSet(1));
         assertEquals("QQQ", this.rs.getMetaData().getColumnLabel(1));
         assertEquals("c1", this.rs.getMetaData().getColumnName(1));
         assertTrue(this.rs.getMetaData().isCaseSensitive(1));
@@ -621,7 +643,8 @@ public class MetadataTest extends BaseTestCase {
                 List<String> userHost = StringUtils.split(user, "@", false);
                 if (userHost.size() < 2) {
                     fail("This test requires a JDBC URL with a user, and won't work with the anonymous user. "
-                            + "You can skip this test by setting the system property " + PropertyDefinitions.SYSP_testsuite_cantGrant);
+                            + "You can skip this test by setting the system property "
+                            + PropertyDefinitions.SYSP_testsuite_cantGrant);
                 }
                 userHostQuoted = "'" + userHost.get(0) + "'@'" + userHost.get(1) + "'";
 
@@ -693,7 +716,8 @@ public class MetadataTest extends BaseTestCase {
         this.stmt.executeUpdate("DROP TABLE If EXISTS parent");
         this.stmt.executeUpdate("CREATE TABLE parent(id INT NOT NULL, PRIMARY KEY (id)) ENGINE=INNODB");
         this.stmt.executeUpdate(
-                "CREATE TABLE child(id INT, parent_id INT, " + "FOREIGN KEY (parent_id) REFERENCES parent(id) ON DELETE SET NULL) ENGINE=INNODB");
+                "CREATE TABLE child(id INT, parent_id INT, "
+                        + "FOREIGN KEY (parent_id) REFERENCES parent(id) ON DELETE SET NULL) ENGINE=INNODB");
         Properties props = new Properties();
         props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "true");
         Connection conn1 = null;
@@ -723,7 +747,8 @@ public class MetadataTest extends BaseTestCase {
         this.stmt.executeUpdate("DROP TABLE If EXISTS parent");
         this.stmt.executeUpdate("CREATE TABLE parent(id INT NOT NULL, PRIMARY KEY (id)) ENGINE=INNODB");
         this.stmt.executeUpdate(
-                "CREATE TABLE child(id INT, parent_id INT, " + "FOREIGN KEY (parent_id) REFERENCES parent(id) ON DELETE SET NULL) ENGINE=INNODB");
+                "CREATE TABLE child(id INT, parent_id INT, "
+                        + "FOREIGN KEY (parent_id) REFERENCES parent(id) ON DELETE SET NULL) ENGINE=INNODB");
         Properties props = new Properties();
         props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "true");
         Connection conn1 = null;
@@ -753,7 +778,8 @@ public class MetadataTest extends BaseTestCase {
         this.stmt.executeUpdate("DROP TABLE If EXISTS parent");
         this.stmt.executeUpdate("CREATE TABLE parent(id INT NOT NULL, PRIMARY KEY (id)) ENGINE=INNODB");
         this.stmt.executeUpdate(
-                "CREATE TABLE child(id INT, parent_id INT, " + "FOREIGN KEY (parent_id) REFERENCES parent(id) ON DELETE SET NULL) ENGINE=INNODB");
+                "CREATE TABLE child(id INT, parent_id INT, "
+                        + "FOREIGN KEY (parent_id) REFERENCES parent(id) ON DELETE SET NULL) ENGINE=INNODB");
         Properties props = new Properties();
         props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "true");
         Connection conn1 = null;
@@ -781,7 +807,8 @@ public class MetadataTest extends BaseTestCase {
      * Test for new syntax and support in DatabaseMetaData.getColumns().
      * 
      * New syntax for CREATE TABLE, introduced in MySQL 5.7.6:
-     * -col_name data_type [GENERATED ALWAYS] AS (expression) [VIRTUAL | STORED] [UNIQUE [KEY]] [COMMENT comment] [[NOT] NULL] [[PRIMARY] KEY]
+     * -col_name data_type [GENERATED ALWAYS] AS (expression) [VIRTUAL | STORED]
+     * [UNIQUE [KEY]] [COMMENT comment] [[NOT] NULL] [[PRIMARY] KEY]
      */
     public void testGeneratedColumns() throws Exception {
         if (!versionMeetsMinimum(5, 7, 6)) {
@@ -870,7 +897,8 @@ public class MetadataTest extends BaseTestCase {
 
     /**
      * Tests DatabaseMetaData.getSQLKeywords().
-     * (Related to BUG#70701 - DatabaseMetaData.getSQLKeywords() doesn't match MySQL 5.6 reserved words)
+     * (Related to BUG#70701 - DatabaseMetaData.getSQLKeywords() doesn't match MySQL
+     * 5.6 reserved words)
      * 
      * This test checks the statically maintained keywords list.
      */
@@ -887,11 +915,14 @@ public class MetadataTest extends BaseTestCase {
 
         if (!versionMeetsMinimum(8, 0, 11)) {
             Connection testConn = getConnectionWithProps("useInformationSchema=true");
-            assertEquals("MySQL keywords don't match expected.", mysqlKeywords, testConn.getMetaData().getSQLKeywords());
+            assertEquals("MySQL keywords don't match expected.", mysqlKeywords,
+                    testConn.getMetaData().getSQLKeywords());
             testConn.close();
         }
 
-        Connection testConn = getConnectionWithProps("useInformationSchema=false"); // Required for MySQL 8.0.11 and above, otherwise returns dynamic keywords.
+        Connection testConn = getConnectionWithProps("useInformationSchema=false"); // Required for MySQL 8.0.11 and
+                                                                                    // above, otherwise returns dynamic
+                                                                                    // keywords.
         assertEquals("MySQL keywords don't match expected.", mysqlKeywords, testConn.getMetaData().getSQLKeywords());
         testConn.close();
     }
@@ -928,7 +959,8 @@ public class MetadataTest extends BaseTestCase {
         }
         assertTrue("Failed to retrieve reserved words from server.", !mysqlReservedWords.isEmpty());
 
-        // 3. Find the difference mysqlReservedWords - sql2003ReservedWords and prepare the expected result.
+        // 3. Find the difference mysqlReservedWords - sql2003ReservedWords and prepare
+        // the expected result.
         mysqlReservedWords.removeAll(sql2003ReservedWords);
         String expectedSqlKeywords = String.join(",", mysqlReservedWords);
 
@@ -936,39 +968,56 @@ public class MetadataTest extends BaseTestCase {
         Field dbmduisKeywordsCacheField = DatabaseMetaDataUsingInfoSchema.class.getDeclaredField("keywordsCache");
         dbmduisKeywordsCacheField.setAccessible(true);
         @SuppressWarnings("unchecked")
-        Map<ServerVersion, String> dbmduisKeywordsCache = (Map<ServerVersion, String>) dbmduisKeywordsCacheField.get(null);
-        assertNotNull("Failed to retrieve the field keywordsCache from com.mysql.cj.jdbc.DatabaseMetaDataUsingInfoSchema.", dbmduisKeywordsCache);
+        Map<ServerVersion, String> dbmduisKeywordsCache = (Map<ServerVersion, String>) dbmduisKeywordsCacheField
+                .get(null);
+        assertNotNull(
+                "Failed to retrieve the field keywordsCache from com.mysql.cj.jdbc.DatabaseMetaDataUsingInfoSchema.",
+                dbmduisKeywordsCache);
         dbmduisKeywordsCache.clear();
-        assertTrue("Failed to clear the DatabaseMetaDataUsingInfoSchema keywords cache.", dbmduisKeywordsCache.isEmpty());
+        assertTrue("Failed to clear the DatabaseMetaDataUsingInfoSchema keywords cache.",
+                dbmduisKeywordsCache.isEmpty());
 
         /*
          * Check that keywords are retrieved from database and cached.
          */
         Properties props = new Properties();
         props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "true");
-        props.setProperty(PropertyKey.queryInterceptors.getKeyName(), TestGetSqlKeywordsDynamicQueryInterceptor.class.getName());
+        props.setProperty(PropertyKey.queryInterceptors.getKeyName(),
+                TestGetSqlKeywordsDynamicQueryInterceptor.class.getName());
 
-        // First call to DatabaseMetaData.getSQLKeywords() -> keywords are retrieved from database.
+        // First call to DatabaseMetaData.getSQLKeywords() -> keywords are retrieved
+        // from database.
         Connection testConn = getConnectionWithProps(props);
-        assertEquals("MySQL keywords don't match expected.", expectedSqlKeywords, testConn.getMetaData().getSQLKeywords());
-        assertTrue("MySQL keywords weren't obtained from database.", TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.contains(keywordsQuery));
-        assertTrue("Keywords for current server weren't properly cached.", dbmduisKeywordsCache.containsKey(((JdbcConnection) testConn).getServerVersion()));
+        assertEquals("MySQL keywords don't match expected.", expectedSqlKeywords,
+                testConn.getMetaData().getSQLKeywords());
+        assertTrue("MySQL keywords weren't obtained from database.",
+                TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.contains(keywordsQuery));
+        assertTrue("Keywords for current server weren't properly cached.",
+                dbmduisKeywordsCache.containsKey(((JdbcConnection) testConn).getServerVersion()));
 
         TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.clear();
 
-        // Second call to DatabaseMetaData.getSQLKeywords(), using same connection -> keywords are retrieved from internal cache.
-        assertEquals("MySQL keywords don't match expected.", expectedSqlKeywords, testConn.getMetaData().getSQLKeywords());
-        assertFalse("MySQL keywords weren't obtained from cache.", TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.contains(keywordsQuery));
-        assertTrue("Keywords for current server weren't properly cached.", dbmduisKeywordsCache.containsKey(((JdbcConnection) testConn).getServerVersion()));
+        // Second call to DatabaseMetaData.getSQLKeywords(), using same connection ->
+        // keywords are retrieved from internal cache.
+        assertEquals("MySQL keywords don't match expected.", expectedSqlKeywords,
+                testConn.getMetaData().getSQLKeywords());
+        assertFalse("MySQL keywords weren't obtained from cache.",
+                TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.contains(keywordsQuery));
+        assertTrue("Keywords for current server weren't properly cached.",
+                dbmduisKeywordsCache.containsKey(((JdbcConnection) testConn).getServerVersion()));
         testConn.close();
 
         TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.clear();
 
-        // Third call to DatabaseMetaData.getSQLKeywords(), using different connection -> keywords are retrieved from internal cache.
+        // Third call to DatabaseMetaData.getSQLKeywords(), using different connection
+        // -> keywords are retrieved from internal cache.
         testConn = getConnectionWithProps(props);
-        assertEquals("MySQL keywords don't match expected.", expectedSqlKeywords, testConn.getMetaData().getSQLKeywords());
-        assertFalse("MySQL keywords weren't obtained from cache.", TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.contains(keywordsQuery));
-        assertTrue("Keywords for current server weren't properly cached.", dbmduisKeywordsCache.containsKey(((JdbcConnection) testConn).getServerVersion()));
+        assertEquals("MySQL keywords don't match expected.", expectedSqlKeywords,
+                testConn.getMetaData().getSQLKeywords());
+        assertFalse("MySQL keywords weren't obtained from cache.",
+                TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.contains(keywordsQuery));
+        assertTrue("Keywords for current server weren't properly cached.",
+                dbmduisKeywordsCache.containsKey(((JdbcConnection) testConn).getServerVersion()));
         testConn.close();
 
         TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.clear();

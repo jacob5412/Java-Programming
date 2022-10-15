@@ -66,8 +66,10 @@ public class XProtocolAuthTest extends InternalXBaseTestCase {
     }
 
     /**
-     * Test that we are disconnected with an error if we send a bad authentication message. The server responds by immediately closing the socket. The async
-     * implementation may block indefinitely here and we need to prevent any regression.
+     * Test that we are disconnected with an error if we send a bad authentication
+     * message. The server responds by immediately closing the socket. The async
+     * implementation may block indefinitely here and we need to prevent any
+     * regression.
      */
     @Test
     public void testBadAuthMessage() throws Exception {
@@ -80,7 +82,7 @@ public class XProtocolAuthTest extends InternalXBaseTestCase {
             fail("Should fail after first message is sent");
         } catch (XProtocolError err) {
             // expected
-            //ex.printStackTrace();
+            // ex.printStackTrace();
         }
     }
 
@@ -101,13 +103,16 @@ public class XProtocolAuthTest extends InternalXBaseTestCase {
         }
         try {
             Session testSession = this.fact.getSession(this.baseUrl);
-            testSession.sql("CREATE USER IF NOT EXISTS 'testPlainAuth'@'%' IDENTIFIED WITH mysql_native_password BY 'pwd'").execute();
+            testSession
+                    .sql("CREATE USER IF NOT EXISTS 'testPlainAuth'@'%' IDENTIFIED WITH mysql_native_password BY 'pwd'")
+                    .execute();
             testSession.sql("GRANT SELECT ON *.* TO 'testPlainAuth'@'%'").execute();
             testSession.close();
 
             protocol.send(this.messageBuilder.buildMysql41AuthStart(), 0);
             byte[] salt = protocol.readAuthenticateContinue();
-            protocol.send(this.messageBuilder.buildMysql41AuthContinue("testPlainAuth", "pwd", salt, getTestDatabase()), 0);
+            protocol.send(this.messageBuilder.buildMysql41AuthContinue("testPlainAuth", "pwd", salt, getTestDatabase()),
+                    0);
             protocol.readAuthenticateOk();
         } catch (Throwable t) {
             throw t;
@@ -125,7 +130,8 @@ public class XProtocolAuthTest extends InternalXBaseTestCase {
             return;
         }
         try {
-            protocol.send(this.messageBuilder.buildPlainAuthStart(getTestUser(), "com.mysql.cj.theWrongPassword", getTestDatabase()), 0);
+            protocol.send(this.messageBuilder.buildPlainAuthStart(getTestUser(), "com.mysql.cj.theWrongPassword",
+                    getTestDatabase()), 0);
             protocol.readAuthenticateOk();
             fail("Auth using wrong password should fail");
         } catch (XProtocolError ex) {
@@ -145,7 +151,9 @@ public class XProtocolAuthTest extends InternalXBaseTestCase {
 
         try {
             Session testSession = this.fact.getSession(this.baseUrl);
-            testSession.sql("CREATE USER IF NOT EXISTS 'testPlainAuth'@'%' IDENTIFIED WITH mysql_native_password BY 'pwd'").execute();
+            testSession
+                    .sql("CREATE USER IF NOT EXISTS 'testPlainAuth'@'%' IDENTIFIED WITH mysql_native_password BY 'pwd'")
+                    .execute();
             testSession.close();
 
             protocol.send(this.messageBuilder.buildMysql41AuthStart(), 0);

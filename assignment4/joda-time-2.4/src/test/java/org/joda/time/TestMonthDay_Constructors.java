@@ -28,7 +28,8 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 /**
- * This class is a Junit unit test for MonthDay. Based on {@link TestYearMonth_Constuctors} 
+ * This class is a Junit unit test for MonthDay. Based on
+ * {@link TestYearMonth_Constuctors}
  */
 public class TestMonthDay_Constructors extends TestCase {
 
@@ -37,20 +38,17 @@ public class TestMonthDay_Constructors extends TestCase {
     private static final Chronology ISO_UTC = ISOChronology.getInstanceUTC();
     private static final Chronology GREGORIAN_UTC = GregorianChronology.getInstanceUTC();
     private static final Chronology GREGORIAN_PARIS = GregorianChronology.getInstance(PARIS);
-    
-    private long TEST_TIME_NOW =
-            (31L + 28L + 31L + 30L + 31L + 9L -1L) * DateTimeConstants.MILLIS_PER_DAY;
-            
-    private long TEST_TIME1 =
-        (31L + 28L + 31L + 6L -1L) * DateTimeConstants.MILLIS_PER_DAY
-        + 12L * DateTimeConstants.MILLIS_PER_HOUR
-        + 24L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
-    private long TEST_TIME2 =
-        (365L + 31L + 28L + 31L + 30L + 7L -1L) * DateTimeConstants.MILLIS_PER_DAY
-        + 14L * DateTimeConstants.MILLIS_PER_HOUR
-        + 28L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
+
+    private long TEST_TIME_NOW = (31L + 28L + 31L + 30L + 31L + 9L - 1L) * DateTimeConstants.MILLIS_PER_DAY;
+
+    private long TEST_TIME1 = (31L + 28L + 31L + 6L - 1L) * DateTimeConstants.MILLIS_PER_DAY
+            + 12L * DateTimeConstants.MILLIS_PER_HOUR
+            + 24L * DateTimeConstants.MILLIS_PER_MINUTE;
+
+    private long TEST_TIME2 = (365L + 31L + 28L + 31L + 30L + 7L - 1L) * DateTimeConstants.MILLIS_PER_DAY
+            + 14L * DateTimeConstants.MILLIS_PER_HOUR
+            + 28L * DateTimeConstants.MILLIS_PER_MINUTE;
+
     private DateTimeZone zone = null;
 
     public static void main(String[] args) {
@@ -77,7 +75,7 @@ public class TestMonthDay_Constructors extends TestCase {
         zone = null;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testParse_noFormatter() throws Throwable {
         assertEquals(new MonthDay(6, 30), MonthDay.parse("--06-30"));
         assertEquals(new MonthDay(2, 29), MonthDay.parse("--02-29"));
@@ -90,7 +88,7 @@ public class TestMonthDay_Constructors extends TestCase {
         assertEquals(new MonthDay(6, 30), MonthDay.parse("2010--30 06", f));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactory_FromCalendarFields() throws Exception {
         GregorianCalendar cal = new GregorianCalendar(1970, 1, 3, 4, 5, 6);
         cal.set(Calendar.MILLISECOND, 7);
@@ -99,10 +97,11 @@ public class TestMonthDay_Constructors extends TestCase {
         try {
             MonthDay.fromCalendarFields(null);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactory_FromDateFields() throws Exception {
         GregorianCalendar cal = new GregorianCalendar(1970, 1, 3, 4, 5, 6);
         cal.set(Calendar.MILLISECOND, 7);
@@ -111,10 +110,11 @@ public class TestMonthDay_Constructors extends TestCase {
         try {
             MonthDay.fromDateFields(null);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor ()
      */
@@ -133,13 +133,13 @@ public class TestMonthDay_Constructors extends TestCase {
         DateTime dt = new DateTime(2005, 6, 30, 23, 59, 0, 0, LONDON);
         DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
         // 23:59 in London is 00:59 the following day in Paris
-        
+
         MonthDay test = new MonthDay(LONDON);
         assertEquals(ISO_UTC, test.getChronology());
         assertEquals(6, test.getMonthOfYear());
         assertEquals(30, test.getDayOfMonth());
         assertEquals(test, MonthDay.now(LONDON));
-        
+
         test = new MonthDay(PARIS);
         assertEquals(ISO_UTC, test.getChronology());
         assertEquals(7, test.getMonthOfYear());
@@ -154,7 +154,7 @@ public class TestMonthDay_Constructors extends TestCase {
         DateTime dt = new DateTime(2005, 6, 30, 23, 59, 0, 0, LONDON);
         DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
         // 23:59 in London is 00:59 the following day in Paris
-        
+
         MonthDay test = new MonthDay((DateTimeZone) null);
         assertEquals(ISO_UTC, test.getChronology());
         assertEquals(6, test.getMonthOfYear());
@@ -182,7 +182,7 @@ public class TestMonthDay_Constructors extends TestCase {
         assertEquals(9, test.getDayOfMonth());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (long)
      */
@@ -233,7 +233,7 @@ public class TestMonthDay_Constructors extends TestCase {
         assertEquals(6, test.getDayOfMonth());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_Object() throws Throwable {
         Date date = new Date(TEST_TIME1);
         MonthDay test = new MonthDay(date);
@@ -299,7 +299,7 @@ public class TestMonthDay_Constructors extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (Object, Chronology)
      */
@@ -342,7 +342,7 @@ public class TestMonthDay_Constructors extends TestCase {
         assertEquals(9, test.getDayOfMonth());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (int, int)
      */
@@ -354,19 +354,23 @@ public class TestMonthDay_Constructors extends TestCase {
         try {
             new MonthDay(Integer.MIN_VALUE, 6);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new MonthDay(Integer.MAX_VALUE, 6);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new MonthDay(1970, 0);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new MonthDay(1970, 13);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -380,19 +384,23 @@ public class TestMonthDay_Constructors extends TestCase {
         try {
             new MonthDay(Integer.MIN_VALUE, 6, GREGORIAN_PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new MonthDay(Integer.MAX_VALUE, 6, GREGORIAN_PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new MonthDay(1970, 0, GREGORIAN_PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new MonthDay(1970, 13, GREGORIAN_PARIS);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**

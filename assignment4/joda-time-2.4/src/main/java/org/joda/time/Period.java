@@ -29,12 +29,15 @@ import org.joda.time.format.PeriodFormatter;
  * <p>
  * A time period is divided into a number of fields, such as hours and seconds.
  * Which fields are supported is defined by the PeriodType class.
- * The default is the standard period type, which supports years, months, weeks, days,
+ * The default is the standard period type, which supports years, months, weeks,
+ * days,
  * hours, minutes, seconds and millis.
  * <p>
- * When this time period is added to an instant, the effect is of adding each field in turn.
+ * When this time period is added to an instant, the effect is of adding each
+ * field in turn.
  * As a result, this takes into account daylight savings time.
- * Adding a time period of 1 day to the day before daylight savings starts will only add
+ * Adding a time period of 1 day to the day before daylight savings starts will
+ * only add
  * 23 hours rather than 24 to ensure that the time remains the same.
  * If this is not the behaviour you want, then see {@link Duration}.
  * <p>
@@ -60,6 +63,7 @@ public final class Period
 
     /**
      * A period of zero length and standard period type.
+     * 
      * @since 1.4
      */
     public static final Period ZERO = new Period();
@@ -67,13 +71,13 @@ public final class Period
     /** Serialization version */
     private static final long serialVersionUID = 741052353876488155L;
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Parses a {@code Period} from the specified string.
      * <p>
      * This uses {@link ISOPeriodFormat#standard()}.
      * 
-     * @param str  the string to parse, not null
+     * @param str the string to parse, not null
      * @since 2.0
      */
     @FromString
@@ -84,15 +88,15 @@ public final class Period
     /**
      * Parses a {@code Period} from the specified string using a formatter.
      * 
-     * @param str  the string to parse, not null
-     * @param formatter  the formatter to use, not null
+     * @param str       the string to parse, not null
+     * @param formatter the formatter to use, not null
      * @since 2.0
      */
     public static Period parse(String str, PeriodFormatter formatter) {
         return formatter.parsePeriod(str);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Create a period with a specified number of years.
      * <p>
@@ -103,11 +107,11 @@ public final class Period
      * If you want a year-based period that cannot have other fields added,
      * then you should consider using {@link Years}.
      *
-     * @param years  the amount of years in this period
+     * @param years the amount of years in this period
      * @return the period
      */
     public static Period years(int years) {
-        return new Period(new int[] {years, 0, 0, 0, 0, 0, 0, 0, 0}, PeriodType.standard());
+        return new Period(new int[] { years, 0, 0, 0, 0, 0, 0, 0, 0 }, PeriodType.standard());
     }
 
     /**
@@ -120,11 +124,11 @@ public final class Period
      * If you want a month-based period that cannot have other fields added,
      * then you should consider using {@link Months}.
      *
-     * @param months  the amount of months in this period
+     * @param months the amount of months in this period
      * @return the period
      */
     public static Period months(int months) {
-        return new Period(new int[] {0, months, 0, 0, 0, 0, 0, 0}, PeriodType.standard());
+        return new Period(new int[] { 0, months, 0, 0, 0, 0, 0, 0 }, PeriodType.standard());
     }
 
     /**
@@ -137,11 +141,11 @@ public final class Period
      * If you want a week-based period that cannot have other fields added,
      * then you should consider using {@link Weeks}.
      *
-     * @param weeks  the amount of weeks in this period
+     * @param weeks the amount of weeks in this period
      * @return the period
      */
     public static Period weeks(int weeks) {
-        return new Period(new int[] {0, 0, weeks, 0, 0, 0, 0, 0}, PeriodType.standard());
+        return new Period(new int[] { 0, 0, weeks, 0, 0, 0, 0, 0 }, PeriodType.standard());
     }
 
     /**
@@ -154,11 +158,11 @@ public final class Period
      * If you want a day-based period that cannot have other fields added,
      * then you should consider using {@link Days}.
      *
-     * @param days  the amount of days in this period
+     * @param days the amount of days in this period
      * @return the period
      */
     public static Period days(int days) {
-        return new Period(new int[] {0, 0, 0, days, 0, 0, 0, 0}, PeriodType.standard());
+        return new Period(new int[] { 0, 0, 0, days, 0, 0, 0, 0 }, PeriodType.standard());
     }
 
     /**
@@ -171,11 +175,11 @@ public final class Period
      * If you want a hour-based period that cannot have other fields added,
      * then you should consider using {@link Hours}.
      *
-     * @param hours  the amount of hours in this period
+     * @param hours the amount of hours in this period
      * @return the period
      */
     public static Period hours(int hours) {
-        return new Period(new int[] {0, 0, 0, 0, hours, 0, 0, 0}, PeriodType.standard());
+        return new Period(new int[] { 0, 0, 0, 0, hours, 0, 0, 0 }, PeriodType.standard());
     }
 
     /**
@@ -188,11 +192,11 @@ public final class Period
      * If you want a minute-based period that cannot have other fields added,
      * then you should consider using {@link Minutes}.
      *
-     * @param minutes  the amount of minutes in this period
+     * @param minutes the amount of minutes in this period
      * @return the period
      */
     public static Period minutes(int minutes) {
-        return new Period(new int[] {0, 0, 0, 0, 0, minutes, 0, 0}, PeriodType.standard());
+        return new Period(new int[] { 0, 0, 0, 0, 0, minutes, 0, 0 }, PeriodType.standard());
     }
 
     /**
@@ -205,11 +209,11 @@ public final class Period
      * If you want a second-based period that cannot have other fields added,
      * then you should consider using {@link Seconds}.
      *
-     * @param seconds  the amount of seconds in this period
+     * @param seconds the amount of seconds in this period
      * @return the period
      */
     public static Period seconds(int seconds) {
-        return new Period(new int[] {0, 0, 0, 0, 0, 0, seconds, 0}, PeriodType.standard());
+        return new Period(new int[] { 0, 0, 0, 0, 0, 0, seconds, 0 }, PeriodType.standard());
     }
 
     /**
@@ -219,14 +223,14 @@ public final class Period
      * as days or hours using the <code>withXxx()</code> methods.
      * For example, <code>Period.millis(20).withSeconds(30);</code>
      *
-     * @param millis  the amount of millis in this period
+     * @param millis the amount of millis in this period
      * @return the period
      */
     public static Period millis(int millis) {
-        return new Period(new int[] {0, 0, 0, 0, 0, 0, 0, millis}, PeriodType.standard());
+        return new Period(new int[] { 0, 0, 0, 0, 0, 0, 0, millis }, PeriodType.standard());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a period from two partially specified times, calculating
      * by field difference.
@@ -248,8 +252,8 @@ public final class Period
      * be successfully applied to each month of the year to obtain the
      * correct end date for a given start date.
      *
-     * @param start  the start of the period, must not be null
-     * @param end  the end of the period, must not be null
+     * @param start the start of the period, must not be null
+     * @param end   the end of the period, must not be null
      * @throws IllegalArgumentException if the partials are null or invalid
      * @since 1.1
      */
@@ -275,21 +279,26 @@ public final class Period
         return new Period(values, PeriodType.forFields(types));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a new empty period with the standard set of fields.
      * <p>
      * One way to initialise a period is as follows:
+     * 
      * <pre>
      * Period = new Period().withYears(6).withMonths(3).withSeconds(23);
      * </pre>
+     * 
      * Bear in mind that this creates four period instances in total, three of
      * which are immediately discarded.
      * The alterative is more efficient, but less readable:
+     * 
      * <pre>
      * Period = new Period(6, 3, 0, 0, 0, 0, 23, 0);
      * </pre>
+     * 
      * The following is also slightly less wasteful:
+     * 
      * <pre>
      * Period = Period.years(6).withMonths(3).withSeconds(23);
      * </pre>
@@ -303,9 +312,9 @@ public final class Period
      * Note that the parameters specify the time fields hours, minutes,
      * seconds and millis, not the date fields.
      *
-     * @param hours  amount of hours in this period
-     * @param minutes  amount of minutes in this period
-     * @param seconds  amount of seconds in this period
+     * @param hours   amount of hours in this period
+     * @param minutes amount of minutes in this period
+     * @param seconds amount of seconds in this period
      * @param millis  amount of milliseconds in this period
      */
     public Period(int hours, int minutes, int seconds, int millis) {
@@ -315,17 +324,17 @@ public final class Period
     /**
      * Create a period from a set of field values using the standard set of fields.
      *
-     * @param years  amount of years in this period
+     * @param years   amount of years in this period
      * @param months  amount of months in this period
-     * @param weeks  amount of weeks in this period
-     * @param days  amount of days in this period
-     * @param hours  amount of hours in this period
-     * @param minutes  amount of minutes in this period
-     * @param seconds  amount of seconds in this period
+     * @param weeks   amount of weeks in this period
+     * @param days    amount of days in this period
+     * @param hours   amount of hours in this period
+     * @param minutes amount of minutes in this period
+     * @param seconds amount of seconds in this period
      * @param millis  amount of milliseconds in this period
      */
     public Period(int years, int months, int weeks, int days,
-                  int hours, int minutes, int seconds, int millis) {
+            int hours, int minutes, int seconds, int millis) {
         super(years, months, weeks, days, hours, minutes, seconds, millis, PeriodType.standard());
     }
 
@@ -333,22 +342,31 @@ public final class Period
      * Create a period from a set of field values.
      * <p>
      * There is usually little need to use this constructor.
-     * The period type is used primarily to define how to split an interval into a period.
+     * The period type is used primarily to define how to split an interval into a
+     * period.
      * As this constructor already is split, the period type does no real work.
      *
-     * @param years  amount of years in this period, which must be zero if unsupported
-     * @param months  amount of months in this period, which must be zero if unsupported
-     * @param weeks  amount of weeks in this period, which must be zero if unsupported
-     * @param days  amount of days in this period, which must be zero if unsupported
-     * @param hours  amount of hours in this period, which must be zero if unsupported
-     * @param minutes  amount of minutes in this period, which must be zero if unsupported
-     * @param seconds  amount of seconds in this period, which must be zero if unsupported
-     * @param millis  amount of milliseconds in this period, which must be zero if unsupported
-     * @param type  which set of fields this period supports, null means AllType
+     * @param years   amount of years in this period, which must be zero if
+     *                unsupported
+     * @param months  amount of months in this period, which must be zero if
+     *                unsupported
+     * @param weeks   amount of weeks in this period, which must be zero if
+     *                unsupported
+     * @param days    amount of days in this period, which must be zero if
+     *                unsupported
+     * @param hours   amount of hours in this period, which must be zero if
+     *                unsupported
+     * @param minutes amount of minutes in this period, which must be zero if
+     *                unsupported
+     * @param seconds amount of seconds in this period, which must be zero if
+     *                unsupported
+     * @param millis  amount of milliseconds in this period, which must be zero if
+     *                unsupported
+     * @param type    which set of fields this period supports, null means AllType
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
     public Period(int years, int months, int weeks, int days,
-                    int hours, int minutes, int seconds, int millis, PeriodType type) {
+            int hours, int minutes, int seconds, int millis, PeriodType type) {
         super(years, months, weeks, days, hours, minutes, seconds, millis, type);
     }
 
@@ -371,12 +389,14 @@ public final class Period
      * <p>
      * For more control over the conversion process, you have two options:
      * <ul>
-     * <li>convert the duration to an {@link Interval}, and from there obtain the period
-     * <li>specify a period type that contains precise definitions of the day and larger
+     * <li>convert the duration to an {@link Interval}, and from there obtain the
+     * period
+     * <li>specify a period type that contains precise definitions of the day and
+     * larger
      * fields, such as UTC
      * </ul>
      *
-     * @param duration  the duration, in milliseconds
+     * @param duration the duration, in milliseconds
      */
     public Period(long duration) {
         super(duration);
@@ -395,8 +415,8 @@ public final class Period
      * be stored in the largest available precise field.
      * For details as to which fields are precise, review the period type javadoc.
      *
-     * @param duration  the duration, in milliseconds
-     * @param type  which set of fields this period supports, null means standard
+     * @param duration the duration, in milliseconds
+     * @param type     which set of fields this period supports, null means standard
      */
     public Period(long duration, PeriodType type) {
         super(duration, type, null);
@@ -416,8 +436,9 @@ public final class Period
      * be stored in the largest available precise field.
      * For details as to which fields are precise, review the period type javadoc.
      *
-     * @param duration  the duration, in milliseconds
-     * @param chronology  the chronology to use to split the duration, null means ISO default
+     * @param duration   the duration, in milliseconds
+     * @param chronology the chronology to use to split the duration, null means ISO
+     *                   default
      */
     public Period(long duration, Chronology chronology) {
         super(duration, null, chronology);
@@ -436,9 +457,11 @@ public final class Period
      * be stored in the largest available precise field.
      * For details as to which fields are precise, review the period type javadoc.
      *
-     * @param duration  the duration, in milliseconds
-     * @param type  which set of fields this period supports, null means standard
-     * @param chronology  the chronology to use to split the duration, null means ISO default
+     * @param duration   the duration, in milliseconds
+     * @param type       which set of fields this period supports, null means
+     *                   standard
+     * @param chronology the chronology to use to split the duration, null means ISO
+     *                   default
      */
     public Period(long duration, PeriodType type, Chronology chronology) {
         super(duration, type, chronology);
@@ -448,8 +471,8 @@ public final class Period
      * Creates a period from the given interval endpoints using the standard
      * set of fields.
      *
-     * @param startInstant  interval start, in milliseconds
-     * @param endInstant  interval end, in milliseconds
+     * @param startInstant interval start, in milliseconds
+     * @param endInstant   interval end, in milliseconds
      */
     public Period(long startInstant, long endInstant) {
         super(startInstant, endInstant, null, null);
@@ -458,9 +481,10 @@ public final class Period
     /**
      * Creates a period from the given interval endpoints.
      *
-     * @param startInstant  interval start, in milliseconds
-     * @param endInstant  interval end, in milliseconds
-     * @param type  which set of fields this period supports, null means standard
+     * @param startInstant interval start, in milliseconds
+     * @param endInstant   interval end, in milliseconds
+     * @param type         which set of fields this period supports, null means
+     *                     standard
      */
     public Period(long startInstant, long endInstant, PeriodType type) {
         super(startInstant, endInstant, type, null);
@@ -470,9 +494,9 @@ public final class Period
      * Creates a period from the given interval endpoints using the standard
      * set of fields.
      *
-     * @param startInstant  interval start, in milliseconds
-     * @param endInstant  interval end, in milliseconds
-     * @param chrono  the chronology to use, null means ISO in default zone
+     * @param startInstant interval start, in milliseconds
+     * @param endInstant   interval end, in milliseconds
+     * @param chrono       the chronology to use, null means ISO in default zone
      */
     public Period(long startInstant, long endInstant, Chronology chrono) {
         super(startInstant, endInstant, null, chrono);
@@ -481,10 +505,11 @@ public final class Period
     /**
      * Creates a period from the given interval endpoints.
      *
-     * @param startInstant  interval start, in milliseconds
-     * @param endInstant  interval end, in milliseconds
-     * @param type  which set of fields this period supports, null means standard
-     * @param chrono  the chronology to use, null means ISO in default zone
+     * @param startInstant interval start, in milliseconds
+     * @param endInstant   interval end, in milliseconds
+     * @param type         which set of fields this period supports, null means
+     *                     standard
+     * @param chrono       the chronology to use, null means ISO in default zone
      */
     public Period(long startInstant, long endInstant, PeriodType type, Chronology chrono) {
         super(startInstant, endInstant, type, chrono);
@@ -494,7 +519,8 @@ public final class Period
      * Creates a period between the given instants using the standard set of fields.
      * <p>
      * Most calculations performed by this method have obvious results.
-     * The special case is where the calculation is from a "long" month to a "short" month.
+     * The special case is where the calculation is from a "long" month to a "short"
+     * month.
      * Here, the result favours increasing the months field rather than the days.
      * For example, 2013-01-31 to 2013-02-28 is treated as one whole month.
      * By contrast, 2013-01-31 to 2013-03-30 is treated as one month and 30 days
@@ -502,8 +528,8 @@ public final class Period
      * The results are explained by considering that the start date plus the
      * calculated period result in the end date.
      *
-     * @param startInstant  interval start, null means now
-     * @param endInstant  interval end, null means now
+     * @param startInstant interval start, null means now
+     * @param endInstant   interval end, null means now
      */
     public Period(ReadableInstant startInstant, ReadableInstant endInstant) {
         super(startInstant, endInstant, null);
@@ -513,16 +539,18 @@ public final class Period
      * Creates a period between the given instants.
      * <p>
      * Most calculations performed by this method have obvious results.
-     * The special case is where the calculation is from a "long" month to a "short" month.
+     * The special case is where the calculation is from a "long" month to a "short"
+     * month.
      * Here, the result favours increasing the months field rather than the days.
      * For example, 2013-01-31 to 2013-02-28 is treated as one whole month.
      * By contrast, 2013-01-31 to 2013-03-30 is treated as one month and 30 days.
      * The results are explained by considering that the start date plus the
      * calculated period result in the end date.
      *
-     * @param startInstant  interval start, null means now
-     * @param endInstant  interval end, null means now
-     * @param type  which set of fields this period supports, null means standard
+     * @param startInstant interval start, null means now
+     * @param endInstant   interval end, null means now
+     * @param type         which set of fields this period supports, null means
+     *                     standard
      */
     public Period(ReadableInstant startInstant, ReadableInstant endInstant, PeriodType type) {
         super(startInstant, endInstant, type);
@@ -541,7 +569,8 @@ public final class Period
      * Both <code>LocalDate</code> and <code>LocalTime</code> are contiguous.
      * <p>
      * Most calculations performed by this method have obvious results.
-     * The special case is where the calculation is from a "long" month to a "short" month.
+     * The special case is where the calculation is from a "long" month to a "short"
+     * month.
      * Here, the result favours increasing the months field rather than the days.
      * For example, 2013-01-31 to 2013-02-28 is treated as one whole month.
      * By contrast, 2013-01-31 to 2013-03-30 is treated as one month and 30 days
@@ -553,8 +582,8 @@ public final class Period
      * is {@link #fieldDifference(ReadablePartial, ReadablePartial)}.
      * That method handles all kinds of partials.
      *
-     * @param start  the start of the period, must not be null
-     * @param end  the end of the period, must not be null
+     * @param start the start of the period, must not be null
+     * @param end   the end of the period, must not be null
      * @throws IllegalArgumentException if the partials are null or invalid
      * @since 1.1
      */
@@ -575,7 +604,8 @@ public final class Period
      * Both <code>LocalDate</code> and <code>LocalTime</code> are contiguous.
      * <p>
      * Most calculations performed by this method have obvious results.
-     * The special case is where the calculation is from a "long" month to a "short" month.
+     * The special case is where the calculation is from a "long" month to a "short"
+     * month.
      * Here, the result favours increasing the months field rather than the days.
      * For example, 2013-01-31 to 2013-02-28 is treated as one whole month.
      * By contrast, 2013-01-31 to 2013-03-30 is treated as one month and 30 days.
@@ -586,8 +616,8 @@ public final class Period
      * is {@link #fieldDifference(ReadablePartial, ReadablePartial)}.
      * That method handles all kinds of partials.
      *
-     * @param start  the start of the period, must not be null
-     * @param end  the end of the period, must not be null
+     * @param start the start of the period, must not be null
+     * @param end   the end of the period, must not be null
      * @param type  which set of fields this period supports, null means standard
      * @throws IllegalArgumentException if the partials are null or invalid
      * @since 1.1
@@ -599,8 +629,8 @@ public final class Period
     /**
      * Creates a period from the given start point and the duration.
      *
-     * @param startInstant  the interval start, null means now
-     * @param duration  the duration of the interval, null means zero-length
+     * @param startInstant the interval start, null means now
+     * @param duration     the duration of the interval, null means zero-length
      */
     public Period(ReadableInstant startInstant, ReadableDuration duration) {
         super(startInstant, duration, null);
@@ -609,9 +639,10 @@ public final class Period
     /**
      * Creates a period from the given start point and the duration.
      *
-     * @param startInstant  the interval start, null means now
-     * @param duration  the duration of the interval, null means zero-length
-     * @param type  which set of fields this period supports, null means standard
+     * @param startInstant the interval start, null means now
+     * @param duration     the duration of the interval, null means zero-length
+     * @param type         which set of fields this period supports, null means
+     *                     standard
      */
     public Period(ReadableInstant startInstant, ReadableDuration duration, PeriodType type) {
         super(startInstant, duration, type);
@@ -620,8 +651,8 @@ public final class Period
     /**
      * Creates a period from the given duration and end point.
      *
-     * @param duration  the duration of the interval, null means zero-length
-     * @param endInstant  the interval end, null means now
+     * @param duration   the duration of the interval, null means zero-length
+     * @param endInstant the interval end, null means now
      */
     public Period(ReadableDuration duration, ReadableInstant endInstant) {
         super(duration, endInstant, null);
@@ -630,9 +661,10 @@ public final class Period
     /**
      * Creates a period from the given duration and end point.
      *
-     * @param duration  the duration of the interval, null means zero-length
-     * @param endInstant  the interval end, null means now
-     * @param type  which set of fields this period supports, null means standard
+     * @param duration   the duration of the interval, null means zero-length
+     * @param endInstant the interval end, null means now
+     * @param type       which set of fields this period supports, null means
+     *                   standard
      */
     public Period(ReadableDuration duration, ReadableInstant endInstant, PeriodType type) {
         super(duration, endInstant, type);
@@ -646,9 +678,10 @@ public final class Period
      * include ReadablePeriod, ReadableInterval and String.
      * The String formats are described by {@link ISOPeriodFormat#standard()}.
      *
-     * @param period  period to convert
-     * @throws IllegalArgumentException if period is invalid
-     * @throws UnsupportedOperationException if an unsupported field's value is non-zero
+     * @param period period to convert
+     * @throws IllegalArgumentException      if period is invalid
+     * @throws UnsupportedOperationException if an unsupported field's value is
+     *                                       non-zero
      */
     public Period(Object period) {
         super(period, null, null);
@@ -662,10 +695,12 @@ public final class Period
      * include ReadablePeriod, ReadableInterval and String.
      * The String formats are described by {@link ISOPeriodFormat#standard()}.
      *
-     * @param period  period to convert
-     * @param type  which set of fields this period supports, null means use converter
-     * @throws IllegalArgumentException if period is invalid
-     * @throws UnsupportedOperationException if an unsupported field's value is non-zero
+     * @param period period to convert
+     * @param type   which set of fields this period supports, null means use
+     *               converter
+     * @throws IllegalArgumentException      if period is invalid
+     * @throws UnsupportedOperationException if an unsupported field's value is
+     *                                       non-zero
      */
     public Period(Object period, PeriodType type) {
         super(period, type, null);
@@ -679,10 +714,11 @@ public final class Period
      * include ReadablePeriod, ReadableInterval and String.
      * The String formats are described by {@link ISOPeriodFormat#standard()}.
      *
-     * @param period  period to convert
-     * @param chrono  the chronology to use, null means ISO in default zone
-     * @throws IllegalArgumentException if period is invalid
-     * @throws UnsupportedOperationException if an unsupported field's value is non-zero
+     * @param period period to convert
+     * @param chrono the chronology to use, null means ISO in default zone
+     * @throws IllegalArgumentException      if period is invalid
+     * @throws UnsupportedOperationException if an unsupported field's value is
+     *                                       non-zero
      */
     public Period(Object period, Chronology chrono) {
         super(period, null, chrono);
@@ -696,11 +732,13 @@ public final class Period
      * include ReadablePeriod, ReadableInterval and String.
      * The String formats are described by {@link ISOPeriodFormat#standard()}.
      *
-     * @param period  period to convert
-     * @param type  which set of fields this period supports, null means use converter
-     * @param chrono  the chronology to use, null means ISO in default zone
-     * @throws IllegalArgumentException if period is invalid
-     * @throws UnsupportedOperationException if an unsupported field's value is non-zero
+     * @param period period to convert
+     * @param type   which set of fields this period supports, null means use
+     *               converter
+     * @param chrono the chronology to use, null means ISO in default zone
+     * @throws IllegalArgumentException      if period is invalid
+     * @throws UnsupportedOperationException if an unsupported field's value is
+     *                                       non-zero
      */
     public Period(Object period, PeriodType type, Chronology chrono) {
         super(period, type, chrono);
@@ -709,14 +747,14 @@ public final class Period
     /**
      * Constructor used when we trust ourselves.
      *
-     * @param values  the values to use, not null, not cloned
-     * @param type  which set of fields this period supports, not null
+     * @param values the values to use, not null, not cloned
+     * @param type   which set of fields this period supports, not null
      */
     private Period(int[] values, PeriodType type) {
         super(values, type);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get this period as an immutable <code>Period</code> object
      * by returning <code>this</code>.
@@ -727,7 +765,7 @@ public final class Period
         return this;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the years field part of the period.
      * 
@@ -764,7 +802,7 @@ public final class Period
         return getPeriodType().getIndexedField(this, PeriodType.DAY_INDEX);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the hours field part of the period.
      * 
@@ -801,16 +839,17 @@ public final class Period
         return getPeriodType().getIndexedField(this, PeriodType.MILLI_INDEX);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a new Period instance with the same field values but
      * different PeriodType.
      * <p>
      * This period instance is immutable and unaffected by this method call.
      * 
-     * @param type  the period type to use, null means standard
+     * @param type the period type to use, null means standard
      * @return the new period instance
-     * @throws IllegalArgumentException if the new period won't accept all of the current fields
+     * @throws IllegalArgumentException if the new period won't accept all of the
+     *                                  current fields
      */
     public Period withPeriodType(PeriodType type) {
         type = DateTimeUtils.getPeriodType(type);
@@ -826,7 +865,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      * 
-     * @param period  the period to copy from, null ignored
+     * @param period the period to copy from, null ignored
      * @return the new period instance
      * @throws IllegalArgumentException if a field type is unsupported
      */
@@ -834,19 +873,19 @@ public final class Period
         if (period == null) {
             return this;
         }
-        int[] newValues = getValues();  // cloned
+        int[] newValues = getValues(); // cloned
         newValues = super.mergePeriodInto(newValues, period);
         return new Period(newValues, getPeriodType());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a new Period instance with the specified field set to a new value.
      * <p>
      * This period instance is immutable and unaffected by this method call.
      * 
-     * @param field  the field to set, not null
-     * @param value  the value to set to
+     * @param field the field to set, not null
+     * @param value the value to set to
      * @return the new period instance
      * @throws IllegalArgumentException if the field type is null or unsupported
      */
@@ -854,18 +893,19 @@ public final class Period
         if (field == null) {
             throw new IllegalArgumentException("Field must not be null");
         }
-        int[] newValues = getValues();  // cloned
+        int[] newValues = getValues(); // cloned
         super.setFieldInto(newValues, field, value);
         return new Period(newValues, getPeriodType());
     }
 
     /**
-     * Creates a new Period instance with the valueToAdd added to the specified field.
+     * Creates a new Period instance with the valueToAdd added to the specified
+     * field.
      * <p>
      * This period instance is immutable and unaffected by this method call.
      * 
-     * @param field  the field to set, not null
-     * @param value  the value to add
+     * @param field the field to set, not null
+     * @param value the value to add
      * @return the new period instance
      * @throws IllegalArgumentException if the field type is null or unsupported
      */
@@ -876,23 +916,23 @@ public final class Period
         if (value == 0) {
             return this;
         }
-        int[] newValues = getValues();  // cloned
+        int[] newValues = getValues(); // cloned
         super.addFieldInto(newValues, field, value);
         return new Period(newValues, getPeriodType());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new period with the specified number of years.
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param years  the amount of years to add, may be negative
+     * @param years the amount of years to add, may be negative
      * @return the new period with the increased years
      * @throws UnsupportedOperationException if the field is not supported
      */
     public Period withYears(int years) {
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().setIndexedField(this, PeriodType.YEAR_INDEX, values, years);
         return new Period(values, getPeriodType());
     }
@@ -902,12 +942,12 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param months  the amount of months to add, may be negative
+     * @param months the amount of months to add, may be negative
      * @return the new period with the increased months
      * @throws UnsupportedOperationException if the field is not supported
      */
     public Period withMonths(int months) {
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().setIndexedField(this, PeriodType.MONTH_INDEX, values, months);
         return new Period(values, getPeriodType());
     }
@@ -917,12 +957,12 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param weeks  the amount of weeks to add, may be negative
+     * @param weeks the amount of weeks to add, may be negative
      * @return the new period with the increased weeks
      * @throws UnsupportedOperationException if the field is not supported
      */
     public Period withWeeks(int weeks) {
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().setIndexedField(this, PeriodType.WEEK_INDEX, values, weeks);
         return new Period(values, getPeriodType());
     }
@@ -932,12 +972,12 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param days  the amount of days to add, may be negative
+     * @param days the amount of days to add, may be negative
      * @return the new period with the increased days
      * @throws UnsupportedOperationException if the field is not supported
      */
     public Period withDays(int days) {
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().setIndexedField(this, PeriodType.DAY_INDEX, values, days);
         return new Period(values, getPeriodType());
     }
@@ -947,12 +987,12 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param hours  the amount of hours to add, may be negative
+     * @param hours the amount of hours to add, may be negative
      * @return the new period with the increased hours
      * @throws UnsupportedOperationException if the field is not supported
      */
     public Period withHours(int hours) {
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().setIndexedField(this, PeriodType.HOUR_INDEX, values, hours);
         return new Period(values, getPeriodType());
     }
@@ -962,12 +1002,12 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param minutes  the amount of minutes to add, may be negative
+     * @param minutes the amount of minutes to add, may be negative
      * @return the new period with the increased minutes
      * @throws UnsupportedOperationException if the field is not supported
      */
     public Period withMinutes(int minutes) {
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().setIndexedField(this, PeriodType.MINUTE_INDEX, values, minutes);
         return new Period(values, getPeriodType());
     }
@@ -977,12 +1017,12 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param seconds  the amount of seconds to add, may be negative
+     * @param seconds the amount of seconds to add, may be negative
      * @return the new period with the increased seconds
      * @throws UnsupportedOperationException if the field is not supported
      */
     public Period withSeconds(int seconds) {
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().setIndexedField(this, PeriodType.SECOND_INDEX, values, seconds);
         return new Period(values, getPeriodType());
     }
@@ -992,17 +1032,17 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param millis  the amount of millis to add, may be negative
+     * @param millis the amount of millis to add, may be negative
      * @return the new period with the increased millis
      * @throws UnsupportedOperationException if the field is not supported
      */
     public Period withMillis(int millis) {
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().setIndexedField(this, PeriodType.MILLI_INDEX, values, millis);
         return new Period(values, getPeriodType());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new period with the specified period added.
      * <p>
@@ -1015,7 +1055,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param period  the period to add, null adds zero and returns this
+     * @param period the period to add, null adds zero and returns this
      * @return the new updated period
      * @throws UnsupportedOperationException if any field is not supported
      * @since 1.5
@@ -1024,25 +1064,29 @@ public final class Period
         if (period == null) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.YEAR_INDEX, values, period.get(DurationFieldType.YEARS_TYPE));
-        getPeriodType().addIndexedField(this, PeriodType.MONTH_INDEX, values, period.get(DurationFieldType.MONTHS_TYPE));
+        getPeriodType().addIndexedField(this, PeriodType.MONTH_INDEX, values,
+                period.get(DurationFieldType.MONTHS_TYPE));
         getPeriodType().addIndexedField(this, PeriodType.WEEK_INDEX, values, period.get(DurationFieldType.WEEKS_TYPE));
         getPeriodType().addIndexedField(this, PeriodType.DAY_INDEX, values, period.get(DurationFieldType.DAYS_TYPE));
         getPeriodType().addIndexedField(this, PeriodType.HOUR_INDEX, values, period.get(DurationFieldType.HOURS_TYPE));
-        getPeriodType().addIndexedField(this, PeriodType.MINUTE_INDEX, values, period.get(DurationFieldType.MINUTES_TYPE));
-        getPeriodType().addIndexedField(this, PeriodType.SECOND_INDEX, values, period.get(DurationFieldType.SECONDS_TYPE));
-        getPeriodType().addIndexedField(this, PeriodType.MILLI_INDEX, values, period.get(DurationFieldType.MILLIS_TYPE));
+        getPeriodType().addIndexedField(this, PeriodType.MINUTE_INDEX, values,
+                period.get(DurationFieldType.MINUTES_TYPE));
+        getPeriodType().addIndexedField(this, PeriodType.SECOND_INDEX, values,
+                period.get(DurationFieldType.SECONDS_TYPE));
+        getPeriodType().addIndexedField(this, PeriodType.MILLI_INDEX, values,
+                period.get(DurationFieldType.MILLIS_TYPE));
         return new Period(values, getPeriodType());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new period with the specified number of years added.
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param years  the amount of years to add, may be negative
+     * @param years the amount of years to add, may be negative
      * @return the new period with the increased years
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1050,7 +1094,7 @@ public final class Period
         if (years == 0) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.YEAR_INDEX, values, years);
         return new Period(values, getPeriodType());
     }
@@ -1060,7 +1104,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param months  the amount of months to add, may be negative
+     * @param months the amount of months to add, may be negative
      * @return the new period plus the increased months
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1068,7 +1112,7 @@ public final class Period
         if (months == 0) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.MONTH_INDEX, values, months);
         return new Period(values, getPeriodType());
     }
@@ -1078,7 +1122,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param weeks  the amount of weeks to add, may be negative
+     * @param weeks the amount of weeks to add, may be negative
      * @return the new period plus the increased weeks
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1086,7 +1130,7 @@ public final class Period
         if (weeks == 0) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.WEEK_INDEX, values, weeks);
         return new Period(values, getPeriodType());
     }
@@ -1096,7 +1140,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param days  the amount of days to add, may be negative
+     * @param days the amount of days to add, may be negative
      * @return the new period plus the increased days
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1104,7 +1148,7 @@ public final class Period
         if (days == 0) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.DAY_INDEX, values, days);
         return new Period(values, getPeriodType());
     }
@@ -1114,7 +1158,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param hours  the amount of hours to add, may be negative
+     * @param hours the amount of hours to add, may be negative
      * @return the new period plus the increased hours
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1122,7 +1166,7 @@ public final class Period
         if (hours == 0) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.HOUR_INDEX, values, hours);
         return new Period(values, getPeriodType());
     }
@@ -1132,7 +1176,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param minutes  the amount of minutes to add, may be negative
+     * @param minutes the amount of minutes to add, may be negative
      * @return the new period plus the increased minutes
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1140,7 +1184,7 @@ public final class Period
         if (minutes == 0) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.MINUTE_INDEX, values, minutes);
         return new Period(values, getPeriodType());
     }
@@ -1150,7 +1194,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param seconds  the amount of seconds to add, may be negative
+     * @param seconds the amount of seconds to add, may be negative
      * @return the new period plus the increased seconds
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1158,7 +1202,7 @@ public final class Period
         if (seconds == 0) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.SECOND_INDEX, values, seconds);
         return new Period(values, getPeriodType());
     }
@@ -1168,7 +1212,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param millis  the amount of millis to add, may be negative
+     * @param millis the amount of millis to add, may be negative
      * @return the new period plus the increased millis
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1176,12 +1220,12 @@ public final class Period
         if (millis == 0) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.MILLI_INDEX, values, millis);
         return new Period(values, getPeriodType());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new period with the specified period subtracted.
      * <p>
@@ -1194,7 +1238,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param period  the period to add, null adds zero and returns this
+     * @param period the period to add, null adds zero and returns this
      * @return the new updated period
      * @throws UnsupportedOperationException if any field is not supported
      * @since 1.5
@@ -1203,25 +1247,29 @@ public final class Period
         if (period == null) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         getPeriodType().addIndexedField(this, PeriodType.YEAR_INDEX, values, -period.get(DurationFieldType.YEARS_TYPE));
-        getPeriodType().addIndexedField(this, PeriodType.MONTH_INDEX, values, -period.get(DurationFieldType.MONTHS_TYPE));
+        getPeriodType().addIndexedField(this, PeriodType.MONTH_INDEX, values,
+                -period.get(DurationFieldType.MONTHS_TYPE));
         getPeriodType().addIndexedField(this, PeriodType.WEEK_INDEX, values, -period.get(DurationFieldType.WEEKS_TYPE));
         getPeriodType().addIndexedField(this, PeriodType.DAY_INDEX, values, -period.get(DurationFieldType.DAYS_TYPE));
         getPeriodType().addIndexedField(this, PeriodType.HOUR_INDEX, values, -period.get(DurationFieldType.HOURS_TYPE));
-        getPeriodType().addIndexedField(this, PeriodType.MINUTE_INDEX, values, -period.get(DurationFieldType.MINUTES_TYPE));
-        getPeriodType().addIndexedField(this, PeriodType.SECOND_INDEX, values, -period.get(DurationFieldType.SECONDS_TYPE));
-        getPeriodType().addIndexedField(this, PeriodType.MILLI_INDEX, values, -period.get(DurationFieldType.MILLIS_TYPE));
+        getPeriodType().addIndexedField(this, PeriodType.MINUTE_INDEX, values,
+                -period.get(DurationFieldType.MINUTES_TYPE));
+        getPeriodType().addIndexedField(this, PeriodType.SECOND_INDEX, values,
+                -period.get(DurationFieldType.SECONDS_TYPE));
+        getPeriodType().addIndexedField(this, PeriodType.MILLI_INDEX, values,
+                -period.get(DurationFieldType.MILLIS_TYPE));
         return new Period(values, getPeriodType());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new period with the specified number of years taken away.
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param years  the amount of years to take away, may be negative
+     * @param years the amount of years to take away, may be negative
      * @return the new period with the increased years
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1234,7 +1282,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param months  the amount of months to take away, may be negative
+     * @param months the amount of months to take away, may be negative
      * @return the new period minus the increased months
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1247,7 +1295,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param weeks  the amount of weeks to take away, may be negative
+     * @param weeks the amount of weeks to take away, may be negative
      * @return the new period minus the increased weeks
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1260,7 +1308,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param days  the amount of days to take away, may be negative
+     * @param days the amount of days to take away, may be negative
      * @return the new period minus the increased days
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1273,7 +1321,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param hours  the amount of hours to take away, may be negative
+     * @param hours the amount of hours to take away, may be negative
      * @return the new period minus the increased hours
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1286,7 +1334,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param minutes  the amount of minutes to take away, may be negative
+     * @param minutes the amount of minutes to take away, may be negative
      * @return the new period minus the increased minutes
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1299,7 +1347,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param seconds  the amount of seconds to take away, may be negative
+     * @param seconds the amount of seconds to take away, may be negative
      * @return the new period minus the increased seconds
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1312,7 +1360,7 @@ public final class Period
      * <p>
      * This period instance is immutable and unaffected by this method call.
      *
-     * @param millis  the amount of millis to take away, may be negative
+     * @param millis the amount of millis to take away, may be negative
      * @return the new period minus the increased millis
      * @throws UnsupportedOperationException if the field is not supported
      */
@@ -1320,13 +1368,14 @@ public final class Period
         return plusMillis(-millis);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with each element in this period multiplied
      * by the specified scalar.
      *
-     * @param scalar  the scalar to multiply by, not null
-     * @return a {@code Period} based on this period with the amounts multiplied by the scalar, never null
+     * @param scalar the scalar to multiply by, not null
+     * @return a {@code Period} based on this period with the amounts multiplied by
+     *         the scalar, never null
      * @throws ArithmeticException if the capacity of any field is exceeded
      * @since 2.1
      */
@@ -1334,7 +1383,7 @@ public final class Period
         if (this == ZERO || scalar == 1) {
             return this;
         }
-        int[] values = getValues();  // cloned
+        int[] values = getValues(); // cloned
         for (int i = 0; i < values.length; i++) {
             values[i] = FieldUtils.safeMultiply(values[i], scalar);
         }
@@ -1344,7 +1393,8 @@ public final class Period
     /**
      * Returns a new instance with each amount in this period negated.
      *
-     * @return a {@code Period} based on this period with the amounts negated, never null
+     * @return a {@code Period} based on this period with the amounts negated, never
+     *         null
      * @throws ArithmeticException if any field has the minimum value
      * @since 2.1
      */
@@ -1352,7 +1402,7 @@ public final class Period
         return multipliedBy(-1);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this period to a period in weeks assuming a
      * 7 day week, 24 hour day, 60 minute hour and 60 second minute.
@@ -1369,12 +1419,13 @@ public final class Period
      * 
      * @return a period representing the number of standard weeks in this period
      * @throws UnsupportedOperationException if the period contains years or months
-     * @throws ArithmeticException if the number of weeks is too large to be represented
+     * @throws ArithmeticException           if the number of weeks is too large to
+     *                                       be represented
      * @since 1.5
      */
     public Weeks toStandardWeeks() {
         checkYearsAndMonths("Weeks");
-        long millis = getMillis();  // assign to a long
+        long millis = getMillis(); // assign to a long
         millis += ((long) getSeconds()) * DateTimeConstants.MILLIS_PER_SECOND;
         millis += ((long) getMinutes()) * DateTimeConstants.MILLIS_PER_MINUTE;
         millis += ((long) getHours()) * DateTimeConstants.MILLIS_PER_HOUR;
@@ -1399,12 +1450,13 @@ public final class Period
      * 
      * @return a period representing the number of standard days in this period
      * @throws UnsupportedOperationException if the period contains years or months
-     * @throws ArithmeticException if the number of days is too large to be represented
+     * @throws ArithmeticException           if the number of days is too large to
+     *                                       be represented
      * @since 1.5
      */
     public Days toStandardDays() {
         checkYearsAndMonths("Days");
-        long millis = getMillis();  // assign to a long
+        long millis = getMillis(); // assign to a long
         millis += ((long) getSeconds()) * DateTimeConstants.MILLIS_PER_SECOND;
         millis += ((long) getMinutes()) * DateTimeConstants.MILLIS_PER_MINUTE;
         millis += ((long) getHours()) * DateTimeConstants.MILLIS_PER_HOUR;
@@ -1430,12 +1482,13 @@ public final class Period
      * 
      * @return a period representing the number of standard hours in this period
      * @throws UnsupportedOperationException if the period contains years or months
-     * @throws ArithmeticException if the number of hours is too large to be represented
+     * @throws ArithmeticException           if the number of hours is too large to
+     *                                       be represented
      * @since 1.5
      */
     public Hours toStandardHours() {
         checkYearsAndMonths("Hours");
-        long millis = getMillis();  // assign to a long
+        long millis = getMillis(); // assign to a long
         millis += ((long) getSeconds()) * DateTimeConstants.MILLIS_PER_SECOND;
         millis += ((long) getMinutes()) * DateTimeConstants.MILLIS_PER_MINUTE;
         long hours = millis / DateTimeConstants.MILLIS_PER_HOUR;
@@ -1461,12 +1514,13 @@ public final class Period
      * 
      * @return a period representing the number of standard minutes in this period
      * @throws UnsupportedOperationException if the period contains years or months
-     * @throws ArithmeticException if the number of minutes is too large to be represented
+     * @throws ArithmeticException           if the number of minutes is too large
+     *                                       to be represented
      * @since 1.5
      */
     public Minutes toStandardMinutes() {
         checkYearsAndMonths("Minutes");
-        long millis = getMillis();  // assign to a long
+        long millis = getMillis(); // assign to a long
         millis += ((long) getSeconds()) * DateTimeConstants.MILLIS_PER_SECOND;
         long minutes = millis / DateTimeConstants.MILLIS_PER_MINUTE;
         minutes = FieldUtils.safeAdd(minutes, getMinutes());
@@ -1492,7 +1546,8 @@ public final class Period
      * 
      * @return a period representing the number of standard seconds in this period
      * @throws UnsupportedOperationException if the period contains years or months
-     * @throws ArithmeticException if the number of seconds is too large to be represented
+     * @throws ArithmeticException           if the number of seconds is too large
+     *                                       to be represented
      * @since 1.5
      */
     public Seconds toStandardSeconds() {
@@ -1506,7 +1561,7 @@ public final class Period
         return Seconds.seconds(FieldUtils.safeToInt(seconds));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this period to a duration assuming a
      * 7 day week, 24 hour day, 60 minute hour and 60 second minute.
@@ -1527,7 +1582,7 @@ public final class Period
      */
     public Duration toStandardDuration() {
         checkYearsAndMonths("Duration");
-        long millis = getMillis();  // no overflow can happen, even with Integer.MAX_VALUEs
+        long millis = getMillis(); // no overflow can happen, even with Integer.MAX_VALUEs
         millis += (((long) getSeconds()) * ((long) DateTimeConstants.MILLIS_PER_SECOND));
         millis += (((long) getMinutes()) * ((long) DateTimeConstants.MILLIS_PER_MINUTE));
         millis += (((long) getHours()) * ((long) DateTimeConstants.MILLIS_PER_HOUR));
@@ -1539,19 +1594,21 @@ public final class Period
     /**
      * Check that there are no years or months in the period.
      * 
-     * @param destintionType  the destination type, not null
+     * @param destintionType the destination type, not null
      * @throws UnsupportedOperationException if the period contains years or months
      */
     private void checkYearsAndMonths(String destintionType) {
         if (getMonths() != 0) {
-            throw new UnsupportedOperationException("Cannot convert to " + destintionType + " as this period contains months and months vary in length");
+            throw new UnsupportedOperationException("Cannot convert to " + destintionType
+                    + " as this period contains months and months vary in length");
         }
         if (getYears() != 0) {
-            throw new UnsupportedOperationException("Cannot convert to " + destintionType + " as this period contains years and years vary in length");
+            throw new UnsupportedOperationException(
+                    "Cannot convert to " + destintionType + " as this period contains years and years vary in length");
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Normalizes this period using standard rules, assuming a 12 month year,
      * 7 day week, 24 hour day, 60 minute hour and 60 second minute.
@@ -1581,7 +1638,7 @@ public final class Period
         return normalizedStandard(PeriodType.standard());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Normalizes this period using standard rules, assuming a 12 month year,
      * 7 day week, 24 hour day, 60 minute hour and 60 second minute,
@@ -1606,16 +1663,18 @@ public final class Period
      * you may not want the result to include weeks, in which case you pass
      * in <code>PeriodType.yearMonthDayTime()</code>.
      * 
-     * @param type  the period type of the new period, null means standard type
+     * @param type the period type of the new period, null means standard type
      * @return a normalized period equivalent to this period
-     * @throws ArithmeticException if any field is too large to be represented
+     * @throws ArithmeticException           if any field is too large to be
+     *                                       represented
      * @throws UnsupportedOperationException if this period contains non-zero
-     *  years or months but the specified period type does not support them
+     *                                       years or months but the specified
+     *                                       period type does not support them
      * @since 1.5
      */
     public Period normalizedStandard(PeriodType type) {
         type = DateTimeUtils.getPeriodType(type);
-        long millis = getMillis();  // no overflow can happen, even with Integer.MAX_VALUEs
+        long millis = getMillis(); // no overflow can happen, even with Integer.MAX_VALUEs
         millis += (((long) getSeconds()) * ((long) DateTimeConstants.MILLIS_PER_SECOND));
         millis += (((long) getMinutes()) * ((long) DateTimeConstants.MILLIS_PER_MINUTE));
         millis += (((long) getHours()) * ((long) DateTimeConstants.MILLIS_PER_HOUR));
@@ -1637,7 +1696,9 @@ public final class Period
                 totalMonths = totalMonths - normalizedMonths;
             }
             if (totalMonths != 0) {
-                throw new UnsupportedOperationException("Unable to normalize as PeriodType is missing either years or months but period has a month/year amount: " + toString());
+                throw new UnsupportedOperationException(
+                        "Unable to normalize as PeriodType is missing either years or months but period has a month/year amount: "
+                                + toString());
             }
         }
         return result;

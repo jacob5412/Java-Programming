@@ -48,9 +48,9 @@ public class TestDateTimeUtils extends TestCase {
         String str = System.getProperty("java.version");
         boolean old = true;
         if (str.length() > 3 &&
-            str.charAt(0) == '1' &&
-            str.charAt(1) == '.' &&
-            (str.charAt(2) == '4' || str.charAt(2) == '5' || str.charAt(2) == '6')) {
+                str.charAt(0) == '1' &&
+                str.charAt(1) == '.' &&
+                (str.charAt(2) == '4' || str.charAt(2) == '5' || str.charAt(2) == '6')) {
             old = false;
         }
         OLD_JDK = old;
@@ -60,32 +60,29 @@ public class TestDateTimeUtils extends TestCase {
     // (before the late 90's they were all over the place)
 
     private static final DateTimeZone PARIS = DateTimeZone.forID("Europe/Paris");
-    
-    long y2002days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 
-                     366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 
-                     365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
-                     366 + 365;
-    long y2003days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 
-                     366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 
-                     365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
-                     366 + 365 + 365;
-    
+
+    long y2002days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 +
+            365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365;
+    long y2003days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 +
+            365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365;
+
     // 2002-06-09
-    private long TEST_TIME_NOW =
-            (y2002days + 31L + 28L + 31L + 30L + 31L + 9L -1L) * DateTimeConstants.MILLIS_PER_DAY;
-            
+    private long TEST_TIME_NOW = (y2002days + 31L + 28L + 31L + 30L + 31L + 9L - 1L) * DateTimeConstants.MILLIS_PER_DAY;
+
     // 2002-04-05
-    private long TEST_TIME1 =
-            (y2002days + 31L + 28L + 31L + 5L -1L) * DateTimeConstants.MILLIS_PER_DAY
+    private long TEST_TIME1 = (y2002days + 31L + 28L + 31L + 5L - 1L) * DateTimeConstants.MILLIS_PER_DAY
             + 12L * DateTimeConstants.MILLIS_PER_HOUR
             + 24L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
+
     // 2003-05-06
-    private long TEST_TIME2 =
-            (y2003days + 31L + 28L + 31L + 30L + 6L -1L) * DateTimeConstants.MILLIS_PER_DAY
+    private long TEST_TIME2 = (y2003days + 31L + 28L + 31L + 30L + 6L - 1L) * DateTimeConstants.MILLIS_PER_DAY
             + 14L * DateTimeConstants.MILLIS_PER_HOUR
             + 28L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
+
     private static final Policy RESTRICT;
     private static final Policy ALLOW;
     static {
@@ -93,30 +90,33 @@ public class TestDateTimeUtils extends TestCase {
         RESTRICT = new Policy() {
             public PermissionCollection getPermissions(CodeSource codesource) {
                 Permissions p = new Permissions();
-                p.add(new AllPermission());  // enable everything
+                p.add(new AllPermission()); // enable everything
                 return p;
             }
+
             public void refresh() {
             }
+
             public boolean implies(ProtectionDomain domain, Permission permission) {
                 if (permission instanceof JodaTimePermission) {
                     return false;
                 }
                 return true;
-//                return super.implies(domain, permission);
+                // return super.implies(domain, permission);
             }
         };
         ALLOW = new Policy() {
             public PermissionCollection getPermissions(CodeSource codesource) {
                 Permissions p = new Permissions();
-                p.add(new AllPermission());  // enable everything
+                p.add(new AllPermission()); // enable everything
                 return p;
             }
+
             public void refresh() {
             }
         };
     }
-    
+
     public static void main(String[] args) {
         junit.textui.TestRunner.run(suite());
     }
@@ -135,26 +135,27 @@ public class TestDateTimeUtils extends TestCase {
     protected void tearDown() throws Exception {
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testTest() {
         assertEquals("2002-06-09T00:00:00.000Z", new Instant(TEST_TIME_NOW).toString());
         assertEquals("2002-04-05T12:24:00.000Z", new Instant(TEST_TIME1).toString());
         assertEquals("2003-05-06T14:28:00.000Z", new Instant(TEST_TIME2).toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testClass() {
         Class<?> cls = DateTimeUtils.class;
         assertEquals(true, Modifier.isPublic(cls.getModifiers()));
         assertEquals(false, Modifier.isFinal(cls.getModifiers()));
-        
+
         assertEquals(1, cls.getDeclaredConstructors().length);
         assertEquals(true, Modifier.isProtected(cls.getDeclaredConstructors()[0].getModifiers()));
-        
-        new DateTimeUtils() {};
+
+        new DateTimeUtils() {
+        };
     }
-    
-    //-----------------------------------------------------------------------
+
+    // -----------------------------------------------------------------------
     public void testSystemMillis() {
         long nowSystem = System.currentTimeMillis();
         long now = DateTimeUtils.currentTimeMillis();
@@ -162,7 +163,7 @@ public class TestDateTimeUtils extends TestCase {
         assertTrue((now - nowSystem) < 10000L);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testSystemMillisSecurity() {
         if (OLD_JDK) {
             return;
@@ -184,7 +185,7 @@ public class TestDateTimeUtils extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFixedMillis() {
         try {
             DateTimeUtils.setCurrentMillisFixed(0L);
@@ -200,7 +201,7 @@ public class TestDateTimeUtils extends TestCase {
         assertTrue((now - nowSystem) < 10000L);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFixedMillisSecurity() {
         if (OLD_JDK) {
             return;
@@ -222,14 +223,14 @@ public class TestDateTimeUtils extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testOffsetMillis() {
         try {
             // set time to one day ago
-            DateTimeUtils.setCurrentMillisOffset(-24 * 60 *  60 * 1000);
+            DateTimeUtils.setCurrentMillisOffset(-24 * 60 * 60 * 1000);
             long nowSystem = System.currentTimeMillis();
             long now = DateTimeUtils.currentTimeMillis();
-            long nowAdjustDay = now + (24 * 60 *  60 * 1000);
+            long nowAdjustDay = now + (24 * 60 * 60 * 1000);
             assertTrue((now < nowSystem));
             assertTrue((nowAdjustDay >= nowSystem));
             assertTrue((nowAdjustDay - nowSystem) < 10000L);
@@ -242,7 +243,7 @@ public class TestDateTimeUtils extends TestCase {
         assertTrue((now - nowSystem) < 10000L);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testOffsetMillisToZero() {
         long now1 = 0L;
         try {
@@ -256,7 +257,7 @@ public class TestDateTimeUtils extends TestCase {
         assertEquals(now1, now2);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testOffsetMillisSecurity() {
         if (OLD_JDK) {
             return;
@@ -265,7 +266,7 @@ public class TestDateTimeUtils extends TestCase {
             try {
                 Policy.setPolicy(RESTRICT);
                 System.setSecurityManager(new SecurityManager());
-                DateTimeUtils.setCurrentMillisOffset(-24 * 60 *  60 * 1000);
+                DateTimeUtils.setCurrentMillisOffset(-24 * 60 * 60 * 1000);
                 fail();
             } catch (SecurityException ex) {
                 // ok
@@ -278,7 +279,7 @@ public class TestDateTimeUtils extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testMillisProvider() {
         try {
             DateTimeUtils.setCurrentMillisProvider(new MillisProvider() {
@@ -300,7 +301,7 @@ public class TestDateTimeUtils extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testMillisProviderSecurity() {
         if (OLD_JDK) {
             return;
@@ -326,7 +327,7 @@ public class TestDateTimeUtils extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetInstantMillis_RI() {
         Instant i = new Instant(123L);
         assertEquals(123L, DateTimeUtils.getInstantMillis(i));
@@ -338,34 +339,35 @@ public class TestDateTimeUtils extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetInstantChronology_RI() {
         DateTime dt = new DateTime(123L, BuddhistChronology.getInstance());
         assertEquals(BuddhistChronology.getInstance(), DateTimeUtils.getInstantChronology(dt));
-        
+
         Instant i = new Instant(123L);
         assertEquals(ISOChronology.getInstanceUTC(), DateTimeUtils.getInstantChronology(i));
-        
+
         AbstractInstant ai = new AbstractInstant() {
             public long getMillis() {
                 return 0L;
             }
+
             public Chronology getChronology() {
                 return null; // testing for this
             }
         };
         assertEquals(ISOChronology.getInstance(), DateTimeUtils.getInstantChronology(ai));
-        
+
         assertEquals(ISOChronology.getInstance(), DateTimeUtils.getInstantChronology(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetIntervalChronology_RInterval() {
         Interval dt = new Interval(123L, 456L, BuddhistChronology.getInstance());
         assertEquals(BuddhistChronology.getInstance(), DateTimeUtils.getIntervalChronology(dt));
-        
+
         assertEquals(ISOChronology.getInstance(), DateTimeUtils.getIntervalChronology(null));
-        
+
         MutableInterval ai = new MutableInterval() {
             private static final long serialVersionUID = 1L;
 
@@ -376,7 +378,7 @@ public class TestDateTimeUtils extends TestCase {
         assertEquals(ISOChronology.getInstance(), DateTimeUtils.getIntervalChronology(ai));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetIntervalChronology_RI_RI() {
         DateTime dt1 = new DateTime(123L, BuddhistChronology.getInstance());
         DateTime dt2 = new DateTime(123L, CopticChronology.getInstance());
@@ -386,11 +388,11 @@ public class TestDateTimeUtils extends TestCase {
         assertEquals(ISOChronology.getInstance(), DateTimeUtils.getIntervalChronology(null, null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetReadableInterval_ReadableInterval() {
         ReadableInterval input = new Interval(0, 100L);
         assertEquals(input, DateTimeUtils.getReadableInterval(input));
-        
+
         try {
             DateTimeUtils.setCurrentMillisFixed(TEST_TIME_NOW);
             assertEquals(new Interval(TEST_TIME_NOW, TEST_TIME_NOW), DateTimeUtils.getReadableInterval(null));
@@ -399,32 +401,32 @@ public class TestDateTimeUtils extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetChronology_Chronology() {
         assertEquals(BuddhistChronology.getInstance(), DateTimeUtils.getChronology(BuddhistChronology.getInstance()));
         assertEquals(ISOChronology.getInstance(), DateTimeUtils.getChronology(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetZone_Zone() {
         assertEquals(PARIS, DateTimeUtils.getZone(PARIS));
         assertEquals(DateTimeZone.getDefault(), DateTimeUtils.getZone(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetPeriodType_PeriodType() {
         assertEquals(PeriodType.dayTime(), DateTimeUtils.getPeriodType(PeriodType.dayTime()));
         assertEquals(PeriodType.standard(), DateTimeUtils.getPeriodType(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetDurationMillis_RI() {
         Duration dur = new Duration(123L);
         assertEquals(123L, DateTimeUtils.getDurationMillis(dur));
         assertEquals(0L, DateTimeUtils.getDurationMillis(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     @SuppressWarnings("deprecation")
     public void testIsContiguous_RP() {
         YearMonthDay ymd = new YearMonthDay(2005, 6, 9);
@@ -441,14 +443,15 @@ public class TestDateTimeUtils extends TestCase {
         assertEquals(false, DateTimeUtils.isContiguous(ymdd));
         Partial dd = new Partial(DateTimeFieldType.dayOfMonth(), 13).with(DateTimeFieldType.dayOfWeek(), 5);
         assertEquals(false, DateTimeUtils.isContiguous(dd));
-        
+
         try {
             DateTimeUtils.isContiguous((ReadablePartial) null);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     @SuppressWarnings("deprecation")
     public void testIsContiguous_RP_GJChronology() {
         YearMonthDay ymd = new YearMonthDay(2005, 6, 9, GJ);
@@ -465,50 +468,51 @@ public class TestDateTimeUtils extends TestCase {
         assertEquals(false, DateTimeUtils.isContiguous(ymdd));
         Partial dd = new Partial(DateTimeFieldType.dayOfMonth(), 13).with(DateTimeFieldType.dayOfWeek(), 5);
         assertEquals(false, DateTimeUtils.isContiguous(dd));
-        
+
         try {
             DateTimeUtils.isContiguous((ReadablePartial) null);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void test_julianDay() {
         DateTime base = new DateTime(1970, 1, 1, 0, 0, DateTimeZone.UTC);
-        
+
         assertEquals(2440587.5d, DateTimeUtils.toJulianDay(base.getMillis()), 0.0001d);
         assertEquals(2440588, DateTimeUtils.toJulianDayNumber(base.getMillis()));
         assertEquals(base.getMillis(), DateTimeUtils.fromJulianDay(2440587.5d));
-        
+
         base = base.plusHours(6);
         assertEquals(2440587.75d, DateTimeUtils.toJulianDay(base.getMillis()), 0.0001d);
         assertEquals(2440588, DateTimeUtils.toJulianDayNumber(base.getMillis()));
         assertEquals(base.getMillis(), DateTimeUtils.fromJulianDay(2440587.75d));
-        
+
         base = base.plusHours(6);
         assertEquals(2440588d, DateTimeUtils.toJulianDay(base.getMillis()), 0.0001d);
         assertEquals(2440588, DateTimeUtils.toJulianDayNumber(base.getMillis()));
         assertEquals(base.getMillis(), DateTimeUtils.fromJulianDay(2440588d));
-        
+
         base = base.plusHours(6);
         assertEquals(2440588.25d, DateTimeUtils.toJulianDay(base.getMillis()), 0.0001d);
         assertEquals(2440588, DateTimeUtils.toJulianDayNumber(base.getMillis()));
         assertEquals(base.getMillis(), DateTimeUtils.fromJulianDay(2440588.25d));
-        
+
         base = base.plusHours(6);
         assertEquals(2440588.5d, DateTimeUtils.toJulianDay(base.getMillis()), 0.0001d);
         assertEquals(2440589, DateTimeUtils.toJulianDayNumber(base.getMillis()));
         assertEquals(base.getMillis(), DateTimeUtils.fromJulianDay(2440588.5d));
-        
+
         base = new DateTime(2012, 8, 31, 23, 50, DateTimeZone.UTC);
         assertEquals(2456171.4930555555, DateTimeUtils.toJulianDay(base.getMillis()), 0.0001d);
         assertEquals(2456171, DateTimeUtils.toJulianDayNumber(base.getMillis()));
-        
+
         base = new DateTime(-4713, 1, 1, 12, 0, JulianChronology.getInstanceUTC());
         assertEquals(0d, DateTimeUtils.toJulianDay(base.getMillis()), 0.0001d);
         assertEquals(0, DateTimeUtils.toJulianDayNumber(base.getMillis()));
         assertEquals(base.getMillis(), DateTimeUtils.fromJulianDay(0d));
-        
+
         base = new DateTime(-4713, 1, 1, 0, 0, JulianChronology.getInstanceUTC());
         assertEquals(-0.5d, DateTimeUtils.toJulianDay(base.getMillis()), 0.0001d);
         assertEquals(0, DateTimeUtils.toJulianDayNumber(base.getMillis()));

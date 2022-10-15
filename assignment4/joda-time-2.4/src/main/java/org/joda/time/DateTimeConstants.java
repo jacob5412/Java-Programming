@@ -87,13 +87,11 @@ public class DateTimeConstants {
     /** Constant (7) representing Sunday, the seventh day of the week (ISO) */
     public static final int SUNDAY = 7;
 
-
     /** Constant (0) representing AM, the morning (from Calendar) */
     public static final int AM = 0;
 
     /** Constant (1) representing PM, the afternoon (from Calendar) */
     public static final int PM = 1;
-
 
     /** Constant (0) representing BC, years before zero (from Calendar) */
     public static final int BC = 0;
@@ -119,7 +117,6 @@ public class DateTimeConstants {
      */
     public static final int CE = 1;
 
-
     /** Milliseconds in one second (1000) (ISO) */
     public static final int MILLIS_PER_SECOND = 1000;
 
@@ -135,32 +132,48 @@ public class DateTimeConstants {
     /** Milliseconds in one hour (ISO) */
     public static final int MILLIS_PER_HOUR = MILLIS_PER_MINUTE * MINUTES_PER_HOUR;
 
-    /** Hours in a typical day (24) (ISO). Due to time zone offset changes, the
-     * number of hours per day can vary. */
+    /**
+     * Hours in a typical day (24) (ISO). Due to time zone offset changes, the
+     * number of hours per day can vary.
+     */
     public static final int HOURS_PER_DAY = 24;
-    /** Minutes in a typical day (ISO). Due to time zone offset changes, the number
-     * of minutes per day can vary. */
+    /**
+     * Minutes in a typical day (ISO). Due to time zone offset changes, the number
+     * of minutes per day can vary.
+     */
     public static final int MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY;
-    /** Seconds in a typical day (ISO). Due to time zone offset changes, the number
-     * of seconds per day can vary. */
+    /**
+     * Seconds in a typical day (ISO). Due to time zone offset changes, the number
+     * of seconds per day can vary.
+     */
     public static final int SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY;
-    /** Milliseconds in a typical day (ISO). Due to time zone offset changes, the
-     * number of milliseconds per day can vary. */
+    /**
+     * Milliseconds in a typical day (ISO). Due to time zone offset changes, the
+     * number of milliseconds per day can vary.
+     */
     public static final int MILLIS_PER_DAY = MILLIS_PER_HOUR * HOURS_PER_DAY;
 
     /** Days in one week (7) (ISO) */
     public static final int DAYS_PER_WEEK = 7;
-    /** Hours in a typical week. Due to time zone offset changes, the number of
-     * hours per week can vary. */
+    /**
+     * Hours in a typical week. Due to time zone offset changes, the number of
+     * hours per week can vary.
+     */
     public static final int HOURS_PER_WEEK = HOURS_PER_DAY * DAYS_PER_WEEK;
-    /** Minutes in a typical week (ISO). Due to time zone offset changes, the number
-     * of minutes per week can vary. */
+    /**
+     * Minutes in a typical week (ISO). Due to time zone offset changes, the number
+     * of minutes per week can vary.
+     */
     public static final int MINUTES_PER_WEEK = MINUTES_PER_DAY * DAYS_PER_WEEK;
-    /** Seconds in a typical week (ISO). Due to time zone offset changes, the number
-     * of seconds per week can vary. */
+    /**
+     * Seconds in a typical week (ISO). Due to time zone offset changes, the number
+     * of seconds per week can vary.
+     */
     public static final int SECONDS_PER_WEEK = SECONDS_PER_DAY * DAYS_PER_WEEK;
-    /** Milliseconds in a typical week (ISO). Due to time zone offset changes, the
-     * number of milliseconds per week can vary. */
+    /**
+     * Milliseconds in a typical week (ISO). Due to time zone offset changes, the
+     * number of milliseconds per week can vary.
+     */
     public static final int MILLIS_PER_WEEK = MILLIS_PER_DAY * DAYS_PER_WEEK;
 
     /**

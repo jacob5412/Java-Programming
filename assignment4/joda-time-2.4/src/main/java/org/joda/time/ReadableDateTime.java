@@ -23,7 +23,8 @@ import java.util.Locale;
  * The implementation of this interface may be mutable or immutable.
  * This interface only gives access to retrieve data, never to change it.
  * <p>
- * Methods in your application should be defined using <code>ReadableDateTime</code>
+ * Methods in your application should be defined using
+ * <code>ReadableDateTime</code>
  * as a parameter if the method only wants to read the datetime, and not perform
  * any advanced manipulations.
  *
@@ -124,7 +125,7 @@ public interface ReadableDateTime extends ReadableInstant {
     int getEra();
 
     // Time field access methods
-    //-----------------------------------------------------------
+    // -----------------------------------------------------------
 
     /**
      * Get the millis of second field value.
@@ -178,7 +179,8 @@ public interface ReadableDateTime extends ReadableInstant {
     /**
      * Get this object as a DateTime.
      * <p>
-     * If the implementation of the interface is a DateTime, it is returned directly.
+     * If the implementation of the interface is a DateTime, it is returned
+     * directly.
      * 
      * @return a DateTime using the same millis
      */
@@ -194,20 +196,20 @@ public interface ReadableDateTime extends ReadableInstant {
     /**
      * Output the instant using the specified format pattern.
      *
-     * @param pattern  pattern specification
-     * @throws IllegalArgumentException  if pattern is invalid
-     * @see  org.joda.time.format.DateTimeFormat
+     * @param pattern pattern specification
+     * @throws IllegalArgumentException if pattern is invalid
+     * @see org.joda.time.format.DateTimeFormat
      */
     String toString(String pattern) throws IllegalArgumentException;
 
     /**
      * Output the instant using the specified format pattern.
      *
-     * @param pattern  pattern specification
+     * @param pattern pattern specification
      * @param locale  Locale to use, or null for default
-     * @throws IllegalArgumentException  if pattern is invalid
-     * @see  org.joda.time.format.DateTimeFormat
+     * @throws IllegalArgumentException if pattern is invalid
+     * @see org.joda.time.format.DateTimeFormat
      */
     String toString(String pattern, Locale locale) throws IllegalArgumentException;
-    
+
 }

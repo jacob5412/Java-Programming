@@ -8,25 +8,25 @@ public class SentenceTokenization {
         String sentence = "Hi. How are you? Welcome to Tutorialspoint. "
                 + "We provide free tutorials on various technologies";
 
-        //Instantiating SimpleTokenizer class
+        // Instantiating SimpleTokenizer class
         SimpleTokenizer simpleTokenizer = SimpleTokenizer.INSTANCE;
 
-        //Tokenizing the given sentence
+        // Tokenizing the given sentence
         String tokens[] = simpleTokenizer.tokenize(sentence);
 
-        //Printing the tokens
-        for(String token :tokens){
+        // Printing the tokens
+        for (String token : tokens) {
             System.out.println(token);
         }
 
-        //Instantiating whitespaceTokenizer class
+        // Instantiating whitespaceTokenizer class
         WhitespaceTokenizer whitespaceTokenizer = WhitespaceTokenizer.INSTANCE;
 
-        //Tokenizing the given paragraph
+        // Tokenizing the given paragraph
         String whitetokens[] = whitespaceTokenizer.tokenize(sentence);
 
-        //Printing the tokens
-        for(String token : whitetokens)
+        // Printing the tokens
+        for (String token : whitetokens)
             System.out.println(token);
     }
 }

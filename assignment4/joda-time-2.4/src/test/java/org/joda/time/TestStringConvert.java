@@ -48,7 +48,7 @@ public class TestStringConvert extends TestCase {
     protected void tearDown() throws Exception {
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     @SuppressWarnings("deprecation")
     public void testDateMidnight() {
         DateMidnight test = new DateMidnight(2010, 6, 30, ISOChronology.getInstance(ZONE));
@@ -113,7 +113,7 @@ public class TestStringConvert extends TestCase {
         assertEquals(test, StringConvert.INSTANCE.convertFromString(MonthDay.class, str));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testTimeZone() {
         DateTimeZone test = DateTimeZone.forID("Europe/Paris");
         String str = StringConvert.INSTANCE.convertToString(test);
@@ -121,14 +121,18 @@ public class TestStringConvert extends TestCase {
         assertEquals(test, StringConvert.INSTANCE.convertFromString(DateTimeZone.class, str));
     }
 
-//    public void testInterval() {
-//        DateTime a = new DateTime(2010, 6, 30, 2, 30, 50, 678, ISOChronology.getInstance(ZONE));
-//        DateTime b = new DateTime(2011, 9, 10, 4, 20, 40, 234, ISOChronology.getInstance(ZONE));
-//        Interval test = new Interval(a, b);
-//        String str = StringConvert.INSTANCE.convertToString(test);
-//        assertEquals("2010-06-30T02:30:50.678+02:00/2011-09-10T04:20:40.234+02:00", str);
-//        assertEquals(test, StringConvert.INSTANCE.convertFromString(Interval.class, str));
-//    }
+    // public void testInterval() {
+    // DateTime a = new DateTime(2010, 6, 30, 2, 30, 50, 678,
+    // ISOChronology.getInstance(ZONE));
+    // DateTime b = new DateTime(2011, 9, 10, 4, 20, 40, 234,
+    // ISOChronology.getInstance(ZONE));
+    // Interval test = new Interval(a, b);
+    // String str = StringConvert.INSTANCE.convertToString(test);
+    // assertEquals("2010-06-30T02:30:50.678+02:00/2011-09-10T04:20:40.234+02:00",
+    // str);
+    // assertEquals(test, StringConvert.INSTANCE.convertFromString(Interval.class,
+    // str));
+    // }
 
     public void testDuration() {
         Duration test = new Duration(12345678L);

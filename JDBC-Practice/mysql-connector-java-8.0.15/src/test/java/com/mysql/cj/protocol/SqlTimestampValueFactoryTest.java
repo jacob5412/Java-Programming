@@ -41,7 +41,8 @@ import com.mysql.cj.result.SqlTimestampValueFactory;
 /**
  * Tests for JDBC {@link java.sql.Timestamp} creation.
  * <p/>
- * Note: Timestamp.toString() is not locale-specific and is appropriate for use in these tests.
+ * Note: Timestamp.toString() is not locale-specific and is appropriate for use
+ * in these tests.
  */
 public class SqlTimestampValueFactoryTest {
     /**
@@ -56,7 +57,8 @@ public class SqlTimestampValueFactoryTest {
     }
 
     /**
-     * Test that the default date (1970-01-01) is correctly assigned to the timestamp when only the time is given.
+     * Test that the default date (1970-01-01) is correctly assigned to the
+     * timestamp when only the time is given.
      */
     @Test
     public void testTimestampFromTime() {

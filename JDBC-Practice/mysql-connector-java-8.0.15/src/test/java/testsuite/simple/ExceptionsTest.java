@@ -69,12 +69,13 @@ public class ExceptionsTest extends BaseTestCase {
                         return null;
                     }
                 });
-        assertThrows(SQLException.class, ".*Can't find configuration template named 'wrongvalue'", new Callable<Void>() {
-            public Void call() throws Exception {
-                new NonRegisteringDriver().connect(dbUrl + "&useConfigs=wrongvalue", null);
-                return null;
-            }
-        });
+        assertThrows(SQLException.class, ".*Can't find configuration template named 'wrongvalue'",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        new NonRegisteringDriver().connect(dbUrl + "&useConfigs=wrongvalue", null);
+                        return null;
+                    }
+                });
         assertThrows(SQLException.class,
                 "The connection property 'useServerPrepStmts' acceptable values are: 'TRUE', 'FALSE', 'YES' or 'NO'\\. The value 'wrongvalue' is not acceptable\\.",
                 new Callable<Void>() {

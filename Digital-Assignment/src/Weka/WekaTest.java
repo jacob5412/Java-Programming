@@ -28,7 +28,7 @@ public class WekaTest {
     }
 
     public static Evaluation classify(Classifier model,
-                                      Instances trainingSet, Instances testingSet) throws Exception {
+            Instances trainingSet, Instances testingSet) throws Exception {
         Evaluation evaluation = new Evaluation(trainingSet);
 
         model.buildClassifier(trainingSet);
@@ -78,8 +78,8 @@ public class WekaTest {
         Classifier[] models = {
                 new J48(), // a decision tree
                 new PART(),
-                new DecisionTable(),//decision table majority classifier
-                new DecisionStump() //one-level decision tree
+                new DecisionTable(), // decision table majority classifier
+                new DecisionStump() // one-level decision tree
         };
 
         // Run for each model
@@ -95,7 +95,7 @@ public class WekaTest {
                 predictions.appendElements(validation.predictions());
 
                 // Uncomment to see the summary for each training-testing pair.
-                //System.out.println(models[j].toString());
+                // System.out.println(models[j].toString());
             }
 
             // Calculate overall accuracy of current classifier on all splits

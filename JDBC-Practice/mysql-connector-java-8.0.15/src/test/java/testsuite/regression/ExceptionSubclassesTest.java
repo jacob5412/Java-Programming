@@ -38,7 +38,7 @@ public class ExceptionSubclassesTest extends BaseTestCase {
      * Creates a new ExceptionSubclassesTest.
      * 
      * @param name
-     *            the name of the test
+     *             the name of the test
      */
     public ExceptionSubclassesTest(String name) {
         super(name);
@@ -46,10 +46,14 @@ public class ExceptionSubclassesTest extends BaseTestCase {
 
     public void testBug17750877() throws Exception {
 
-        assertEquals("java.sql.SQLTransientConnectionException", SQLError.createSQLException("test", "08000", 0, true, null).getClass().getCanonicalName());
-        assertEquals("java.sql.SQLNonTransientConnectionException", SQLError.createSQLException("test", "08000", 0, false, null).getClass().getCanonicalName());
-        assertEquals("java.sql.SQLSyntaxErrorException", SQLError.createSQLException("test", "42000", null).getClass().getCanonicalName());
-        assertEquals("java.sql.SQLIntegrityConstraintViolationException", SQLError.createSQLException("test", "23000", null).getClass().getCanonicalName());
+        assertEquals("java.sql.SQLTransientConnectionException",
+                SQLError.createSQLException("test", "08000", 0, true, null).getClass().getCanonicalName());
+        assertEquals("java.sql.SQLNonTransientConnectionException",
+                SQLError.createSQLException("test", "08000", 0, false, null).getClass().getCanonicalName());
+        assertEquals("java.sql.SQLSyntaxErrorException",
+                SQLError.createSQLException("test", "42000", null).getClass().getCanonicalName());
+        assertEquals("java.sql.SQLIntegrityConstraintViolationException",
+                SQLError.createSQLException("test", "23000", null).getClass().getCanonicalName());
         assertEquals("com.mysql.cj.jdbc.exceptions.MySQLTransactionRollbackException",
                 SQLError.createSQLException("test", "40000", null).getClass().getCanonicalName());
         assertEquals("com.mysql.cj.jdbc.exceptions.MySQLQueryInterruptedException",

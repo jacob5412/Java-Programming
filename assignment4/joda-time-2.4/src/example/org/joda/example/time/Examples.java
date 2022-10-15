@@ -41,7 +41,7 @@ public class Examples {
         runDateTime();
         System.out.println();
     }
-    
+
     private void runInstant() {
         System.out.println("Instant");
         System.out.println("=======");
@@ -87,21 +87,31 @@ public class Examples {
         System.out.println("Get dayOfMonth:       in.getDayOfMonth():       " + in.getDayOfMonth());
         System.out.println("...");
         System.out.println("Property access:      in.dayOfWeek().get():                   " + in.dayOfWeek().get());
-        System.out.println("Day of week as text:  in.dayOfWeek().getAsText():             " + in.dayOfWeek().getAsText());
-        System.out.println("Day as short text:    in.dayOfWeek().getAsShortText():        " + in.dayOfWeek().getAsShortText());
-        System.out.println("Day in french:        in.dayOfWeek().getAsText(Locale.FRENCH):" + in.dayOfWeek().getAsText(Locale.FRENCH));
-        System.out.println("Max allowed value:    in.dayOfWeek().getMaximumValue():       " + in.dayOfWeek().getMaximumValue());
-        System.out.println("Min allowed value:    in.dayOfWeek().getMinimumValue():       " + in.dayOfWeek().getMinimumValue());
-        System.out.println("Copy & set to Jan:    in.monthOfYear().setCopy(1):            " + in.monthOfYear().setCopy(1));
-        System.out.println("Copy & add 14 months: in.monthOfYear().addCopy(14):           " + in.monthOfYear().addToCopy(14));
-        System.out.println("Add 14 mnths in field:in.monthOfYear().addWrapFieldCopy(14):  " + in.monthOfYear().addWrapFieldToCopy(14));
+        System.out
+                .println("Day of week as text:  in.dayOfWeek().getAsText():             " + in.dayOfWeek().getAsText());
+        System.out.println(
+                "Day as short text:    in.dayOfWeek().getAsShortText():        " + in.dayOfWeek().getAsShortText());
+        System.out.println("Day in french:        in.dayOfWeek().getAsText(Locale.FRENCH):"
+                + in.dayOfWeek().getAsText(Locale.FRENCH));
+        System.out.println(
+                "Max allowed value:    in.dayOfWeek().getMaximumValue():       " + in.dayOfWeek().getMaximumValue());
+        System.out.println(
+                "Min allowed value:    in.dayOfWeek().getMinimumValue():       " + in.dayOfWeek().getMinimumValue());
+        System.out.println(
+                "Copy & set to Jan:    in.monthOfYear().setCopy(1):            " + in.monthOfYear().setCopy(1));
+        System.out.println(
+                "Copy & add 14 months: in.monthOfYear().addCopy(14):           " + in.monthOfYear().addToCopy(14));
+        System.out.println("Add 14 mnths in field:in.monthOfYear().addWrapFieldCopy(14):  "
+                + in.monthOfYear().addWrapFieldToCopy(14));
         System.out.println("...");
         System.out.println("Convert to Instant:   in.toInstant():           " + in.toInstant());
         System.out.println("Convert to DateTime:  in.toDateTime():          " + in.toDateTime());
         System.out.println("Convert to MutableDT: in.toMutableDateTime():   " + in.toMutableDateTime());
         System.out.println("Convert to Date:      in.toDate():              " + in.toDate());
-        System.out.println("Convert to Calendar:  in.toCalendar(Locale.UK): " + in.toCalendar(Locale.UK).toString().substring(0, 46));
-        System.out.println("Convert to GregCal:   in.toGregorianCalendar(): " + in.toGregorianCalendar().toString().substring(0, 46));
+        System.out.println("Convert to Calendar:  in.toCalendar(Locale.UK): "
+                + in.toCalendar(Locale.UK).toString().substring(0, 46));
+        System.out.println("Convert to GregCal:   in.toGregorianCalendar(): "
+                + in.toGregorianCalendar().toString().substring(0, 46));
         System.out.println("");
         System.out.println("                      in2 = new DateTime(in.getMillis() + 10)");
         DateTime in2 = new DateTime(in.getMillis() + 10);

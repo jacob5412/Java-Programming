@@ -44,14 +44,14 @@ import java.security.BasicPermission;
  * @since 1.0
  */
 public class JodaTimePermission extends BasicPermission {
-    
+
     /** Serialization version */
     private static final long serialVersionUID = 1408944367355875472L;
 
     /**
      * Constructs a new permission object.
      * 
-     * @param name  the permission name
+     * @param name the permission name
      */
     public JodaTimePermission(String name) {
         super(name);

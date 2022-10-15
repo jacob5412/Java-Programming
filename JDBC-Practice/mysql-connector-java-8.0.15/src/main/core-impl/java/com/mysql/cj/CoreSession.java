@@ -96,13 +96,15 @@ public abstract class CoreSession implements Session {
 
         this.gatherPerfMetrics = getPropertySet().getBooleanProperty(PropertyKey.gatherPerfMetrics);
         this.characterEncoding = getPropertySet().getStringProperty(PropertyKey.characterEncoding);
-        this.disconnectOnExpiredPasswords = getPropertySet().getBooleanProperty(PropertyKey.disconnectOnExpiredPasswords);
+        this.disconnectOnExpiredPasswords = getPropertySet()
+                .getBooleanProperty(PropertyKey.disconnectOnExpiredPasswords);
         this.cacheServerConfiguration = getPropertySet().getBooleanProperty(PropertyKey.cacheServerConfiguration);
         this.autoReconnect = getPropertySet().getBooleanProperty(PropertyKey.autoReconnect);
         this.autoReconnectForPools = getPropertySet().getBooleanProperty(PropertyKey.autoReconnectForPools);
         this.maintainTimeStats = getPropertySet().getBooleanProperty(PropertyKey.maintainTimeStats);
 
-        this.log = LogFactory.getLogger(getPropertySet().getStringProperty(PropertyKey.logger).getStringValue(), Log.LOGGER_INSTANCE_NAME);
+        this.log = LogFactory.getLogger(getPropertySet().getStringProperty(PropertyKey.logger).getStringValue(),
+                Log.LOGGER_INSTANCE_NAME);
         if (getPropertySet().getBooleanProperty(PropertyKey.profileSQL).getValue()
                 || getPropertySet().getBooleanProperty(PropertyKey.useUsageAdvisor).getValue()) {
             ProfilerEventHandlerFactory.getInstance(this);
@@ -110,14 +112,15 @@ public abstract class CoreSession implements Session {
     }
 
     /**
-     * Change user as given by parameters. This implementation only supports calling this during the initial handshake.
+     * Change user as given by parameters. This implementation only supports calling
+     * this during the initial handshake.
      * 
      * @param user
-     *            user name
+     *                 user name
      * @param password
-     *            password
+     *                 password
      * @param database
-     *            database name
+     *                 database name
      */
     public void changeUser(String user, String password, String database) {
         // reset maxRows to default value
@@ -140,7 +143,8 @@ public abstract class CoreSession implements Session {
     }
 
     /**
-     * Returns the log mechanism that should be used to log information from/for this Session.
+     * Returns the log mechanism that should be used to log information from/for
+     * this Session.
      * 
      * @return the Log instance to use for logging messages.
      */
@@ -163,7 +167,8 @@ public abstract class CoreSession implements Session {
         return this.protocol.sendAsync(message);
     }
 
-    public <M extends Message, RES_T, R> RES_T query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow, Collector<R, ?, RES_T> collector) {
+    public <M extends Message, RES_T, R> RES_T query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow,
+            Collector<R, ?, RES_T> collector) {
         this.protocol.send(message, 0);
         ColumnDefinition metadata = this.protocol.readMetadata();
         Iterator<Row> ris = this.protocol.getRowInputStream(metadata);

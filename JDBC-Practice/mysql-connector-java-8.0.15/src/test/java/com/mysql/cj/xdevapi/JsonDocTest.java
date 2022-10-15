@@ -88,19 +88,21 @@ public class JsonDocTest {
         assertEquals(" qq ", val.getString());
 
         // don't ignore other symbols before opening quotation mark
-        assertThrows(WrongArgumentException.class, "Attempt to add character '\\\\' to unopened string.", new Callable<Void>() {
-            public Void call() throws Exception {
-                JsonParser.parseString(new StringReader("\\\\ \" "));
-                return null;
-            }
-        });
+        assertThrows(WrongArgumentException.class, "Attempt to add character '\\\\' to unopened string.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        JsonParser.parseString(new StringReader("\\\\ \" "));
+                        return null;
+                    }
+                });
 
-        assertThrows(WrongArgumentException.class, "Attempt to add character 'f' to unopened string.", new Callable<Void>() {
-            public Void call() throws Exception {
-                JsonParser.parseString(new StringReader(" f \" "));
-                return null;
-            }
-        });
+        assertThrows(WrongArgumentException.class, "Attempt to add character 'f' to unopened string.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        JsonParser.parseString(new StringReader(" f \" "));
+                        return null;
+                    }
+                });
 
         // check quotation marks
         assertThrows(WrongArgumentException.class, "Missed closing '\"'.", new Callable<Void>() {
@@ -156,19 +158,21 @@ public class JsonDocTest {
         });
 
         // dot position
-        assertThrows(WrongArgumentException.class, "Wrong '.' occurrence after '1.2', it is allowed only once per number.", new Callable<Void>() {
-            public Void call() throws Exception {
-                JsonParser.parseNumber(new StringReader("1.2.0E-12  "));
-                return null;
-            }
-        });
+        assertThrows(WrongArgumentException.class,
+                "Wrong '.' occurrence after '1.2', it is allowed only once per number.", new Callable<Void>() {
+                    public Void call() throws Exception {
+                        JsonParser.parseNumber(new StringReader("1.2.0E-12  "));
+                        return null;
+                    }
+                });
 
-        assertThrows(WrongArgumentException.class, "Wrong '.' occurrence after '1.20E', it is allowed only once per number.", new Callable<Void>() {
-            public Void call() throws Exception {
-                JsonParser.parseNumber(new StringReader("1.20E.12  "));
-                return null;
-            }
-        });
+        assertThrows(WrongArgumentException.class,
+                "Wrong '.' occurrence after '1.20E', it is allowed only once per number.", new Callable<Void>() {
+                    public Void call() throws Exception {
+                        JsonParser.parseNumber(new StringReader("1.20E.12  "));
+                        return null;
+                    }
+                });
 
         assertThrows(WrongArgumentException.class, "'.' is not allowed in the exponent.", new Callable<Void>() {
             public Void call() throws Exception {
@@ -473,7 +477,8 @@ public class JsonDocTest {
     public void testParseArray() throws Exception {
         JsonArray val;
 
-        val = JsonParser.parseArray(new StringReader("[\"arr.val1\", 123, true, false, null, {\"k1\" : \"v1\"}, [1,2,3]]"));
+        val = JsonParser
+                .parseArray(new StringReader("[\"arr.val1\", 123, true, false, null, {\"k1\" : \"v1\"}, [1,2,3]]"));
         assertEquals(7, val.size());
         assertEquals(JsonString.class, val.get(0).getClass());
         assertEquals("\"arr.val1\"", val.get(0).toString());
@@ -590,12 +595,13 @@ public class JsonDocTest {
                 return null;
             }
         });
-        assertThrows(WrongArgumentException.class, "Attempt to add character 'a' to unopened string.", new Callable<Void>() {
-            public Void call() throws Exception {
-                JsonParser.parseDoc(new StringReader("  {a\"key1\" : \"value1\"}"));
-                return null;
-            }
-        });
+        assertThrows(WrongArgumentException.class, "Attempt to add character 'a' to unopened string.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        JsonParser.parseDoc(new StringReader("  {a\"key1\" : \"value1\"}"));
+                        return null;
+                    }
+                });
 
         assertThrows(WrongArgumentException.class, "Invalid whitespace character 'x'.", new Callable<Void>() {
             public Void call() throws Exception {
@@ -659,11 +665,15 @@ public class JsonDocTest {
         assertEquals(JsonLiteral.NULL.getClass(), doc.get("key7").getClass());
         assertEquals("null", doc.get("key7").toString());
 
-        assertEquals("{\"\":\"val0\",\"key1\":\"val1\",\"key2\":-1.2E-12,\"key3\":{\"in.key1\":true,\"in.key2\":3.1415},"
-                + "\"key4\":false,\"key5\":[\"arr.val1\",null],\"key6\":true,\"key7\":null}", doc.toString());
+        assertEquals(
+                "{\"\":\"val0\",\"key1\":\"val1\",\"key2\":-1.2E-12,\"key3\":{\"in.key1\":true,\"in.key2\":3.1415},"
+                        + "\"key4\":false,\"key5\":[\"arr.val1\",null],\"key6\":true,\"key7\":null}",
+                doc.toString());
 
-        assertEquals("{\n\"\" : \"val0\",\n\"key1\" : \"val1\",\n\"key2\" : -1.2E-12,\n\"key3\" : {\n\"in.key1\" : true,\n\"in.key2\" : 3.1415\n},\n"
-                + "\"key4\" : false,\n\"key5\" : [\"arr.val1\", null],\n\"key6\" : true,\n\"key7\" : null\n}", doc.toFormattedString());
+        assertEquals(
+                "{\n\"\" : \"val0\",\n\"key1\" : \"val1\",\n\"key2\" : -1.2E-12,\n\"key3\" : {\n\"in.key1\" : true,\n\"in.key2\" : 3.1415\n},\n"
+                        + "\"key4\" : false,\n\"key5\" : [\"arr.val1\", null],\n\"key6\" : true,\n\"key7\" : null\n}",
+                doc.toFormattedString());
 
         // Number at the end
         doc = JsonParser.parseDoc(new StringReader("{\"x\" : 2}"));
@@ -700,24 +710,32 @@ public class JsonDocTest {
     @Test
     public void testToJsonString() {
 
-        DbDoc doc = new DbDocImpl().add("field1", new JsonString().setValue("value 1")).add("field2", new JsonNumber().setValue("12345.44E22"))
+        DbDoc doc = new DbDocImpl().add("field1", new JsonString().setValue("value 1"))
+                .add("field2", new JsonNumber().setValue("12345.44E22"))
                 .add("field3", JsonLiteral.TRUE).add("field4", JsonLiteral.FALSE).add("field5", JsonLiteral.NULL)
                 .add("field6",
-                        new DbDocImpl().add("inner field 1", new JsonString().setValue("inner value 1")).add("inner field 2", new JsonNumber().setValue("2"))
-                                .add("inner field 3", JsonLiteral.TRUE).add("inner field 4", JsonLiteral.FALSE).add("inner field 5", JsonLiteral.NULL)
+                        new DbDocImpl().add("inner field 1", new JsonString().setValue("inner value 1"))
+                                .add("inner field 2", new JsonNumber().setValue("2"))
+                                .add("inner field 3", JsonLiteral.TRUE).add("inner field 4", JsonLiteral.FALSE)
+                                .add("inner field 5", JsonLiteral.NULL)
                                 .add("inner field 6", new JsonArray()).add("inner field 7", new DbDocImpl()))
-                .add("field7", new JsonArray().addValue(new JsonString().setValue("arr1")).addValue(new JsonNumber().setValue("3")).addValue(JsonLiteral.TRUE)
-                        .addValue(JsonLiteral.FALSE).addValue(JsonLiteral.NULL).addValue(new JsonArray()).addValue(new DbDocImpl()));
+                .add("field7",
+                        new JsonArray().addValue(new JsonString().setValue("arr1"))
+                                .addValue(new JsonNumber().setValue("3")).addValue(JsonLiteral.TRUE)
+                                .addValue(JsonLiteral.FALSE).addValue(JsonLiteral.NULL).addValue(new JsonArray())
+                                .addValue(new DbDocImpl()));
 
         assertEquals("{\"field1\":\"value 1\",\"field2\":1.234544E+26,\"field3\":true,\"field4\":false,\"field5\":null,"
                 + "\"field6\":{\"inner field 1\":\"inner value 1\",\"inner field 2\":2,\"inner field 3\":true,"
                 + "\"inner field 4\":false,\"inner field 5\":null,\"inner field 6\":[],\"inner field 7\":{}},"
                 + "\"field7\":[\"arr1\",3,true,false,null,[],{}]}", doc.toString());
 
-        assertEquals("{\n\"field1\" : \"value 1\",\n\"field2\" : 1.234544E+26,\n\"field3\" : true,\n\"field4\" : false,\n\"field5\" : null,\n"
-                + "\"field6\" : {\n\"inner field 1\" : \"inner value 1\",\n\"inner field 2\" : 2,\n\"inner field 3\" : true,\n"
-                + "\"inner field 4\" : false,\n\"inner field 5\" : null,\n\"inner field 6\" : [],\n\"inner field 7\" : {}\n},\n"
-                + "\"field7\" : [\"arr1\", 3, true, false, null, [], {}]\n}", doc.toFormattedString());
+        assertEquals(
+                "{\n\"field1\" : \"value 1\",\n\"field2\" : 1.234544E+26,\n\"field3\" : true,\n\"field4\" : false,\n\"field5\" : null,\n"
+                        + "\"field6\" : {\n\"inner field 1\" : \"inner value 1\",\n\"inner field 2\" : 2,\n\"inner field 3\" : true,\n"
+                        + "\"inner field 4\" : false,\n\"inner field 5\" : null,\n\"inner field 6\" : [],\n\"inner field 7\" : {}\n},\n"
+                        + "\"field7\" : [\"arr1\", 3, true, false, null, [], {}]\n}",
+                doc.toFormattedString());
     }
 
     @Test
@@ -730,7 +748,8 @@ public class JsonDocTest {
             testRoutine.call();
         } catch (Throwable t) {
             if (!throwable.isAssignableFrom(t.getClass())) {
-                fail("Expected exception of type '" + throwable.getName() + "' but instead a exception of type '" + t.getClass().getName() + "' was thrown.");
+                fail("Expected exception of type '" + throwable.getName() + "' but instead a exception of type '"
+                        + t.getClass().getName() + "' was thrown.");
             }
 
             return throwable.cast(t);
@@ -741,12 +760,14 @@ public class JsonDocTest {
         return null;
     }
 
-    protected static <EX extends Throwable> EX assertThrows(Class<EX> throwable, String msgMatchesRegex, Callable<?> testRoutine) {
+    protected static <EX extends Throwable> EX assertThrows(Class<EX> throwable, String msgMatchesRegex,
+            Callable<?> testRoutine) {
         try {
             testRoutine.call();
         } catch (Throwable t) {
             if (!throwable.isAssignableFrom(t.getClass())) {
-                fail("Expected exception of type '" + throwable.getName() + "' but instead a exception of type '" + t.getClass().getName() + "' was thrown.");
+                fail("Expected exception of type '" + throwable.getName() + "' but instead a exception of type '"
+                        + t.getClass().getName() + "' was thrown.");
             }
 
             if (!t.getMessage().matches(msgMatchesRegex)) {

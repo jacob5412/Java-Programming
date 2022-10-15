@@ -16,21 +16,27 @@
  */
 
 body {
- margin-top: 1em;
- margin-bottom: 1em;
- margin-left: 16%;
- margin-right: 8%
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 16%;
+  margin-right: 8%
 }
 
-h1, h2, h3, h4, div.toc {
- color: #006699;
+h1,
+h2,
+h3,
+h4,
+div.toc {
+  color: #006699;
 }
 
 div.legalnotice {
- max-width: 450px;
+  max-width: 450px;
 }
 
-pre.programlisting, pre.screen, pre.literallayout {
+pre.programlisting,
+pre.screen,
+pre.literallayout {
   border: 1px dashed #006699;
   background-color: #EEE;
 }
@@ -41,11 +47,12 @@ pre.programlisting, pre.screen, pre.literallayout {
  */
 pre.programlisting .hl-keyword {
   color: #7F0055;
-  font-weight: bold; 
+  font-weight: bold;
 }
 
 /* Seems to be broken, override red inline style of hl-string */
-pre.programlisting .hl-string, pre.programlisting b.hl-string i[style]{
+pre.programlisting .hl-string,
+pre.programlisting b.hl-string i[style] {
   color: #2A00FF !important;
 }
 

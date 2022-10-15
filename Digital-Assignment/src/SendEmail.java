@@ -9,9 +9,9 @@ import java.util.Scanner;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-class Mailer{
-    public static void send(String from,String password,String to,String sub,String msg){
-        //Get properties object
+class Mailer {
+    public static void send(String from, String password, String to, String sub, String msg) {
+        // Get properties object
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
@@ -19,28 +19,30 @@ class Mailer{
                 "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
-        //get Session
+        // get Session
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(from,password);
+                        return new PasswordAuthentication(from, password);
                     }
                 });
-        //compose message
+        // compose message
         try {
             MimeMessage message = new MimeMessage(session);
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject(sub);
             message.setText(msg);
-            //send message
+            // send message
             Transport.send(message);
             System.out.println("message sent successfully");
-        } catch (MessagingException e) {throw new RuntimeException(e);}
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
 
-public class SendEmail{
+public class SendEmail {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Username: ");
@@ -54,7 +56,7 @@ public class SendEmail{
         System.out.print("Message: ");
         String message = sc.nextLine();
 
-        //from,password,to,subject,message
-        Mailer.send(username,password,to,subject,message);
+        // from,password,to,subject,message
+        Mailer.send(username, password, to, subject, message);
     }
-}    
+}
