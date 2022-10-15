@@ -65,7 +65,10 @@ public abstract class AbstractQuery implements Query {
     /** The character encoding to use (if available) */
     protected String charEncoding = null;
 
-    /** Mutex to prevent race between returning query results and noticing that query has been timed-out or cancelled. */
+    /**
+     * Mutex to prevent race between returning query results and noticing that query
+     * has been timed-out or cancelled.
+     */
     protected Object cancelTimeoutMutex = new Object();
 
     private CancelStatus cancelStatus = CancelStatus.NOT_CANCELED;
@@ -119,7 +122,8 @@ public abstract class AbstractQuery implements Query {
     public void checkCancelTimeout() {
         synchronized (this.cancelTimeoutMutex) {
             if (this.cancelStatus != CancelStatus.NOT_CANCELED) {
-                CJException cause = this.cancelStatus == CancelStatus.CANCELED_BY_TIMEOUT ? new CJTimeoutException() : new OperationCancelledException();
+                CJException cause = this.cancelStatus == CancelStatus.CANCELED_BY_TIMEOUT ? new CJTimeoutException()
+                        : new OperationCancelledException();
                 resetCancelledState();
                 throw cause;
             }
@@ -197,7 +201,8 @@ public abstract class AbstractQuery implements Query {
     }
 
     public CancelQueryTask startQueryTimer(Query stmtToCancel, int timeout) {
-        if (this.session.getPropertySet().getBooleanProperty(PropertyKey.enableQueryTimeouts).getValue() && timeout != 0) {
+        if (this.session.getPropertySet().getBooleanProperty(PropertyKey.enableQueryTimeouts).getValue()
+                && timeout != 0) {
             CancelQueryTaskImpl timeoutTask = new CancelQueryTaskImpl(stmtToCancel);
             this.session.getCancelTimer().schedule(timeoutTask, timeout);
             return timeoutTask;

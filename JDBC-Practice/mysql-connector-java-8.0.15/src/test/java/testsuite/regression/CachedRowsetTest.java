@@ -44,7 +44,7 @@ public class CachedRowsetTest extends BaseTestCase {
      * Creates a new CachedRowsetTest
      * 
      * @param name
-     *            the name of the test to run
+     *             the name of the test to run
      */
     public CachedRowsetTest(String name) {
         super(name);

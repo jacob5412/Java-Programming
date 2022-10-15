@@ -39,26 +39,23 @@ public class TestTimeOfDay_Constructors extends TestCase {
     private static final DateTimeZone PARIS = DateTimeZone.forID("Europe/Paris");
     private static final ISOChronology ISO_UTC = ISOChronology.getInstanceUTC();
     private static final int OFFSET = 1;
-    
-    private long TEST_TIME_NOW =
-            10L * DateTimeConstants.MILLIS_PER_HOUR
+
+    private long TEST_TIME_NOW = 10L * DateTimeConstants.MILLIS_PER_HOUR
             + 20L * DateTimeConstants.MILLIS_PER_MINUTE
             + 30L * DateTimeConstants.MILLIS_PER_SECOND
             + 40L;
-            
-    private long TEST_TIME1 =
-        1L * DateTimeConstants.MILLIS_PER_HOUR
-        + 2L * DateTimeConstants.MILLIS_PER_MINUTE
-        + 3L * DateTimeConstants.MILLIS_PER_SECOND
-        + 4L;
-        
-    private long TEST_TIME2 =
-        1L * DateTimeConstants.MILLIS_PER_DAY
-        + 5L * DateTimeConstants.MILLIS_PER_HOUR
-        + 6L * DateTimeConstants.MILLIS_PER_MINUTE
-        + 7L * DateTimeConstants.MILLIS_PER_SECOND
-        + 8L;
-        
+
+    private long TEST_TIME1 = 1L * DateTimeConstants.MILLIS_PER_HOUR
+            + 2L * DateTimeConstants.MILLIS_PER_MINUTE
+            + 3L * DateTimeConstants.MILLIS_PER_SECOND
+            + 4L;
+
+    private long TEST_TIME2 = 1L * DateTimeConstants.MILLIS_PER_DAY
+            + 5L * DateTimeConstants.MILLIS_PER_HOUR
+            + 6L * DateTimeConstants.MILLIS_PER_MINUTE
+            + 7L * DateTimeConstants.MILLIS_PER_SECOND
+            + 8L;
+
     private DateTimeZone zone = null;
 
     public static void main(String[] args) {
@@ -87,7 +84,7 @@ public class TestTimeOfDay_Constructors extends TestCase {
         zone = null;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor ()
      */
@@ -100,7 +97,7 @@ public class TestTimeOfDay_Constructors extends TestCase {
         assertEquals(0, test.getMillisOfSecond());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactory_FromCalendarFields() throws Exception {
         GregorianCalendar cal = new GregorianCalendar(1970, 1, 3, 4, 5, 6);
         cal.set(Calendar.MILLISECOND, 7);
@@ -109,10 +106,11 @@ public class TestTimeOfDay_Constructors extends TestCase {
         try {
             TimeOfDay.fromCalendarFields(null);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactory_FromDateFields_after1970() throws Exception {
         GregorianCalendar cal = new GregorianCalendar(1970, 1, 3, 4, 5, 6);
         cal.set(Calendar.MILLISECOND, 7);
@@ -131,10 +129,11 @@ public class TestTimeOfDay_Constructors extends TestCase {
         try {
             TimeOfDay.fromDateFields(null);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test factory (long)
      */
@@ -171,7 +170,7 @@ public class TestTimeOfDay_Constructors extends TestCase {
         assertEquals(4, test.getMillisOfSecond());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor ()
      */
@@ -191,14 +190,14 @@ public class TestTimeOfDay_Constructors extends TestCase {
         DateTime dt = new DateTime(2005, 6, 8, 23, 59, 30, 40, LONDON);
         DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
         // 23:59 in London is 00:59 the following day in Paris
-        
+
         TimeOfDay test = new TimeOfDay(LONDON);
         assertEquals(ISO_UTC, test.getChronology());
         assertEquals(23, test.getHourOfDay());
         assertEquals(59, test.getMinuteOfHour());
         assertEquals(30, test.getSecondOfMinute());
         assertEquals(40, test.getMillisOfSecond());
-        
+
         test = new TimeOfDay(PARIS);
         assertEquals(ISO_UTC, test.getChronology());
         assertEquals(0, test.getHourOfDay());
@@ -214,7 +213,7 @@ public class TestTimeOfDay_Constructors extends TestCase {
         DateTime dt = new DateTime(2005, 6, 8, 23, 59, 30, 40, LONDON);
         DateTimeUtils.setCurrentMillisFixed(dt.getMillis());
         // 23:59 in London is 00:59 the following day in Paris
-        
+
         TimeOfDay test = new TimeOfDay((DateTimeZone) null);
         assertEquals(ISO_UTC, test.getChronology());
         assertEquals(23, test.getHourOfDay());
@@ -247,7 +246,7 @@ public class TestTimeOfDay_Constructors extends TestCase {
         assertEquals(40, test.getMillisOfSecond());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (long)
      */
@@ -308,7 +307,7 @@ public class TestTimeOfDay_Constructors extends TestCase {
         assertEquals(4, test.getMillisOfSecond());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (Object)
      */
@@ -419,31 +418,35 @@ public class TestTimeOfDay_Constructors extends TestCase {
         try {
             new TimeOfDay("1970-04-06");
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     public void testConstructor_ObjectStringEx2() throws Throwable {
         try {
             new TimeOfDay("1970-04-06T+14:00");
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     public void testConstructor_ObjectStringEx3() throws Throwable {
         try {
             new TimeOfDay("1970-04-06T10:20:30.040");
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     public void testConstructor_ObjectStringEx4() throws Throwable {
         try {
             new TimeOfDay("1970-04-06T10:20:30.040+14:00");
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (Object, Chronology)
      */
@@ -466,11 +469,12 @@ public class TestTimeOfDay_Constructors extends TestCase {
         assertEquals(20, test.getMinuteOfHour());
         assertEquals(0, test.getSecondOfMinute());
         assertEquals(0, test.getMillisOfSecond());
-        
+
         try {
             new TimeOfDay("T1020");
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -510,7 +514,7 @@ public class TestTimeOfDay_Constructors extends TestCase {
         assertEquals(40, test.getMillisOfSecond());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (int, int)
      */
@@ -524,19 +528,23 @@ public class TestTimeOfDay_Constructors extends TestCase {
         try {
             new TimeOfDay(-1, 20);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(24, 20);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, -1);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 60);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -552,19 +560,23 @@ public class TestTimeOfDay_Constructors extends TestCase {
         try {
             new TimeOfDay(-1, 20, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(24, 20, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, -1, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 60, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -592,27 +604,33 @@ public class TestTimeOfDay_Constructors extends TestCase {
         try {
             new TimeOfDay(-1, 20, 30);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(24, 20, 30);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, -1, 30);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 60, 30);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, -1);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, 60);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -628,27 +646,33 @@ public class TestTimeOfDay_Constructors extends TestCase {
         try {
             new TimeOfDay(-1, 20, 30, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(24, 20, 30, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, -1, 30, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 60, 30, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, -1, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, 60, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -676,35 +700,43 @@ public class TestTimeOfDay_Constructors extends TestCase {
         try {
             new TimeOfDay(-1, 20, 30, 40);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(24, 20, 30, 40);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, -1, 30, 40);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 60, 30, 40);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, -1, 40);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, 60, 40);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, 30, -1);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, 30, 1000);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**
@@ -720,35 +752,43 @@ public class TestTimeOfDay_Constructors extends TestCase {
         try {
             new TimeOfDay(-1, 20, 30, 40, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(24, 20, 30, 40, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, -1, 30, 40, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 60, 30, 40, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, -1, 40, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, 60, 40, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, 30, -1, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             new TimeOfDay(10, 20, 30, 1000, JulianChronology.getInstance());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     /**

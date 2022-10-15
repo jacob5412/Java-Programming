@@ -51,7 +51,7 @@ public class TestYears extends TestCase {
     protected void tearDown() throws Exception {
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstants() {
         assertEquals(0, Years.ZERO.getYears());
         assertEquals(1, Years.ONE.getYears());
@@ -61,7 +61,7 @@ public class TestYears extends TestCase {
         assertEquals(Integer.MIN_VALUE, Years.MIN_VALUE.getYears());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactory_years_int() {
         assertSame(Years.ZERO, Years.years(0));
         assertSame(Years.ONE, Years.years(1));
@@ -73,12 +73,12 @@ public class TestYears extends TestCase {
         assertEquals(4, Years.years(4).getYears());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactory_yearsBetween_RInstant() {
         DateTime start = new DateTime(2006, 6, 9, 12, 0, 0, 0, PARIS);
         DateTime end1 = new DateTime(2009, 6, 9, 12, 0, 0, 0, PARIS);
         DateTime end2 = new DateTime(2012, 6, 9, 12, 0, 0, 0, PARIS);
-        
+
         assertEquals(3, Years.yearsBetween(start, end1).getYears());
         assertEquals(0, Years.yearsBetween(start, start).getYears());
         assertEquals(0, Years.yearsBetween(end1, end1).getYears());
@@ -91,7 +91,7 @@ public class TestYears extends TestCase {
         LocalDate start = new LocalDate(2006, 6, 9);
         LocalDate end1 = new LocalDate(2009, 6, 9);
         YearMonthDay end2 = new YearMonthDay(2012, 6, 9);
-        
+
         assertEquals(3, Years.yearsBetween(start, end1).getYears());
         assertEquals(0, Years.yearsBetween(start, start).getYears());
         assertEquals(0, Years.yearsBetween(end1, end1).getYears());
@@ -103,7 +103,7 @@ public class TestYears extends TestCase {
         DateTime start = new DateTime(2006, 6, 9, 12, 0, 0, 0, PARIS);
         DateTime end1 = new DateTime(2009, 6, 9, 12, 0, 0, 0, PARIS);
         DateTime end2 = new DateTime(2012, 6, 9, 12, 0, 0, 0, PARIS);
-        
+
         assertEquals(0, Years.yearsIn((ReadableInterval) null).getYears());
         assertEquals(3, Years.yearsIn(new Interval(start, end1)).getYears());
         assertEquals(0, Years.yearsIn(new Interval(start, start)).getYears());
@@ -132,7 +132,7 @@ public class TestYears extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetMethods() {
         Years test = Years.years(20);
         assertEquals(20, test.getYears());
@@ -148,7 +148,7 @@ public class TestYears extends TestCase {
         assertEquals(PeriodType.years(), test.getPeriodType());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testIsGreaterThan() {
         assertEquals(true, Years.THREE.isGreaterThan(Years.TWO));
         assertEquals(false, Years.THREE.isGreaterThan(Years.THREE));
@@ -165,42 +165,42 @@ public class TestYears extends TestCase {
         assertEquals(true, Years.years(-1).isLessThan(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testToString() {
         Years test = Years.years(20);
         assertEquals("P20Y", test.toString());
-        
+
         test = Years.years(-20);
         assertEquals("P-20Y", test.toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testSerialization() throws Exception {
         Years test = Years.THREE;
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
         oos.writeObject(test);
         byte[] bytes = baos.toByteArray();
         oos.close();
-        
+
         ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
         ObjectInputStream ois = new ObjectInputStream(bais);
         Years result = (Years) ois.readObject();
         ois.close();
-        
+
         assertSame(test, result);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPlus_int() {
         Years test2 = Years.years(2);
         Years result = test2.plus(3);
         assertEquals(2, test2.getYears());
         assertEquals(5, result.getYears());
-        
+
         assertEquals(1, Years.ONE.plus(0).getYears());
-        
+
         try {
             Years.MAX_VALUE.plus(1);
             fail();
@@ -216,10 +216,10 @@ public class TestYears extends TestCase {
         assertEquals(2, test2.getYears());
         assertEquals(3, test3.getYears());
         assertEquals(5, result.getYears());
-        
+
         assertEquals(1, Years.ONE.plus(Years.ZERO).getYears());
         assertEquals(1, Years.ONE.plus((Years) null).getYears());
-        
+
         try {
             Years.MAX_VALUE.plus(Years.ONE);
             fail();
@@ -233,9 +233,9 @@ public class TestYears extends TestCase {
         Years result = test2.minus(3);
         assertEquals(2, test2.getYears());
         assertEquals(-1, result.getYears());
-        
+
         assertEquals(1, Years.ONE.minus(0).getYears());
-        
+
         try {
             Years.MIN_VALUE.minus(1);
             fail();
@@ -251,10 +251,10 @@ public class TestYears extends TestCase {
         assertEquals(2, test2.getYears());
         assertEquals(3, test3.getYears());
         assertEquals(-1, result.getYears());
-        
+
         assertEquals(1, Years.ONE.minus(Years.ZERO).getYears());
         assertEquals(1, Years.ONE.minus((Years) null).getYears());
-        
+
         try {
             Years.MIN_VALUE.minus(Years.ONE);
             fail();
@@ -269,7 +269,7 @@ public class TestYears extends TestCase {
         assertEquals(2, test.getYears());
         assertEquals(-6, test.multipliedBy(-3).getYears());
         assertSame(test, test.multipliedBy(1));
-        
+
         Years halfMax = Years.years(Integer.MAX_VALUE / 2 + 1);
         try {
             halfMax.multipliedBy(2);
@@ -288,7 +288,7 @@ public class TestYears extends TestCase {
         assertEquals(2, test.dividedBy(5).getYears());
         assertEquals(2, test.dividedBy(6).getYears());
         assertSame(test, test.dividedBy(1));
-        
+
         try {
             Years.ONE.dividedBy(0);
             fail();
@@ -301,7 +301,7 @@ public class TestYears extends TestCase {
         Years test = Years.years(12);
         assertEquals(-12, test.negated().getYears());
         assertEquals(12, test.getYears());
-        
+
         try {
             Years.MIN_VALUE.negated();
             fail();
@@ -310,7 +310,7 @@ public class TestYears extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testAddToLocalDate() {
         Years test = Years.years(3);
         LocalDate date = new LocalDate(2006, 6, 1);

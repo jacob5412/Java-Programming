@@ -33,4 +33,3 @@ public class Analysis {
         System.out.println("Solution of linear equation is: " + solution);
     }
 }
-

@@ -49,9 +49,15 @@ public final class Weeks extends BaseSingleFieldPeriod {
     public static final Weeks TWO = new Weeks(2);
     /** Constant representing three weeks. */
     public static final Weeks THREE = new Weeks(3);
-    /** Constant representing the maximum number of weeks that can be stored in this object. */
+    /**
+     * Constant representing the maximum number of weeks that can be stored in this
+     * object.
+     */
     public static final Weeks MAX_VALUE = new Weeks(Integer.MAX_VALUE);
-    /** Constant representing the minimum number of weeks that can be stored in this object. */
+    /**
+     * Constant representing the minimum number of weeks that can be stored in this
+     * object.
+     */
     public static final Weeks MIN_VALUE = new Weeks(Integer.MIN_VALUE);
 
     /** The paser to use for this class. */
@@ -59,13 +65,13 @@ public final class Weeks extends BaseSingleFieldPeriod {
     /** Serialization version. */
     private static final long serialVersionUID = 87525275727380866L;
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Obtains an instance of <code>Weeks</code> that may be cached.
      * <code>Weeks</code> is immutable, so instances can be cached and shared.
      * This factory method provides access to shared instances.
      *
-     * @param weeks  the number of weeks to obtain an instance for
+     * @param weeks the number of weeks to obtain an instance for
      * @return the instance of Weeks
      */
     public static Weeks weeks(int weeks) {
@@ -87,13 +93,13 @@ public final class Weeks extends BaseSingleFieldPeriod {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a <code>Weeks</code> representing the number of whole weeks
      * between the two specified datetimes.
      *
-     * @param start  the start instant, must not be null
-     * @param end  the end instant, must not be null
+     * @param start the start instant, must not be null
+     * @param end   the end instant, must not be null
      * @return the period in weeks
      * @throws IllegalArgumentException if the instants are null or invalid
      */
@@ -109,13 +115,13 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * The two partials must contain the same fields, for example you can specify
      * two <code>LocalDate</code> objects.
      *
-     * @param start  the start partial date, must not be null
-     * @param end  the end partial date, must not be null
+     * @param start the start partial date, must not be null
+     * @param end   the end partial date, must not be null
      * @return the period in weeks
      * @throws IllegalArgumentException if the partials are null or invalid
      */
     public static Weeks weeksBetween(ReadablePartial start, ReadablePartial end) {
-        if (start instanceof LocalDate && end instanceof LocalDate)   {
+        if (start instanceof LocalDate && end instanceof LocalDate) {
             Chronology chrono = DateTimeUtils.getChronology(start.getChronology());
             int weeks = chrono.weeks().getDifference(
                     ((LocalDate) end).getLocalMillis(), ((LocalDate) start).getLocalMillis());
@@ -129,12 +135,12 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * Creates a <code>Weeks</code> representing the number of whole weeks
      * in the specified interval.
      *
-     * @param interval  the interval to extract weeks from, null returns zero
+     * @param interval the interval to extract weeks from, null returns zero
      * @return the period in weeks
      * @throws IllegalArgumentException if the partials are null or invalid
      */
     public static Weeks weeksIn(ReadableInterval interval) {
-        if (interval == null)   {
+        if (interval == null) {
             return Weeks.ZERO;
         }
         int amount = BaseSingleFieldPeriod.between(interval.getStart(), interval.getEnd(), DurationFieldType.weeks());
@@ -145,7 +151,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * Creates a new <code>Weeks</code> representing the number of complete
      * standard length weeks in the specified period.
      * <p>
-     * This factory method converts all fields from the period to hours using standardised
+     * This factory method converts all fields from the period to hours using
+     * standardised
      * durations for each field. Only those fields which have a precise duration in
      * the ISO UTC chronology can be converted.
      * <ul>
@@ -155,11 +162,13 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * <li>One minute consists of 60 weeks.
      * <li>One second consists of 1000 milliseconds.
      * </ul>
-     * Months and Years are imprecise and periods containing these values cannot be converted.
+     * Months and Years are imprecise and periods containing these values cannot be
+     * converted.
      *
-     * @param period  the period to get the number of hours from, null returns zero
+     * @param period the period to get the number of hours from, null returns zero
      * @return the period in weeks
-     * @throws IllegalArgumentException if the period contains imprecise duration values
+     * @throws IllegalArgumentException if the period contains imprecise duration
+     *                                  values
      */
     public static Weeks standardWeeksIn(ReadablePeriod period) {
         int amount = BaseSingleFieldPeriod.standardPeriodIn(period, DateTimeConstants.MILLIS_PER_WEEK);
@@ -167,13 +176,16 @@ public final class Weeks extends BaseSingleFieldPeriod {
     }
 
     /**
-     * Creates a new <code>Weeks</code> by parsing a string in the ISO8601 format 'PnW'.
+     * Creates a new <code>Weeks</code> by parsing a string in the ISO8601 format
+     * 'PnW'.
      * <p>
-     * The parse will accept the full ISO syntax of PnYnMnWnDTnHnMnS however only the
-     * weeks component may be non-zero. If any other component is non-zero, an exception
+     * The parse will accept the full ISO syntax of PnYnMnWnDTnHnMnS however only
+     * the
+     * weeks component may be non-zero. If any other component is non-zero, an
+     * exception
      * will be thrown.
      *
-     * @param periodStr  the period string, null returns zero
+     * @param periodStr the period string, null returns zero
      * @return the period in weeks
      * @throws IllegalArgumentException if the string format is invalid
      */
@@ -186,13 +198,13 @@ public final class Weeks extends BaseSingleFieldPeriod {
         return Weeks.weeks(p.getWeeks());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a new instance representing a number of weeks.
      * You should consider using the factory method {@link #weeks(int)}
      * instead of the constructor.
      *
-     * @param weeks  the number of weeks to represent
+     * @param weeks the number of weeks to represent
      */
     private Weeks(int weeks) {
         super(weeks);
@@ -207,7 +219,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
         return Weeks.weeks(getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the duration field type, which is <code>weeks</code>.
      *
@@ -226,7 +238,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
         return PeriodType.weeks();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this period in weeks to a period in days assuming a
      * 7 day week.
@@ -238,7 +250,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * as it is a useful operation for many applications and business rules.
      * 
      * @return a period representing the number of days for this number of weeks
-     * @throws ArithmeticException if the number of days is too large to be represented
+     * @throws ArithmeticException if the number of days is too large to be
+     *                             represented
      */
     public Days toStandardDays() {
         return Days.days(FieldUtils.safeMultiply(getValue(), DateTimeConstants.DAYS_PER_WEEK));
@@ -256,7 +269,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * as it is a useful operation for many applications and business rules.
      * 
      * @return a period representing the number of hours for this number of weeks
-     * @throws ArithmeticException if the number of hours is too large to be represented
+     * @throws ArithmeticException if the number of hours is too large to be
+     *                             represented
      */
     public Hours toStandardHours() {
         return Hours.hours(FieldUtils.safeMultiply(getValue(), DateTimeConstants.HOURS_PER_WEEK));
@@ -274,7 +288,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * as it is a useful operation for many applications and business rules.
      * 
      * @return a period representing the number of minutes for this number of weeks
-     * @throws ArithmeticException if the number of minutes is too large to be represented
+     * @throws ArithmeticException if the number of minutes is too large to be
+     *                             represented
      */
     public Minutes toStandardMinutes() {
         return Minutes.minutes(FieldUtils.safeMultiply(getValue(), DateTimeConstants.MINUTES_PER_WEEK));
@@ -293,13 +308,14 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * as it is a useful operation for many applications and business rules.
      * 
      * @return a period representing the number of seconds for this number of weeks
-     * @throws ArithmeticException if the number of seconds is too large to be represented
+     * @throws ArithmeticException if the number of seconds is too large to be
+     *                             represented
      */
     public Seconds toStandardSeconds() {
         return Seconds.seconds(FieldUtils.safeMultiply(getValue(), DateTimeConstants.SECONDS_PER_WEEK));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this period in weeks to a duration in milliweeks assuming a
      * 7 day week, 24 hour day, 60 minute hour and 60 second minute.
@@ -315,11 +331,11 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return a duration equivalent to this number of weeks
      */
     public Duration toStandardDuration() {
-        long weeks = getValue();  // assign to a long
+        long weeks = getValue(); // assign to a long
         return new Duration(weeks * DateTimeConstants.MILLIS_PER_WEEK);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the number of weeks that this period represents.
      *
@@ -329,13 +345,13 @@ public final class Weeks extends BaseSingleFieldPeriod {
         return getValue();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the specified number of weeks added.
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param weeks  the amount of weeks to add, may be negative
+     * @param weeks the amount of weeks to add, may be negative
      * @return the new period plus the specified number of weeks
      * @throws ArithmeticException if the result overflows an int
      */
@@ -351,7 +367,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param weeks  the amount of weeks to add, may be negative, null means zero
+     * @param weeks the amount of weeks to add, may be negative, null means zero
      * @return the new period plus the specified number of weeks
      * @throws ArithmeticException if the result overflows an int
      */
@@ -362,13 +378,13 @@ public final class Weeks extends BaseSingleFieldPeriod {
         return plus(weeks.getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the specified number of weeks taken away.
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param weeks  the amount of weeks to take away, may be negative
+     * @param weeks the amount of weeks to take away, may be negative
      * @return the new period minus the specified number of weeks
      * @throws ArithmeticException if the result overflows an int
      */
@@ -381,7 +397,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param weeks  the amount of weeks to take away, may be negative, null means zero
+     * @param weeks the amount of weeks to take away, may be negative, null means
+     *              zero
      * @return the new period minus the specified number of weeks
      * @throws ArithmeticException if the result overflows an int
      */
@@ -392,13 +409,13 @@ public final class Weeks extends BaseSingleFieldPeriod {
         return minus(weeks.getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the weeks multiplied by the specified scalar.
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param scalar  the amount to multiply by, may be negative
+     * @param scalar the amount to multiply by, may be negative
      * @return the new period multiplied by the specified scalar
      * @throws ArithmeticException if the result overflows an int
      */
@@ -412,7 +429,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param divisor  the amount to divide by, may be negative
+     * @param divisor the amount to divide by, may be negative
      * @return the new period divided by the specified divisor
      * @throws ArithmeticException if the divisor is zero
      */
@@ -423,7 +440,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
         return Weeks.weeks(getValue() / divisor);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the weeks value negated.
      *
@@ -434,11 +451,11 @@ public final class Weeks extends BaseSingleFieldPeriod {
         return Weeks.weeks(FieldUtils.safeNegate(getValue()));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Is this weeks instance greater than the specified number of weeks.
      *
-     * @param other  the other period, null means zero
+     * @param other the other period, null means zero
      * @return true if this weeks instance is greater than the specified one
      */
     public boolean isGreaterThan(Weeks other) {
@@ -451,7 +468,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
     /**
      * Is this weeks instance less than the specified number of weeks.
      *
-     * @param other  the other period, null means zero
+     * @param other the other period, null means zero
      * @return true if this weeks instance is less than the specified one
      */
     public boolean isLessThan(Weeks other) {
@@ -461,7 +478,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
         return getValue() < other.getValue();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets this instance as a String in the ISO8601 duration format.
      * <p>

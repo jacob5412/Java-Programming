@@ -71,7 +71,7 @@ public class StringRegressionTest extends BaseTestCase {
      * Tests character conversion bug.
      * 
      * @throws Exception
-     *             if there is an internal error (which is a bug).
+     *                   if there is an internal error (which is a bug).
      */
     public void testAsciiCharConversion() throws Exception {
         byte[] buf = new byte[10];
@@ -101,7 +101,7 @@ public class StringRegressionTest extends BaseTestCase {
      * Software
      * 
      * @throws Exception
-     *             when encoding is not supported (which is a bug)
+     *                   when encoding is not supported (which is a bug)
      */
     public void testEncodingRegression() throws Exception {
         Properties props = new Properties();
@@ -113,18 +113,20 @@ public class StringRegressionTest extends BaseTestCase {
      * Tests fix for BUG#879
      * 
      * @throws Exception
-     *             if the bug resurfaces.
+     *                   if the bug resurfaces.
      */
     public void testEscapeSJISDoubleEscapeBug() throws Exception {
         String testString = "'It\\'s a boy!'";
 
-        //byte[] testStringAsBytes = testString.getBytes("SJIS");
+        // byte[] testStringAsBytes = testString.getBytes("SJIS");
 
-        byte[] origByteStream = new byte[] { (byte) 0x95, (byte) 0x5c, (byte) 0x8e, (byte) 0x96, (byte) 0x5c, (byte) 0x62, (byte) 0x5c };
+        byte[] origByteStream = new byte[] { (byte) 0x95, (byte) 0x5c, (byte) 0x8e, (byte) 0x96, (byte) 0x5c,
+                (byte) 0x62, (byte) 0x5c };
 
-        //String origString = "\u955c\u8e96\u5c62\\";
+        // String origString = "\u955c\u8e96\u5c62\\";
 
-        origByteStream = new byte[] { (byte) 0x8d, (byte) 0xb2, (byte) 0x93, (byte) 0x91, (byte) 0x81, (byte) 0x40, (byte) 0x8c, (byte) 0x5c };
+        origByteStream = new byte[] { (byte) 0x8d, (byte) 0xb2, (byte) 0x93, (byte) 0x91, (byte) 0x81, (byte) 0x40,
+                (byte) 0x8c, (byte) 0x5c };
 
         testString = new String(origByteStream, "SJIS");
 
@@ -162,15 +164,18 @@ public class StringRegressionTest extends BaseTestCase {
 
         Statement utfStmt = utf8Conn.createStatement();
 
-        createTable("greekunicode", "(ID INTEGER NOT NULL  AUTO_INCREMENT,UpperCase VARCHAR (30),LowerCase VARCHAR (30),Accented "
-                + " VARCHAR (30),Special VARCHAR (30),PRIMARY KEY(ID)) DEFAULT CHARACTER SET utf8", "InnoDB");
+        createTable("greekunicode",
+                "(ID INTEGER NOT NULL  AUTO_INCREMENT,UpperCase VARCHAR (30),LowerCase VARCHAR (30),Accented "
+                        + " VARCHAR (30),Special VARCHAR (30),PRIMARY KEY(ID)) DEFAULT CHARACTER SET utf8",
+                "InnoDB");
 
         String upper = "\u0394\u930F\u039A\u0399\u039C\u0397";
         String lower = "\u03B4\u03BF\u03BA\u03B9\u03BC\u03B7";
         String accented = "\u03B4\u03CC\u03BA\u03AF\u03BC\u03AE";
         String special = "\u037E\u03C2\u03B0";
 
-        utfStmt.executeUpdate("INSERT INTO greekunicode VALUES ('1','" + upper + "','" + lower + "','" + accented + "','" + special + "')");
+        utfStmt.executeUpdate("INSERT INTO greekunicode VALUES ('1','" + upper + "','" + lower + "','" + accented
+                + "','" + special + "')");
 
         this.rs = utfStmt.executeQuery("SELECT UpperCase, LowerCase, Accented, Special from greekunicode");
 
@@ -186,23 +191,37 @@ public class StringRegressionTest extends BaseTestCase {
      * Tests that 'latin1' character conversion works correctly.
      * 
      * @throws Exception
-     *             if any errors occur
+     *                   if any errors occur
      */
     public void testLatin1Encoding() throws Exception {
-        char[] latin1Charset = { 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F,
-                0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F, 0x0020, 0x0021,
-                0x0022, 0x0023, 0x0024, 0x0025, 0x0026, 0x0027, 0x0028, 0x0029, 0x002A, 0x002B, 0x002C, 0x002D, 0x002E, 0x002F, 0x0030, 0x0031, 0x0032, 0x0033,
-                0x0034, 0x0035, 0x0036, 0x0037, 0x0038, 0x0039, 0x003A, 0x003B, 0x003C, 0x003D, 0x003E, 0x003F, 0x0040, 0x0041, 0x0042, 0x0043, 0x0044, 0x0045,
-                0x0046, 0x0047, 0x0048, 0x0049, 0x004A, 0x004B, 0x004C, 0x004D, 0x004E, 0x004F, 0x0050, 0x0051, 0x0052, 0x0053, 0x0054, 0x0055, 0x0056, 0x0057,
-                0x0058, 0x0059, 0x005A, 0x005B, 0x005C, 0x005D, 0x005E, 0x005F, 0x0060, 0x0061, 0x0062, 0x0063, 0x0064, 0x0065, 0x0066, 0x0067, 0x0068, 0x0069,
-                0x006A, 0x006B, 0x006C, 0x006D, 0x006E, 0x006F, 0x0070, 0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076, 0x0077, 0x0078, 0x0079, 0x007A, 0x007B,
-                0x007C, 0x007D, 0x007E, 0x007F, 0x0080, 0x0081, 0x0082, 0x0083, 0x0084, 0x0085, 0x0086, 0x0087, 0x0088, 0x0089, 0x008A, 0x008B, 0x008C, 0x008D,
-                0x008E, 0x008F, 0x0090, 0x0091, 0x0092, 0x0093, 0x0094, 0x0095, 0x0096, 0x0097, 0x0098, 0x0099, 0x009A, 0x009B, 0x009C, 0x009D, 0x009E, 0x009F,
-                0x00A0, 0x00A1, 0x00A2, 0x00A3, 0x00A4, 0x00A5, 0x00A6, 0x00A7, 0x00A8, 0x00A9, 0x00AA, 0x00AB, 0x00AC, 0x00AD, 0x00AE, 0x00AF, 0x00B0, 0x00B1,
-                0x00B2, 0x00B3, 0x00B4, 0x00B5, 0x00B6, 0x00B7, 0x00B8, 0x00B9, 0x00BA, 0x00BB, 0x00BC, 0x00BD, 0x00BE, 0x00BF, 0x00C0, 0x00C1, 0x00C2, 0x00C3,
-                0x00C4, 0x00C5, 0x00C6, 0x00C7, 0x00C8, 0x00C9, 0x00CA, 0x00CB, 0x00CC, 0x00CD, 0x00CE, 0x00CF, 0x00D0, 0x00D1, 0x00D2, 0x00D3, 0x00D4, 0x00D5,
-                0x00D6, 0x00D7, 0x00D8, 0x00D9, 0x00DA, 0x00DB, 0x00DC, 0x00DD, 0x00DE, 0x00DF, 0x00E0, 0x00E1, 0x00E2, 0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x00E7,
-                0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF, 0x00F0, 0x00F1, 0x00F2, 0x00F3, 0x00F4, 0x00F5, 0x00F6, 0x00F7, 0x00F8, 0x00F9,
+        char[] latin1Charset = { 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A,
+                0x000B, 0x000C, 0x000D, 0x000E, 0x000F,
+                0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C,
+                0x001D, 0x001E, 0x001F, 0x0020, 0x0021,
+                0x0022, 0x0023, 0x0024, 0x0025, 0x0026, 0x0027, 0x0028, 0x0029, 0x002A, 0x002B, 0x002C, 0x002D, 0x002E,
+                0x002F, 0x0030, 0x0031, 0x0032, 0x0033,
+                0x0034, 0x0035, 0x0036, 0x0037, 0x0038, 0x0039, 0x003A, 0x003B, 0x003C, 0x003D, 0x003E, 0x003F, 0x0040,
+                0x0041, 0x0042, 0x0043, 0x0044, 0x0045,
+                0x0046, 0x0047, 0x0048, 0x0049, 0x004A, 0x004B, 0x004C, 0x004D, 0x004E, 0x004F, 0x0050, 0x0051, 0x0052,
+                0x0053, 0x0054, 0x0055, 0x0056, 0x0057,
+                0x0058, 0x0059, 0x005A, 0x005B, 0x005C, 0x005D, 0x005E, 0x005F, 0x0060, 0x0061, 0x0062, 0x0063, 0x0064,
+                0x0065, 0x0066, 0x0067, 0x0068, 0x0069,
+                0x006A, 0x006B, 0x006C, 0x006D, 0x006E, 0x006F, 0x0070, 0x0071, 0x0072, 0x0073, 0x0074, 0x0075, 0x0076,
+                0x0077, 0x0078, 0x0079, 0x007A, 0x007B,
+                0x007C, 0x007D, 0x007E, 0x007F, 0x0080, 0x0081, 0x0082, 0x0083, 0x0084, 0x0085, 0x0086, 0x0087, 0x0088,
+                0x0089, 0x008A, 0x008B, 0x008C, 0x008D,
+                0x008E, 0x008F, 0x0090, 0x0091, 0x0092, 0x0093, 0x0094, 0x0095, 0x0096, 0x0097, 0x0098, 0x0099, 0x009A,
+                0x009B, 0x009C, 0x009D, 0x009E, 0x009F,
+                0x00A0, 0x00A1, 0x00A2, 0x00A3, 0x00A4, 0x00A5, 0x00A6, 0x00A7, 0x00A8, 0x00A9, 0x00AA, 0x00AB, 0x00AC,
+                0x00AD, 0x00AE, 0x00AF, 0x00B0, 0x00B1,
+                0x00B2, 0x00B3, 0x00B4, 0x00B5, 0x00B6, 0x00B7, 0x00B8, 0x00B9, 0x00BA, 0x00BB, 0x00BC, 0x00BD, 0x00BE,
+                0x00BF, 0x00C0, 0x00C1, 0x00C2, 0x00C3,
+                0x00C4, 0x00C5, 0x00C6, 0x00C7, 0x00C8, 0x00C9, 0x00CA, 0x00CB, 0x00CC, 0x00CD, 0x00CE, 0x00CF, 0x00D0,
+                0x00D1, 0x00D2, 0x00D3, 0x00D4, 0x00D5,
+                0x00D6, 0x00D7, 0x00D8, 0x00D9, 0x00DA, 0x00DB, 0x00DC, 0x00DD, 0x00DE, 0x00DF, 0x00E0, 0x00E1, 0x00E2,
+                0x00E3, 0x00E4, 0x00E5, 0x00E6, 0x00E7,
+                0x00E8, 0x00E9, 0x00EA, 0x00EB, 0x00EC, 0x00ED, 0x00EE, 0x00EF, 0x00F0, 0x00F1, 0x00F2, 0x00F3, 0x00F4,
+                0x00F5, 0x00F6, 0x00F7, 0x00F8, 0x00F9,
                 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x00FF };
 
         String latin1String = new String(latin1Charset);
@@ -220,10 +239,12 @@ public class StringRegressionTest extends BaseTestCase {
             pStmt.setString(1, latin1String);
             pStmt.executeUpdate();
 
-            ((com.mysql.cj.jdbc.JdbcConnection) latin1Conn).getPropertySet().getProperty(PropertyKey.traceProtocol).setValue(true);
+            ((com.mysql.cj.jdbc.JdbcConnection) latin1Conn).getPropertySet().getProperty(PropertyKey.traceProtocol)
+                    .setValue(true);
 
             this.rs = latin1Conn.createStatement().executeQuery("SELECT * FROM latin1RegressTest");
-            ((com.mysql.cj.jdbc.JdbcConnection) latin1Conn).getPropertySet().getProperty(PropertyKey.traceProtocol).setValue(false);
+            ((com.mysql.cj.jdbc.JdbcConnection) latin1Conn).getPropertySet().getProperty(PropertyKey.traceProtocol)
+                    .setValue(false);
 
             this.rs.next();
 
@@ -240,7 +261,8 @@ public class StringRegressionTest extends BaseTestCase {
                     char origChar = latin1String.charAt(i);
 
                     if ((rChar != '?') && (rChar != origChar)) {
-                        fail("characters differ at position " + i + "'" + rChar + "' retrieved from database, original char was '" + origChar + "'");
+                        fail("characters differ at position " + i + "'" + rChar
+                                + "' retrieved from database, original char was '" + origChar + "'");
                     }
                 }
             }
@@ -255,7 +277,7 @@ public class StringRegressionTest extends BaseTestCase {
      * Tests newline being treated correctly.
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testNewlines() throws Exception {
         String newlineStr = "Foo\nBar\n\rBaz";
@@ -279,7 +301,7 @@ public class StringRegressionTest extends BaseTestCase {
      * Tests that single-byte character conversion works correctly.
      * 
      * @throws Exception
-     *             if any errors occur
+     *                   if any errors occur
      */
     // TODO: Use Unicode Literal escapes for this, for now, this test is
     // broken :(
@@ -294,7 +316,7 @@ public class StringRegressionTest extends BaseTestCase {
      * Tests that the 0x5c escaping works (we didn't use to have this).
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testSjis5c() throws Exception {
         byte[] origByteStream = new byte[] { (byte) 0x95, (byte) 0x5c, (byte) 0x8e, (byte) 0x96 };
@@ -380,7 +402,7 @@ public class StringRegressionTest extends BaseTestCase {
      * Tests that UTF-8 character conversion works correctly.
      * 
      * @throws Exception
-     *             if any errors occur
+     *                   if any errors occur
      */
     public void testUtf8Encoding() throws Exception {
         Properties props = new Properties();
@@ -478,7 +500,7 @@ public class StringRegressionTest extends BaseTestCase {
      * Tests fix for BUG#7601, '+' duplicated in fixDecimalExponent().
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug7601() throws Exception {
         assertTrue("1.5E+7".equals(StringUtils.fixDecimalExponent("1.5E+7")));
@@ -575,11 +597,12 @@ public class StringRegressionTest extends BaseTestCase {
      * multibyte character encodings and a length in _characters_ is specified.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug11614() throws Exception {
         createTable("testBug11614",
-                "(`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT, `text` TEXT NOT NULL," + "PRIMARY KEY(`id`)) CHARACTER SET utf8 COLLATE utf8_general_ci");
+                "(`id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT, `text` TEXT NOT NULL,"
+                        + "PRIMARY KEY(`id`)) CHARACTER SET utf8 COLLATE utf8_general_ci");
 
         Properties props = new Properties();
         props.setProperty(PropertyKey.characterEncoding.getKeyName(), "utf8");
@@ -612,7 +635,8 @@ public class StringRegressionTest extends BaseTestCase {
             this.pstmt.executeUpdate();
             this.pstmt.close();
 
-            String fromDatabase = getSingleIndexedValueWithQuery(utf8Conn, 1, "SELECT `text` FROM testBug11614").toString();
+            String fromDatabase = getSingleIndexedValueWithQuery(utf8Conn, 1, "SELECT `text` FROM testBug11614")
+                    .toString();
             assertEquals(valueToTest, fromDatabase);
         } finally {
             if (utf8Conn != null) {
@@ -638,7 +662,8 @@ public class StringRegressionTest extends BaseTestCase {
          * CAPITAL LIGATURE OE 0x8D #UNDEFINED 0x8E 0x017D #LATIN CAPITAL
          * LETTER Z WITH CARON 0x8F #UNDEFINED 0x90 #UNDEFINED
          */
-        String codePage1252 = new String(new byte[] { (byte) 0x80, (byte) 0x82, (byte) 0x83, (byte) 0x84, (byte) 0x85, (byte) 0x86, (byte) 0x87, (byte) 0x88,
+        String codePage1252 = new String(new byte[] { (byte) 0x80, (byte) 0x82, (byte) 0x83, (byte) 0x84, (byte) 0x85,
+                (byte) 0x86, (byte) 0x87, (byte) 0x88,
                 (byte) 0x89, (byte) 0x8a, (byte) 0x8b, (byte) 0x8c, (byte) 0x8e }, "Cp1252");
 
         System.out.println(codePage1252);
@@ -658,7 +683,7 @@ public class StringRegressionTest extends BaseTestCase {
      * correctly for 4.1 or newer
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug24840() throws Exception {
         Properties props = new Properties();
@@ -668,28 +693,39 @@ public class StringRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#25047 - StringUtils.indexOfIgnoreCaseRespectQuotes() isn't case-insensitive on the first character of the target.
+     * Tests fix for BUG#25047 - StringUtils.indexOfIgnoreCaseRespectQuotes() isn't
+     * case-insensitive on the first character of the target.
      * 
-     * UPD: Method StringUtils.indexOfIgnoreCaseRespectQuotes() was replaced by StringUtils.indexOfIgnoreCase()
+     * UPD: Method StringUtils.indexOfIgnoreCaseRespectQuotes() was replaced by
+     * StringUtils.indexOfIgnoreCase()
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug25047() throws Exception {
-        assertEquals(26, StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) values (?)", "VALUES", "`", "`", StringUtils.SEARCH_MODE__MRK_COM_WS));
-        assertEquals(26, StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) VALUES (?)", "values", "`", "`", StringUtils.SEARCH_MODE__MRK_COM_WS));
+        assertEquals(26, StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) values (?)", "VALUES", "`", "`",
+                StringUtils.SEARCH_MODE__MRK_COM_WS));
+        assertEquals(26, StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) VALUES (?)", "values", "`", "`",
+                StringUtils.SEARCH_MODE__MRK_COM_WS));
 
-        assertEquals(StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) values (?)", "VALUES", "`", "`", StringUtils.SEARCH_MODE__MRK_COM_WS),
-                StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) VALUES (?)", "VALUES", "`", "`", StringUtils.SEARCH_MODE__MRK_COM_WS));
-        assertEquals(StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) values (?)", "values", "`", "`", StringUtils.SEARCH_MODE__MRK_COM_WS),
-                StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) VALUES (?)", "values", "`", "`", StringUtils.SEARCH_MODE__MRK_COM_WS));
+        assertEquals(
+                StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) values (?)", "VALUES", "`", "`",
+                        StringUtils.SEARCH_MODE__MRK_COM_WS),
+                StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) VALUES (?)", "VALUES", "`", "`",
+                        StringUtils.SEARCH_MODE__MRK_COM_WS));
+        assertEquals(
+                StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) values (?)", "values", "`", "`",
+                        StringUtils.SEARCH_MODE__MRK_COM_WS),
+                StringUtils.indexOfIgnoreCase(0, "insert into Test (TestID) VALUES (?)", "values", "`", "`",
+                        StringUtils.SEARCH_MODE__MRK_COM_WS));
     }
 
     /**
-     * Tests fix for BUG#64731 - StringUtils.getBytesWrapped throws StringIndexOutOfBoundsException.
+     * Tests fix for BUG#64731 - StringUtils.getBytesWrapped throws
+     * StringIndexOutOfBoundsException.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug64731() throws Exception {
         byte[] data = StringUtils.getBytesWrapped("0f0f0702", '\'', '\'', "gbk");

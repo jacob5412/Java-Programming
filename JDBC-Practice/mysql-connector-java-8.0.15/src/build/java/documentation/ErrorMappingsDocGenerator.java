@@ -36,7 +36,8 @@ import java.util.TreeMap;
 import com.mysql.cj.exceptions.MysqlErrorNumbers;
 
 /**
- * Creates XML file describing mapping of MySQL error #'s to SQL92 and X/Open states.
+ * Creates XML file describing mapping of MySQL error #'s to SQL92 and X/Open
+ * states.
  */
 public class ErrorMappingsDocGenerator {
 
@@ -48,9 +49,9 @@ public class ErrorMappingsDocGenerator {
         TreeMap<Integer, Integer> allErrorNumbers = new TreeMap<>();
         Map<Object, String> mysqlErrorNumbersToNames = new HashMap<>();
 
-        //      Integer errorNumber = null;
+        // Integer errorNumber = null;
 
-        // 
+        //
         // First create a list of all 'known' error numbers that are mapped.
         //
         for (Integer errorNumber : MysqlErrorNumbers.mysqlToSql99State.keySet()) {
@@ -75,8 +76,10 @@ public class ErrorMappingsDocGenerator {
         for (Integer errorNumber : allErrorNumbers.keySet()) {
             String sql92State = MysqlErrorNumbers.mysqlToSql99(errorNumber.intValue());
 
-            System.out.println("   <ErrorMapping mysqlErrorNumber=\"" + errorNumber + "\" mysqlErrorName=\"" + mysqlErrorNumbersToNames.get(errorNumber)
-                    + "\" legacySqlState=\"" + "" + "\" sql92SqlState=\"" + ((sql92State == null) ? "" : sql92State) + "\"/>");
+            System.out.println("   <ErrorMapping mysqlErrorNumber=\"" + errorNumber + "\" mysqlErrorName=\""
+                    + mysqlErrorNumbersToNames.get(errorNumber)
+                    + "\" legacySqlState=\"" + "" + "\" sql92SqlState=\"" + ((sql92State == null) ? "" : sql92State)
+                    + "\"/>");
         }
 
         System.out.println("</ErrorMappings>");

@@ -5,13 +5,12 @@
  */
 
 class StudentGrade {
-    public static void determineGrade(String reg, Float[] marks){
-        if(marks.length == 0) {
+    public static void determineGrade(String reg, Float[] marks) {
+        if (marks.length == 0) {
             System.out.println("Grades for " + reg);
             System.out.println("You have not registered for any course");
             return;
-        }
-        else {
+        } else {
             System.out.println("Grades for " + reg);
             for (Float m : marks) {
                 if (m >= 90 & m <= 100)
@@ -37,7 +36,7 @@ class StudentGrade {
 public class StudentGradeMain {
     public static void main(String[] args) {
 
-        Float[] marks1 = {10.0f,20.0f,30.0f};
+        Float[] marks1 = { 10.0f, 20.0f, 30.0f };
         StudentGrade.determineGrade("100", marks1);
         System.out.println("\n");
 
@@ -45,11 +44,11 @@ public class StudentGradeMain {
         StudentGrade.determineGrade("200", marks2);
         System.out.println("\n");
 
-        Float[] marks3 = {100f,20f,50f};
+        Float[] marks3 = { 100f, 20f, 50f };
         StudentGrade.determineGrade("300", marks3);
         System.out.println("\n");
 
-        Float[] marks4 = {98f,12.2f,89f,10f};
+        Float[] marks4 = { 98f, 12.2f, 89f, 10f };
         StudentGrade.determineGrade("400", marks4);
     }
 }

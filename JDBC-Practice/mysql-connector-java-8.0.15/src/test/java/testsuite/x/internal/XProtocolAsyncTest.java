@@ -98,8 +98,10 @@ public class XProtocolAsyncTest extends InternalXBaseTestCase {
         }
         String collName = createTempTestCollection(this.protocol);
 
-        String json = "{'_id': '85983efc2a9a11e5b345feff819cdc9f', 'testVal': 1, 'insertedBy': 'Jess'}".replaceAll("'", "\"");
-        this.protocol.send(this.messageBuilder.buildDocInsert(getTestDatabase(), collName, Arrays.asList(new String[] { json }), false), 0);
+        String json = "{'_id': '85983efc2a9a11e5b345feff819cdc9f', 'testVal': 1, 'insertedBy': 'Jess'}".replaceAll("'",
+                "\"");
+        this.protocol.send(this.messageBuilder.buildDocInsert(getTestDatabase(), collName,
+                Arrays.asList(new String[] { json }), false), 0);
         this.protocol.readQueryResult();
 
         final ValueHolder<ColumnDefinition> metadataHolder = new ValueHolder<>();
@@ -108,29 +110,30 @@ public class XProtocolAsyncTest extends InternalXBaseTestCase {
         final ValueHolder<StatementExecuteOk> okHolder = new ValueHolder<>();
         final ValueHolder<Throwable> excHolder = new ValueHolder<>();
 
-        this.protocol.asyncFind(new DocFilterParams(getTestDatabase(), collName), new ResultListener<StatementExecuteOk>() {
-            public void onMetadata(ColumnDefinition metadata) {
-                metadataHolder.accept(metadata);
-            }
+        this.protocol.asyncFind(new DocFilterParams(getTestDatabase(), collName),
+                new ResultListener<StatementExecuteOk>() {
+                    public void onMetadata(ColumnDefinition metadata) {
+                        metadataHolder.accept(metadata);
+                    }
 
-            public void onRow(Row r) {
-                rowHolder.get().add(r);
-            }
+                    public void onRow(Row r) {
+                        rowHolder.get().add(r);
+                    }
 
-            public void onComplete(StatementExecuteOk ok) {
-                okHolder.accept(ok);
-                synchronized (XProtocolAsyncTest.this) {
-                    XProtocolAsyncTest.this.notify();
-                }
-            }
+                    public void onComplete(StatementExecuteOk ok) {
+                        okHolder.accept(ok);
+                        synchronized (XProtocolAsyncTest.this) {
+                            XProtocolAsyncTest.this.notify();
+                        }
+                    }
 
-            public void onException(Throwable t) {
-                excHolder.accept(t);
-                synchronized (XProtocolAsyncTest.this) {
-                    XProtocolAsyncTest.this.notify();
-                }
-            }
-        }, new CompletableFuture<Void>());
+                    public void onException(Throwable t) {
+                        excHolder.accept(t);
+                        synchronized (XProtocolAsyncTest.this) {
+                            XProtocolAsyncTest.this.notify();
+                        }
+                    }
+                }, new CompletableFuture<Void>());
 
         synchronized (this) {
             // timeout in case we get stuck

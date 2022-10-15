@@ -66,7 +66,7 @@ public class XATest extends BaseTestCase {
      * Tests that simple distributed transaction processing works as expected.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testCoordination() throws Exception {
         createTable("testCoordination", "(field1 int) ENGINE=InnoDB");
@@ -123,12 +123,16 @@ public class XATest extends BaseTestCase {
             conn1.createStatement().executeUpdate("INSERT INTO testCoordination VALUES (1)");
 
             // ensure visibility
-            assertEquals("1", getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testCoordination WHERE field1=1").toString());
+            assertEquals("1",
+                    getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testCoordination WHERE field1=1")
+                            .toString());
 
             conn2.createStatement().executeUpdate("INSERT INTO testCoordination VALUES (2)");
 
             // ensure visibility
-            assertEquals("2", getSingleIndexedValueWithQuery(conn2, 1, "SELECT field1 FROM testCoordination WHERE field1=2").toString());
+            assertEquals("2",
+                    getSingleIndexedValueWithQuery(conn2, 1, "SELECT field1 FROM testCoordination WHERE field1=2")
+                            .toString());
 
             xaRes1.end(xid1, XAResource.TMSUCCESS);
             xaRes2.end(xid2, XAResource.TMSUCCESS);
@@ -169,11 +173,12 @@ public class XATest extends BaseTestCase {
      * Tests that XA RECOVER works as expected.
      * 
      * @throws Exception
-     *             if test fails
+     *                   if test fails
      */
     public void testRecover() throws Exception {
         if (versionMeetsMinimum(5, 7) && !versionMeetsMinimum(5, 7, 5)) {
-            // Test is broken in 5.7.0 - 5.7.4 after server bug#14670465 fix which changed the XA RECOVER output format.
+            // Test is broken in 5.7.0 - 5.7.4 after server bug#14670465 fix which changed
+            // the XA RECOVER output format.
             // Fixed in 5.7.5 server version
             return;
         }
@@ -261,7 +266,7 @@ public class XATest extends BaseTestCase {
      * transactions are in or not in progress (follows from BUG#17401).
      * 
      * @throws Exception
-     *             if the testcase fails
+     *                   if the testcase fails
      */
     public void testLocalTransaction() throws Exception {
 
@@ -278,19 +283,23 @@ public class XATest extends BaseTestCase {
             assertEquals(true, conn1.getAutoCommit());
             conn1.setAutoCommit(true);
             conn1.createStatement().executeUpdate("INSERT INTO testLocalTransaction VALUES (1)");
-            assertEquals("1", getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testLocalTransaction").toString());
+            assertEquals("1",
+                    getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testLocalTransaction").toString());
 
             conn1.createStatement().executeUpdate("TRUNCATE TABLE testLocalTransaction");
             conn1.setAutoCommit(false);
             conn1.createStatement().executeUpdate("INSERT INTO testLocalTransaction VALUES (2)");
-            assertEquals("2", getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testLocalTransaction").toString());
+            assertEquals("2",
+                    getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testLocalTransaction").toString());
             conn1.rollback();
             assertEquals(0, getRowCount("testLocalTransaction"));
 
             conn1.createStatement().executeUpdate("INSERT INTO testLocalTransaction VALUES (3)");
-            assertEquals("3", getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testLocalTransaction").toString());
+            assertEquals("3",
+                    getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testLocalTransaction").toString());
             conn1.commit();
-            assertEquals("3", getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testLocalTransaction").toString());
+            assertEquals("3",
+                    getSingleIndexedValueWithQuery(conn1, 1, "SELECT field1 FROM testLocalTransaction").toString());
             conn1.commit();
 
             Savepoint sp = conn1.setSavepoint();
@@ -370,8 +379,8 @@ public class XATest extends BaseTestCase {
 
         MysqlXADataSource suspXaDs = new MysqlXADataSource();
         suspXaDs.setUrl(BaseTestCase.dbUrl);
-        suspXaDs.<Boolean> getProperty(PropertyKey.pinGlobalTxToPhysicalConnection).setValue(true);
-        suspXaDs.<Boolean> getProperty(PropertyKey.rollbackOnPooledClose).setValue(true);
+        suspXaDs.<Boolean>getProperty(PropertyKey.pinGlobalTxToPhysicalConnection).setValue(true);
+        suspXaDs.<Boolean>getProperty(PropertyKey.rollbackOnPooledClose).setValue(true);
 
         XAConnection xaConn1 = null;
 

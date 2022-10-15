@@ -62,8 +62,10 @@ public class ServerVersion implements Comparable<ServerVersion> {
     }
 
     /**
-     * A string representation of this version. If this version was parsed from, or provided with, a "complete" string which may contain more than just the
-     * version number, this string is returned verbatim. Otherwise, a string representation of the version numbers is given.
+     * A string representation of this version. If this version was parsed from, or
+     * provided with, a "complete" string which may contain more than just the
+     * version number, this string is returned verbatim. Otherwise, a string
+     * representation of the version numbers is given.
      * 
      * @return string version representation
      */
@@ -84,7 +86,8 @@ public class ServerVersion implements Comparable<ServerVersion> {
             return false;
         }
         ServerVersion another = (ServerVersion) obj;
-        if (this.getMajor() != another.getMajor() || this.getMinor() != another.getMinor() || this.getSubminor() != another.getSubminor()) {
+        if (this.getMajor() != another.getMajor() || this.getMinor() != another.getMinor()
+                || this.getSubminor() != another.getSubminor()) {
             return false;
         }
         return true;
@@ -124,7 +127,7 @@ public class ServerVersion implements Comparable<ServerVersion> {
      * Parse the server version into major/minor/subminor.
      * 
      * @param versionString
-     *            string version representation
+     *                      string version representation
      * @return {@link ServerVersion}
      */
     public static ServerVersion parseVersion(final String versionString) {
@@ -154,7 +157,8 @@ public class ServerVersion implements Comparable<ServerVersion> {
 
                     int serverSubminorVersion = Integer.parseInt(remaining.substring(0, pos));
 
-                    return new ServerVersion(versionString, serverMajorVersion, serverMinorVersion, serverSubminorVersion);
+                    return new ServerVersion(versionString, serverMajorVersion, serverMinorVersion,
+                            serverSubminorVersion);
                 }
             } catch (NumberFormatException NFE1) {
             }

@@ -22,8 +22,10 @@ import java.util.Locale;
  * The interface defines a set of methods that manipulate a millisecond datetime
  * with regards to a single field, such as monthOfYear or secondOfMinute.
  * <p>
- * This design is extensible so, if you wish, you can extract a different field from
- * the milliseconds. A number of standard implementations are provided to assist.
+ * This design is extensible so, if you wish, you can extract a different field
+ * from
+ * the milliseconds. A number of standard implementations are provided to
+ * assist.
  *
  * @author Guy Allard
  * @author Stephen Colebourne
@@ -68,11 +70,11 @@ public abstract class DateTimeField {
     public abstract boolean isLenient();
 
     // Main access API
-    //------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
     /**
      * Get the value of this field from the milliseconds.
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the value of the field, in the units of the field
      */
     public abstract int get(long instant);
@@ -81,8 +83,9 @@ public abstract class DateTimeField {
      * Get the human-readable, text value of this field from the milliseconds.
      * If the specified locale is null, the default locale is used.
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
-     * @param locale the locale to use for selecting a text symbol, null for default
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to query
+     * @param locale  the locale to use for selecting a text symbol, null for
+     *                default
      * @return the text value of the field
      */
     public abstract String getAsText(long instant, Locale locale);
@@ -90,7 +93,7 @@ public abstract class DateTimeField {
     /**
      * Get the human-readable, text value of this field from the milliseconds.
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the text value of the field
      */
     public abstract String getAsText(long instant);
@@ -99,9 +102,10 @@ public abstract class DateTimeField {
      * Get the human-readable, text value of this field from a partial instant.
      * If the specified locale is null, the default locale is used.
      *
-     * @param partial  the partial instant to query
-     * @param fieldValue  the field value of this field, provided for performance
-     * @param locale  the locale to use for selecting a text symbol, null for default
+     * @param partial    the partial instant to query
+     * @param fieldValue the field value of this field, provided for performance
+     * @param locale     the locale to use for selecting a text symbol, null for
+     *                   default
      * @return the text value of the field
      */
     public abstract String getAsText(ReadablePartial partial, int fieldValue, Locale locale);
@@ -110,8 +114,9 @@ public abstract class DateTimeField {
      * Get the human-readable, text value of this field from a partial instant.
      * If the specified locale is null, the default locale is used.
      *
-     * @param partial  the partial instant to query
-     * @param locale  the locale to use for selecting a text symbol, null for default
+     * @param partial the partial instant to query
+     * @param locale  the locale to use for selecting a text symbol, null for
+     *                default
      * @return the text value of the field
      */
     public abstract String getAsText(ReadablePartial partial, Locale locale);
@@ -120,18 +125,20 @@ public abstract class DateTimeField {
      * Get the human-readable, text value of this field from the field value.
      * If the specified locale is null, the default locale is used.
      *
-     * @param fieldValue  the numeric value to convert to text
-     * @param locale the locale to use for selecting a text symbol, null for default
+     * @param fieldValue the numeric value to convert to text
+     * @param locale     the locale to use for selecting a text symbol, null for
+     *                   default
      * @return the text value of the field
      */
     public abstract String getAsText(int fieldValue, Locale locale);
 
     /**
      * Get the human-readable, short text value of this field from the
-     * milliseconds.  If the specified locale is null, the default locale is used.
+     * milliseconds. If the specified locale is null, the default locale is used.
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
-     * @param locale the locale to use for selecting a text symbol, null for default
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to query
+     * @param locale  the locale to use for selecting a text symbol, null for
+     *                default
      * @return the short text value of the field
      */
     public abstract String getAsShortText(long instant, Locale locale);
@@ -140,28 +147,32 @@ public abstract class DateTimeField {
      * Get the human-readable, short text value of this field from the
      * milliseconds.
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the short text value of the field
      */
     public abstract String getAsShortText(long instant);
 
     /**
-     * Get the human-readable, short text value of this field from a partial instant.
+     * Get the human-readable, short text value of this field from a partial
+     * instant.
      * If the specified locale is null, the default locale is used.
      *
-     * @param partial  the partial instant to query
-     * @param fieldValue  the field value of this field, provided for performance
-     * @param locale  the locale to use for selecting a text symbol, null for default
+     * @param partial    the partial instant to query
+     * @param fieldValue the field value of this field, provided for performance
+     * @param locale     the locale to use for selecting a text symbol, null for
+     *                   default
      * @return the text value of the field
      */
     public abstract String getAsShortText(ReadablePartial partial, int fieldValue, Locale locale);
 
     /**
-     * Get the human-readable, short text value of this field from a partial instant.
+     * Get the human-readable, short text value of this field from a partial
+     * instant.
      * If the specified locale is null, the default locale is used.
      *
-     * @param partial  the partial instant to query
-     * @param locale  the locale to use for selecting a text symbol, null for default
+     * @param partial the partial instant to query
+     * @param locale  the locale to use for selecting a text symbol, null for
+     *                default
      * @return the text value of the field
      */
     public abstract String getAsShortText(ReadablePartial partial, Locale locale);
@@ -170,8 +181,9 @@ public abstract class DateTimeField {
      * Get the human-readable, short text value of this field from the field value.
      * If the specified locale is null, the default locale is used.
      *
-     * @param fieldValue  the numeric value to convert to text
-     * @param locale the locale to use for selecting a text symbol, null for default
+     * @param fieldValue the numeric value to convert to text
+     * @param locale     the locale to use for selecting a text symbol, null for
+     *                   default
      * @return the text value of the field
      */
     public abstract String getAsShortText(int fieldValue, Locale locale);
@@ -190,11 +202,11 @@ public abstract class DateTimeField {
      * 2000-08-20 add six months is 2001-02-20<br>
      * 2000-08-20 add twenty months is 2002-04-20<br>
      * 2000-08-20 add minus nine months is 1999-11-20<br>
-     * 2001-01-31 add one month  is 2001-02-28<br>
+     * 2001-01-31 add one month is 2001-02-28<br>
      * 2001-01-31 add two months is 2001-03-31<br>
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to add to
-     * @param value  the value to add, in the units of the field
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to add to
+     * @param value   the value to add, in the units of the field
      * @return the updated milliseconds
      */
     public abstract long add(long instant, int value);
@@ -203,8 +215,8 @@ public abstract class DateTimeField {
      * Adds a value (which may be negative) to the millis value,
      * overflowing into larger fields if necessary.
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to add to
-     * @param value  the long value to add, in the units of the field
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to add to
+     * @param value   the long value to add, in the units of the field
      * @return the updated milliseconds
      * @throws IllegalArgumentException if value is too large
      * @see #add(long,int)
@@ -228,15 +240,16 @@ public abstract class DateTimeField {
      * 2000-08-20 add six months is 2000-02-20<br>
      * 2000-08-20 add twenty months is 2000-04-20<br>
      * 2000-08-20 add minus nine months is 2000-11-20<br>
-     * 2001-01-31 add one month  is 2001-02-28<br>
+     * 2001-01-31 add one month is 2001-02-28<br>
      * 2001-01-31 add two months is 2001-03-31<br>
      * 
-     * @param instant  the partial instant
-     * @param fieldIndex  the index of this field in the instant
-     * @param values  the values of the partial instant which should be updated
-     * @param valueToAdd  the value to add, in the units of the field
+     * @param instant    the partial instant
+     * @param fieldIndex the index of this field in the instant
+     * @param values     the values of the partial instant which should be updated
+     * @param valueToAdd the value to add, in the units of the field
      * @return the passed in values
-     * @throws IllegalArgumentException if the value is invalid or the maximum instant is reached
+     * @throws IllegalArgumentException if the value is invalid or the maximum
+     *                                  instant is reached
      */
     public abstract int[] add(ReadablePartial instant, int fieldIndex, int[] values, int valueToAdd);
 
@@ -260,12 +273,13 @@ public abstract class DateTimeField {
      * 10:20:30 add 45 minutes is 11:05:30<br>
      * 10:20:30 add 16 hours is 02:20:30<br>
      * 
-     * @param instant  the partial instant
-     * @param fieldIndex  the index of this field in the partial
-     * @param values  the values of the partial instant which should be updated
-     * @param valueToAdd  the value to add, in the units of the field
+     * @param instant    the partial instant
+     * @param fieldIndex the index of this field in the partial
+     * @param values     the values of the partial instant which should be updated
+     * @param valueToAdd the value to add, in the units of the field
      * @return the passed in values
-     * @throws IllegalArgumentException if the value is invalid or the maximum instant is reached
+     * @throws IllegalArgumentException if the value is invalid or the maximum
+     *                                  instant is reached
      */
     public abstract int[] addWrapPartial(ReadablePartial instant, int fieldIndex, int[] values, int valueToAdd);
 
@@ -283,14 +297,14 @@ public abstract class DateTimeField {
      * 2000-08-20 addWrapField six months is 2000-02-20<br>
      * 2000-08-20 addWrapField twenty months is 2000-04-20<br>
      * 2000-08-20 addWrapField minus nine months is 2000-11-20<br>
-     * 2001-01-31 addWrapField one month  is 2001-02-28<br>
+     * 2001-01-31 addWrapField one month is 2001-02-28<br>
      * 2001-01-31 addWrapField two months is 2001-03-31<br>
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to add to
-     * @param value  the value to add, in the units of the field
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to add to
+     * @param value   the value to add, in the units of the field
      * @return the updated milliseconds
      */
-    public abstract long addWrapField(long instant, int value) ;
+    public abstract long addWrapField(long instant, int value);
 
     /**
      * Adds a value (which may be negative) to the partial instant,
@@ -306,13 +320,13 @@ public abstract class DateTimeField {
      * 2000-08-20 addWrapField six months is 2000-02-20<br>
      * 2000-08-20 addWrapField twenty months is 2000-04-20<br>
      * 2000-08-20 addWrapField minus nine months is 2000-11-20<br>
-     * 2001-01-31 addWrapField one month  is 2001-02-28<br>
+     * 2001-01-31 addWrapField one month is 2001-02-28<br>
      * 2001-01-31 addWrapField two months is 2001-03-31<br>
      * 
-     * @param instant  the partial instant
-     * @param fieldIndex  the index of this field in the instant
-     * @param values  the values of the partial instant which should be updated
-     * @param valueToAdd  the value to add, in the units of the field
+     * @param instant    the partial instant
+     * @param fieldIndex the index of this field in the instant
+     * @param values     the values of the partial instant which should be updated
+     * @param valueToAdd the value to add, in the units of the field
      * @return the passed in values
      * @throws IllegalArgumentException if the value is invalid
      */
@@ -331,10 +345,10 @@ public abstract class DateTimeField {
      *
      * The value 'age' is the same as the value 'v'.
      *
-     * @param minuendInstant the milliseconds from 1970-01-01T00:00:00Z to
-     * subtract from
+     * @param minuendInstant    the milliseconds from 1970-01-01T00:00:00Z to
+     *                          subtract from
      * @param subtrahendInstant the milliseconds from 1970-01-01T00:00:00Z to
-     * subtract off the minuend
+     *                          subtract off the minuend
      * @return the difference in the units of this field
      */
     public abstract int getDifference(long minuendInstant, long subtrahendInstant);
@@ -352,10 +366,10 @@ public abstract class DateTimeField {
      *
      * The value 'age' is the same as the value 'v'.
      *
-     * @param minuendInstant the milliseconds from 1970-01-01T00:00:00Z to
-     * subtract from
+     * @param minuendInstant    the milliseconds from 1970-01-01T00:00:00Z to
+     *                          subtract from
      * @param subtrahendInstant the milliseconds from 1970-01-01T00:00:00Z to
-     * subtract off the minuend
+     *                          subtract off the minuend
      * @return the difference in the units of this field
      */
     public abstract long getDifferenceAsLong(long minuendInstant, long subtrahendInstant);
@@ -369,10 +383,11 @@ public abstract class DateTimeField {
      * If setting this field would make other fields invalid, then those fields
      * may be changed. For example if the current date is the 31st January, and
      * the month is set to February, the day would be invalid. Instead, the day
-     * would be changed to the closest value - the 28th/29th February as appropriate.
+     * would be changed to the closest value - the 28th/29th February as
+     * appropriate.
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to set in
-     * @param value  the value to set, in the units of the field
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to set in
+     * @param value   the value to set, in the units of the field
      * @return the updated milliseconds
      * @throws IllegalArgumentException if the value is invalid
      */
@@ -387,12 +402,13 @@ public abstract class DateTimeField {
      * If setting this field would make other fields invalid, then those fields
      * may be changed. For example if the current date is the 31st January, and
      * the month is set to February, the day would be invalid. Instead, the day
-     * would be changed to the closest value - the 28th/29th February as appropriate.
+     * would be changed to the closest value - the 28th/29th February as
+     * appropriate.
      * 
-     * @param instant  the partial instant
-     * @param fieldIndex  the index of this field in the instant
-     * @param values  the values of the partial instant which should be updated
-     * @param newValue  the value to set, in the units of the field
+     * @param instant    the partial instant
+     * @param fieldIndex the index of this field in the instant
+     * @param values     the values of the partial instant which should be updated
+     * @param newValue   the value to set, in the units of the field
      * @return the passed in values
      * @throws IllegalArgumentException if the value is invalid
      */
@@ -405,11 +421,13 @@ public abstract class DateTimeField {
      * If setting this field would make other fields invalid, then those fields
      * may be changed. For example if the current date is the 31st January, and
      * the month is set to February, the day would be invalid. Instead, the day
-     * would be changed to the closest value - the 28th/29th February as appropriate.
+     * would be changed to the closest value - the 28th/29th February as
+     * appropriate.
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to set in
-     * @param text  the text value to set
-     * @param locale the locale to use for selecting a text symbol, null for default
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to set in
+     * @param text    the text value to set
+     * @param locale  the locale to use for selecting a text symbol, null for
+     *                default
      * @return the updated milliseconds
      * @throws IllegalArgumentException if the text value is invalid
      */
@@ -421,10 +439,11 @@ public abstract class DateTimeField {
      * If setting this field would make other fields invalid, then those fields
      * may be changed. For example if the current date is the 31st January, and
      * the month is set to February, the day would be invalid. Instead, the day
-     * would be changed to the closest value - the 28th/29th February as appropriate.
+     * would be changed to the closest value - the 28th/29th February as
+     * appropriate.
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to set in
-     * @param text  the text value to set
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to set in
+     * @param text    the text value to set
      * @return the updated milliseconds
      * @throws IllegalArgumentException if the text value is invalid
      */
@@ -437,26 +456,28 @@ public abstract class DateTimeField {
      * If setting this field would make other fields invalid, then those fields
      * may be changed. For example if the current date is the 31st January, and
      * the month is set to February, the day would be invalid. Instead, the day
-     * would be changed to the closest value - the 28th/29th February as appropriate.
+     * would be changed to the closest value - the 28th/29th February as
+     * appropriate.
      *
-     * @param instant  the partial instant
-     * @param fieldIndex  the index of this field in the instant
-     * @param values  the values of the partial instant which should be updated
-     * @param text  the text value to set
-     * @param locale the locale to use for selecting a text symbol, null for default
+     * @param instant    the partial instant
+     * @param fieldIndex the index of this field in the instant
+     * @param values     the values of the partial instant which should be updated
+     * @param text       the text value to set
+     * @param locale     the locale to use for selecting a text symbol, null for
+     *                   default
      * @return the passed in values
      * @throws IllegalArgumentException if the text value is invalid
      */
     public abstract int[] set(ReadablePartial instant, int fieldIndex, int[] values, String text, Locale locale);
 
     // Extra information API
-    //------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
     /**
      * Returns the duration per unit value of this field. For example, if this
      * field represents "hour of day", then the duration is an hour.
      *
      * @return the duration of this field, or UnsupportedDurationField if field
-     * has no duration
+     *         has no duration
      */
     public abstract DurationField getDurationField();
 
@@ -474,7 +495,7 @@ public abstract class DateTimeField {
      * For example, a leap year would return true, a non leap year would return
      * false.
      * 
-     * @param instant  the instant to check for leap status
+     * @param instant the instant to check for leap status
      * @return true if the field is 'leap'
      */
     public abstract boolean isLeap(long instant);
@@ -485,8 +506,9 @@ public abstract class DateTimeField {
      * For example, a leap year would return one, a non leap year would return
      * zero.
      * 
-     * @param instant  the instant to check for leap status
-     * @return the amount, in units of the leap duration field, that the field is leap
+     * @param instant the instant to check for leap status
+     * @return the amount, in units of the leap duration field, that the field is
+     *         leap
      */
     public abstract int getLeapAmount(long instant);
 
@@ -502,14 +524,14 @@ public abstract class DateTimeField {
      * Get the minimum allowable value for this field.
      * 
      * @return the minimum valid value for this field, in the units of the
-     * field
+     *         field
      */
     public abstract int getMinimumValue();
 
     /**
      * Get the minimum value for this field evaluated at the specified time.
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the minimum value for this field, in the units of the field
      */
     public abstract int getMinimumValue(long instant);
@@ -517,7 +539,7 @@ public abstract class DateTimeField {
     /**
      * Get the minimum value for this field evaluated at the specified time.
      * 
-     * @param instant  the partial instant to query
+     * @param instant the partial instant to query
      * @return the minimum value for this field, in the units of the field
      */
     public abstract int getMinimumValue(ReadablePartial instant);
@@ -526,7 +548,7 @@ public abstract class DateTimeField {
      * Get the minimum value for this field using the partial instant and
      * the specified values.
      * 
-     * @param instant  the partial instant to query
+     * @param instant the partial instant to query
      * @param values  the values to use
      * @return the minimum value for this field, in the units of the field
      */
@@ -536,14 +558,14 @@ public abstract class DateTimeField {
      * Get the maximum allowable value for this field.
      * 
      * @return the maximum valid value for this field, in the units of the
-     * field
+     *         field
      */
     public abstract int getMaximumValue();
 
     /**
      * Get the maximum value for this field evaluated at the specified time.
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the maximum value for this field, in the units of the field
      */
     public abstract int getMaximumValue(long instant);
@@ -551,7 +573,7 @@ public abstract class DateTimeField {
     /**
      * Get the maximum value for this field evaluated at the specified time.
      * 
-     * @param instant  the partial instant to query
+     * @param instant the partial instant to query
      * @return the maximum value for this field, in the units of the field
      */
     public abstract int getMaximumValue(ReadablePartial instant);
@@ -560,7 +582,7 @@ public abstract class DateTimeField {
      * Get the maximum value for this field using the partial instant and
      * the specified values.
      * 
-     * @param instant  the partial instant to query
+     * @param instant the partial instant to query
      * @param values  the values to use
      * @return the maximum value for this field, in the units of the field
      */
@@ -569,7 +591,7 @@ public abstract class DateTimeField {
     /**
      * Get the maximum text value for this field.
      * 
-     * @param locale  the locale to use for selecting a text symbol
+     * @param locale the locale to use for selecting a text symbol
      * @return the maximum text length
      */
     public abstract int getMaximumTextLength(Locale locale);
@@ -577,13 +599,13 @@ public abstract class DateTimeField {
     /**
      * Get the maximum short text value for this field.
      * 
-     * @param locale  the locale to use for selecting a text symbol
+     * @param locale the locale to use for selecting a text symbol
      * @return the maximum short text length
      */
     public abstract int getMaximumShortTextLength(Locale locale);
 
     // Calculation API
-    //------------------------------------------------------------------------
+    // ------------------------------------------------------------------------
     /**
      * Round to the lowest whole unit of this field. After rounding, the value
      * of this field and all fields of a higher magnitude are retained. The
@@ -593,7 +615,7 @@ public abstract class DateTimeField {
      * For example, a datetime of 2002-11-02T23:34:56.789, rounded to the
      * lowest whole hour is 2002-11-02T23:00:00.000.
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
     public abstract long roundFloor(long instant);
@@ -607,7 +629,7 @@ public abstract class DateTimeField {
      * For example, a datetime of 2002-11-02T23:34:56.789, rounded to the
      * highest whole hour is 2002-11-03T00:00:00.000.
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
     public abstract long roundCeiling(long instant);
@@ -618,7 +640,7 @@ public abstract class DateTimeField {
      * behaves like roundFloor. If the millisecond value is closer to the
      * ceiling, this function behaves like roundCeiling.
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
     public abstract long roundHalfFloor(long instant);
@@ -629,7 +651,7 @@ public abstract class DateTimeField {
      * the millisecond value is closer to the ceiling or is exactly halfway,
      * this function behaves like roundCeiling.
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
     public abstract long roundHalfCeiling(long instant);
@@ -644,7 +666,7 @@ public abstract class DateTimeField {
      * ceiling, the ceiling is chosen over the floor only if it makes this
      * field's value even.
      *
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
     public abstract long roundHalfEven(long instant);
@@ -658,7 +680,7 @@ public abstract class DateTimeField {
      * hour is 34 minutes and 56.789 seconds.
      *
      * @param instant the milliseconds from 1970-01-01T00:00:00Z to get the
-     * remainder
+     *                remainder
      * @return remainder duration, in milliseconds
      */
     public abstract long remainder(long instant);
@@ -669,5 +691,5 @@ public abstract class DateTimeField {
      * @return debug string
      */
     public abstract String toString();
-    
+
 }

@@ -110,10 +110,12 @@ public class AsyncQueryTest extends BaseCollectionTestCase {
         List<CompletableFuture<DocResult>> futures = new ArrayList<>();
         for (int i = 0; i < NUMBER_OF_QUERIES; ++i) {
             if (i % 5 == 0) {
-                //System.out.println("\nfutures.add(CompletableFuture.completedFuture(coll.find(\"mode = 'sync'\").execute()));");
+                // System.out.println("\nfutures.add(CompletableFuture.completedFuture(coll.find(\"mode
+                // = 'sync'\").execute()));");
                 futures.add(CompletableFuture.completedFuture(coll.find("mode = 'sync'").execute()));
             } else {
-                //System.out.println("\nfutures.add(coll.find(\"mode = 'async'\").executeAsync());");
+                // System.out.println("\nfutures.add(coll.find(\"mode =
+                // 'async'\").executeAsync());");
                 futures.add(coll.find("mode = 'async'").executeAsync());
             }
         }
@@ -249,38 +251,41 @@ public class AsyncQueryTest extends BaseCollectionTestCase {
     }
 
     /**
-     * This test addresses the "correlation" of messages to their proper async listeners.
+     * This test addresses the "correlation" of messages to their proper async
+     * listeners.
      */
     @Test
     public void manyFutures() throws Exception {
         if (!this.isSetForXTests) {
             return;
         }
-        int MANY = 10;//100000;
+        int MANY = 10;// 100000;
         Collection coll = this.collection;
         List<CompletableFuture<DocResult>> futures = new ArrayList<>();
         for (int i = 0; i < MANY; ++i) {
-            //System.out.println("++++ Write " + i + " set " + i % 3 + " +++++");
+            // System.out.println("++++ Write " + i + " set " + i % 3 + " +++++");
             if (i % 3 == 0) {
-                futures.add(coll.find("F1  like '%Field%-5'").fields("$._id as _id, $.F1 as F1, $.F2 as F2, $.F3 as F3").executeAsync());
+                futures.add(coll.find("F1  like '%Field%-5'").fields("$._id as _id, $.F1 as F1, $.F2 as F2, $.F3 as F3")
+                        .executeAsync());
             } else if (i % 3 == 1) {
-                futures.add(coll.find("NON_EXISTING_FUNCTION()").fields("$._id as _id, $.F1 as F1, $.F2 as F2, $.F3 as F3").executeAsync()); // Expecting Error
+                futures.add(coll.find("NON_EXISTING_FUNCTION()")
+                        .fields("$._id as _id, $.F1 as F1, $.F2 as F2, $.F3 as F3").executeAsync()); // Expecting Error
             } else {
                 futures.add(coll.find("F3 = ?").bind(106).executeAsync());
             }
         }
         DocResult docs;
         for (int i = 0; i < MANY; ++i) {
-            //System.out.println("++++ Read " + i + " set " + i % 3 + " +++++");
+            // System.out.println("++++ Read " + i + " set " + i % 3 + " +++++");
             if (i % 3 == 0) {
-                //Expect Success and check F1  is like  %Field%-5
+                // Expect Success and check F1 is like %Field%-5
                 System.out.println("\nExpect Success and check F1  is like  %Field%-5");
                 docs = futures.get(i).get();
                 assertFalse(docs.hasNext());
                 System.out.println(docs.fetchOne());
             } else if (i % 3 == 1) {
                 try {
-                    //Expecting Error FUNCTION test.NON_EXISTING_FUNCTION does not exist
+                    // Expecting Error FUNCTION test.NON_EXISTING_FUNCTION does not exist
                     docs = futures.get(i).get();
                     fail("Expected error");
                 } catch (ExecutionException ex) {
@@ -288,7 +293,7 @@ public class AsyncQueryTest extends BaseCollectionTestCase {
                     assertEquals(MysqlErrorNumbers.ER_SP_DOES_NOT_EXIST, err.getErrorCode());
                 }
             } else {
-                //Expect Success and check F3 is 106
+                // Expect Success and check F3 is 106
                 System.out.println("\nExpect Success and check F3 is 106");
                 docs = futures.get(i).get();
                 assertFalse(docs.hasNext());

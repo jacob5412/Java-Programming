@@ -37,11 +37,11 @@ class savings extends Account {
 	}
 }
 
-class current extends Account{
+class current extends Account {
 
 	float min;
 
-	current(int accnum, float amt){
+	current(int accnum, float amt) {
 		ano = accnum;
 		bal = 0;
 		min = amt;
@@ -63,10 +63,9 @@ class current extends Account{
 }
 
 public class Bank {
-	public static void main(String args[])
-	{
+	public static void main(String args[]) {
 		Scanner sc = new Scanner(System.in);
-		
+
 		savings s1 = new savings(1);
 		System.out.print("Enter Amt: ");
 		float amt = sc.nextFloat();
@@ -81,7 +80,7 @@ public class Bank {
 		System.out.print("Enter time: ");
 		float time = sc.nextFloat();
 		savings.compound(rate, time, principle);
-		
+
 		System.out.println("\n" + "--Creating a current bank account--");
 		System.out.print("Enter minimum Balance: ");
 		amt = sc.nextFloat();
@@ -93,7 +92,7 @@ public class Bank {
 		System.out.print("Enter a withdraw Amt: ");
 		amt = sc.nextFloat();
 		c1.withdraw(amt);
-		
+
 		sc.close();
 	}
 

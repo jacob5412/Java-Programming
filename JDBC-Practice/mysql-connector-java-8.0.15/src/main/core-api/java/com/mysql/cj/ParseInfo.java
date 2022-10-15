@@ -38,11 +38,13 @@ import com.mysql.cj.exceptions.WrongArgumentException;
 import com.mysql.cj.util.StringUtils;
 
 /**
- * Represents the "parsed" state of a prepared query, with the statement broken up into its static and dynamic (where parameters are bound) parts.
+ * Represents the "parsed" state of a prepared query, with the statement broken
+ * up into its static and dynamic (where parameters are bound) parts.
  */
 public class ParseInfo {
 
-    protected static final String[] ON_DUPLICATE_KEY_UPDATE_CLAUSE = new String[] { "ON", "DUPLICATE", "KEY", "UPDATE" };
+    protected static final String[] ON_DUPLICATE_KEY_UPDATE_CLAUSE = new String[] { "ON", "DUPLICATE", "KEY",
+            "UPDATE" };
 
     private char firstStmtChar = 0;
 
@@ -78,7 +80,8 @@ public class ParseInfo {
 
     private ParseInfo batchODKUClause;
 
-    private ParseInfo(byte[][] staticSql, char firstStmtChar, boolean foundLoadData, boolean isOnDuplicateKeyUpdate, int locationOfOnDuplicateKeyUpdate,
+    private ParseInfo(byte[][] staticSql, char firstStmtChar, boolean foundLoadData, boolean isOnDuplicateKeyUpdate,
+            int locationOfOnDuplicateKeyUpdate,
             int statementLength, int statementStartPos) {
         this.firstStmtChar = firstStmtChar;
         this.foundLoadData = foundLoadData;
@@ -97,7 +100,8 @@ public class ParseInfo {
 
         try {
             if (sql == null) {
-                throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("PreparedStatement.61"),
+                throw ExceptionFactory.createException(WrongArgumentException.class,
+                        Messages.getString("PreparedStatement.61"),
                         session.getExceptionInterceptor());
             }
 
@@ -108,7 +112,8 @@ public class ParseInfo {
 
             char quotedIdentifierChar = 0;
 
-            if ((quotedIdentifierString != null) && !quotedIdentifierString.equals(" ") && (quotedIdentifierString.length() > 0)) {
+            if ((quotedIdentifierString != null) && !quotedIdentifierString.equals(" ")
+                    && (quotedIdentifierString.length() > 0)) {
                 quotedIdentifierChar = quotedIdentifierString.charAt(0);
             }
 
@@ -123,7 +128,8 @@ public class ParseInfo {
 
             boolean noBackslashEscapes = session.getServerSession().isNoBackslashEscapesSet();
 
-            // we're not trying to be real pedantic here, but we'd like to  skip comments at the beginning of statements, as frameworks such as Hibernate
+            // we're not trying to be real pedantic here, but we'd like to skip comments at
+            // the beginning of statements, as frameworks such as Hibernate
             // use them to aid in debugging
 
             this.statementStartPos = findStartOfStatement(sql);
@@ -138,8 +144,10 @@ public class ParseInfo {
                     // no need to search for "ON DUPLICATE KEY UPDATE" if not an INSERT statement
                     if (this.firstStmtChar == 'I') {
                         this.locationOfOnDuplicateKeyUpdate = getOnDuplicateKeyLocation(sql,
-                                session.getPropertySet().getBooleanProperty(PropertyKey.dontCheckOnDuplicateKeyUpdateInSQL).getValue(),
-                                session.getPropertySet().getBooleanProperty(PropertyKey.rewriteBatchedStatements).getValue(),
+                                session.getPropertySet()
+                                        .getBooleanProperty(PropertyKey.dontCheckOnDuplicateKeyUpdateInSQL).getValue(),
+                                session.getPropertySet().getBooleanProperty(PropertyKey.rewriteBatchedStatements)
+                                        .getValue(),
                                 session.getServerSession().isNoBackslashEscapesSet());
                         this.isOnDuplicateKeyUpdate = this.locationOfOnDuplicateKeyUpdate != -1;
                     }
@@ -150,11 +158,12 @@ public class ParseInfo {
                     continue; // next character is escaped
                 }
 
-                // are we in a quoted identifier? (only valid when the id is not inside a 'string')
+                // are we in a quoted identifier? (only valid when the id is not inside a
+                // 'string')
                 if (!inQuotes && (quotedIdentifierChar != 0) && (c == quotedIdentifierChar)) {
                     inQuotedId = !inQuotedId;
                 } else if (!inQuotedId) {
-                    //  only respect quotes when not in a quoted identifier
+                    // only respect quotes when not in a quoted identifier
 
                     if (inQuotes) {
                         if (((c == '\'') || (c == '"')) && c == quoteChar) {
@@ -274,14 +283,17 @@ public class ParseInfo {
                 }
             }
         } catch (StringIndexOutOfBoundsException oobEx) {
-            throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("PreparedStatement.62", new Object[] { sql }), oobEx,
+            throw ExceptionFactory.createException(WrongArgumentException.class,
+                    Messages.getString("PreparedStatement.62", new Object[] { sql }), oobEx,
                     session.getExceptionInterceptor());
         }
 
         if (buildRewriteInfo) {
             this.canRewriteAsMultiValueInsert = this.numberOfQueries == 1 && !this.parametersInDuplicateKeyClause
-                    && canRewrite(sql, this.isOnDuplicateKeyUpdate, this.locationOfOnDuplicateKeyUpdate, this.statementStartPos);
-            if (this.canRewriteAsMultiValueInsert && session.getPropertySet().getBooleanProperty(PropertyKey.rewriteBatchedStatements).getValue()) {
+                    && canRewrite(sql, this.isOnDuplicateKeyUpdate, this.locationOfOnDuplicateKeyUpdate,
+                            this.statementStartPos);
+            if (this.canRewriteAsMultiValueInsert
+                    && session.getPropertySet().getBooleanProperty(PropertyKey.rewriteBatchedStatements).getValue()) {
                 buildRewriteBatchedParams(sql, session, encoding);
             }
         }
@@ -335,20 +347,26 @@ public class ParseInfo {
 
         while (indexOfValues == -1) {
             if (quoteCharStr.length() > 0) {
-                indexOfValues = StringUtils.indexOfIgnoreCase(valuesSearchStart, sql, "VALUES", quoteCharStr, quoteCharStr,
+                indexOfValues = StringUtils.indexOfIgnoreCase(valuesSearchStart, sql, "VALUES", quoteCharStr,
+                        quoteCharStr,
                         StringUtils.SEARCH_MODE__MRK_COM_WS);
             } else {
                 indexOfValues = StringUtils.indexOfIgnoreCase(valuesSearchStart, sql, "VALUES");
             }
 
             if (indexOfValues > 0) {
-                /* check if the char immediately preceding VALUES may be part of the table name */
+                /*
+                 * check if the char immediately preceding VALUES may be part of the table name
+                 */
                 char c = sql.charAt(indexOfValues - 1);
                 if (!(Character.isWhitespace(c) || c == ')' || c == '`')) {
                     valuesSearchStart = indexOfValues + 6;
                     indexOfValues = -1;
                 } else {
-                    /* check if the char immediately following VALUES may be whitespace or open parenthesis */
+                    /*
+                     * check if the char immediately following VALUES may be whitespace or open
+                     * parenthesis
+                     */
                     c = sql.charAt(indexOfValues + 6);
                     if (!(Character.isWhitespace(c) || c == '(')) {
                         valuesSearchStart = indexOfValues + 6;
@@ -376,31 +394,34 @@ public class ParseInfo {
     }
 
     /**
-     * Returns a ParseInfo for a multi-value INSERT for a batch of size numBatch (without parsing!).
+     * Returns a ParseInfo for a multi-value INSERT for a batch of size numBatch
+     * (without parsing!).
      * 
      * @param numBatch
-     *            number of batched parameters
+     *                 number of batched parameters
      * @return {@link ParseInfo}
      */
     public synchronized ParseInfo getParseInfoForBatch(int numBatch) {
         AppendingBatchVisitor apv = new AppendingBatchVisitor();
         buildInfoForBatch(numBatch, apv);
 
-        ParseInfo batchParseInfo = new ParseInfo(apv.getStaticSqlStrings(), this.firstStmtChar, this.foundLoadData, this.isOnDuplicateKeyUpdate,
+        ParseInfo batchParseInfo = new ParseInfo(apv.getStaticSqlStrings(), this.firstStmtChar, this.foundLoadData,
+                this.isOnDuplicateKeyUpdate,
                 this.locationOfOnDuplicateKeyUpdate, this.statementLength, this.statementStartPos);
 
         return batchParseInfo;
     }
 
     /**
-     * Returns a preparable SQL string for the number of batched parameters; used by server-side prepared statements
+     * Returns a preparable SQL string for the number of batched parameters; used by
+     * server-side prepared statements
      * when re-writing batch INSERTs.
      * 
      * @param numBatch
-     *            number of batched parameters
+     *                 number of batched parameters
      * @return SQL string
      * @throws UnsupportedEncodingException
-     *             if an error occurs
+     *                                      if an error occurs
      */
     public String getSqlForBatch(int numBatch) throws UnsupportedEncodingException {
         ParseInfo batchInfo = getParseInfoForBatch(numBatch);
@@ -413,7 +434,7 @@ public class ParseInfo {
      * 
      * @return sql string
      * @throws UnsupportedEncodingException
-     *             if an error occurs
+     *                                      if an error occurs
      */
     public String getSqlForBatch() throws UnsupportedEncodingException {
         int size = 0;
@@ -446,14 +467,15 @@ public class ParseInfo {
      * efficient to convert a LinkedList to an array.
      * 
      * @param numBatch
-     *            number of batched parameters
+     *                 number of batched parameters
      * @param visitor
-     *            visitor
+     *                 visitor
      */
     private void buildInfoForBatch(int numBatch, BatchVisitor visitor) {
         if (!this.hasPlaceholders) {
             if (numBatch == 1) {
-                // ParseInfo for a multi-value INSERT that doesn't have any placeholder may require two or more batches (depends on if ODKU is present or not).
+                // ParseInfo for a multi-value INSERT that doesn't have any placeholder may
+                // require two or more batches (depends on if ODKU is present or not).
                 // The original sql should be able to handle it.
                 visitor.append(this.staticSql[0]);
 
@@ -483,7 +505,8 @@ public class ParseInfo {
             return;
         }
 
-        // Placeholders require assembling all the parts in each segment of the query and repeat them as needed.
+        // Placeholders require assembling all the parts in each segment of the query
+        // and repeat them as needed.
 
         // Add the head section except the last part.
         final byte[][] headStaticSql = this.batchHead.staticSql;
@@ -543,7 +566,8 @@ public class ParseInfo {
             } else {
                 statementStartPos += 2;
             }
-        } else if (StringUtils.startsWithIgnoreCaseAndWs(sql, "--") || StringUtils.startsWithIgnoreCaseAndWs(sql, "#")) {
+        } else if (StringUtils.startsWithIgnoreCaseAndWs(sql, "--")
+                || StringUtils.startsWithIgnoreCaseAndWs(sql, "#")) {
             statementStartPos = sql.indexOf('\n');
 
             if (statementStartPos == -1) {
@@ -558,31 +582,39 @@ public class ParseInfo {
         return statementStartPos;
     }
 
-    public static int getOnDuplicateKeyLocation(String sql, boolean dontCheckOnDuplicateKeyUpdateInSQL, boolean rewriteBatchedStatements,
+    public static int getOnDuplicateKeyLocation(String sql, boolean dontCheckOnDuplicateKeyUpdateInSQL,
+            boolean rewriteBatchedStatements,
             boolean noBackslashEscapes) {
-        return dontCheckOnDuplicateKeyUpdateInSQL && !rewriteBatchedStatements ? -1 : StringUtils.indexOfIgnoreCase(0, sql, ON_DUPLICATE_KEY_UPDATE_CLAUSE,
-                "\"'`", "\"'`", noBackslashEscapes ? StringUtils.SEARCH_MODE__MRK_COM_WS : StringUtils.SEARCH_MODE__ALL);
+        return dontCheckOnDuplicateKeyUpdateInSQL && !rewriteBatchedStatements ? -1
+                : StringUtils.indexOfIgnoreCase(0, sql, ON_DUPLICATE_KEY_UPDATE_CLAUSE,
+                        "\"'`", "\"'`",
+                        noBackslashEscapes ? StringUtils.SEARCH_MODE__MRK_COM_WS : StringUtils.SEARCH_MODE__ALL);
     }
 
-    protected static boolean canRewrite(String sql, boolean isOnDuplicateKeyUpdate, int locationOfOnDuplicateKeyUpdate, int statementStartPos) {
+    protected static boolean canRewrite(String sql, boolean isOnDuplicateKeyUpdate, int locationOfOnDuplicateKeyUpdate,
+            int statementStartPos) {
         // Needs to be INSERT or REPLACE.
-        // Can't have INSERT ... SELECT or INSERT ... ON DUPLICATE KEY UPDATE with an id=LAST_INSERT_ID(...).
+        // Can't have INSERT ... SELECT or INSERT ... ON DUPLICATE KEY UPDATE with an
+        // id=LAST_INSERT_ID(...).
 
         if (StringUtils.startsWithIgnoreCaseAndWs(sql, "INSERT", statementStartPos)) {
-            if (StringUtils.indexOfIgnoreCase(statementStartPos, sql, "SELECT", "\"'`", "\"'`", StringUtils.SEARCH_MODE__MRK_COM_WS) != -1) {
+            if (StringUtils.indexOfIgnoreCase(statementStartPos, sql, "SELECT", "\"'`", "\"'`",
+                    StringUtils.SEARCH_MODE__MRK_COM_WS) != -1) {
                 return false;
             }
             if (isOnDuplicateKeyUpdate) {
                 int updateClausePos = StringUtils.indexOfIgnoreCase(locationOfOnDuplicateKeyUpdate, sql, " UPDATE ");
                 if (updateClausePos != -1) {
-                    return StringUtils.indexOfIgnoreCase(updateClausePos, sql, "LAST_INSERT_ID", "\"'`", "\"'`", StringUtils.SEARCH_MODE__MRK_COM_WS) == -1;
+                    return StringUtils.indexOfIgnoreCase(updateClausePos, sql, "LAST_INSERT_ID", "\"'`", "\"'`",
+                            StringUtils.SEARCH_MODE__MRK_COM_WS) == -1;
                 }
             }
             return true;
         }
 
         return StringUtils.startsWithIgnoreCaseAndWs(sql, "REPLACE", statementStartPos)
-                && StringUtils.indexOfIgnoreCase(statementStartPos, sql, "SELECT", "\"'`", "\"'`", StringUtils.SEARCH_MODE__MRK_COM_WS) == -1;
+                && StringUtils.indexOfIgnoreCase(statementStartPos, sql, "SELECT", "\"'`", "\"'`",
+                        StringUtils.SEARCH_MODE__MRK_COM_WS) == -1;
     }
 
     public boolean isFoundLoadData() {

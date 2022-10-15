@@ -89,7 +89,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * Creates a new DataSourceRegressionTest suite for the given test name
      * 
      * @param name
-     *            the name of the testcase to run.
+     *             the name of the testcase to run.
      */
     public DataSourceRegressionTest(String name) {
         super(name);
@@ -109,7 +109,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * JNDI, using the FSContext JNDI provider from Sun
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     @Override
     public void setUp() throws Exception {
@@ -121,7 +121,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * Un-binds the DataSource, and cleans up the filesystem
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     @Override
     public void tearDown() throws Exception {
@@ -138,7 +138,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * causes NPE.
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testBug4808() throws Exception {
         MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
@@ -153,7 +153,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * Tests fix for Bug#3848, port # alone parsed incorrectly
      * 
      * @throws Exception
-     *             ...
+     *                   ...
      */
     public void testBug3848() throws Exception {
         String jndiName = "/testBug3848";
@@ -214,7 +214,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * during test setup
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testBug3920() throws Exception {
         String jndiName = "/testBug3920";
@@ -226,7 +226,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
         String serverName = System.getProperty(PropertyDefinitions.SYSP_testsuite_ds_host);
 
         // Only run this test if at least one of the above are set
-        if ((databaseName != null) || (serverName != null) || (userName != null) || (password != null) || (port != null)) {
+        if ((databaseName != null) || (serverName != null) || (userName != null) || (password != null)
+                || (port != null)) {
             MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
 
             if (databaseName != null) {
@@ -291,20 +292,20 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * expect them to be.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug19169() throws Exception {
         MysqlDataSource toSerialize = new MysqlDataSource();
 
-        toSerialize.<PropertyDefinitions.ZeroDatetimeBehavior> getProperty(PropertyKey.zeroDateTimeBehavior)
+        toSerialize.<PropertyDefinitions.ZeroDatetimeBehavior>getProperty(PropertyKey.zeroDateTimeBehavior)
                 .setValue(PropertyDefinitions.ZeroDatetimeBehavior.CONVERT_TO_NULL);
 
-        toSerialize.<String> getProperty(PropertyKey.ha_loadBalanceStrategy).setValue("test_lb_strategy");
+        toSerialize.<String>getProperty(PropertyKey.ha_loadBalanceStrategy).setValue("test_lb_strategy");
 
         boolean testBooleanFlag = !toSerialize.getBooleanProperty(PropertyKey.allowLoadLocalInfile).getValue();
-        toSerialize.<Boolean> getProperty(PropertyKey.allowLoadLocalInfile).setValue(testBooleanFlag);
+        toSerialize.<Boolean>getProperty(PropertyKey.allowLoadLocalInfile).setValue(testBooleanFlag);
 
-        RuntimeProperty<Integer> bscs = toSerialize.<Integer> getProperty(PropertyKey.blobSendChunkSize);
+        RuntimeProperty<Integer> bscs = toSerialize.<Integer>getProperty(PropertyKey.blobSendChunkSize);
         int testIntFlag = bscs.getValue() + 1;
         ((AbstractRuntimeProperty<?>) bscs).setValueInternal(String.valueOf(testIntFlag), null);
 
@@ -317,9 +318,11 @@ public class DataSourceRegressionTest extends BaseTestCase {
 
         MysqlDataSource thawedDs = (MysqlDataSource) objIn.readObject();
 
-        assertEquals(PropertyDefinitions.ZeroDatetimeBehavior.CONVERT_TO_NULL, thawedDs.getEnumProperty(PropertyKey.zeroDateTimeBehavior).getValue());
+        assertEquals(PropertyDefinitions.ZeroDatetimeBehavior.CONVERT_TO_NULL,
+                thawedDs.getEnumProperty(PropertyKey.zeroDateTimeBehavior).getValue());
         assertEquals("test_lb_strategy", thawedDs.getStringProperty(PropertyKey.ha_loadBalanceStrategy).getValue());
-        assertEquals(testBooleanFlag, thawedDs.getBooleanProperty(PropertyKey.allowLoadLocalInfile).getValue().booleanValue());
+        assertEquals(testBooleanFlag,
+                thawedDs.getBooleanProperty(PropertyKey.allowLoadLocalInfile).getValue().booleanValue());
         assertEquals(testIntFlag, thawedDs.getMemorySizeProperty(PropertyKey.blobSendChunkSize).getValue().intValue());
     }
 
@@ -328,7 +331,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * work with MySQLXADataSources.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug20242() throws Exception {
         try {
@@ -356,7 +359,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * configered into your naming and directory service using some GUI.
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     private void createJNDIContext() throws Exception {
         this.tempDir = File.createTempFile("jnditest", null);
@@ -385,7 +388,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
             boundDs = (DataSource) obj;
         } else if (obj instanceof Reference) {
             //
-            // For some reason, this comes back as a Reference instance under CruiseControl !?
+            // For some reason, this comes back as a Reference instance under CruiseControl
+            // !?
             //
             Reference objAsRef = (Reference) obj;
             ObjectFactory factory = (ObjectFactory) Class.forName(objAsRef.getFactoryClassName()).newInstance();
@@ -402,7 +406,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
         Connection physConn = pooledConn.getConnection();
         Statement physStatement = physConn.createStatement();
 
-        Method enableStreamingResultsMethodStmt = Class.forName(StatementWrapper.class.getName()).getMethod("enableStreamingResults", new Class<?>[0]);
+        Method enableStreamingResultsMethodStmt = Class.forName(StatementWrapper.class.getName())
+                .getMethod("enableStreamingResults", new Class<?>[0]);
         enableStreamingResultsMethodStmt.invoke(physStatement, (Object[]) null);
         this.rs = physStatement.executeQuery("SELECT 1");
 
@@ -419,7 +424,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
         }
 
         PreparedStatement physPrepStmt = physConn.prepareStatement("SELECT 1");
-        Method enableStreamingResultsMethodPstmt = Class.forName(PreparedStatementWrapper.class.getName()).getMethod("enableStreamingResults", (Class[]) null);
+        Method enableStreamingResultsMethodPstmt = Class.forName(PreparedStatementWrapper.class.getName())
+                .getMethod("enableStreamingResults", (Class[]) null);
         enableStreamingResultsMethodPstmt.invoke(physPrepStmt, (Object[]) null);
 
         this.rs = physPrepStmt.executeQuery();
@@ -442,7 +448,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
      * due to Reference containing RefAddrs with null content.
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testBug16791() throws Exception {
         MysqlDataSource myDs = new MysqlDataSource();
@@ -456,7 +462,7 @@ public class DataSourceRegressionTest extends BaseTestCase {
         removeFromRef(asRef, "serverName");
         removeFromRef(asRef, "databaseName");
 
-        //MysqlDataSource newDs = (MysqlDataSource)
+        // MysqlDataSource newDs = (MysqlDataSource)
         new MysqlDataSourceFactory().getObjectInstance(asRef, null, null, null);
     }
 
@@ -473,7 +479,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#32101 - When using a connection from our ConnectionPoolDataSource,
+     * Tests fix for BUG#32101 - When using a connection from our
+     * ConnectionPoolDataSource,
      * some Connection.prepareStatement() methods would return null instead of
      * a prepared statement.
      * 
@@ -487,13 +494,16 @@ public class DataSourceRegressionTest extends BaseTestCase {
         assertNotNull(pc.getConnection().prepareStatement("SELECT 1", Statement.RETURN_GENERATED_KEYS));
         assertNotNull(pc.getConnection().prepareStatement("SELECT 1", new int[0]));
         assertNotNull(pc.getConnection().prepareStatement("SELECT 1", new String[0]));
-        assertNotNull(pc.getConnection().prepareStatement("SELECT 1", ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY));
+        assertNotNull(pc.getConnection().prepareStatement("SELECT 1", ResultSet.TYPE_FORWARD_ONLY,
+                ResultSet.CONCUR_READ_ONLY));
         assertNotNull(
-                pc.getConnection().prepareStatement("SELECT 1", ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, ResultSet.HOLD_CURSORS_OVER_COMMIT));
+                pc.getConnection().prepareStatement("SELECT 1", ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY,
+                        ResultSet.HOLD_CURSORS_OVER_COMMIT));
     }
 
     public void testBug35810() throws Exception {
-        int defaultConnectTimeout = ((JdbcConnection) this.conn).getPropertySet().getIntegerProperty(PropertyKey.connectTimeout).getValue();
+        int defaultConnectTimeout = ((JdbcConnection) this.conn).getPropertySet()
+                .getIntegerProperty(PropertyKey.connectTimeout).getValue();
         int nonDefaultConnectTimeout = defaultConnectTimeout + 1000 * 2;
         MysqlConnectionPoolDataSource cpds = new MysqlConnectionPoolDataSource();
         String dsUrl = BaseTestCase.dbUrl;
@@ -507,7 +517,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
         cpds.setUrl(dsUrl);
 
         Connection dsConn = cpds.getPooledConnection().getConnection();
-        int configuredConnectTimeout = ((JdbcConnection) dsConn).getPropertySet().getIntegerProperty(PropertyKey.connectTimeout).getValue();
+        int configuredConnectTimeout = ((JdbcConnection) dsConn).getPropertySet()
+                .getIntegerProperty(PropertyKey.connectTimeout).getValue();
 
         assertEquals("Connect timeout spec'd by URL didn't take", nonDefaultConnectTimeout, configuredConnectTimeout);
         assertFalse("Connect timeout spec'd by URL didn't take", defaultConnectTimeout == configuredConnectTimeout);
@@ -527,10 +538,11 @@ public class DataSourceRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#72890 - Java jdbc driver returns incorrect return code when it's part of XA transaction
+     * Tests fix for BUG#72890 - Java jdbc driver returns incorrect return code when
+     * it's part of XA transaction
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug72890() throws Exception {
         MysqlXADataSource myDs = new MysqlXADataSource();
@@ -542,7 +554,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
             final XAConnection xaConn = myDs.getXAConnection();
             final XAResource xaRes = xaConn.getXAResource();
             final Connection dbConn = xaConn.getConnection();
-            final long connId = ((MysqlConnection) ((MysqlConnection) dbConn).getConnectionMutex()).getSession().getThreadId();
+            final long connId = ((MysqlConnection) ((MysqlConnection) dbConn).getConnectionMutex()).getSession()
+                    .getThreadId();
 
             xaRes.start(xid, XAResource.TMNOFLAGS);
             xaRes.end(xid, XAResource.TMSUCCESS);
@@ -560,7 +573,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
                 this.rs.close();
                 if (connIsAlive) {
                     connAliveChecks--;
-                    System.out.println("Connection id " + connId + " is still alive. Checking " + connAliveChecks + " more times.");
+                    System.out.println("Connection id " + connId + " is still alive. Checking " + connAliveChecks
+                            + " more times.");
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
@@ -573,7 +587,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
                 fail("Failed to kill the Connection id " + connId + " in a timely manner.");
             }
 
-            XAException xaEx = assertThrows(XAException.class, "Undetermined error occurred in the underlying Connection - check your data for consistency",
+            XAException xaEx = assertThrows(XAException.class,
+                    "Undetermined error occurred in the underlying Connection - check your data for consistency",
                     new Callable<Void>() {
                         public Void call() throws Exception {
                             xaRes.commit(xid, false);
@@ -587,7 +602,8 @@ public class DataSourceRegressionTest extends BaseTestCase {
 
         } finally {
             /*
-             * After MySQL 5.7.7 a prepared XA transaction is no longer rolled back at disconnect. It needs to be rolled back manually to prevent test failures
+             * After MySQL 5.7.7 a prepared XA transaction is no longer rolled back at
+             * disconnect. It needs to be rolled back manually to prevent test failures
              * in subsequent runs.
              * Other MySQL versions won't have any transactions to recover.
              */
@@ -609,11 +625,12 @@ public class DataSourceRegressionTest extends BaseTestCase {
     public void testBug72632() throws Exception {
         final MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUrl("jdbc:mysql:nonsupported:");
-        assertThrows(SQLException.class, "Connector/J cannot handle a connection string 'jdbc:mysql:nonsupported:'.", new Callable<Void>() {
-            public Void call() throws Exception {
-                dataSource.getConnection();
-                return null;
-            }
-        });
+        assertThrows(SQLException.class, "Connector/J cannot handle a connection string 'jdbc:mysql:nonsupported:'.",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        dataSource.getConnection();
+                        return null;
+                    }
+                });
     }
 }

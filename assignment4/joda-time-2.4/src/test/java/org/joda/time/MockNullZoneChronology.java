@@ -28,15 +28,19 @@ class MockNullZoneChronology extends BaseChronology {
     public DateTimeZone getZone() {
         return null;
     }
+
     public Chronology withUTC() {
         return this;
     }
+
     public Chronology withZone(DateTimeZone zone) {
         return this;
     }
-    public DateTimeField dayOfMonth() {  // for DateMidnight test
+
+    public DateTimeField dayOfMonth() { // for DateMidnight test
         return ISOChronology.getInstance().dayOfMonth();
     }
+
     public String toString() {
         return "";
     }

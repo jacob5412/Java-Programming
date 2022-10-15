@@ -79,7 +79,7 @@ public class TableTest extends BaseTableTestCase {
             Table view = this.schema.getTable("viewBasics");
             assertEquals(DbObjectStatus.NOT_EXISTS, view.existsInDatabase());
 
-            // all objects return false for isView() if they don't exist in database 
+            // all objects return false for isView() if they don't exist in database
             assertFalse(table.isView());
             assertFalse(view.isView());
 
@@ -141,11 +141,13 @@ public class TableTest extends BaseTableTestCase {
         String tableName = "testExists";
         dropCollection(tableName);
         Table t = this.schema.getTable(tableName);
-        assertThrows(XProtocolError.class, "Table '" + tableName + "' does not exist in schema '" + this.schema.getName() + "'", new Callable<Void>() {
-            public Void call() throws Exception {
-                t.count();
-                return null;
-            }
-        });
+        assertThrows(XProtocolError.class,
+                "Table '" + tableName + "' does not exist in schema '" + this.schema.getName() + "'",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        t.count();
+                        return null;
+                    }
+                });
     }
 }

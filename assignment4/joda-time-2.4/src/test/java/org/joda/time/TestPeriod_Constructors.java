@@ -35,20 +35,19 @@ public class TestPeriod_Constructors extends TestCase {
 
     private static final DateTimeZone LONDON = DateTimeZone.forID("Europe/London");
     private static final DateTimeZone PARIS = DateTimeZone.forID("Europe/Paris");
-    
-    long y2002days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 
-                     366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 
-                     365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
-                     366 + 365;
-    long y2003days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 
-                     366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 
-                     365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
-                     366 + 365 + 365;
-    
+
+    long y2002days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 +
+            365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365;
+    long y2003days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 +
+            365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365;
+
     // 2002-06-09
-    private long TEST_TIME_NOW =
-            (y2002days + 31L + 28L + 31L + 30L + 31L + 9L -1L) * DateTimeConstants.MILLIS_PER_DAY;
-            
+    private long TEST_TIME_NOW = (y2002days + 31L + 28L + 31L + 30L + 31L + 9L - 1L) * DateTimeConstants.MILLIS_PER_DAY;
+
     private DateTimeZone originalDateTimeZone = null;
     private TimeZone originalTimeZone = null;
     private Locale originalLocale = null;
@@ -85,7 +84,7 @@ public class TestPeriod_Constructors extends TestCase {
         originalLocale = null;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstants() throws Throwable {
         Period test = Period.ZERO;
         assertEquals(PeriodType.standard(), test.getPeriodType());
@@ -99,12 +98,12 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(0, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testParse_noFormatter() throws Throwable {
         assertEquals(new Period(1, 2, 3, 4, 5, 6, 7, 890), Period.parse("P1Y2M3W4DT5H6M7.890S"));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor1() throws Throwable {
         Period test = new Period();
         assertEquals(PeriodType.standard(), test.getPeriodType());
@@ -118,7 +117,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(0, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_long1() throws Throwable {
         long length = 4 * DateTimeConstants.MILLIS_PER_DAY +
                 5 * DateTimeConstants.MILLIS_PER_HOUR +
@@ -137,8 +136,7 @@ public class TestPeriod_Constructors extends TestCase {
     }
 
     public void testConstructor_long2() throws Throwable {
-        long length =
-                5 * DateTimeConstants.MILLIS_PER_HOUR +
+        long length = 5 * DateTimeConstants.MILLIS_PER_HOUR +
                 6 * DateTimeConstants.MILLIS_PER_MINUTE +
                 7 * DateTimeConstants.MILLIS_PER_SECOND + 8;
         Period test = new Period(length);
@@ -154,15 +152,14 @@ public class TestPeriod_Constructors extends TestCase {
     }
 
     public void testConstructor_long3() throws Throwable {
-        long length =
-            (4L + (3L * 7L) + (2L * 30L) + 365L) * DateTimeConstants.MILLIS_PER_DAY +
-            5L * DateTimeConstants.MILLIS_PER_HOUR +
-            6L * DateTimeConstants.MILLIS_PER_MINUTE +
-            7L * DateTimeConstants.MILLIS_PER_SECOND + 8L;
+        long length = (4L + (3L * 7L) + (2L * 30L) + 365L) * DateTimeConstants.MILLIS_PER_DAY +
+                5L * DateTimeConstants.MILLIS_PER_HOUR +
+                6L * DateTimeConstants.MILLIS_PER_MINUTE +
+                7L * DateTimeConstants.MILLIS_PER_SECOND + 8L;
         Period test = new Period(length);
         assertEquals(PeriodType.standard(), test.getPeriodType());
         // only time fields are precise in AllType
-        assertEquals(0, test.getYears());  // (4 + (3 * 7) + (2 * 30) + 365) == 450
+        assertEquals(0, test.getYears()); // (4 + (3 * 7) + (2 * 30) + 365) == 450
         assertEquals(0, test.getMonths());
         assertEquals(0, test.getWeeks());
         assertEquals(0, test.getDays());
@@ -176,15 +173,14 @@ public class TestPeriod_Constructors extends TestCase {
         DateTimeZone zone = DateTimeZone.getDefault();
         try {
             DateTimeZone.setDefault(DateTimeZone.forOffsetHours(2));
-            long length =
-                (4L + (3L * 7L) + (2L * 30L) + 365L) * DateTimeConstants.MILLIS_PER_DAY +
-                5L * DateTimeConstants.MILLIS_PER_HOUR +
-                6L * DateTimeConstants.MILLIS_PER_MINUTE +
-                7L * DateTimeConstants.MILLIS_PER_SECOND + 8L;
+            long length = (4L + (3L * 7L) + (2L * 30L) + 365L) * DateTimeConstants.MILLIS_PER_DAY +
+                    5L * DateTimeConstants.MILLIS_PER_HOUR +
+                    6L * DateTimeConstants.MILLIS_PER_MINUTE +
+                    7L * DateTimeConstants.MILLIS_PER_SECOND + 8L;
             Period test = new Period(length);
             assertEquals(PeriodType.standard(), test.getPeriodType());
             // only time fields are precise in AllType
-            assertEquals(0, test.getYears());  // (4 + (3 * 7) + (2 * 30) + 365) == 450
+            assertEquals(0, test.getYears()); // (4 + (3 * 7) + (2 * 30) + 365) == 450
             assertEquals(0, test.getMonths());
             assertEquals(0, test.getWeeks());
             assertEquals(0, test.getDays());
@@ -197,7 +193,7 @@ public class TestPeriod_Constructors extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_long_PeriodType1() throws Throwable {
         long length = 4 * DateTimeConstants.MILLIS_PER_DAY +
                 5 * DateTimeConstants.MILLIS_PER_HOUR +
@@ -250,8 +246,7 @@ public class TestPeriod_Constructors extends TestCase {
     }
 
     public void testConstructor_long_PeriodType4() throws Throwable {
-        long length =
-                5 * DateTimeConstants.MILLIS_PER_HOUR +
+        long length = 5 * DateTimeConstants.MILLIS_PER_HOUR +
                 6 * DateTimeConstants.MILLIS_PER_MINUTE +
                 7 * DateTimeConstants.MILLIS_PER_SECOND + 8;
         Period test = new Period(length, PeriodType.standard().withMillisRemoved());
@@ -266,7 +261,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(0, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_long_Chronology1() throws Throwable {
         long length = 4 * DateTimeConstants.MILLIS_PER_DAY +
                 5 * DateTimeConstants.MILLIS_PER_HOUR +
@@ -318,7 +313,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(8, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_long_PeriodType_Chronology1() throws Throwable {
         long length = 4 * DateTimeConstants.MILLIS_PER_DAY +
                 5 * DateTimeConstants.MILLIS_PER_HOUR +
@@ -387,7 +382,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(8, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (4ints)
      */
@@ -404,7 +399,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(8, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (8ints)
      */
@@ -421,7 +416,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(8, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (8ints)
      */
@@ -455,10 +450,11 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(1, 2, 3, 4, 5, 6, 7, 8, PeriodType.dayTime());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_long_long1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0);
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1);
@@ -489,7 +485,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(1, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_long_long_PeriodType1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0);
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1);
@@ -539,9 +535,9 @@ public class TestPeriod_Constructors extends TestCase {
         DateTime dt1 = new DateTime(2004, 6, 9, 7, 8, 9, 10);
         DateTime dt2 = new DateTime(2005, 6, 9, 12, 14, 16, 18);
         Period test = new Period(dt1.getMillis(), dt2.getMillis(), PeriodType.yearWeekDayTime());
-        
+
         assertEquals(PeriodType.yearWeekDayTime(), test.getPeriodType());
-        assertEquals(1, test.getYears());  // tests using years and not weekyears
+        assertEquals(1, test.getYears()); // tests using years and not weekyears
         assertEquals(0, test.getMonths());
         assertEquals(0, test.getWeeks());
         assertEquals(0, test.getDays());
@@ -551,7 +547,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(8, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_long_long_Chronology1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0, CopticChronology.getInstance());
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1, CopticChronology.getInstance());
@@ -582,7 +578,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(1, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_long_long_PeriodType_Chronology1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0, CopticChronology.getInstance());
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1, CopticChronology.getInstance());
@@ -613,7 +609,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(1, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_RI_RI1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0);
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1);
@@ -645,7 +641,7 @@ public class TestPeriod_Constructors extends TestCase {
     }
 
     public void testConstructor_RI_RI3() throws Throwable {
-        DateTime dt1 = null;  // 2002-06-09T01:00+01:00
+        DateTime dt1 = null; // 2002-06-09T01:00+01:00
         DateTime dt2 = new DateTime(2005, 7, 17, 1, 1, 1, 1);
         Period test = new Period(dt1, dt2);
         assertEquals(PeriodType.standard(), test.getPeriodType());
@@ -661,7 +657,7 @@ public class TestPeriod_Constructors extends TestCase {
 
     public void testConstructor_RI_RI4() throws Throwable {
         DateTime dt1 = new DateTime(2005, 7, 17, 1, 1, 1, 1);
-        DateTime dt2 = null;  // 2002-06-09T01:00+01:00
+        DateTime dt2 = null; // 2002-06-09T01:00+01:00
         Period test = new Period(dt1, dt2);
         assertEquals(PeriodType.standard(), test.getPeriodType());
         assertEquals(-3, test.getYears());
@@ -675,8 +671,8 @@ public class TestPeriod_Constructors extends TestCase {
     }
 
     public void testConstructor_RI_RI5() throws Throwable {
-        DateTime dt1 = null;  // 2002-06-09T01:00+01:00
-        DateTime dt2 = null;  // 2002-06-09T01:00+01:00
+        DateTime dt1 = null; // 2002-06-09T01:00+01:00
+        DateTime dt2 = null; // 2002-06-09T01:00+01:00
         Period test = new Period(dt1, dt2);
         assertEquals(PeriodType.standard(), test.getPeriodType());
         assertEquals(0, test.getYears());
@@ -721,7 +717,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(0, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_RI_RI_PeriodType1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0);
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1);
@@ -768,7 +764,7 @@ public class TestPeriod_Constructors extends TestCase {
     }
 
     public void testConstructor_RI_RI_PeriodType4() throws Throwable {
-        DateTime dt1 = null;  // 2002-06-09T01:00+01:00
+        DateTime dt1 = null; // 2002-06-09T01:00+01:00
         DateTime dt2 = new DateTime(2005, 7, 17, 1, 1, 1, 1);
         Period test = new Period(dt1, dt2, PeriodType.standard());
         assertEquals(PeriodType.standard(), test.getPeriodType());
@@ -783,8 +779,8 @@ public class TestPeriod_Constructors extends TestCase {
     }
 
     public void testConstructor_RI_RI_PeriodType5() throws Throwable {
-        DateTime dt1 = null;  // 2002-06-09T01:00+01:00
-        DateTime dt2 = null;  // 2002-06-09T01:00+01:00
+        DateTime dt1 = null; // 2002-06-09T01:00+01:00
+        DateTime dt2 = null; // 2002-06-09T01:00+01:00
         Period test = new Period(dt1, dt2, PeriodType.standard());
         assertEquals(PeriodType.standard(), test.getPeriodType());
         assertEquals(0, test.getYears());
@@ -797,7 +793,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(0, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     @SuppressWarnings("deprecation")
     public void testConstructor_RP_RP1() throws Throwable {
         YearMonthDay dt1 = new YearMonthDay(2004, 6, 9);
@@ -852,7 +848,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -862,7 +859,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -872,7 +870,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -882,7 +881,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     public void testConstructor_RP_RP7() throws Throwable {
@@ -891,7 +891,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     public void testConstructor_RP_RP8() throws Throwable {
@@ -900,10 +901,11 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     @SuppressWarnings("deprecation")
     public void testConstructor_RP_RP_PeriodType1() throws Throwable {
         YearMonthDay dt1 = new YearMonthDay(2004, 6, 9);
@@ -958,7 +960,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2, PeriodType.standard());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -968,7 +971,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -978,7 +982,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2, PeriodType.standard());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -988,7 +993,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2, PeriodType.standard());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     public void testConstructor_RP_RP_PeriodType7() throws Throwable {
@@ -997,7 +1003,8 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2, PeriodType.standard());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     public void testConstructor_RP_RP_PeriodType8() throws Throwable {
@@ -1006,10 +1013,11 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             new Period(dt1, dt2, PeriodType.standard());
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_RI_RD1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0);
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1);
@@ -1041,7 +1049,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(0, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_RI_RD_PeriodType1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0);
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1);
@@ -1073,7 +1081,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(0, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_RD_RI1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0);
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1);
@@ -1105,7 +1113,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(0, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor_RD_RI_PeriodType1() throws Throwable {
         DateTime dt1 = new DateTime(2004, 6, 9, 0, 0, 0, 0);
         DateTime dt2 = new DateTime(2005, 7, 10, 1, 1, 1, 1);
@@ -1137,7 +1145,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(0, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (Object)
      */
@@ -1194,7 +1202,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(1, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Test constructor (Object)
      */
@@ -1225,7 +1233,8 @@ public class TestPeriod_Constructors extends TestCase {
     }
 
     public void testConstructor_Object_PeriodType3() throws Throwable {
-        Period test = new Period(new Period(0, 0, 0, 0, 1, 2, 3, 4, PeriodType.dayTime()), PeriodType.yearMonthDayTime());
+        Period test = new Period(new Period(0, 0, 0, 0, 1, 2, 3, 4, PeriodType.dayTime()),
+                PeriodType.yearMonthDayTime());
         assertEquals(PeriodType.yearMonthDayTime(), test.getPeriodType());
         assertEquals(0, test.getYears());
         assertEquals(0, test.getMonths());
@@ -1250,7 +1259,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(4, test.getMillis());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactoryYears() throws Throwable {
         Period test = Period.years(6);
         assertEquals(PeriodType.standard(), test.getPeriodType());
@@ -1355,7 +1364,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(6, test.getMillis());
     }
 
-    //-------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     public void testConstructor_trickyDifferences_RI_RI_toFeb_standardYear() throws Throwable {
         DateTime dt1 = new DateTime(2011, 1, 1, 0, 0);
         DateTime dt2 = new DateTime(2011, 2, 28, 0, 0);
@@ -1420,7 +1429,7 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(new Period(0, 2, 0, 0, 0, 0, 0, 0), test);
     }
 
-    //-------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     public void testConstructor_trickyDifferences_LD_LD_toFeb_standardYear() throws Throwable {
         LocalDate dt1 = new LocalDate(2011, 1, 1);
         LocalDate dt2 = new LocalDate(2011, 2, 28);
@@ -1485,16 +1494,16 @@ public class TestPeriod_Constructors extends TestCase {
         assertEquals(new Period(0, 2, 0, 0, 0, 0, 0, 0), test);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     @SuppressWarnings("deprecation")
     public void testFactoryFieldDifference1() throws Throwable {
         YearMonthDay start = new YearMonthDay(2005, 4, 9);
         DateTimeFieldType[] types = new DateTimeFieldType[] {
-            DateTimeFieldType.year(),
-            DateTimeFieldType.monthOfYear(),
-            DateTimeFieldType.dayOfMonth(),
+                DateTimeFieldType.year(),
+                DateTimeFieldType.monthOfYear(),
+                DateTimeFieldType.dayOfMonth(),
         };
-        Partial end = new Partial(types, new int[] {2004, 6, 7});
+        Partial end = new Partial(types, new int[] { 2004, 6, 7 });
         Period test = Period.fieldDifference(start, end);
         assertEquals(PeriodType.yearMonthDay(), test.getPeriodType());
         assertEquals(-1, test.getYears());
@@ -1513,11 +1522,13 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             Period.fieldDifference(ymd, (ReadablePartial) null);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
         try {
             Period.fieldDifference((ReadablePartial) null, ymd);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -1527,36 +1538,39 @@ public class TestPeriod_Constructors extends TestCase {
         try {
             Period.fieldDifference(start, endTime);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     @SuppressWarnings("deprecation")
     public void testFactoryFieldDifference4() throws Throwable {
         DateTimeFieldType[] types = new DateTimeFieldType[] {
-            DateTimeFieldType.year(),
-            DateTimeFieldType.monthOfYear(),
-            DateTimeFieldType.dayOfWeek(),
+                DateTimeFieldType.year(),
+                DateTimeFieldType.monthOfYear(),
+                DateTimeFieldType.dayOfWeek(),
         };
         YearMonthDay start = new YearMonthDay(2005, 4, 9);
-        Partial end = new Partial(types, new int[] {1, 2, 3});
+        Partial end = new Partial(types, new int[] { 1, 2, 3 });
         try {
             Period.fieldDifference(start, end);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
     public void testFactoryFieldDifference5() throws Throwable {
         DateTimeFieldType[] types = new DateTimeFieldType[] {
-            DateTimeFieldType.year(),
-            DateTimeFieldType.dayOfMonth(),
-            DateTimeFieldType.dayOfWeek(),
+                DateTimeFieldType.year(),
+                DateTimeFieldType.dayOfMonth(),
+                DateTimeFieldType.dayOfWeek(),
         };
-        Partial start = new Partial(types, new int[] {1, 2, 3});
-        Partial end = new Partial(types, new int[] {1, 2, 3});
+        Partial start = new Partial(types, new int[] { 1, 2, 3 });
+        Partial end = new Partial(types, new int[] { 1, 2, 3 });
         try {
             Period.fieldDifference(start, end);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (IllegalArgumentException ex) {
+        }
     }
 
 }

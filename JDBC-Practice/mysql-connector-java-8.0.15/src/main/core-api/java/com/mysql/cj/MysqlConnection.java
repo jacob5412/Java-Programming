@@ -42,7 +42,7 @@ public interface MysqlConnection {
      * Creates an IO channel to the server.
      * 
      * @param isForReconnect
-     *            is this request for a re-connect
+     *                       is this request for a re-connect
      */
     void createNewIO(boolean isForReconnect);
 
@@ -73,7 +73,7 @@ public interface MysqlConnection {
      * Destroys this connection and any underlying resources.
      * 
      * @param whyCleanedUp
-     *            exception caused the connection clean up
+     *                     exception caused the connection clean up
      */
     void cleanup(Throwable whyCleanedUp);
 }

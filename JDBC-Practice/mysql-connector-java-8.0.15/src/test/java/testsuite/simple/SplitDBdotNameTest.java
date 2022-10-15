@@ -37,17 +37,20 @@ import com.mysql.cj.util.StringUtils;
 import testsuite.BaseTestCase;
 
 /**
- * Tests new StringUtils functions in the driver: public static String sanitizeProcOrFuncName(String src) and public static List splitDBdotName(String src,
+ * Tests new StringUtils functions in the driver: public static String
+ * sanitizeProcOrFuncName(String src) and public static List
+ * splitDBdotName(String src,
  * String cat, String quotId, boolean isNoBslashEscSet)
  * 
- * By the time sanitizeProcOrFuncName is called we should only have DB.SP as src, ie. SP/FUNC name is already sanitized during the process!
+ * By the time sanitizeProcOrFuncName is called we should only have DB.SP as
+ * src, ie. SP/FUNC name is already sanitized during the process!
  */
 public class SplitDBdotNameTest extends BaseTestCase {
     /**
      * Constructor for SplitDBdotNameTest.
      * 
      * @param name
-     *            the name of the test to run.
+     *             the name of the test to run.
      */
     public SplitDBdotNameTest(String name) {
         super(name);
@@ -66,14 +69,14 @@ public class SplitDBdotNameTest extends BaseTestCase {
      * Tests sanitation and SplitDBdotName
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testSplit() throws Exception {
         String src = null;
         String resString = null;
         List<String> results = new ArrayList<>();
 
-        //Test 1.1, weird DB.SP name
+        // Test 1.1, weird DB.SP name
         src = "`MyDatabase 1.0.1.0`.`Proc 1.v1`";
         resString = StringUtils.sanitizeProcOrFuncName(src);
         if ((resString != null)) {
@@ -84,7 +87,7 @@ public class SplitDBdotNameTest extends BaseTestCase {
             fail("Test 1.1 returned null resString");
         }
 
-        //Test 1.2, toggle isNoBslashEscSet
+        // Test 1.2, toggle isNoBslashEscSet
         src = "`MyDatabase 1.0.1.0`.`Proc 1.v1`";
         resString = StringUtils.sanitizeProcOrFuncName(src);
         if ((resString != null)) {
@@ -95,7 +98,7 @@ public class SplitDBdotNameTest extends BaseTestCase {
             fail("Test 1.2 returned null resString");
         }
 
-        //Test 2.1, weird SP name, no DB parameter
+        // Test 2.1, weird SP name, no DB parameter
         src = "`Proc 1.v1`";
         resString = StringUtils.sanitizeProcOrFuncName(src);
         if ((resString != null)) {
@@ -106,7 +109,7 @@ public class SplitDBdotNameTest extends BaseTestCase {
             fail("Test 2.1 returned null resString");
         }
 
-        //Test 2.2, toggle isNoBslashEscSet
+        // Test 2.2, toggle isNoBslashEscSet
         src = "`Proc 1.v1`";
         resString = StringUtils.sanitizeProcOrFuncName(src);
         if ((resString != null)) {

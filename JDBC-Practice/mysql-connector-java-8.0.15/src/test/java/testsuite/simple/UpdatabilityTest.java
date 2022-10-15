@@ -78,14 +78,15 @@ public class UpdatabilityTest extends BaseTestCase {
      * Tests if aliased tables work as updatable result sets.
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testAliasedTables() throws Exception {
         Statement scrollableStmt = null;
 
         try {
             scrollableStmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            this.rs = scrollableStmt.executeQuery("SELECT pos1 AS p1, pos2 AS P2, char_field AS cf FROM UPDATABLE AS UPD LIMIT 1");
+            this.rs = scrollableStmt
+                    .executeQuery("SELECT pos1 AS p1, pos2 AS P2, char_field AS cf FROM UPDATABLE AS UPD LIMIT 1");
             this.rs.next();
             this.rs.close();
             this.rs = null;
@@ -120,7 +121,7 @@ public class UpdatabilityTest extends BaseTestCase {
      * tables that don't have primary keys
      * 
      * @throws SQLException
-     *             if an error occurs
+     *                      if an error occurs
      */
     public void testBogusTable() throws SQLException {
         this.stmt.executeUpdate("DROP TABLE IF EXISTS BOGUS_UPDATABLE");
@@ -156,11 +157,12 @@ public class UpdatabilityTest extends BaseTestCase {
      * queries that haven't selected all primary keys
      * 
      * @throws SQLException
-     *             if an error occurs
+     *                      if an error occurs
      */
     public void testMultiKeyTable() throws SQLException {
         this.stmt.executeUpdate("DROP TABLE IF EXISTS MULTI_UPDATABLE");
-        this.stmt.executeUpdate("CREATE TABLE MULTI_UPDATABLE (field1 int NOT NULL, field2 int NOT NULL, PRIMARY KEY (field1, field2))");
+        this.stmt.executeUpdate(
+                "CREATE TABLE MULTI_UPDATABLE (field1 int NOT NULL, field2 int NOT NULL, PRIMARY KEY (field1, field2))");
 
         Statement scrollableStmt = null;
 
@@ -318,7 +320,8 @@ public class UpdatabilityTest extends BaseTestCase {
         } catch (SQLException SQLE) {
         }
 
-        this.stmt.executeUpdate("CREATE TABLE UPDATABLE (pos1 int not null, pos2 int not null, char_field VARCHAR(32), PRIMARY KEY (pos1, pos2))");
+        this.stmt.executeUpdate(
+                "CREATE TABLE UPDATABLE (pos1 int not null, pos2 int not null, char_field VARCHAR(32), PRIMARY KEY (pos1, pos2))");
 
         for (int i = 0; i < 100; i++) {
             this.stmt.executeUpdate("INSERT INTO UPDATABLE VALUES (" + i + ", " + i + ",'StringData" + i + "')");

@@ -52,7 +52,7 @@ public class UtilsRegressionTest extends BaseTestCase {
      * Creates a new UtilsRegressionTest.
      * 
      * @param name
-     *            the name of the test
+     *             the name of the test
      */
     public UtilsRegressionTest(String name) {
         super(name);
@@ -71,15 +71,19 @@ public class UtilsRegressionTest extends BaseTestCase {
      * Tests all TimeZone mappings supported.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testTimeZones() throws Exception {
         /*
-         * Time Zones can be identified by many different ways according to Unicode CLDR database. The following map contain the correspondence between
-         * alternative Time Zone designations to Standard Time Zones ID (IANA/Olson database). This data was generated from IANA Time Zone database v. 2015f
-         * (http://www.iana.org/time-zones) and Unicode CLDR v.28 (http://cldr.unicode.org/)
+         * Time Zones can be identified by many different ways according to Unicode CLDR
+         * database. The following map contain the correspondence between
+         * alternative Time Zone designations to Standard Time Zones ID (IANA/Olson
+         * database). This data was generated from IANA Time Zone database v. 2015f
+         * (http://www.iana.org/time-zones) and Unicode CLDR v.28
+         * (http://cldr.unicode.org/)
          * 
-         * Both the file com/mysql/cj/core/TimeZoneMapping.properties and the following data are generated from a MySQL Connector/J internal utility.
+         * Both the file com/mysql/cj/core/TimeZoneMapping.properties and the following
+         * data are generated from a MySQL Connector/J internal utility.
          */
 
         Map<String, String> tzMap = new HashMap<>();
@@ -564,7 +568,8 @@ public class UtilsRegressionTest extends BaseTestCase {
         // GENERATED CODE ENDS HERE
 
         for (String key : tzMap.keySet()) {
-            assertEquals("Custom time Zone '" + key + "' mapping", tzMap.get(key), TimeUtil.getCanonicalTimezone(key, null));
+            assertEquals("Custom time Zone '" + key + "' mapping", tzMap.get(key),
+                    TimeUtil.getCanonicalTimezone(key, null));
         }
 
         for (String tz : TimeZone.getAvailableIDs()) {
@@ -579,10 +584,11 @@ public class UtilsRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#70436 - Incorrect mapping of windows timezone to Olson timezone.
+     * Tests fix for BUG#70436 - Incorrect mapping of windows timezone to Olson
+     * timezone.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug70436() throws Exception {
         assertEquals("Asia/Yerevan", TimeUtil.getCanonicalTimezone("Caucasus Standard Time", null));
@@ -590,65 +596,68 @@ public class UtilsRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#82115 - Some exceptions are intercepted twice or fail to set the init cause.
+     * Tests fix for Bug#82115 - Some exceptions are intercepted twice or fail to
+     * set the init cause.
      */
     public void testBug82115() throws Exception {
         Exception ex = SQLError.createSQLException("ORIGINAL_EXCEPTION", "0", new Exception("ORIGINAL_CAUSE"), null);
         assertEquals("ORIGINAL_EXCEPTION", ex.getMessage());
         assertEquals("ORIGINAL_CAUSE", ex.getCause().getMessage());
 
-        ex = SQLError.createSQLException("ORIGINAL_EXCEPTION", "0", new Exception("ORIGINAL_CAUSE"), new ExceptionInterceptor() {
-            boolean alreadyIntercepted = false;
+        ex = SQLError.createSQLException("ORIGINAL_EXCEPTION", "0", new Exception("ORIGINAL_CAUSE"),
+                new ExceptionInterceptor() {
+                    boolean alreadyIntercepted = false;
 
-            @Override
-            public ExceptionInterceptor init(Properties props, Log log) {
-                this.alreadyIntercepted = false;
-                return this;
-            }
+                    @Override
+                    public ExceptionInterceptor init(Properties props, Log log) {
+                        this.alreadyIntercepted = false;
+                        return this;
+                    }
 
-            public void destroy() {
-            }
+                    public void destroy() {
+                    }
 
-            @Override
-            public Exception interceptException(Exception sqlEx) {
-                assertFalse(this.alreadyIntercepted);
-                this.alreadyIntercepted = true;
+                    @Override
+                    public Exception interceptException(Exception sqlEx) {
+                        assertFalse(this.alreadyIntercepted);
+                        this.alreadyIntercepted = true;
 
-                assertEquals("ORIGINAL_EXCEPTION", sqlEx.getMessage());
-                assertEquals("ORIGINAL_CAUSE", sqlEx.getCause().getMessage());
+                        assertEquals("ORIGINAL_EXCEPTION", sqlEx.getMessage());
+                        assertEquals("ORIGINAL_CAUSE", sqlEx.getCause().getMessage());
 
-                SQLException newSqlEx = new SQLException("INTERCEPT_EXCEPTION");
-                return newSqlEx;
-            }
-        });
+                        SQLException newSqlEx = new SQLException("INTERCEPT_EXCEPTION");
+                        return newSqlEx;
+                    }
+                });
         assertEquals("INTERCEPT_EXCEPTION", ex.getMessage());
         assertNull(ex.getCause());
 
-        ex = SQLError.createSQLException("ORIGINAL_EXCEPTION", "0", new Exception("ORIGINAL_CAUSE"), new ExceptionInterceptor() {
-            boolean alreadyIntercepted = false;
+        ex = SQLError.createSQLException("ORIGINAL_EXCEPTION", "0", new Exception("ORIGINAL_CAUSE"),
+                new ExceptionInterceptor() {
+                    boolean alreadyIntercepted = false;
 
-            @Override
-            public ExceptionInterceptor init(Properties props, Log log) {
-                this.alreadyIntercepted = false;
-                return this;
-            }
+                    @Override
+                    public ExceptionInterceptor init(Properties props, Log log) {
+                        this.alreadyIntercepted = false;
+                        return this;
+                    }
 
-            public void destroy() {
-            }
+                    public void destroy() {
+                    }
 
-            @Override
-            public Exception interceptException(Exception sqlEx) {
-                assertFalse(this.alreadyIntercepted);
-                this.alreadyIntercepted = true;
+                    @Override
+                    public Exception interceptException(Exception sqlEx) {
+                        assertFalse(this.alreadyIntercepted);
+                        this.alreadyIntercepted = true;
 
-                assertEquals("ORIGINAL_EXCEPTION", sqlEx.getMessage());
-                assertEquals("ORIGINAL_CAUSE", sqlEx.getCause().getMessage());
+                        assertEquals("ORIGINAL_EXCEPTION", sqlEx.getMessage());
+                        assertEquals("ORIGINAL_CAUSE", sqlEx.getCause().getMessage());
 
-                SQLException newSqlEx = new SQLException("INTERCEPT_EXCEPTION");
-                newSqlEx.initCause(new Exception("INTERCEPT_CAUSE"));
-                return newSqlEx;
-            }
-        });
+                        SQLException newSqlEx = new SQLException("INTERCEPT_EXCEPTION");
+                        newSqlEx.initCause(new Exception("INTERCEPT_CAUSE"));
+                        return newSqlEx;
+                    }
+                });
         assertEquals("INTERCEPT_EXCEPTION", ex.getMessage());
         assertEquals("INTERCEPT_CAUSE", ex.getCause().getMessage());
     }

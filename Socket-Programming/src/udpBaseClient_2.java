@@ -1,15 +1,11 @@
-// Java program to illustrate Client side
-// Implementation using DatagramSocket
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Scanner;
 
-public class udpBaseClient_2
-{
-    public static void main(String args[]) throws IOException
-    {
+public class udpBaseClient_2 {
+    public static void main(String args[]) throws IOException {
         // Setting maximum data length
         int MAX = 100;
         Scanner sc = new Scanner(System.in);
@@ -33,14 +29,13 @@ public class udpBaseClient_2
 
         System.out.println("Enter data to send : ");
 
-        for (i = 0; i < l; i++)
-        {
+        for (i = 0; i < l; i++) {
             data[i] = sc.nextInt();
 
             // Complementing the entered data
             // Here we find the number of bits required to represent
             // the data, like say 8 requires 1000, i.e 4 bits
-            nob = (int)(Math.floor(Math.log(data[i]) / Math.log(2))) + 1;
+            nob = (int) (Math.floor(Math.log(data[i]) / Math.log(2))) + 1;
 
             // Here we do a XOR of the data with the number 2^n -1,
             // where n is the nob calculated in previous step
@@ -70,7 +65,7 @@ public class udpBaseClient_2
         ds.send(DpSend);
 
         // Sends the data one by one to receiver
-        for (int j = 0; j < l; j++){
+        for (int j = 0; j < l; j++) {
             temp = Integer.toString(data[j]);
             buf = temp.getBytes();
             DpSend = new DatagramPacket(buf, buf.length, ip, 1234);

@@ -19,18 +19,16 @@ public class Genes {
 
         System.out.println("Gene sequence is: ");
         int found = 0;
-        if(in.indexOf(arr[0]) != 0)
-        {
+        if (in.indexOf(arr[0]) != 0) {
             System.out.println(arr[0]);
         }
-        for(int i = 1; i < arr.length; i++){
-            if(arr[i].length()%3 == 0)
-            {
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i].length() % 3 == 0) {
                 found = 1;
                 System.out.println(arr[i]);
             }
         }
-        if(found == 0)
+        if (found == 0)
             System.out.println("No genes");
     }
 }

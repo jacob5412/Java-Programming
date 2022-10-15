@@ -55,7 +55,7 @@ public class BlobRegressionTest extends BaseTestCase {
      * Creates a new BlobRegressionTest.
      * 
      * @param name
-     *            name of the test to run
+     *             name of the test to run
      */
     public BlobRegressionTest(String name) {
         super(name);
@@ -100,7 +100,8 @@ public class BlobRegressionTest extends BaseTestCase {
 
         assertTrue("Blob changed length", blob.length() == blobData.length);
 
-        assertTrue("New data inserted wrongly", ((newBlobData[3] == 2) && (newBlobData[4] == 2) && (newBlobData[5] == 2) && (newBlobData[6] == 2)));
+        assertTrue("New data inserted wrongly",
+                ((newBlobData[3] == 2) && (newBlobData[4] == 2) && (newBlobData[5] == 2) && (newBlobData[6] == 2)));
 
         //
         // Test end-point insertion
@@ -115,7 +116,7 @@ public class BlobRegressionTest extends BaseTestCase {
      * http://bugs.mysql.com/bug.php?id=22891
      * 
      * @throws Exception
-     *             ...
+     *                   ...
      */
     public void testUpdateLongBlobGT16M() throws Exception {
         byte[] blobData = new byte[18 * 1024 * 1024]; // 18M blob
@@ -145,7 +146,8 @@ public class BlobRegressionTest extends BaseTestCase {
         }
 
         createTable("testUpdatableBlobsWithCharsets", "(pk INT NOT NULL PRIMARY KEY, field1 BLOB)");
-        this.pstmt = this.conn.prepareStatement("INSERT INTO testUpdatableBlobsWithCharsets (pk, field1) VALUES (1, ?)");
+        this.pstmt = this.conn
+                .prepareStatement("INSERT INTO testUpdatableBlobsWithCharsets (pk, field1) VALUES (1, ?)");
         this.pstmt.setBinaryStream(1, new ByteArrayInputStream(smallBlob), smallBlob.length);
         this.pstmt.executeUpdate();
 
@@ -172,7 +174,8 @@ public class BlobRegressionTest extends BaseTestCase {
             byte origValue = smallBlob[i];
             byte newValue = updatedBlob[i];
 
-            assertTrue("Original byte at position " + i + ", " + origValue + " != new value, " + newValue, origValue == newValue);
+            assertTrue("Original byte at position " + i + ", " + origValue + " != new value, " + newValue,
+                    origValue == newValue);
         }
 
     }
@@ -208,7 +211,7 @@ public class BlobRegressionTest extends BaseTestCase {
      * server-side prepared statements.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug8096() throws Exception {
         int dataSize = 256;
@@ -276,7 +279,7 @@ public class BlobRegressionTest extends BaseTestCase {
      * server-side prepared statements and streaming BINARY data.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug9040() throws Exception {
 
@@ -337,10 +340,11 @@ public class BlobRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#20453671 - CLOB.POSITION() API CALL WITH CLOB INPUT RETURNS EXCEPTION
+     * Tests fix for BUG#20453671 - CLOB.POSITION() API CALL WITH CLOB INPUT RETURNS
+     * EXCEPTION
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug20453671() throws Exception {
         this.rs = this.stmt.executeQuery("select 'abcd', 'a', 'b', 'c', 'd', 'e'");
@@ -369,11 +373,12 @@ public class BlobRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#20453712 - CLOB.SETSTRING() WITH VALID INPUT RETURNS EXCEPTION
+     * Tests fix for BUG#20453712 - CLOB.SETSTRING() WITH VALID INPUT RETURNS
+     * EXCEPTION
      * server-side prepared statements and streaming BINARY data.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug20453712() throws Exception {
         final String s1 = "NewClobData";
@@ -411,7 +416,8 @@ public class BlobRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#23535571 - EXCESSIVE MEMORY USAGE WHEN ENABLEPACKETDEBUG=TRUE
+     * Tests fix for Bug#23535571 - EXCESSIVE MEMORY USAGE WHEN
+     * ENABLEPACKETDEBUG=TRUE
      * 
      * @throws Exception
      */

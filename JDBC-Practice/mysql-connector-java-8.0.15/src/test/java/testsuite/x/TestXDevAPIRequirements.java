@@ -111,13 +111,13 @@ public class TestXDevAPIRequirements extends BaseXDevAPITestCase {
         sess.close();
 
         // out of requirements
-        //sess.createSchema("name"); // TODO set name
-        //sess.dropSchema("name"); // TODO set name
-        //sess.getSchemas();
-        //sess.getUri();
+        // sess.createSchema("name"); // TODO set name
+        // sess.dropSchema("name"); // TODO set name
+        // sess.getSchemas();
+        // sess.getUri();
 
-        //String sql = ""; // TODO set query
-        //sess.executeSql(sql);
+        // String sql = ""; // TODO set query
+        // sess.executeSql(sql);
     }
 
     /**
@@ -200,7 +200,8 @@ public class TestXDevAPIRequirements extends BaseXDevAPITestCase {
         // TODO fill in the next pattern
 
         // Collection.createCollection [16]
-        Collection collection = getSession("").getDefaultSchema().createCollection(""); // TODO set URL and collection name
+        Collection collection = getSession("").getDefaultSchema().createCollection(""); // TODO set URL and collection
+                                                                                        // name
 
         // Collection Index Creation [59]
         // TODO spec in progress
@@ -268,11 +269,13 @@ public class TestXDevAPIRequirements extends BaseXDevAPITestCase {
 
         // TODO fill in the next pattern
 
-        Table table = getSession("").getDefaultSchema().getCollectionAsTable("name"); // TODO set URL and collection name
+        Table table = getSession("").getDefaultSchema().getCollectionAsTable("name"); // TODO set URL and collection
+                                                                                      // name
 
         // Table.insert [28]
         // Object fieldsAndValues = null;
-        // table.insert(fieldsAndValues); // TODO set correct parameter, expand statements
+        // table.insert(fieldsAndValues); // TODO set correct parameter, expand
+        // statements
         table.insert("fields"); // TODO set correct parameter, expand statements
 
         // Table.select basics [27]
@@ -320,7 +323,8 @@ public class TestXDevAPIRequirements extends BaseXDevAPITestCase {
 
         // TODO fill in the next pattern, Views are treated as Tables
 
-        Table view = getSession("").getDefaultSchema().getTable("name");  // getView("name"); // TODO set URL and collection name
+        Table view = getSession("").getDefaultSchema().getTable("name"); // getView("name"); // TODO set URL and
+                                                                         // collection name
 
         view.isView();
 

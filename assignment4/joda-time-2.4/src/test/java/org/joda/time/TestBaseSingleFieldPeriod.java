@@ -48,13 +48,13 @@ public class TestBaseSingleFieldPeriod extends TestCase {
     protected void tearDown() throws Exception {
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactory_between_RInstant() {
         // test using Days
         DateTime start = new DateTime(2006, 6, 9, 12, 0, 0, 0, PARIS);
         DateTime end1 = new DateTime(2006, 6, 12, 12, 0, 0, 0, PARIS);
         DateTime end2 = new DateTime(2006, 6, 15, 18, 0, 0, 0, PARIS);
-        
+
         assertEquals(3, Single.between(start, end1, DurationFieldType.days()));
         assertEquals(0, Single.between(start, start, DurationFieldType.days()));
         assertEquals(0, Single.between(end1, end1, DurationFieldType.days()));
@@ -85,7 +85,7 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         LocalDate start = new LocalDate(2006, 6, 9);
         LocalDate end1 = new LocalDate(2006, 6, 12);
         YearMonthDay end2 = new YearMonthDay(2006, 6, 15);
-        
+
         Single zero = new Single(0);
         assertEquals(3, Single.between(start, end1, zero));
         assertEquals(0, Single.between(start, start, zero));
@@ -117,14 +117,15 @@ public class TestBaseSingleFieldPeriod extends TestCase {
             // expected
         }
         try {
-            Single.between(new Partial(DateTimeFieldType.dayOfWeek(), 2), new Partial(DateTimeFieldType.dayOfMonth(), 3), zero);
+            Single.between(new Partial(DateTimeFieldType.dayOfWeek(), 2),
+                    new Partial(DateTimeFieldType.dayOfMonth(), 3), zero);
             fail();
         } catch (IllegalArgumentException ex) {
             // expected
         }
         Partial p = new Partial(
-                new DateTimeFieldType[] {DateTimeFieldType.year(), DateTimeFieldType.hourOfDay()},
-                new int[] {1, 2});
+                new DateTimeFieldType[] { DateTimeFieldType.year(), DateTimeFieldType.hourOfDay() },
+                new int[] { 1, 2 });
         try {
             Single.between(p, p, zero);
             fail();
@@ -151,7 +152,7 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testValueIndexMethods() {
         Single test = new Single(20);
         assertEquals(1, test.size());
@@ -186,7 +187,7 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         assertEquals(false, test.isSupported(DurationFieldType.minutes()));
         assertEquals(false, test.isSupported(DurationFieldType.seconds()));
         assertEquals(false, test.isSupported(DurationFieldType.millis()));
-    }        
+    }
 
     public void testGet() {
         Single test = new Single(20);
@@ -200,7 +201,7 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         assertEquals(0, test.get(DurationFieldType.millis()));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testEqualsHashCode() {
         Single testA = new Single(20);
         Single testB = new Single(20);
@@ -211,7 +212,7 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         assertEquals(true, testA.hashCode() == testB.hashCode());
         assertEquals(true, testA.hashCode() == testA.hashCode());
         assertEquals(true, testB.hashCode() == testB.hashCode());
-        
+
         Single testC = new Single(30);
         assertEquals(false, testA.equals(testC));
         assertEquals(false, testB.equals(testC));
@@ -219,7 +220,7 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         assertEquals(false, testC.equals(testB));
         assertEquals(false, testA.hashCode() == testC.hashCode());
         assertEquals(false, testB.hashCode() == testC.hashCode());
-        
+
         assertEquals(true, testA.equals(Days.days(20)));
         assertEquals(true, testA.equals(new Period(0, 0, 0, 20, 0, 0, 0, 0, PeriodType.days())));
         assertEquals(false, testA.equals(Period.days(2)));
@@ -241,19 +242,19 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         assertEquals(true, test3.compareTo(test1) > 0);
         assertEquals(true, test3.compareTo(test2) > 0);
         assertEquals(true, test3.compareTo(test3) == 0);
-        
-//        try {
-//            test1.compareTo("Hello");
-//            fail();
-//        } catch (ClassCastException ex) {
-//            // expected
-//        }
-//        try {
-//            test1.compareTo(new Period(0, 0, 0, 21, 0, 0, 0, 0, PeriodType.days()));
-//            fail();
-//        } catch (ClassCastException ex) {
-//            // expected
-//        }
+
+        // try {
+        // test1.compareTo("Hello");
+        // fail();
+        // } catch (ClassCastException ex) {
+        // // expected
+        // }
+        // try {
+        // test1.compareTo(new Period(0, 0, 0, 21, 0, 0, 0, 0, PeriodType.days()));
+        // fail();
+        // } catch (ClassCastException ex) {
+        // // expected
+        // }
         try {
             test1.compareTo(null);
             fail();
@@ -262,7 +263,7 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testToPeriod() {
         Single test = new Single(20);
         Period expected = Period.days(20);
@@ -275,18 +276,18 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         assertEquals(expected, test.toMutablePeriod());
     }
 
-//    public void testToDurationFrom() {
-//        Period test = new Period(123L);
-//        assertEquals(new Duration(123L), test.toDurationFrom(new Instant(0L)));
-//    }
-//
-//    public void testToDurationTo() {
-//        Period test = new Period(123L);
-//        assertEquals(new Duration(123L), test.toDurationTo(new Instant(123L)));
-//    }
-//
+    // public void testToDurationFrom() {
+    // Period test = new Period(123L);
+    // assertEquals(new Duration(123L), test.toDurationFrom(new Instant(0L)));
+    // }
+    //
+    // public void testToDurationTo() {
+    // Period test = new Period(123L);
+    // assertEquals(new Duration(123L), test.toDurationTo(new Instant(123L)));
+    // }
+    //
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetSetValue() {
         Single test = new Single(20);
         assertEquals(20, test.getValue());
@@ -294,26 +295,26 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         assertEquals(10, test.getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /** Test class. */
     static class Single extends BaseSingleFieldPeriod {
 
         public Single(int period) {
             super(period);
         }
-        
+
         public static int between(ReadableInstant start, ReadableInstant end, DurationFieldType field) {
             return BaseSingleFieldPeriod.between(start, end, field);
         }
-        
+
         public static int between(ReadablePartial start, ReadablePartial end, ReadablePeriod zeroInstance) {
             return BaseSingleFieldPeriod.between(start, end, zeroInstance);
         }
-        
+
         public static int standardPeriodIn(ReadablePeriod period, long millisPerUnit) {
             return BaseSingleFieldPeriod.standardPeriodIn(period, millisPerUnit);
         }
-        
+
         public DurationFieldType getFieldType() {
             return DurationFieldType.days();
         }
@@ -321,11 +322,11 @@ public class TestBaseSingleFieldPeriod extends TestCase {
         public PeriodType getPeriodType() {
             return PeriodType.days();
         }
-        
+
         public int getValue() {
             return super.getValue();
         }
-        
+
         public void setValue(int value) {
             super.setValue(value);
         }

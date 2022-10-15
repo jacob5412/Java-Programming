@@ -7,14 +7,14 @@
 
 import java.util.Vector;
 
-class Film{
+class Film {
     String name;
     String language;
     String lead_actor;
     String category;
     int duration;
 
-    Film(){
+    Film() {
         name = null;
         language = null;
         lead_actor = null;
@@ -22,7 +22,7 @@ class Film{
         duration = 0;
     }
 
-    Film(String n, String lang, String actor, String cat, int dur){
+    Film(String n, String lang, String actor, String cat, int dur) {
         name = n;
         language = lang;
         lead_actor = actor;
@@ -72,14 +72,14 @@ public class FilmMain {
         int min = 9999999;
         int imin = 0;
 
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             films = Films.get(i);
-            if(films.lead_actor.equals("Arnold"))
-                if(films.duration < min){
+            if (films.lead_actor.equals("Arnold"))
+                if (films.duration < min) {
                     min = films.duration;
                     imin = i;
                 }
-            if(films.category.equals("Comedy"))
+            if (films.category.equals("Comedy"))
                 System.out.println(films.name + " is a Comedy movie");
         }
 
@@ -87,4 +87,3 @@ public class FilmMain {
         System.out.println("Shortest Arnold film is " + films.name + " and duration: " + min);
     }
 }
-

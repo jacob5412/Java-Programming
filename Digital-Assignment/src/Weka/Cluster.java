@@ -26,13 +26,12 @@ public class Cluster {
 
         kmeans.setSeed(10);
 
-        //important parameter to set: preserver order, number of cluster.
+        // important parameter to set: preserver order, number of cluster.
         kmeans.setPreserveInstancesOrder(true);
         kmeans.setNumClusters(5);
 
         BufferedReader datafile = readDataFile("resources/data/iris.arff");
         Instances data = new Instances(datafile);
-
 
         kmeans.buildClusterer(data);
 
@@ -40,8 +39,8 @@ public class Cluster {
         // The array has as many elements as the number of instances
         int[] assignments = kmeans.getAssignments();
 
-        int i=0;
-        for(int clusterNum : assignments) {
+        int i = 0;
+        for (int clusterNum : assignments) {
             System.out.printf("Instance %d -> Cluster %d \n", i, clusterNum);
             i++;
         }

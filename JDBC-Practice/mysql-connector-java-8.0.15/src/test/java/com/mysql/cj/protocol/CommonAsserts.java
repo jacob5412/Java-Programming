@@ -35,12 +35,14 @@ import java.util.concurrent.Callable;
 
 public class CommonAsserts {
 
-    protected static <EX extends Throwable> EX assertThrows(Class<EX> throwable, String msgMatchesRegex, Callable<?> testRoutine) {
+    protected static <EX extends Throwable> EX assertThrows(Class<EX> throwable, String msgMatchesRegex,
+            Callable<?> testRoutine) {
         try {
             testRoutine.call();
         } catch (Throwable t) {
             if (!throwable.isAssignableFrom(t.getClass())) {
-                fail("Expected exception of type '" + throwable.getName() + "' but instead a exception of type '" + t.getClass().getName() + "' was thrown.");
+                fail("Expected exception of type '" + throwable.getName() + "' but instead a exception of type '"
+                        + t.getClass().getName() + "' was thrown.");
             }
 
             if (!t.getMessage().matches(msgMatchesRegex)) {

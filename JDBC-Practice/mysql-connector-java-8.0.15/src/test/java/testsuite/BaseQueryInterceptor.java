@@ -56,7 +56,8 @@ public class BaseQueryInterceptor implements QueryInterceptor {
     public void destroy() {
     }
 
-    public <T extends Resultset> T postProcess(Supplier<String> sql, Query interceptedQuery, T originalResultSet, ServerSession serverSession) {
+    public <T extends Resultset> T postProcess(Supplier<String> sql, Query interceptedQuery, T originalResultSet,
+            ServerSession serverSession) {
         return originalResultSet;
     }
 

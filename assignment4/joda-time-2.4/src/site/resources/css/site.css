@@ -1,39 +1,60 @@
-body, td, select, input, li{
+body,
+td,
+select,
+input,
+li {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 13px;
   background-color: #fff;
 }
+
 a {
   text-decoration: none;
 }
+
 a:link {
-  color:#009;
+  color: #009;
 }
-a:visited  {
-  color:#009;
+
+a:visited {
+  color: #009;
 }
-a:active, a:hover {
+
+a:active,
+a:hover {
   text-decoration: underline;
 }
-a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {
+
+a.externalLink,
+a.externalLink:link,
+a.externalLink:visited,
+a.externalLink:active,
+a.externalLink:hover {
   background: url(../images/external.png) right center no-repeat;
   padding-right: 15px;
 }
-a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWindow:hover {
+
+a.newWindow,
+a.newWindow:link,
+a.newWindow:visited,
+a.newWindow:active,
+a.newWindow:hover {
   background: url(../images/newwindow.png) right center no-repeat;
   padding-right: 18px;
 }
+
 h2 {
   font-family: Verdana, Helvetica, Arial, sans-serif;
   padding: 4px 4px 4px 6px;
   border: 1px solid #999;
   color: #006;
   background-color: #eef;
-  font-weight:bold;
+  font-weight: bold;
   font-size: 16px;
   margin-top: 4px;
   margin-bottom: 6px;
 }
+
 h3 {
   padding: 4px 4px 4px 6px;
   border: 1px solid #aaa;
@@ -44,55 +65,70 @@ h3 {
   margin-top: 4px;
   margin-bottom: 6px;
 }
-p, ul {
+
+p,
+ul {
   font-size: 13px;
   margin-top: 4px;
   margin-bottom: 6px;
 }
+
 #banner {
   background-color: #eef;
   border-bottom: 1px solid #aaa;
   padding: 8px;
 }
-#bannerLeft, #bannerRight {
+
+#bannerLeft,
+#bannerRight {
   font-size: 30px;
-  color:black;
+  color: black;
   padding: 0px 5px;
 }
+
 #banner a:hover {
-  text-decoration:none;
+  text-decoration: none;
 }
+
 #breadcrumbs {
   padding-top: 1px;
   padding-bottom: 2px;
   border-bottom: 1px solid #aaa;
   background-color: #ddf;
 }
+
 #leftColumn {
   margin: 8px 0 8px 4px;
   border: 1px solid #999;
   background-color: #eef;
 }
+
 #navcolumn {
   padding: 6px 4px 0 6px;
 }
+
 #navcolumn h5 {
   font-size: 12px;
   border-bottom: 1px solid #aaaaaa;
   padding-top: 2px;
   font-weight: normal;
 }
+
 #navcolumn li {
   font-size: 12px;
   padding-left: 12px;
   background-color: #eef;
 }
-#navcolumn a:active, #navcolumn a:hover {
+
+#navcolumn a:active,
+#navcolumn a:hover {
   text-decoration: none;
 }
+
 #lastPublished {
   font-size: 10px;
 }
+
 table.bodyTable th {
   color: white;
   background-color: #bbb;
@@ -101,7 +137,8 @@ table.bodyTable th {
   font-size: 13px;
 }
 
-table.bodyTable th, table.bodyTable td {
+table.bodyTable th,
+table.bodyTable td {
   font-size: 13px;
 }
 
@@ -118,10 +155,12 @@ table.bodyTable tr.b {
   padding: 8px;
   margin: 6px;
 }
+
 #footer {
   background-color: #eef;
   border-top: 1px solid #999;
 }
+
 body {
   padding-bottom: 0px;
 }

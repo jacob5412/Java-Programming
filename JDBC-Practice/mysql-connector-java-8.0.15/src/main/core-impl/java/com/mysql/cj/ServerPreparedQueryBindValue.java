@@ -81,9 +81,9 @@ public class ServerPreparedQueryBindValue extends ClientPreparedQueryBindValue i
      * Reset a bind value to be used for a new value of the given type.
      * 
      * @param bufType
-     *            MysqlType.FIELD_TYPE_*
+     *                           MysqlType.FIELD_TYPE_*
      * @param numberOfExecutions
-     *            current number of PreparedQuery executions
+     *                           current number of PreparedQuery executions
      * @return true if we need to send/resend types to the server
      */
     public boolean resetToType(int bufType, long numberOfExecutions) {
@@ -93,7 +93,8 @@ public class ServerPreparedQueryBindValue extends ClientPreparedQueryBindValue i
         reset();
 
         if (bufType == MysqlType.FIELD_TYPE_NULL && this.bufferType != 0) {
-            // preserve the previous type to (possibly) avoid sending types at execution time
+            // preserve the previous type to (possibly) avoid sending types at execution
+            // time
         } else if (this.bufferType != bufType) {
             sendTypesToServer = true;
             this.bufferType = bufType;
@@ -197,7 +198,8 @@ public class ServerPreparedQueryBindValue extends ClientPreparedQueryBindValue i
         }
     }
 
-    public void storeBinding(NativePacketPayload intoPacket, boolean isLoadDataQuery, String characterEncoding, ExceptionInterceptor interceptor) {
+    public void storeBinding(NativePacketPayload intoPacket, boolean isLoadDataQuery, String characterEncoding,
+            ExceptionInterceptor interceptor) {
         synchronized (this) {
             try {
                 // Handle primitives first
@@ -216,10 +218,12 @@ public class ServerPreparedQueryBindValue extends ClientPreparedQueryBindValue i
                         intoPacket.writeInteger(IntegerDataType.INT8, ((Long) this.value).longValue());
                         return;
                     case MysqlType.FIELD_TYPE_FLOAT:
-                        intoPacket.writeInteger(IntegerDataType.INT4, Float.floatToIntBits(((Float) this.value).floatValue()));
+                        intoPacket.writeInteger(IntegerDataType.INT4,
+                                Float.floatToIntBits(((Float) this.value).floatValue()));
                         return;
                     case MysqlType.FIELD_TYPE_DOUBLE:
-                        intoPacket.writeInteger(IntegerDataType.INT8, Double.doubleToLongBits(((Double) this.value).doubleValue()));
+                        intoPacket.writeInteger(IntegerDataType.INT8,
+                                Double.doubleToLongBits(((Double) this.value).doubleValue()));
                         return;
                     case MysqlType.FIELD_TYPE_TIME:
                         storeTime(intoPacket);
@@ -237,16 +241,19 @@ public class ServerPreparedQueryBindValue extends ClientPreparedQueryBindValue i
                         if (this.value instanceof byte[]) {
                             intoPacket.writeBytes(StringSelfDataType.STRING_LENENC, (byte[]) this.value);
                         } else if (!isLoadDataQuery) {
-                            intoPacket.writeBytes(StringSelfDataType.STRING_LENENC, StringUtils.getBytes((String) this.value, characterEncoding));
+                            intoPacket.writeBytes(StringSelfDataType.STRING_LENENC,
+                                    StringUtils.getBytes((String) this.value, characterEncoding));
                         } else {
-                            intoPacket.writeBytes(StringSelfDataType.STRING_LENENC, StringUtils.getBytes((String) this.value));
+                            intoPacket.writeBytes(StringSelfDataType.STRING_LENENC,
+                                    StringUtils.getBytes((String) this.value));
                         }
 
                         return;
                 }
 
             } catch (CJException uEE) {
-                throw ExceptionFactory.createException(Messages.getString("ServerPreparedStatement.22") + characterEncoding + "'", uEE, interceptor);
+                throw ExceptionFactory.createException(
+                        Messages.getString("ServerPreparedStatement.22") + characterEncoding + "'", uEE, interceptor);
             }
         }
     }
@@ -270,7 +277,7 @@ public class ServerPreparedQueryBindValue extends ClientPreparedQueryBindValue i
 
     /**
      * @param intoPacket
-     *            packet to write into
+     *                   packet to write into
      */
     private void storeDateTime(NativePacketPayload intoPacket) {
         synchronized (this) {
@@ -315,7 +322,7 @@ public class ServerPreparedQueryBindValue extends ClientPreparedQueryBindValue i
             }
 
             if (length == 11) {
-                //  MySQL expects microseconds, not nanos
+                // MySQL expects microseconds, not nanos
                 intoPacket.writeInteger(IntegerDataType.INT4, ((java.sql.Timestamp) this.value).getNanos() / 1000);
             }
         }

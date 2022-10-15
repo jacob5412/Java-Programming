@@ -45,7 +45,7 @@ public class EscapeProcessorRegressionTest extends BaseTestCase {
      * quotes for escapes.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug11797() throws Exception {
         assertEquals("select 'ESCAPED BY ''\\'' ON {tbl_name | * | *.* | db_name.*}'",
@@ -57,7 +57,7 @@ public class EscapeProcessorRegressionTest extends BaseTestCase {
      * demarcated with double quotes.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug11498() throws Exception {
         assertEquals(
@@ -78,10 +78,11 @@ public class EscapeProcessorRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#25399 - EscapeProcessor gets confused by multiple backslashes
+     * Tests fix for BUG#25399 - EscapeProcessor gets confused by multiple
+     * backslashes
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug25399() throws Exception {
         assertEquals("\\' {d}", getSingleValueWithQuery("SELECT '\\\\\\' {d}'"));
@@ -91,7 +92,7 @@ public class EscapeProcessorRegressionTest extends BaseTestCase {
      * Tests fix for BUG#63526 - Unhandled case of {data...}
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testBug63526() throws Exception {
         createTable("bug63526", "(`{123}` INT UNSIGNED NOT NULL)", "INNODB");
@@ -104,7 +105,8 @@ public class EscapeProcessorRegressionTest extends BaseTestCase {
      */
     public void testBug60598() throws Exception {
 
-        String expected = versionMeetsMinimum(5, 6, 4) ? "SELECT '2001-02-03 04:05:06' , '2001-02-03 04:05:06.007' , '11:22:33.444'"
+        String expected = versionMeetsMinimum(5, 6, 4)
+                ? "SELECT '2001-02-03 04:05:06' , '2001-02-03 04:05:06.007' , '11:22:33.444'"
                 : "SELECT '2001-02-03 04:05:06' , '2001-02-03 04:05:06' , '11:22:33'";
 
         String input = "SELECT {ts '2001-02-03 04:05:06' } , {ts '2001-02-03 04:05:06.007' } , {t '11:22:33.444' }";

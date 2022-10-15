@@ -78,14 +78,15 @@ public class CallableStatementTest extends BaseTestCase {
      * Tests functioning of inout parameters
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
 
     public void testInOutParams() throws Exception {
         CallableStatement storedProc = null;
 
         createProcedure("testInOutParam",
-                "(IN p1 VARCHAR(255), INOUT p2 INT)\nbegin\n DECLARE z INT;\nSET z = p2 + 1;\nSET p2 = z;\n" + "SELECT p1;\nSELECT CONCAT('zyxw', p1);\nend\n");
+                "(IN p1 VARCHAR(255), INOUT p2 INT)\nbegin\n DECLARE z INT;\nSET z = p2 + 1;\nSET p2 = z;\n"
+                        + "SELECT p1;\nSELECT CONCAT('zyxw', p1);\nend\n");
 
         storedProc = this.conn.prepareCall("{call testInOutParam(?, ?)}");
 
@@ -103,7 +104,8 @@ public class CallableStatementTest extends BaseTestCase {
 
         try {
             createTable("testBatchTable", "(field1 INT)");
-            createProcedure("testBatch", "(IN foo VARCHAR(15))\nbegin\nINSERT INTO testBatchTable VALUES (foo);\nend\n");
+            createProcedure("testBatch",
+                    "(IN foo VARCHAR(15))\nbegin\nINSERT INTO testBatchTable VALUES (foo);\nend\n");
 
             executeBatchedStoredProc(this.conn);
 
@@ -161,7 +163,7 @@ public class CallableStatementTest extends BaseTestCase {
      * Tests functioning of output parameters.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testOutParams() throws Exception {
         CallableStatement storedProc = null;
@@ -229,7 +231,7 @@ public class CallableStatementTest extends BaseTestCase {
      * Tests functioning of output parameters.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testResultSet() throws Exception {
         CallableStatement storedProc = null;
@@ -286,7 +288,7 @@ public class CallableStatementTest extends BaseTestCase {
      * Tests parsing of stored procedures
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testSPParse() throws Exception {
 
@@ -302,7 +304,7 @@ public class CallableStatementTest extends BaseTestCase {
      * Tests parsing/execution of stored procedures with no parameters...
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testSPNoParams() throws Exception {
 
@@ -318,7 +320,7 @@ public class CallableStatementTest extends BaseTestCase {
      * Tests parsing of stored procedures
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testSPCache() throws Exception {
         CallableStatement storedProc = null;
@@ -478,7 +480,8 @@ public class CallableStatementTest extends BaseTestCase {
         Reader reader = new StringReader(sql);
 
         MysqlPooledConnection con = new MysqlPooledConnection((JdbcConnection) this.conn);
-        CallableStatementWrapper w = new CallableStatementWrapper(new ConnectionWrapper(con, (JdbcConnection) this.conn, false), con, null);
+        CallableStatementWrapper w = new CallableStatementWrapper(
+                new ConnectionWrapper(con, (JdbcConnection) this.conn, false), con, null);
 
         assertThrows(SQLException.class, "No operations allowed after statement closed.", new Callable<Void>() {
             public Void call() throws Exception {

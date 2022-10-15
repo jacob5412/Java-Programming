@@ -144,9 +144,10 @@ public class DateTest extends BaseTestCase {
         try {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testNanosParsing");
             this.stmt.executeUpdate("CREATE TABLE testNanosParsing (dateIndex int, field1 VARCHAR(32))");
-            this.stmt.executeUpdate("INSERT INTO testNanosParsing VALUES (1, '1969-12-31 18:00:00.0'), (2, '1969-12-31 18:00:00.000000090'), "
-                    + "(3, '1969-12-31 18:00:00.000000900'), (4, '1969-12-31 18:00:00.000009000'), (5, '1969-12-31 18:00:00.000090000'), "
-                    + "(6, '1969-12-31 18:00:00.000900000'), (7, '1969-12-31 18:00:00.')");
+            this.stmt.executeUpdate(
+                    "INSERT INTO testNanosParsing VALUES (1, '1969-12-31 18:00:00.0'), (2, '1969-12-31 18:00:00.000000090'), "
+                            + "(3, '1969-12-31 18:00:00.000000900'), (4, '1969-12-31 18:00:00.000009000'), (5, '1969-12-31 18:00:00.000090000'), "
+                            + "(6, '1969-12-31 18:00:00.000900000'), (7, '1969-12-31 18:00:00.')");
 
             this.rs = this.stmt.executeQuery("SELECT field1 FROM testNanosParsing ORDER BY dateIndex ASC");
             assertTrue(this.rs.next());
@@ -174,10 +175,11 @@ public class DateTest extends BaseTestCase {
     }
 
     /**
-     * Tests the configurability of all-zero date/datetime/timestamp handling in the driver.
+     * Tests the configurability of all-zero date/datetime/timestamp handling in the
+     * driver.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testZeroDateBehavior() throws Exception {
         Connection testConn = this.conn;
@@ -200,8 +202,10 @@ public class DateTest extends BaseTestCase {
             }
 
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testZeroDateBehavior");
-            this.stmt.executeUpdate("CREATE TABLE testZeroDateBehavior(fieldAsString VARCHAR(32), fieldAsDateTime DATETIME)");
-            this.stmt.executeUpdate("INSERT INTO testZeroDateBehavior VALUES ('0000-00-00 00:00:00', '0000-00-00 00:00:00')");
+            this.stmt.executeUpdate(
+                    "CREATE TABLE testZeroDateBehavior(fieldAsString VARCHAR(32), fieldAsDateTime DATETIME)");
+            this.stmt.executeUpdate(
+                    "INSERT INTO testZeroDateBehavior VALUES ('0000-00-00 00:00:00', '0000-00-00 00:00:00')");
 
             roundConn = getConnectionWithProps("zeroDateTimeBehavior=ROUND");
             Statement roundStmt = roundConn.createStatement();
@@ -209,18 +213,23 @@ public class DateTest extends BaseTestCase {
             this.rs.next();
 
             assertEquals("0001-01-01", this.rs.getDate(1).toString());
-            assertEquals("0001-01-01 00:00:00.0", TimeUtil.getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.0", null, null).format(this.rs.getTimestamp(1)));
+            assertEquals("0001-01-01 00:00:00.0", TimeUtil
+                    .getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.0", null, null).format(this.rs.getTimestamp(1)));
             assertEquals("0001-01-01", this.rs.getDate(2).toString());
-            assertEquals("0001-01-01 00:00:00.0", TimeUtil.getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.0", null, null).format(this.rs.getTimestamp(2)));
+            assertEquals("0001-01-01 00:00:00.0", TimeUtil
+                    .getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.0", null, null).format(this.rs.getTimestamp(2)));
 
-            PreparedStatement roundPrepStmt = roundConn.prepareStatement("SELECT fieldAsString, fieldAsDateTime FROM testZeroDateBehavior");
+            PreparedStatement roundPrepStmt = roundConn
+                    .prepareStatement("SELECT fieldAsString, fieldAsDateTime FROM testZeroDateBehavior");
             this.rs = roundPrepStmt.executeQuery();
             this.rs.next();
 
             assertEquals("0001-01-01", this.rs.getDate(1).toString());
-            assertEquals("0001-01-01 00:00:00.0", TimeUtil.getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.0", null, null).format(this.rs.getTimestamp(1)));
+            assertEquals("0001-01-01 00:00:00.0", TimeUtil
+                    .getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.0", null, null).format(this.rs.getTimestamp(1)));
             assertEquals("0001-01-01", this.rs.getDate(2).toString());
-            assertEquals("0001-01-01 00:00:00.0", TimeUtil.getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.0", null, null).format(this.rs.getTimestamp(2)));
+            assertEquals("0001-01-01 00:00:00.0", TimeUtil
+                    .getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss.0", null, null).format(this.rs.getTimestamp(2)));
 
             nullConn = getConnectionWithProps("zeroDateTimeBehavior=CONVERT_TO_NULL");
             Statement nullStmt = nullConn.createStatement();
@@ -233,7 +242,8 @@ public class DateTest extends BaseTestCase {
             assertNull(this.rs.getDate(2));
             assertNull(this.rs.getTimestamp(2));
 
-            PreparedStatement nullPrepStmt = nullConn.prepareStatement("SELECT fieldAsString, fieldAsDateTime FROM testZeroDateBehavior");
+            PreparedStatement nullPrepStmt = nullConn
+                    .prepareStatement("SELECT fieldAsString, fieldAsDateTime FROM testZeroDateBehavior");
             this.rs = nullPrepStmt.executeQuery();
 
             this.rs.next();
@@ -277,7 +287,8 @@ public class DateTest extends BaseTestCase {
                 assertTrue(MysqlErrorNumbers.SQL_STATE_ILLEGAL_ARGUMENT.equals(sqlEx.getSQLState()));
             }
 
-            PreparedStatement exceptionPrepStmt = exceptionConn.prepareStatement("SELECT fieldAsString, fieldAsDateTime FROM testZeroDateBehavior");
+            PreparedStatement exceptionPrepStmt = exceptionConn
+                    .prepareStatement("SELECT fieldAsString, fieldAsDateTime FROM testZeroDateBehavior");
 
             try {
                 this.rs = exceptionPrepStmt.executeQuery();
@@ -334,7 +345,8 @@ public class DateTest extends BaseTestCase {
         Date dt = new Date(ts.getTime());
         Time tm = new Time(ts.getTime());
 
-        createTable("testNativeConversions", "(time_field TIME, date_field DATE, datetime_field DATETIME, timestamp_field TIMESTAMP)");
+        createTable("testNativeConversions",
+                "(time_field TIME, date_field DATE, datetime_field DATETIME, timestamp_field TIMESTAMP)");
         this.pstmt = this.conn.prepareStatement("INSERT INTO testNativeConversions VALUES (?,?,?,?)");
         this.pstmt.setTime(1, tm);
         this.pstmt.setDate(2, dt);
@@ -343,7 +355,8 @@ public class DateTest extends BaseTestCase {
         this.pstmt.execute();
         this.pstmt.close();
 
-        this.pstmt = this.conn.prepareStatement("SELECT time_field, date_field, datetime_field, timestamp_field FROM testNativeConversions");
+        this.pstmt = this.conn.prepareStatement(
+                "SELECT time_field, date_field, datetime_field, timestamp_field FROM testNativeConversions");
         this.rs = this.pstmt.executeQuery();
         assertTrue(this.rs.next());
         System.out.println(this.rs.getTime(1));

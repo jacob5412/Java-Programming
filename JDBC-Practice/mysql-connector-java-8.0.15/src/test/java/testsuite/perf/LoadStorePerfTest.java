@@ -54,14 +54,15 @@ public class LoadStorePerfTest extends BasePerfTest {
      * Constructor for LoadStorePerfTest.
      * 
      * @param name
-     *            the name of the test to run
+     *             the name of the test to run
      */
     public LoadStorePerfTest(String name) {
         super(name);
 
         String newTableType = System.getProperty(PropertyDefinitions.SYSP_testsuite_loadstoreperf_tabletype);
 
-        this.largeResults = "TRUE".equalsIgnoreCase(System.getProperty(PropertyDefinitions.SYSP_testsuite_loadstoreperf_useBigResults));
+        this.largeResults = "TRUE"
+                .equalsIgnoreCase(System.getProperty(PropertyDefinitions.SYSP_testsuite_loadstoreperf_useBigResults));
 
         if ((newTableType != null) && (newTableType.length() > 0)) {
             this.tableType = newTableType;
@@ -74,10 +75,10 @@ public class LoadStorePerfTest extends BasePerfTest {
      * Runs all tests in this test case
      * 
      * @param args
-     *            ignored
+     *             ignored
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public static void main(String[] args) throws Exception {
         new LoadStorePerfTest("test1000Transactions").run();
@@ -105,7 +106,8 @@ public class LoadStorePerfTest extends BasePerfTest {
         //
         // Approximate a run-of-the-mill entity in a business application
         //
-        String query = "CREATE TABLE perfLoadStore (priKey INT NOT NULL, fk1 INT NOT NULL, fk2 INT NOT NULL, dtField " + dateTimeType
+        String query = "CREATE TABLE perfLoadStore (priKey INT NOT NULL, fk1 INT NOT NULL, fk2 INT NOT NULL, dtField "
+                + dateTimeType
                 + ", charField1 CHAR(32), charField2 CHAR(32), charField3 CHAR(32), charField4 CHAR(32), intField1 INT, intField2 INT, "
                 + "intField3 INT, intField4 INT, doubleField1 DECIMAL, doubleField2 DOUBLE, doubleField3 DOUBLE, doubleField4 DOUBLE,"
                 + "PRIMARY KEY (priKey))";
@@ -135,24 +137,26 @@ public class LoadStorePerfTest extends BasePerfTest {
         System.out.println("Inserting " + numLoops + " rows to retrieve...");
 
         for (int i = 0; i < numLoops; i++) {
-            this.stmt.executeUpdate("INSERT INTO perfLoadStore (priKey, fk1, fk2, dtField, charField1, charField2, charField3, charField4, "
-                    + "intField1, intField2, intField3, intField4, doubleField1, doubleField2, doubleField3, doubleField4) VALUES (" + i + "," // priKey
-                    + "2," // fk1
-                    + "3," // fk2
-                    + currentDateValue + "," // dtField
-                    + "'0123456789ABCDEF0123456789ABCDEF'," // charField1
-                    + "'0123456789ABCDEF0123456789ABCDEF'," // charField2
-                    + "'0123456789ABCDEF0123456789ABCDEF'," // charField3
-                    + "'0123456789ABCDEF0123456789ABCDEF'," // charField4
-                    + "7," // intField1
-                    + "8," // intField2
-                    + "9," // intField3
-                    + "10," // intField4
-                    + "1.20," // doubleField1
-                    + "2.30," // doubleField2
-                    + "3.40," // doubleField3
-                    + "4.50" // doubleField4
-                    + ")");
+            this.stmt.executeUpdate(
+                    "INSERT INTO perfLoadStore (priKey, fk1, fk2, dtField, charField1, charField2, charField3, charField4, "
+                            + "intField1, intField2, intField3, intField4, doubleField1, doubleField2, doubleField3, doubleField4) VALUES ("
+                            + i + "," // priKey
+                            + "2," // fk1
+                            + "3," // fk2
+                            + currentDateValue + "," // dtField
+                            + "'0123456789ABCDEF0123456789ABCDEF'," // charField1
+                            + "'0123456789ABCDEF0123456789ABCDEF'," // charField2
+                            + "'0123456789ABCDEF0123456789ABCDEF'," // charField3
+                            + "'0123456789ABCDEF0123456789ABCDEF'," // charField4
+                            + "7," // intField1
+                            + "8," // intField2
+                            + "9," // intField3
+                            + "10," // intField4
+                            + "1.20," // doubleField1
+                            + "2.30," // doubleField2
+                            + "3.40," // doubleField3
+                            + "4.50" // doubleField4
+                            + ")");
         }
     }
 
@@ -174,7 +178,7 @@ public class LoadStorePerfTest extends BasePerfTest {
      * Tests and times 1000 load/store type transactions
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void test1000Transactions() throws Exception {
         this.takeMeasurements = false;
@@ -192,18 +196,21 @@ public class LoadStorePerfTest extends BasePerfTest {
      */
     @Override
     protected void doOneIteration() throws Exception {
-        PreparedStatement pStmtStore = this.conn.prepareStatement("UPDATE perfLoadStore SET priKey = ?, fk1 = ?, fk2 = ?, dtField = ?, charField1 = ?, "
-                + "charField2 = ?, charField3 = ?, charField4 = ?, intField1 = ?, intField2 = ?, intField3 = ?, intField4 = ?, doubleField1 = ?,"
-                + "doubleField2 = ?, doubleField3 = ?, doubleField4 = ? WHERE priKey=?");
+        PreparedStatement pStmtStore = this.conn
+                .prepareStatement("UPDATE perfLoadStore SET priKey = ?, fk1 = ?, fk2 = ?, dtField = ?, charField1 = ?, "
+                        + "charField2 = ?, charField3 = ?, charField4 = ?, intField1 = ?, intField2 = ?, intField3 = ?, intField4 = ?, doubleField1 = ?,"
+                        + "doubleField2 = ?, doubleField3 = ?, doubleField4 = ? WHERE priKey=?");
         PreparedStatement pStmtCheck = this.conn.prepareStatement("SELECT COUNT(*) FROM perfLoadStore WHERE priKey=?");
         PreparedStatement pStmtLoad = null;
 
         if (this.largeResults) {
-            pStmtLoad = this.conn.prepareStatement("SELECT priKey, fk1, fk2, dtField, charField1, charField2, charField3, charField4, intField1, "
-                    + "intField2, intField3, intField4, doubleField1, doubleField2, doubleField3, doubleField4 FROM perfLoadStore");
+            pStmtLoad = this.conn.prepareStatement(
+                    "SELECT priKey, fk1, fk2, dtField, charField1, charField2, charField3, charField4, intField1, "
+                            + "intField2, intField3, intField4, doubleField1, doubleField2, doubleField3, doubleField4 FROM perfLoadStore");
         } else {
-            pStmtLoad = this.conn.prepareStatement("SELECT priKey, fk1, fk2, dtField, charField1, charField2, charField3, charField4, intField1, "
-                    + "intField2, intField3, intField4, doubleField1, doubleField2, doubleField3, doubleField4 FROM perfLoadStore WHERE priKey=?");
+            pStmtLoad = this.conn.prepareStatement(
+                    "SELECT priKey, fk1, fk2, dtField, charField1, charField2, charField3, charField4, intField1, "
+                            + "intField2, intField3, intField4, doubleField1, doubleField2, doubleField3, doubleField4 FROM perfLoadStore WHERE priKey=?");
         }
 
         NumberFormat numFormatter = NumberFormat.getInstance();
@@ -319,7 +326,7 @@ public class LoadStorePerfTest extends BasePerfTest {
      * Runs the test 10 times to get JIT going, and GC going
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     protected void warmUp() throws Exception {
         try {

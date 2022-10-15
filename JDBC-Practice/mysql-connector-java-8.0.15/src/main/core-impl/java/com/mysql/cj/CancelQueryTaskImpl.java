@@ -54,7 +54,8 @@ public class CancelQueryTaskImpl extends TimerTask implements CancelQueryTask {
     public CancelQueryTaskImpl(Query cancellee) {
         this.queryToCancel = cancellee;
         NativeSession session = (NativeSession) cancellee.getSession();
-        this.queryTimeoutKillsConnection = session.getPropertySet().getBooleanProperty(PropertyKey.queryTimeoutKillsConnection).getValue();
+        this.queryTimeoutKillsConnection = session.getPropertySet()
+                .getBooleanProperty(PropertyKey.queryTimeoutKillsConnection).getValue();
     }
 
     @Override
@@ -83,25 +84,30 @@ public class CancelQueryTaskImpl extends TimerTask implements CancelQueryTask {
                 try {
                     if (CancelQueryTaskImpl.this.queryTimeoutKillsConnection) {
                         localQueryToCancel.setCancelStatus(CancelStatus.CANCELED_BY_TIMEOUT);
-                        session.invokeCleanupListeners(new OperationCancelledException(Messages.getString("Statement.ConnectionKilledDueToTimeout")));
+                        session.invokeCleanupListeners(new OperationCancelledException(
+                                Messages.getString("Statement.ConnectionKilledDueToTimeout")));
                     } else {
                         synchronized (localQueryToCancel.getCancelTimeoutMutex()) {
                             long origConnId = session.getThreadId();
                             HostInfo hostInfo = session.getHostInfo();
                             String database = hostInfo.getDatabase();
                             String user = StringUtils.isNullOrEmpty(hostInfo.getUser()) ? "" : hostInfo.getUser();
-                            String password = StringUtils.isNullOrEmpty(hostInfo.getPassword()) ? "" : hostInfo.getPassword();
+                            String password = StringUtils.isNullOrEmpty(hostInfo.getPassword()) ? ""
+                                    : hostInfo.getPassword();
 
                             NativeSession newSession = new NativeSession(hostInfo, session.getPropertySet());
-                            newSession.connect(hostInfo, user, password, database, 30000, new TransactionEventHandler() {
-                                @Override
-                                public void transactionCompleted() {
-                                }
+                            newSession.connect(hostInfo, user, password, database, 30000,
+                                    new TransactionEventHandler() {
+                                        @Override
+                                        public void transactionCompleted() {
+                                        }
 
-                                public void transactionBegun() {
-                                }
-                            });
-                            newSession.sendCommand(new NativeMessageBuilder().buildComQuery(newSession.getSharedSendPacket(), "KILL QUERY " + origConnId),
+                                        public void transactionBegun() {
+                                        }
+                                    });
+                            newSession.sendCommand(
+                                    new NativeMessageBuilder().buildComQuery(newSession.getSharedSendPacket(),
+                                            "KILL QUERY " + origConnId),
                                     false, 0);
 
                             localQueryToCancel.setCancelStatus(CancelStatus.CANCELED_BY_TIMEOUT);
@@ -109,8 +115,10 @@ public class CancelQueryTaskImpl extends TimerTask implements CancelQueryTask {
                     }
                     // } catch (NullPointerException npe) {
                     // Case when connection closed while starting to cancel.
-                    // We can't easily synchronise this, because then one thread can't cancel() a running query.
-                    // Ignore, we shouldn't re-throw this, because the connection's already closed, so the statement has been timed out.
+                    // We can't easily synchronise this, because then one thread can't cancel() a
+                    // running query.
+                    // Ignore, we shouldn't re-throw this, because the connection's already closed,
+                    // so the statement has been timed out.
                 } catch (Throwable t) {
                     CancelQueryTaskImpl.this.caughtWhileCancelling = t;
                 } finally {

@@ -45,10 +45,11 @@ import java.util.List;
 
 public class TestUtils {
     /**
-     * Percent-encode all occurrence of the the percent sign (%) in the given string.
+     * Percent-encode all occurrence of the the percent sign (%) in the given
+     * string.
      * 
      * @param strToEncode
-     *            the string to encode
+     *                    the string to encode
      * @return the encoded string
      */
     public static String encodePercent(String strToEncode) {
@@ -73,7 +74,7 @@ public class TestUtils {
                 }
             }
         } catch (SocketException e) {
-            // Failed to get the network interfaces. Return an empty list. 
+            // Failed to get the network interfaces. Return an empty list.
         }
         return addresses;
     }
@@ -82,10 +83,11 @@ public class TestUtils {
      * Checks if there is a server socket listening in the given host and port.
      * 
      * @param host
-     *            the host where to look for the server socket
+     *             the host where to look for the server socket
      * @param port
-     *            the expected port the server is listening
-     * @return true if there is a server socket listening in the given address and port, false otherwise
+     *             the expected port the server is listening
+     * @return true if there is a server socket listening in the given address and
+     *         port, false otherwise
      */
     public static boolean serverListening(String hostName, int port) {
         try {
@@ -99,10 +101,11 @@ public class TestUtils {
      * Checks if there is a server socket listening in the given address and port.
      * 
      * @param addr
-     *            the address where to look for the server socket
+     *             the address where to look for the server socket
      * @param port
-     *            the expected port the server is listening
-     * @return true if there is a server socket listening in the given address and port, false otherwise
+     *             the expected port the server is listening
+     * @return true if there is a server socket listening in the given address and
+     *         port, false otherwise
      */
     public static boolean serverListening(InetAddress addr, int port) {
         Socket s = null;

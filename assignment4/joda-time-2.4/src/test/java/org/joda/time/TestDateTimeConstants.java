@@ -27,6 +27,7 @@ public class TestDateTimeConstants extends TestCase {
 
     /**
      * The main method for this test program.
+     * 
      * @param args command line arguments.
      */
     public static void main(String[] args) {
@@ -42,13 +43,14 @@ public class TestDateTimeConstants extends TestCase {
 
     /**
      * TestDateTimeComparator constructor.
+     * 
      * @param name
      */
     public TestDateTimeConstants(String name) {
         super(name);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstructor() {
         DateTimeConstants c = new DateTimeConstants() {
         };
@@ -98,19 +100,19 @@ public class TestDateTimeConstants extends TestCase {
         assertEquals(60 * 60 * 1000, DateTimeConstants.MILLIS_PER_HOUR);
         assertEquals(24 * 60 * 60 * 1000, DateTimeConstants.MILLIS_PER_DAY);
         assertEquals(7 * 24 * 60 * 60 * 1000, DateTimeConstants.MILLIS_PER_WEEK);
-        
+
         assertEquals(60, DateTimeConstants.SECONDS_PER_MINUTE);
         assertEquals(60 * 60, DateTimeConstants.SECONDS_PER_HOUR);
         assertEquals(24 * 60 * 60, DateTimeConstants.SECONDS_PER_DAY);
         assertEquals(7 * 24 * 60 * 60, DateTimeConstants.SECONDS_PER_WEEK);
-        
+
         assertEquals(60, DateTimeConstants.MINUTES_PER_HOUR);
         assertEquals(24 * 60, DateTimeConstants.MINUTES_PER_DAY);
         assertEquals(7 * 24 * 60, DateTimeConstants.MINUTES_PER_WEEK);
-        
+
         assertEquals(24, DateTimeConstants.HOURS_PER_DAY);
         assertEquals(7 * 24, DateTimeConstants.HOURS_PER_WEEK);
-        
+
         assertEquals(7, DateTimeConstants.DAYS_PER_WEEK);
     }
 

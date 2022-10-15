@@ -1,10 +1,8 @@
-// Java code for Checksum_Sender
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Checksum_Sender
-{
+public class Checksum_Sender {
     // Setting maximum data length
     private int MAX = 100;
 
@@ -14,8 +12,7 @@ public class Checksum_Sender
     private DataInputStream dis = null;
     private DataOutputStream dos = null;
 
-    public Checksum_Sender(int port) throws IOException
-    {
+    public Checksum_Sender(int port) throws IOException {
         servsock = new ServerSocket(port);
 
         // Used to block until a client connects to the server
@@ -24,8 +21,7 @@ public class Checksum_Sender
         dis = new DataInputStream(socket.getInputStream());
         dos = new DataOutputStream(socket.getOutputStream());
 
-        while (true)
-        {
+        while (true) {
             int i, l, sum = 0, nob;
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter data length");
@@ -39,14 +35,13 @@ public class Checksum_Sender
 
             System.out.println("Enter data to send");
 
-            for (i = 0; i < l; i++)
-            {
+            for (i = 0; i < l; i++) {
                 data[i] = sc.nextInt();
 
                 // Complementing the entered data
                 // Here we find the number of bits required to represent
                 // the data, like say 8 requires 1000, i.e 4 bits
-                nob = (int)(Math.floor(Math.log(data[i]) / Math.log(2))) + 1;
+                nob = (int) (Math.floor(Math.log(data[i]) / Math.log(2))) + 1;
 
                 // Here we do a XOR of the data with the number 2^n -1,
                 // where n is the nob calculated in previous step
@@ -71,14 +66,12 @@ public class Checksum_Sender
                 dos.writeInt(data[j]);
 
             // Displaying appropriate message depending on feedback received
-            if (dis.readUTF().equals("success"))
-            {
+            if (dis.readUTF().equals("success")) {
                 System.out.println("Thanks for the feedback!! Message received Successfully!");
                 break;
             }
 
-            else if (dis.readUTF().equals("failure"))
-            {
+            else if (dis.readUTF().equals("failure")) {
                 System.out.println("Message was not received successfully!");
                 break;
             }
@@ -91,8 +84,7 @@ public class Checksum_Sender
     }
 
     // Driver Method
-    public static void main(String args[]) throws IOException
-    {
+    public static void main(String args[]) throws IOException {
         Checksum_Sender cs = new Checksum_Sender(45678);
     }
 }

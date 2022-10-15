@@ -48,7 +48,8 @@ public class ZeroDateTimeToNullValueFactoryTest extends CommonAsserts {
 
     @Test
     public void testBasics() {
-        ZeroDateTimeToNullValueFactory<LocalDateTime> vf = new ZeroDateTimeToNullValueFactory<>(new LocalDateTimeValueFactory());
+        ZeroDateTimeToNullValueFactory<LocalDateTime> vf = new ZeroDateTimeToNullValueFactory<>(
+                new LocalDateTimeValueFactory());
 
         assertNull(vf.createFromDate(0, 0, 0));
         assertEquals(LocalDateTime.of(2018, 1, 1, 0, 0, 0, 0), vf.createFromDate(2018, 1, 1));
@@ -87,44 +88,54 @@ public class ZeroDateTimeToNullValueFactoryTest extends CommonAsserts {
                 return null;
             }
         });
-        assertThrows(DateTimeException.class, "Invalid value for MonthOfYear \\(valid values 1 - 12\\): 0", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                assertEquals(LocalDateTime.of(0, 0, 1, 1, 1, 1, 1), vf.createFromTimestamp(0, 0, 1, 1, 1, 1, 1));
-                return null;
-            }
-        });
-        assertThrows(DateTimeException.class, "Invalid value for DayOfMonth \\(valid values 1 - 28/31\\): 0", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                assertEquals(LocalDateTime.of(0, 1, 0, 1, 1, 1, 1), vf.createFromTimestamp(0, 1, 0, 1, 1, 1, 1));
-                return null;
-            }
-        });
+        assertThrows(DateTimeException.class, "Invalid value for MonthOfYear \\(valid values 1 - 12\\): 0",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        assertEquals(LocalDateTime.of(0, 0, 1, 1, 1, 1, 1),
+                                vf.createFromTimestamp(0, 0, 1, 1, 1, 1, 1));
+                        return null;
+                    }
+                });
+        assertThrows(DateTimeException.class, "Invalid value for DayOfMonth \\(valid values 1 - 28/31\\): 0",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        assertEquals(LocalDateTime.of(0, 1, 0, 1, 1, 1, 1),
+                                vf.createFromTimestamp(0, 1, 0, 1, 1, 1, 1));
+                        return null;
+                    }
+                });
 
         assertEquals(LocalDateTime.of(0, 1, 1, 1, 1, 1, 1), vf.createFromTimestamp(0, 1, 1, 1, 1, 1, 1));
 
-        assertThrows(DateTimeException.class, "Invalid value for MonthOfYear \\(valid values 1 - 12\\): 0", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                assertEquals(LocalDateTime.of(2018, 0, 0, 1, 1, 1, 1), vf.createFromTimestamp(2018, 0, 0, 1, 1, 1, 1));
-                return null;
-            }
-        });
-        assertThrows(DateTimeException.class, "Invalid value for MonthOfYear \\(valid values 1 - 12\\): 0", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                assertEquals(LocalDateTime.of(2018, 0, 1, 1, 1, 1, 1), vf.createFromTimestamp(2018, 0, 1, 1, 1, 1, 1));
-                return null;
-            }
-        });
-        assertThrows(DateTimeException.class, "Invalid value for DayOfMonth \\(valid values 1 - 28/31\\): 0", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                assertEquals(LocalDateTime.of(2018, 1, 0, 1, 1, 1, 1), vf.createFromTimestamp(2018, 1, 0, 1, 1, 1, 1));
-                return null;
-            }
-        });
+        assertThrows(DateTimeException.class, "Invalid value for MonthOfYear \\(valid values 1 - 12\\): 0",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        assertEquals(LocalDateTime.of(2018, 0, 0, 1, 1, 1, 1),
+                                vf.createFromTimestamp(2018, 0, 0, 1, 1, 1, 1));
+                        return null;
+                    }
+                });
+        assertThrows(DateTimeException.class, "Invalid value for MonthOfYear \\(valid values 1 - 12\\): 0",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        assertEquals(LocalDateTime.of(2018, 0, 1, 1, 1, 1, 1),
+                                vf.createFromTimestamp(2018, 0, 1, 1, 1, 1, 1));
+                        return null;
+                    }
+                });
+        assertThrows(DateTimeException.class, "Invalid value for DayOfMonth \\(valid values 1 - 28/31\\): 0",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        assertEquals(LocalDateTime.of(2018, 1, 0, 1, 1, 1, 1),
+                                vf.createFromTimestamp(2018, 1, 0, 1, 1, 1, 1));
+                        return null;
+                    }
+                });
         assertEquals(LocalDateTime.of(2018, 1, 1, 1, 1, 1, 1), vf.createFromTimestamp(2018, 1, 1, 1, 1, 1, 1));
 
         assertEquals("java.time.LocalDateTime", vf.getTargetTypeName());

@@ -119,7 +119,8 @@ public class StatementsTest extends BaseTestCase {
         } catch (SQLException sqlEx) {
             if (sqlEx.getMessage().indexOf("max key length") != -1) {
                 createTable("statement_batch_test",
-                        "(id int not null primary key auto_increment, strdata1 varchar(175) not null, strdata2 varchar(175), " + "UNIQUE INDEX (strdata1))");
+                        "(id int not null primary key auto_increment, strdata1 varchar(175) not null, strdata2 varchar(175), "
+                                + "UNIQUE INDEX (strdata1))");
             }
         }
 
@@ -165,7 +166,8 @@ public class StatementsTest extends BaseTestCase {
             this.stmt.executeUpdate(insertBuf.toString());
         }
 
-        // explicitly set the catalog to exercise code in execute(), executeQuery() and executeUpdate()
+        // explicitly set the catalog to exercise code in execute(), executeQuery() and
+        // executeUpdate()
         // FIXME: Only works on Windows!
         // this.conn.setCatalog(this.conn.getCatalog().toUpperCase());
     }
@@ -193,7 +195,8 @@ public class StatementsTest extends BaseTestCase {
     public void testAccessorsAndMutators() throws SQLException {
         assertTrue("Connection can not be null, and must be same connection", this.stmt.getConnection() == this.conn);
 
-        // Set max rows, to exercise code in execute(), executeQuery() and executeUpdate()
+        // Set max rows, to exercise code in execute(), executeQuery() and
+        // executeUpdate()
         Statement accessorStmt = null;
 
         try {
@@ -215,7 +218,8 @@ public class StatementsTest extends BaseTestCase {
             accessorStmt.setFetchDirection(java.sql.ResultSet.FETCH_FORWARD);
 
             int fetchDirection = accessorStmt.getFetchDirection();
-            assertTrue("Set fetch direction != get fetch direction", fetchDirection == java.sql.ResultSet.FETCH_FORWARD);
+            assertTrue("Set fetch direction != get fetch direction",
+                    fetchDirection == java.sql.ResultSet.FETCH_FORWARD);
 
             try {
                 accessorStmt.setFetchDirection(Integer.MAX_VALUE);
@@ -255,7 +259,8 @@ public class StatementsTest extends BaseTestCase {
                 // ignore
             }
 
-            assertTrue("Fetch size before invalid setFetchSize() calls should match fetch size now", fetchSize == this.stmt.getFetchSize());
+            assertTrue("Fetch size before invalid setFetchSize() calls should match fetch size now",
+                    fetchSize == this.stmt.getFetchSize());
         } finally {
             if (accessorStmt != null) {
                 try {
@@ -273,7 +278,8 @@ public class StatementsTest extends BaseTestCase {
         try {
             this.stmt.setFetchSize(Integer.MIN_VALUE);
 
-            this.stmt.executeUpdate("INSERT INTO statement_test (strdata1) values ('blah')", Statement.RETURN_GENERATED_KEYS);
+            this.stmt.executeUpdate("INSERT INTO statement_test (strdata1) values ('blah')",
+                    Statement.RETURN_GENERATED_KEYS);
 
             int autoIncKeyFromApi = -1;
             this.rs = this.stmt.getGeneratedKeys();
@@ -296,7 +302,8 @@ public class StatementsTest extends BaseTestCase {
             }
 
             if ((autoIncKeyFromApi != -1) && (autoIncKeyFromFunc != -1)) {
-                assertTrue("Key retrieved from API (" + autoIncKeyFromApi + ") does not match key retrieved from LAST_INSERT_ID() " + autoIncKeyFromFunc
+                assertTrue("Key retrieved from API (" + autoIncKeyFromApi
+                        + ") does not match key retrieved from LAST_INSERT_ID() " + autoIncKeyFromFunc
                         + ") function", autoIncKeyFromApi == autoIncKeyFromFunc);
             } else {
                 fail("AutoIncrement keys were '0'");
@@ -358,9 +365,11 @@ public class StatementsTest extends BaseTestCase {
 
         try {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testBinaryResultSetNumericTypes");
-            this.stmt.executeUpdate("CREATE TABLE testBinaryResultSetNumericTypes(rowOrder TINYINT, ti TINYINT,uti TINYINT UNSIGNED, si SMALLINT,"
-                    + "usi SMALLINT UNSIGNED, mi MEDIUMINT,umi MEDIUMINT UNSIGNED, i INT, ui INT UNSIGNED,bi BIGINT, ubi BIGINT UNSIGNED)");
-            PreparedStatement inserter = this.conn.prepareStatement("INSERT INTO testBinaryResultSetNumericTypes VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+            this.stmt.executeUpdate(
+                    "CREATE TABLE testBinaryResultSetNumericTypes(rowOrder TINYINT, ti TINYINT,uti TINYINT UNSIGNED, si SMALLINT,"
+                            + "usi SMALLINT UNSIGNED, mi MEDIUMINT,umi MEDIUMINT UNSIGNED, i INT, ui INT UNSIGNED,bi BIGINT, ubi BIGINT UNSIGNED)");
+            PreparedStatement inserter = this.conn
+                    .prepareStatement("INSERT INTO testBinaryResultSetNumericTypes VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             inserter.setInt(1, 0);
             inserter.setString(2, tiMinimum);
             inserter.setString(3, unsignedMinimum);
@@ -387,7 +396,8 @@ public class StatementsTest extends BaseTestCase {
             inserter.setString(11, ubiMaximum);
             inserter.executeUpdate();
 
-            PreparedStatement selector = con.prepareStatement("SELECT * FROM testBinaryResultSetNumericTypes ORDER by rowOrder ASC");
+            PreparedStatement selector = con
+                    .prepareStatement("SELECT * FROM testBinaryResultSetNumericTypes ORDER by rowOrder ASC");
             this.rs = selector.executeQuery();
 
             assertTrue(this.rs.next());
@@ -426,7 +436,7 @@ public class StatementsTest extends BaseTestCase {
      * Tests stored procedure functionality
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testCallableStatement() throws Exception {
         CallableStatement cStmt = null;
@@ -446,7 +456,8 @@ public class StatementsTest extends BaseTestCase {
             this.stmt.executeUpdate("CREATE TABLE callStmtTbl (x CHAR(16), y INT)");
 
             this.stmt.executeUpdate(
-                    "CREATE PROCEDURE testCallStmt(n INT, x CHAR(16), y INT) WHILE n DO SET n = n - 1;" + " INSERT INTO callStmtTbl VALUES (x, y); END WHILE;");
+                    "CREATE PROCEDURE testCallStmt(n INT, x CHAR(16), y INT) WHILE n DO SET n = n - 1;"
+                            + " INSERT INTO callStmtTbl VALUES (x, y); END WHILE;");
 
             int rowsToCheck = 15;
 
@@ -641,7 +652,8 @@ public class StatementsTest extends BaseTestCase {
             assertTrue(this.rs.next());
             assertEquals(1, this.rs.getInt(1));
 
-            final PreparedStatement cancelClientPstmt = ((com.mysql.cj.jdbc.JdbcConnection) cancelConn).clientPrepareStatement("SELECT SLEEP(30)");
+            final PreparedStatement cancelClientPstmt = ((com.mysql.cj.jdbc.JdbcConnection) cancelConn)
+                    .clientPrepareStatement("SELECT SLEEP(30)");
 
             cancelClientPstmt.setQueryTimeout(1);
 
@@ -894,19 +906,22 @@ public class StatementsTest extends BaseTestCase {
                 this.conn.setAutoCommit(false);
                 this.stmt.execute("UPDATE statement_test SET strdata1='blah' WHERE 1=0");
             } catch (SQLException sqlEx) {
-                assertTrue("Exception thrown for unknown reason", sqlEx.getSQLState().equalsIgnoreCase(MysqlErrorNumbers.SQL_STATE_ILLEGAL_ARGUMENT));
+                assertTrue("Exception thrown for unknown reason",
+                        sqlEx.getSQLState().equalsIgnoreCase(MysqlErrorNumbers.SQL_STATE_ILLEGAL_ARGUMENT));
             } finally {
                 this.conn.setAutoCommit(autoCommit);
             }
 
             for (int i = 0; i < 10; i++) {
-                int updateCount = this.stmt.executeUpdate("INSERT INTO statement_test (strdata1,strdata2) values ('abcdefg', 'poi')");
+                int updateCount = this.stmt
+                        .executeUpdate("INSERT INTO statement_test (strdata1,strdata2) values ('abcdefg', 'poi')");
                 assertTrue("Update count must be '1', was '" + updateCount + "'", (updateCount == 1));
             }
 
             int insertIdFromGeneratedKeys = Integer.MIN_VALUE;
 
-            this.stmt.executeUpdate("INSERT INTO statement_test (strdata1, strdata2) values ('a', 'a'), ('b', 'b'), ('c', 'c')",
+            this.stmt.executeUpdate(
+                    "INSERT INTO statement_test (strdata1, strdata2) values ('a', 'a'), ('b', 'b'), ('c', 'c')",
                     Statement.RETURN_GENERATED_KEYS);
             this.rs = this.stmt.getGeneratedKeys();
 
@@ -955,11 +970,13 @@ public class StatementsTest extends BaseTestCase {
             multiStmt = multiStmtConn.createStatement();
 
             multiStmt.executeUpdate("DROP TABLE IF EXISTS testMultiStatements");
-            multiStmt.executeUpdate("CREATE TABLE testMultiStatements (field1 VARCHAR(255), field2 INT, field3 DOUBLE)");
+            multiStmt
+                    .executeUpdate("CREATE TABLE testMultiStatements (field1 VARCHAR(255), field2 INT, field3 DOUBLE)");
             multiStmt.executeUpdate("INSERT INTO testMultiStatements VALUES ('abcd', 1, 2)");
 
-            multiStmt.execute("SELECT field1 FROM testMultiStatements WHERE field1='abcd';UPDATE testMultiStatements SET field3=3;"
-                    + "SELECT field3 FROM testMultiStatements WHERE field3=3");
+            multiStmt.execute(
+                    "SELECT field1 FROM testMultiStatements WHERE field1='abcd';UPDATE testMultiStatements SET field3=3;"
+                            + "SELECT field3 FROM testMultiStatements WHERE field3=3");
 
             this.rs = multiStmt.getResultSet();
 
@@ -971,7 +988,8 @@ public class StatementsTest extends BaseTestCase {
             // Next should be an update count...
             assertTrue(!multiStmt.getMoreResults());
 
-            assertTrue("Update count was " + multiStmt.getUpdateCount() + ", expected 1", multiStmt.getUpdateCount() == 1);
+            assertTrue("Update count was " + multiStmt.getUpdateCount() + ", expected 1",
+                    multiStmt.getUpdateCount() == 1);
 
             assertTrue(multiStmt.getMoreResults());
 
@@ -1001,7 +1019,7 @@ public class StatementsTest extends BaseTestCase {
      * Tests that NULLs and '' work correctly.
      * 
      * @throws SQLException
-     *             if an error occurs
+     *                      if an error occurs
      */
     public void testNulls() throws SQLException {
         try {
@@ -1017,7 +1035,8 @@ public class StatementsTest extends BaseTestCase {
 
             this.rs.next();
 
-            assertTrue("Empty field not returned as \"\"", this.rs.getString("field_1").equals("") && !this.rs.wasNull());
+            assertTrue("Empty field not returned as \"\"",
+                    this.rs.getString("field_1").equals("") && !this.rs.wasNull());
 
             this.rs.close();
         } finally {
@@ -1071,7 +1090,8 @@ public class StatementsTest extends BaseTestCase {
         assertTrue(this.rs.next());
         assertTrue(this.rs.getInt(1) == 999);
         assertTrue("Expected 'iop', received '" + this.rs.getString(2) + "'", "iop".equals(this.rs.getString(2)));
-        assertTrue("Expected 'higjklmn', received '" + this.rs.getString(3) + "'", "higjklmn".equals(this.rs.getString(3)));
+        assertTrue("Expected 'higjklmn', received '" + this.rs.getString(3) + "'",
+                "higjklmn".equals(this.rs.getString(3)));
     }
 
     public void testPreparedStatementBatch() throws SQLException {
@@ -1327,7 +1347,8 @@ public class StatementsTest extends BaseTestCase {
 
             PreparedStatement pStmt = null;
 
-            pStmt = multiConn.prepareStatement("INSERT INTO testStatementRewriteBatch(field1) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            pStmt = multiConn.prepareStatement("INSERT INTO testStatementRewriteBatch(field1) VALUES (?)",
+                    Statement.RETURN_GENERATED_KEYS);
 
             for (int i = 0; i < 1000; i++) {
                 pStmt.setInt(1, i);
@@ -1349,7 +1370,8 @@ public class StatementsTest extends BaseTestCase {
             props.setProperty(PropertyKey.maxAllowedPacket.getKeyName(), j == 0 ? "10240" : "1024");
             multiConn = getConnectionWithProps(props);
 
-            pStmt = multiConn.prepareStatement("INSERT INTO testStatementRewriteBatch(field1) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            pStmt = multiConn.prepareStatement("INSERT INTO testStatementRewriteBatch(field1) VALUES (?)",
+                    Statement.RETURN_GENERATED_KEYS);
 
             for (int i = 0; i < 1000; i++) {
                 pStmt.setInt(1, i);
@@ -1369,14 +1391,16 @@ public class StatementsTest extends BaseTestCase {
 
             createTable("rewriteBatchTypes",
                     "(internalOrder int, f1 tinyint null, " + "f2 smallint null, f3 int null, f4 bigint null, "
-                            + "f5 decimal(8, 2) null, f6 float null, f7 double null, " + "f8 varchar(255) null, f9 text null, f10 blob null, f11 blob null, "
+                            + "f5 decimal(8, 2) null, f6 float null, f7 double null, "
+                            + "f8 varchar(255) null, f9 text null, f10 blob null, f11 blob null, "
                             + (versionMeetsMinimum(5, 6, 4) ? "f12 datetime(3) null, f13 time(3) null, f14 date null)"
                                     : "f12 datetime null, f13 time null, f14 date null)"));
 
             for (int i = 0; i < 1000; i++) {
                 differentTypes[i][0] = Math.random() < .5 ? null : new Byte((byte) (Math.random() * 127));
                 differentTypes[i][1] = Math.random() < .5 ? null : new Short((short) (Math.random() * Short.MAX_VALUE));
-                differentTypes[i][2] = Math.random() < .5 ? null : new Integer((int) (Math.random() * Integer.MAX_VALUE));
+                differentTypes[i][2] = Math.random() < .5 ? null
+                        : new Integer((int) (Math.random() * Integer.MAX_VALUE));
                 differentTypes[i][3] = Math.random() < .5 ? null : new Long((long) (Math.random() * Long.MAX_VALUE));
                 differentTypes[i][4] = Math.random() < .5 ? null : new BigDecimal("19.95");
                 differentTypes[i][5] = Math.random() < .5 ? null : new Float(3 + ((float) (Math.random())));
@@ -1395,7 +1419,8 @@ public class StatementsTest extends BaseTestCase {
             props.setProperty(PropertyKey.maxAllowedPacket.getKeyName(), j == 0 ? "10240" : "1024");
             multiConn = getConnectionWithProps(props);
             pStmt = multiConn.prepareStatement(
-                    "INSERT INTO rewriteBatchTypes(internalOrder,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14) VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    "INSERT INTO rewriteBatchTypes(internalOrder,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14) VALUES "
+                            + "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             for (int i = 0; i < 1000; i++) {
                 pStmt.setInt(1, i);
@@ -1426,18 +1451,22 @@ public class StatementsTest extends BaseTestCase {
             pStmt.executeBatch();
 
             this.rs = this.stmt
-                    .executeQuery("SELECT f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14 FROM rewriteBatchTypes ORDER BY internalOrder");
+                    .executeQuery(
+                            "SELECT f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14 FROM rewriteBatchTypes ORDER BY internalOrder");
 
             int idx = 0;
 
-            // We need to format this ourselves, since we have to strip the nanos off of TIMESTAMPs, so .equals() doesn't really work...
+            // We need to format this ourselves, since we have to strip the nanos off of
+            // TIMESTAMPs, so .equals() doesn't really work...
 
             SimpleDateFormat sdf = TimeUtil.getSimpleDateFormat(null, "''yyyy-MM-dd HH:mm:ss''", null, null);
 
             while (this.rs.next()) {
                 for (int k = 0; k < 14; k++) {
                     if (differentTypes[idx][k] == null) {
-                        assertTrue("On row " + idx + " expected NULL, found " + this.rs.getObject(k + 1) + " in column " + (k + 1),
+                        assertTrue(
+                                "On row " + idx + " expected NULL, found " + this.rs.getObject(k + 1) + " in column "
+                                        + (k + 1),
                                 this.rs.getObject(k + 1) == null);
                     } else {
                         String className = differentTypes[idx][k].getClass().getName();
@@ -1471,31 +1500,41 @@ public class StatementsTest extends BaseTestCase {
                             byte[] expected = bOut.toByteArray();
                             byte[] actual = this.rs.getBytes(k + 1);
 
-                            assertEquals("On row " + idx + ", column " + (k + 1), StringUtils.dumpAsHex(expected, expected.length),
+                            assertEquals("On row " + idx + ", column " + (k + 1),
+                                    StringUtils.dumpAsHex(expected, expected.length),
                                     StringUtils.dumpAsHex(actual, actual.length));
                         } else if (differentTypes[idx][k] instanceof byte[]) {
                             byte[] expected = (byte[]) differentTypes[idx][k];
                             byte[] actual = this.rs.getBytes(k + 1);
-                            assertEquals("On row " + idx + ", column " + (k + 1), StringUtils.dumpAsHex(expected, expected.length),
+                            assertEquals("On row " + idx + ", column " + (k + 1),
+                                    StringUtils.dumpAsHex(expected, expected.length),
                                     StringUtils.dumpAsHex(actual, actual.length));
                         } else if (differentTypes[idx][k] instanceof Timestamp) {
-                            assertEquals("On row " + idx + ", column " + (k + 1), sdf.format(differentTypes[idx][k]), sdf.format(this.rs.getObject(k + 1)));
+                            assertEquals("On row " + idx + ", column " + (k + 1), sdf.format(differentTypes[idx][k]),
+                                    sdf.format(this.rs.getObject(k + 1)));
                         } else if (differentTypes[idx][k] instanceof Double) {
-                            assertEquals("On row " + idx + ", column " + (k + 1), ((Double) differentTypes[idx][k]).doubleValue(), this.rs.getDouble(k + 1),
+                            assertEquals("On row " + idx + ", column " + (k + 1),
+                                    ((Double) differentTypes[idx][k]).doubleValue(), this.rs.getDouble(k + 1),
                                     .1);
                         } else if (differentTypes[idx][k] instanceof Float) {
-                            assertEquals("On row " + idx + ", column " + (k + 1), ((Float) differentTypes[idx][k]).floatValue(), this.rs.getFloat(k + 1), .1);
+                            assertEquals("On row " + idx + ", column " + (k + 1),
+                                    ((Float) differentTypes[idx][k]).floatValue(), this.rs.getFloat(k + 1), .1);
                         } else if (className.equals("java.lang.Byte")) {
                             // special mapping in JDBC for ResultSet.getObject()
-                            assertEquals("On row " + idx + ", column " + (k + 1), new Integer(((Byte) differentTypes[idx][k]).byteValue()),
+                            assertEquals("On row " + idx + ", column " + (k + 1),
+                                    new Integer(((Byte) differentTypes[idx][k]).byteValue()),
                                     this.rs.getObject(k + 1));
                         } else if (className.equals("java.lang.Short")) {
                             // special mapping in JDBC for ResultSet.getObject()
-                            assertEquals("On row " + idx + ", column " + (k + 1), new Integer(((Short) differentTypes[idx][k]).shortValue()),
+                            assertEquals("On row " + idx + ", column " + (k + 1),
+                                    new Integer(((Short) differentTypes[idx][k]).shortValue()),
                                     this.rs.getObject(k + 1));
                         } else {
-                            assertEquals("On row " + idx + ", column " + (k + 1) + " (" + differentTypes[idx][k].getClass() + "/"
-                                    + this.rs.getObject(k + 1).getClass(), differentTypes[idx][k].toString(), this.rs.getObject(k + 1).toString());
+                            assertEquals(
+                                    "On row " + idx + ", column " + (k + 1) + " (" + differentTypes[idx][k].getClass()
+                                            + "/"
+                                            + this.rs.getObject(k + 1).getClass(),
+                                    differentTypes[idx][k].toString(), this.rs.getObject(k + 1).toString());
                         }
                     }
                 }
@@ -1719,11 +1758,15 @@ public class StatementsTest extends BaseTestCase {
 
         try {
             this.stmt.executeUpdate("DROP TABLE IF EXISTS testTruncationOnRead");
-            this.stmt.executeUpdate("CREATE TABLE testTruncationOnRead(intField INTEGER, bigintField BIGINT, doubleField DOUBLE)");
-            this.stmt.executeUpdate("INSERT INTO testTruncationOnRead VALUES (" + Integer.MAX_VALUE + ", " + Long.MAX_VALUE + ", " + Double.MAX_VALUE + ")");
-            this.stmt.executeUpdate("INSERT INTO testTruncationOnRead VALUES (" + Integer.MIN_VALUE + ", " + Long.MIN_VALUE + ", " + Double.MIN_VALUE + ")");
+            this.stmt.executeUpdate(
+                    "CREATE TABLE testTruncationOnRead(intField INTEGER, bigintField BIGINT, doubleField DOUBLE)");
+            this.stmt.executeUpdate("INSERT INTO testTruncationOnRead VALUES (" + Integer.MAX_VALUE + ", "
+                    + Long.MAX_VALUE + ", " + Double.MAX_VALUE + ")");
+            this.stmt.executeUpdate("INSERT INTO testTruncationOnRead VALUES (" + Integer.MIN_VALUE + ", "
+                    + Long.MIN_VALUE + ", " + Double.MIN_VALUE + ")");
 
-            pStmt = this.conn.prepareStatement("SELECT intField, bigintField, doubleField FROM testTruncationOnRead ORDER BY intField DESC");
+            pStmt = this.conn.prepareStatement(
+                    "SELECT intField, bigintField, doubleField FROM testTruncationOnRead ORDER BY intField DESC");
             this.rs = pStmt.executeQuery();
 
             this.rs.next();
@@ -1760,7 +1803,8 @@ public class StatementsTest extends BaseTestCase {
         /*
          * try {
          * Properties props = new Properties();
-         * props.setProperty(PropertyKey.queryInterceptors", "com.mysql.jdbc.interceptors.ResultSetScannerInterceptor");
+         * props.setProperty(PropertyKey.queryInterceptors", "com.mysql.jdbc.
+         * interceptors.ResultSetScannerInterceptor");
          * props.setProperty(PropertyKey.resultSetScannerRegex", ".*");
          * interceptedConn = getConnectionWithProps(props);
          * this.rs = interceptedConn.createStatement().executeQuery("SELECT 'abc'");
@@ -1790,11 +1834,13 @@ public class StatementsTest extends BaseTestCase {
 
     public void testParameterBindings() throws Exception {
         // Need to check character set stuff, so need a new connection
-        Connection utfConn = getConnectionWithProps("characterEncoding=utf-8,treatUtilDateAsTimestamp=false,autoDeserialize=true");
+        Connection utfConn = getConnectionWithProps(
+                "characterEncoding=utf-8,treatUtilDateAsTimestamp=false,autoDeserialize=true");
 
         java.util.Date now = new java.util.Date();
 
-        Object[] valuesToTest = new Object[] { new Byte(Byte.MIN_VALUE), new Short(Short.MIN_VALUE), new Integer(Integer.MIN_VALUE), new Long(Long.MIN_VALUE),
+        Object[] valuesToTest = new Object[] { new Byte(Byte.MIN_VALUE), new Short(Short.MIN_VALUE),
+                new Integer(Integer.MIN_VALUE), new Long(Long.MIN_VALUE),
                 new Double(Double.MIN_VALUE), "\u4E2D\u6587", new BigDecimal(Math.PI), null, // to test isNull
                 now // to test serialization
         };
@@ -1824,12 +1870,16 @@ public class StatementsTest extends BaseTestCase {
             Class<?> testObjectClass = valuesToTest[i].getClass();
 
             if (boundObject instanceof Number) {
-                assertEquals("For binding #" + (i + 1) + " of class " + boundObjectClass + " compared to " + testObjectClass, boundObject.toString(),
+                assertEquals(
+                        "For binding #" + (i + 1) + " of class " + boundObjectClass + " compared to " + testObjectClass,
+                        boundObject.toString(),
                         valuesToTest[i].toString());
             } else if (boundObject instanceof Date) {
 
             } else {
-                assertEquals("For binding #" + (i + 1) + " of class " + boundObjectClass + " compared to " + testObjectClass, boundObject, valuesToTest[i]);
+                assertEquals(
+                        "For binding #" + (i + 1) + " of class " + boundObjectClass + " compared to " + testObjectClass,
+                        boundObject, valuesToTest[i]);
             }
         }
     }
@@ -1847,8 +1897,11 @@ public class StatementsTest extends BaseTestCase {
         try {
             ((com.mysql.cj.jdbc.JdbcStatement) testStmt).setLocalInfileInputStream(stream);
             testStmt.execute(
-                    "LOAD DATA LOCAL INFILE 'bogusFileName' INTO TABLE localInfileHooked CHARACTER SET " + CharsetMapping.getMysqlCharsetForJavaEncoding(
-                            ((MysqlConnection) this.conn).getPropertySet().getStringProperty(PropertyKey.characterEncoding).getValue(), this.serverVersion));
+                    "LOAD DATA LOCAL INFILE 'bogusFileName' INTO TABLE localInfileHooked CHARACTER SET "
+                            + CharsetMapping.getMysqlCharsetForJavaEncoding(
+                                    ((MysqlConnection) this.conn).getPropertySet()
+                                            .getStringProperty(PropertyKey.characterEncoding).getValue(),
+                                    this.serverVersion));
             assertEquals(-1, stream.read());
             this.rs = testStmt.executeQuery("SELECT field2 FROM localInfileHooked ORDER BY field1 ASC");
             this.rs.next();
@@ -1938,12 +1991,14 @@ public class StatementsTest extends BaseTestCase {
     public void testSetNCharacterStream() throws Exception {
         // suppose sql_mode don't include "NO_BACKSLASH_ESCAPES"
 
-        createTable("testSetNCharacterStream", "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) ENGINE=InnoDB");
+        createTable("testSetNCharacterStream",
+                "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) ENGINE=InnoDB");
         Properties props1 = new Properties();
         props1.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "false"); // use client-side prepared statement
         props1.setProperty(PropertyKey.characterEncoding.getKeyName(), "latin1"); // ensure charset isn't utf8 here
         Connection conn1 = getConnectionWithProps(props1);
-        ClientPreparedStatement pstmt1 = (ClientPreparedStatement) conn1.prepareStatement("INSERT INTO testSetNCharacterStream (c1, c2, c3) VALUES (?, ?, ?)");
+        ClientPreparedStatement pstmt1 = (ClientPreparedStatement) conn1
+                .prepareStatement("INSERT INTO testSetNCharacterStream (c1, c2, c3) VALUES (?, ?, ?)");
         pstmt1.setNCharacterStream(1, null, 0);
         pstmt1.setNCharacterStream(2, new StringReader("aaa"), 3);
         pstmt1.setNCharacterStream(3, new StringReader("\'aaa\'"), 5);
@@ -1957,12 +2012,14 @@ public class StatementsTest extends BaseTestCase {
         pstmt1.close();
         conn1.close();
 
-        createTable("testSetNCharacterStream", "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) ENGINE=InnoDB");
+        createTable("testSetNCharacterStream",
+                "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) ENGINE=InnoDB");
         Properties props2 = new Properties();
         props2.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "false"); // use client-side prepared statement
         props2.setProperty(PropertyKey.characterEncoding.getKeyName(), "UTF-8"); // ensure charset is utf8 here
         Connection conn2 = getConnectionWithProps(props2);
-        ClientPreparedStatement pstmt2 = (ClientPreparedStatement) conn2.prepareStatement("INSERT INTO testSetNCharacterStream (c1, c2, c3) VALUES (?, ?, ?)");
+        ClientPreparedStatement pstmt2 = (ClientPreparedStatement) conn2
+                .prepareStatement("INSERT INTO testSetNCharacterStream (c1, c2, c3) VALUES (?, ?, ?)");
         pstmt2.setNCharacterStream(1, null, 0);
         pstmt2.setNCharacterStream(2, new StringReader("aaa"), 3);
         pstmt2.setNCharacterStream(3, new StringReader("\'aaa\'"), 5);
@@ -1994,7 +2051,8 @@ public class StatementsTest extends BaseTestCase {
             fail();
         } catch (SQLException e) {
             // ok
-            assertEquals("Can not call setNCharacterStream() when connection character set isn't UTF-8", e.getMessage());
+            assertEquals("Can not call setNCharacterStream() when connection character set isn't UTF-8",
+                    e.getMessage());
         }
         pstmt1.close();
         conn1.close();
@@ -2005,7 +2063,8 @@ public class StatementsTest extends BaseTestCase {
         props2.setProperty(PropertyKey.characterEncoding.getKeyName(), "UTF-8"); // ensure charset is utf8 here
         Connection conn2 = getConnectionWithProps(props2);
         PreparedStatement pstmt2 = conn2.prepareStatement("INSERT INTO testSetNCharacterStreamServer (c1) VALUES (?)");
-        pstmt2.setNCharacterStream(1, new StringReader(new String(new char[81921])), 81921); // 10 Full Long Data Packet's chars + 1 char
+        pstmt2.setNCharacterStream(1, new StringReader(new String(new char[81921])), 81921); // 10 Full Long Data
+                                                                                             // Packet's chars + 1 char
         pstmt2.execute();
         ResultSet rs2 = this.stmt.executeQuery("SELECT c1 FROM testSetNCharacterStreamServer");
         rs2.next();
@@ -2023,7 +2082,8 @@ public class StatementsTest extends BaseTestCase {
     public void testSetNClob() throws Exception {
         // suppose sql_mode don't include "NO_BACKSLASH_ESCAPES"
 
-        createTable("testSetNClob", "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) ENGINE=InnoDB");
+        createTable("testSetNClob",
+                "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) ENGINE=InnoDB");
         Properties props1 = new Properties();
         props1.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "false"); // use client-side prepared statement
         props1.setProperty(PropertyKey.characterEncoding.getKeyName(), "latin1"); // ensure charset isn't utf8 here
@@ -2032,9 +2092,9 @@ public class StatementsTest extends BaseTestCase {
         pstmt1.setNClob(1, (NClob) null);
         NClob nclob2 = conn1.createNClob();
         nclob2.setString(1, "aaa");
-        pstmt1.setNClob(2, nclob2);                   // for setNClob(int, NClob)
+        pstmt1.setNClob(2, nclob2); // for setNClob(int, NClob)
         Reader reader3 = new StringReader("\'aaa\'");
-        pstmt1.setNClob(3, reader3, 5);               // for setNClob(int, Reader, long)
+        pstmt1.setNClob(3, reader3, 5); // for setNClob(int, Reader, long)
         pstmt1.execute();
         ResultSet rs1 = this.stmt.executeQuery("SELECT c1, c2, c3 FROM testSetNClob");
         rs1.next();
@@ -2045,7 +2105,8 @@ public class StatementsTest extends BaseTestCase {
         pstmt1.close();
         conn1.close();
 
-        createTable("testSetNClob", "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) ENGINE=InnoDB");
+        createTable("testSetNClob",
+                "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) ENGINE=InnoDB");
         Properties props2 = new Properties();
         props2.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "false"); // use client-side prepared statement
         props2.setProperty(PropertyKey.characterEncoding.getKeyName(), "UTF-8"); // ensure charset is utf8 here
@@ -2054,9 +2115,9 @@ public class StatementsTest extends BaseTestCase {
         pstmt2.setNClob(1, (NClob) null);
         nclob2 = conn2.createNClob();
         nclob2.setString(1, "aaa");
-        pstmt2.setNClob(2, nclob2);             // for setNClob(int, NClob)
+        pstmt2.setNClob(2, nclob2); // for setNClob(int, NClob)
         reader3 = new StringReader("\'aaa\'");
-        pstmt2.setNClob(3, reader3, 5);         // for setNClob(int, Reader, long)
+        pstmt2.setNClob(3, reader3, 5); // for setNClob(int, Reader, long)
         pstmt2.execute();
         ResultSet rs2 = this.stmt.executeQuery("SELECT c1, c2, c3 FROM testSetNClob");
         rs2.next();
@@ -2109,7 +2170,8 @@ public class StatementsTest extends BaseTestCase {
         nclob1 = conn2.createNClob();
         nclob1.setString(1, "aaa");
         pstmt2.setNClob(1, nclob1);
-        pstmt2.setNClob(2, new StringReader(new String(new char[81921])), 81921); // 10 Full Long Data Packet's chars + 1 char
+        pstmt2.setNClob(2, new StringReader(new String(new char[81921])), 81921); // 10 Full Long Data Packet's chars +
+                                                                                  // 1 char
         pstmt2.execute();
         ResultSet rs2 = this.stmt.executeQuery("SELECT c1, c2 FROM testSetNClobServer");
         rs2.next();
@@ -2129,7 +2191,8 @@ public class StatementsTest extends BaseTestCase {
         // suppose sql_mode don't include "NO_BACKSLASH_ESCAPES"
 
         createTable("testSetNString",
-                "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) DEFAULT CHARACTER SET cp932 ENGINE=InnoDB");
+                "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), "
+                        + "c3 NATIONAL CHARACTER(10)) DEFAULT CHARACTER SET cp932 ENGINE=InnoDB");
         Properties props1 = new Properties();
         props1.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "false"); // use client-side prepared statement
         props1.setProperty(PropertyKey.characterEncoding.getKeyName(), "MS932"); // ensure charset isn't utf8 here
@@ -2149,7 +2212,8 @@ public class StatementsTest extends BaseTestCase {
         conn1.close();
 
         createTable("testSetNString",
-                "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), " + "c3 NATIONAL CHARACTER(10)) DEFAULT CHARACTER SET cp932 ENGINE=InnoDB");
+                "(c1 NATIONAL CHARACTER(10), c2 NATIONAL CHARACTER(10), "
+                        + "c3 NATIONAL CHARACTER(10)) DEFAULT CHARACTER SET cp932 ENGINE=InnoDB");
         Properties props2 = new Properties();
         props2.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "false"); // use client-side prepared statement
         props2.setProperty(PropertyKey.characterEncoding.getKeyName(), "UTF-8"); // ensure charset is utf8 here
@@ -2213,12 +2277,14 @@ public class StatementsTest extends BaseTestCase {
      * @throws Exception
      */
     public void testUpdateNCharacterStream() throws Exception {
-        createTable("testUpdateNCharacterStream", "(c1 CHAR(10) PRIMARY KEY, c2 NATIONAL CHARACTER(10)) default character set sjis");
+        createTable("testUpdateNCharacterStream",
+                "(c1 CHAR(10) PRIMARY KEY, c2 NATIONAL CHARACTER(10)) default character set sjis");
         Properties props1 = new Properties();
         props1.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "true"); // use server-side prepared statement
         props1.setProperty(PropertyKey.characterEncoding.getKeyName(), "UTF-8"); // ensure charset isn't utf8 here
         Connection conn1 = getConnectionWithProps(props1);
-        PreparedStatement pstmt1 = conn1.prepareStatement("INSERT INTO testUpdateNCharacterStream (c1, c2) VALUES (?, ?)");
+        PreparedStatement pstmt1 = conn1
+                .prepareStatement("INSERT INTO testUpdateNCharacterStream (c1, c2) VALUES (?, ?)");
         pstmt1.setString(1, "1");
         pstmt1.setNCharacterStream(2, new StringReader("aaa"), 3);
         pstmt1.execute();
@@ -2242,12 +2308,14 @@ public class StatementsTest extends BaseTestCase {
         stmt1.close();
         conn1.close();
 
-        createTable("testUpdateNCharacterStream", "(c1 CHAR(10) PRIMARY KEY, c2 CHAR(10)) default character set sjis"); // sjis field
+        createTable("testUpdateNCharacterStream", "(c1 CHAR(10) PRIMARY KEY, c2 CHAR(10)) default character set sjis"); // sjis
+                                                                                                                        // field
         Properties props2 = new Properties();
         props2.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "true"); // use server-side prepared statement
         props2.setProperty(PropertyKey.characterEncoding.getKeyName(), "SJIS"); // ensure charset isn't utf8 here
         Connection conn2 = getConnectionWithProps(props2);
-        PreparedStatement pstmt2 = conn2.prepareStatement("INSERT INTO testUpdateNCharacterStream (c1, c2) VALUES (?, ?)");
+        PreparedStatement pstmt2 = conn2
+                .prepareStatement("INSERT INTO testUpdateNCharacterStream (c1, c2) VALUES (?, ?)");
         pstmt2.setString(1, "1");
         pstmt2.setString(2, "aaa");
         pstmt2.execute();
@@ -2258,7 +2326,8 @@ public class StatementsTest extends BaseTestCase {
             rs3.updateNCharacterStream("c2", new StringReader("bbb"), 3); // field's charset isn't utf8
             fail();
         } catch (SQLException ex) {
-            assertEquals("Can not call updateNCharacterStream() when field's character set isn't UTF-8", ex.getMessage());
+            assertEquals("Can not call updateNCharacterStream() when field's character set isn't UTF-8",
+                    ex.getMessage());
         }
         rs3.close();
         pstmt2.close();
@@ -2272,7 +2341,8 @@ public class StatementsTest extends BaseTestCase {
      * @throws Exception
      */
     public void testUpdateNClob() throws Exception {
-        createTable("testUpdateNChlob", "(c1 CHAR(10) PRIMARY KEY, c2 NATIONAL CHARACTER(10)) default character set sjis");
+        createTable("testUpdateNChlob",
+                "(c1 CHAR(10) PRIMARY KEY, c2 NATIONAL CHARACTER(10)) default character set sjis");
         Properties props1 = new Properties();
         props1.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "true"); // use server-side prepared statement
         props1.setProperty(PropertyKey.characterEncoding.getKeyName(), "UTF-8"); // ensure charset isn't utf8 here
@@ -2307,7 +2377,8 @@ public class StatementsTest extends BaseTestCase {
         stmt1.close();
         conn1.close();
 
-        createTable("testUpdateNChlob", "(c1 CHAR(10) PRIMARY KEY, c2 CHAR(10)) default character set sjis"); // sjis field
+        createTable("testUpdateNChlob", "(c1 CHAR(10) PRIMARY KEY, c2 CHAR(10)) default character set sjis"); // sjis
+                                                                                                              // field
         Properties props2 = new Properties();
         props2.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "true"); // use server-side prepared statement
         props2.setProperty(PropertyKey.characterEncoding.getKeyName(), "SJIS"); // ensure charset isn't utf8 here
@@ -2339,7 +2410,8 @@ public class StatementsTest extends BaseTestCase {
      * @throws Exception
      */
     public void testUpdateNString() throws Exception {
-        createTable("testUpdateNString", "(c1 CHAR(10) PRIMARY KEY, c2 NATIONAL CHARACTER(10)) default character set sjis");
+        createTable("testUpdateNString",
+                "(c1 CHAR(10) PRIMARY KEY, c2 NATIONAL CHARACTER(10)) default character set sjis");
         Properties props1 = new Properties();
         props1.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "true"); // use server-side prepared statement
         props1.setProperty(PropertyKey.characterEncoding.getKeyName(), "UTF-8"); // ensure charset is utf8 here
@@ -2368,7 +2440,8 @@ public class StatementsTest extends BaseTestCase {
         stmt1.close();
         conn1.close();
 
-        createTable("testUpdateNString", "(c1 CHAR(10) PRIMARY KEY, c2 CHAR(10)) default character set sjis"); // sjis field
+        createTable("testUpdateNString", "(c1 CHAR(10) PRIMARY KEY, c2 CHAR(10)) default character set sjis"); // sjis
+                                                                                                               // field
         Properties props2 = new Properties();
         props2.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), "true"); // use server-side prepared statement
         props2.setProperty(PropertyKey.characterEncoding.getKeyName(), "SJIS"); // ensure charset isn't utf8 here
@@ -2443,7 +2516,8 @@ public class StatementsTest extends BaseTestCase {
     }
 
     /**
-     * Test for Statement.executeLargeBatch(). Validate update count returned and generated keys.
+     * Test for Statement.executeLargeBatch(). Validate update count returned and
+     * generated keys.
      */
     public void testStmtExecuteLargeBatch() throws Exception {
         /*
@@ -2531,13 +2605,16 @@ public class StatementsTest extends BaseTestCase {
     public void testStmtExecuteLargeUpdateNoGeneratedKeys() throws Exception {
         createTable("testExecuteLargeUpdate", "(id BIGINT AUTO_INCREMENT PRIMARY KEY, n INT)");
 
-        long count = this.stmt.executeLargeUpdate("INSERT INTO testExecuteLargeUpdate (n) VALUES (1), (2), (3), (4), (5)");
+        long count = this.stmt
+                .executeLargeUpdate("INSERT INTO testExecuteLargeUpdate (n) VALUES (1), (2), (3), (4), (5)");
         assertEquals(5, count);
         assertEquals(5, this.stmt.getLargeUpdateCount());
 
         final Statement stmtTmp = this.stmt;
-        assertThrows(SQLException.class, "Generated keys not requested. You need to specify Statement.RETURN_GENERATED_KEYS to Statement.executeUpdate\\(\\), "
-                + "Statement.executeLargeUpdate\\(\\) or Connection.prepareStatement\\(\\).", new Callable<Void>() {
+        assertThrows(SQLException.class,
+                "Generated keys not requested. You need to specify Statement.RETURN_GENERATED_KEYS to Statement.executeUpdate\\(\\), "
+                        + "Statement.executeLargeUpdate\\(\\) or Connection.prepareStatement\\(\\).",
+                new Callable<Void>() {
                     public Void call() throws Exception {
                         stmtTmp.getGeneratedKeys();
                         return null;
@@ -2561,14 +2638,18 @@ public class StatementsTest extends BaseTestCase {
             long count = 0;
             switch (tst) {
                 case 1:
-                    count = this.stmt.executeLargeUpdate("INSERT INTO testExecuteLargeUpdate (n) VALUES (1), (2), (3), (4), (5)",
+                    count = this.stmt.executeLargeUpdate(
+                            "INSERT INTO testExecuteLargeUpdate (n) VALUES (1), (2), (3), (4), (5)",
                             Statement.RETURN_GENERATED_KEYS);
                     break;
                 case 2:
-                    count = this.stmt.executeLargeUpdate("INSERT INTO testExecuteLargeUpdate (n) VALUES (1), (2), (3), (4), (5)", new int[] { 1 });
+                    count = this.stmt.executeLargeUpdate(
+                            "INSERT INTO testExecuteLargeUpdate (n) VALUES (1), (2), (3), (4), (5)", new int[] { 1 });
                     break;
                 case 3:
-                    count = this.stmt.executeLargeUpdate("INSERT INTO testExecuteLargeUpdate (n) VALUES (1), (2), (3), (4), (5)", new String[] { "id" });
+                    count = this.stmt.executeLargeUpdate(
+                            "INSERT INTO testExecuteLargeUpdate (n) VALUES (1), (2), (3), (4), (5)",
+                            new String[] { "id" });
                     break;
             }
             assertEquals(tstCase, 5, count);
@@ -2600,7 +2681,8 @@ public class StatementsTest extends BaseTestCase {
          */
         createTable("testExecuteLargeBatch", "(id BIGINT AUTO_INCREMENT PRIMARY KEY, n INT)");
 
-        this.pstmt = this.conn.prepareStatement("INSERT INTO testExecuteLargeBatch (n) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+        this.pstmt = this.conn.prepareStatement("INSERT INTO testExecuteLargeBatch (n) VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS);
         this.pstmt.setInt(1, 1);
         this.pstmt.addBatch();
         this.pstmt.setInt(1, 2);
@@ -2643,7 +2725,8 @@ public class StatementsTest extends BaseTestCase {
          */
         createTable("testExecuteLargeBatch", "(id BIGINT AUTO_INCREMENT PRIMARY KEY, n INT)");
 
-        this.pstmt = this.conn.prepareStatement("INSERT INTO testExecuteLargeBatch (n) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+        this.pstmt = this.conn.prepareStatement("INSERT INTO testExecuteLargeBatch (n) VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS);
         this.pstmt.setInt(1, 1);
         this.pstmt.addBatch();
         this.pstmt.setInt(1, 2);
@@ -2692,7 +2775,8 @@ public class StatementsTest extends BaseTestCase {
     public void testPrepStmtExecuteLargeUpdateNoGeneratedKeys() throws Exception {
         createTable("testExecuteLargeUpdate", "(id BIGINT AUTO_INCREMENT PRIMARY KEY, n INT)");
 
-        this.pstmt = this.conn.prepareStatement("INSERT INTO testExecuteLargeUpdate (n) VALUES (?), (?), (?), (?), (?)");
+        this.pstmt = this.conn
+                .prepareStatement("INSERT INTO testExecuteLargeUpdate (n) VALUES (?), (?), (?), (?), (?)");
         this.pstmt.setInt(1, 1);
         this.pstmt.setInt(2, 2);
         this.pstmt.setInt(3, 3);
@@ -2704,8 +2788,10 @@ public class StatementsTest extends BaseTestCase {
         assertEquals(5, this.pstmt.getLargeUpdateCount());
 
         final Statement stmtTmp = this.pstmt;
-        assertThrows(SQLException.class, "Generated keys not requested. You need to specify Statement.RETURN_GENERATED_KEYS to Statement.executeUpdate\\(\\), "
-                + "Statement.executeLargeUpdate\\(\\) or Connection.prepareStatement\\(\\).", new Callable<Void>() {
+        assertThrows(SQLException.class,
+                "Generated keys not requested. You need to specify Statement.RETURN_GENERATED_KEYS to Statement.executeUpdate\\(\\), "
+                        + "Statement.executeLargeUpdate\\(\\) or Connection.prepareStatement\\(\\).",
+                new Callable<Void>() {
                     public Void call() throws Exception {
                         stmtTmp.getGeneratedKeys();
                         return null;
@@ -2721,7 +2807,8 @@ public class StatementsTest extends BaseTestCase {
     public void testPrepStmtExecuteLargeUpdateExplicitGeneratedKeys() throws Exception {
         createTable("testExecuteLargeUpdate", "(id BIGINT AUTO_INCREMENT PRIMARY KEY, n INT)");
 
-        this.pstmt = this.conn.prepareStatement("INSERT INTO testExecuteLargeUpdate (n) VALUES (?), (?), (?), (?), (?)", Statement.RETURN_GENERATED_KEYS);
+        this.pstmt = this.conn.prepareStatement("INSERT INTO testExecuteLargeUpdate (n) VALUES (?), (?), (?), (?), (?)",
+                Statement.RETURN_GENERATED_KEYS);
         this.pstmt.setInt(1, 1);
         this.pstmt.setInt(2, 2);
         this.pstmt.setInt(3, 3);
@@ -2756,7 +2843,8 @@ public class StatementsTest extends BaseTestCase {
          * Fully working batch
          */
         createTable("testExecuteLargeBatch", "(id BIGINT AUTO_INCREMENT PRIMARY KEY, n INT)");
-        createProcedure("testExecuteLargeBatchProc", "(IN n INT) BEGIN INSERT INTO testExecuteLargeBatch (n) VALUES (n); END");
+        createProcedure("testExecuteLargeBatchProc",
+                "(IN n INT) BEGIN INSERT INTO testExecuteLargeBatch (n) VALUES (n); END");
 
         CallableStatement testCstmt = this.conn.prepareCall("{CALL testExecuteLargeBatchProc(?)}");
         testCstmt.setInt(1, 1);
@@ -2795,13 +2883,14 @@ public class StatementsTest extends BaseTestCase {
         assertEquals(JDBCType.BIGINT.getVendorTypeNumber().intValue(), rsmd.getColumnType(1));
         assertEquals(20, rsmd.getColumnDisplaySize(1));
 
-        // We can't check the generated keys as they are not returned correctly in this case (last_insert_id is missing from OK_PACKET when executing inserts
+        // We can't check the generated keys as they are not returned correctly in this
+        // case (last_insert_id is missing from OK_PACKET when executing inserts
         // within a stored procedure - Bug#21792359).
-        //        long generatedKey = 0;
-        //        while (this.rs.next()) {
-        //            assertEquals(++generatedKey, this.rs.getLong(1));
-        //        }
-        //        assertEquals(10, generatedKey);
+        // long generatedKey = 0;
+        // while (this.rs.next()) {
+        // assertEquals(++generatedKey, this.rs.getLong(1));
+        // }
+        // assertEquals(10, generatedKey);
         this.rs.close();
 
         testCstmt.close();
@@ -2874,19 +2963,21 @@ public class StatementsTest extends BaseTestCase {
 
         this.rs = testCstmt.getGeneratedKeys();
 
-        // Although not requested, CallableStatements makes gerenated keys always available.
+        // Although not requested, CallableStatements makes gerenated keys always
+        // available.
         ResultSetMetaData rsmd = this.rs.getMetaData();
         assertEquals(1, rsmd.getColumnCount());
         assertEquals(JDBCType.BIGINT.getVendorTypeNumber().intValue(), rsmd.getColumnType(1));
         assertEquals(20, rsmd.getColumnDisplaySize(1));
 
-        // We can't check the generated keys as they are not returned correctly in this case (last_insert_id is missing from OK_PACKET when executing inserts
+        // We can't check the generated keys as they are not returned correctly in this
+        // case (last_insert_id is missing from OK_PACKET when executing inserts
         // within a stored procedure - Bug#21792359).
-        //        long generatedKey = 0;
-        //        while (this.rs.next()) {
-        //            assertEquals(++generatedKey, this.rs.getLong(1));
-        //        }
-        //        assertEquals(5, generatedKey);
+        // long generatedKey = 0;
+        // while (this.rs.next()) {
+        // assertEquals(++generatedKey, this.rs.getLong(1));
+        // }
+        // assertEquals(5, generatedKey);
         this.rs.close();
     }
 
@@ -2902,7 +2993,8 @@ public class StatementsTest extends BaseTestCase {
 
         Connection testConn = getConnectionWithProps("useServerPrepStmts=true");
 
-        this.pstmt = testConn.prepareStatement("INSERT INTO testExecuteLargeBatch (n) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+        this.pstmt = testConn.prepareStatement("INSERT INTO testExecuteLargeBatch (n) VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS);
         this.pstmt.setInt(1, 1);
         this.pstmt.addBatch();
         this.pstmt.setInt(1, 2);
@@ -2945,7 +3037,8 @@ public class StatementsTest extends BaseTestCase {
          */
         createTable("testExecuteLargeBatch", "(id BIGINT AUTO_INCREMENT PRIMARY KEY, n INT)");
 
-        this.pstmt = testConn.prepareStatement("INSERT INTO testExecuteLargeBatch (n) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+        this.pstmt = testConn.prepareStatement("INSERT INTO testExecuteLargeBatch (n) VALUES (?)",
+                Statement.RETURN_GENERATED_KEYS);
         this.pstmt.setInt(1, 1);
         this.pstmt.addBatch();
         this.pstmt.setInt(1, 2);
@@ -3026,11 +3119,13 @@ public class StatementsTest extends BaseTestCase {
 
     /**
      * Test for PreparedStatement.setObject().
-     * Validate new methods as well as support for the types java.time.Local[Date][Time] and java.time.Offset[Date]Time.
+     * Validate new methods as well as support for the types
+     * java.time.Local[Date][Time] and java.time.Offset[Date]Time.
      */
     public void testPrepStmtSetObjectAndNewSupportedTypes() throws Exception {
         /*
-         * Objects java.time.Local[Date][Time] are supported via conversion to/from java.sql.[Date|Time|Timestamp].
+         * Objects java.time.Local[Date][Time] are supported via conversion to/from
+         * java.sql.[Date|Time|Timestamp].
          */
         createTable("testSetObjectPS1", "(id INT, d DATE, t TIME, dt DATETIME, ts TIMESTAMP)");
 
@@ -3038,7 +3133,8 @@ public class StatementsTest extends BaseTestCase {
         validateTestDataLocalDTTypes("testSetObjectPS1", insertTestDataLocalDTTypes(this.pstmt));
 
         /*
-         * Objects java.time.Offset[Date]Time are supported via conversion to *CHAR or serialization.
+         * Objects java.time.Offset[Date]Time are supported via conversion to *CHAR or
+         * serialization.
          */
         createTable("testSetObjectPS2", "(id INT, ot1 VARCHAR(100), ot2 BLOB, odt1 VARCHAR(100), odt2 BLOB)");
 
@@ -3047,7 +3143,8 @@ public class StatementsTest extends BaseTestCase {
     }
 
     /**
-     * Test for PreparedStatement.setObject(), unsupported SQL types TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
+     * Test for PreparedStatement.setObject(), unsupported SQL types
+     * TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
      */
     public void testPrepStmtSetObjectAndNewUnsupportedTypes() throws Exception {
         checkUnsupportedTypesBehavior(this.conn.prepareStatement("SELECT ?"));
@@ -3055,21 +3152,25 @@ public class StatementsTest extends BaseTestCase {
 
     /**
      * Test for CallableStatement.setObject().
-     * Validate new methods as well as support for the types java.time.Local[Date][Time] and java.time.Offset[Date]Time.
+     * Validate new methods as well as support for the types
+     * java.time.Local[Date][Time] and java.time.Offset[Date]Time.
      */
     public void testCallStmtSetObjectAndNewSupportedTypes() throws Exception {
         /*
-         * Objects java.time.Local[Date][Time] are supported via conversion to/from java.sql.[Date|Time|Timestamp].
+         * Objects java.time.Local[Date][Time] are supported via conversion to/from
+         * java.sql.[Date|Time|Timestamp].
          */
         createTable("testSetObjectCS1", "(id INT, d DATE, t TIME, dt DATETIME, ts TIMESTAMP)");
         createProcedure("testSetObjectCS1Proc",
-                "(IN id INT, IN d DATE, IN t TIME, IN dt DATETIME, IN ts TIMESTAMP) BEGIN " + "INSERT INTO testSetObjectCS1 VALUES (id, d, t, dt, ts); END");
+                "(IN id INT, IN d DATE, IN t TIME, IN dt DATETIME, IN ts TIMESTAMP) BEGIN "
+                        + "INSERT INTO testSetObjectCS1 VALUES (id, d, t, dt, ts); END");
 
         CallableStatement testCstmt = this.conn.prepareCall("{CALL testSetObjectCS1Proc(?, ?, ?, ?, ?)}");
         validateTestDataLocalDTTypes("testSetObjectCS1", insertTestDataLocalDTTypes(testCstmt));
 
         /*
-         * Objects java.time.Offset[Date]Time are supported via conversion to *CHAR or serialization.
+         * Objects java.time.Offset[Date]Time are supported via conversion to *CHAR or
+         * serialization.
          */
         createTable("testSetObjectCS2", "(id INT, ot1 VARCHAR(100), ot2 BLOB, odt1 VARCHAR(100), odt2 BLOB)");
         createProcedure("testSetObjectCS2Proc",
@@ -3080,7 +3181,8 @@ public class StatementsTest extends BaseTestCase {
     }
 
     /**
-     * Test for CallableStatement.setObject(), unsupported SQL types TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
+     * Test for CallableStatement.setObject(), unsupported SQL types
+     * TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
      */
     public void testCallStmtSetObjectAndNewUnsupportedTypes() throws Exception {
         createProcedure("testUnsupportedTypesProc", "(OUT param VARCHAR(20)) BEGIN SELECT 1; END");
@@ -3089,11 +3191,13 @@ public class StatementsTest extends BaseTestCase {
 
     /**
      * Test for (Server)PreparedStatement.setObject().
-     * Validate new methods as well as support for the types java.time.Local[Date][Time] and java.time.Offset[Date]Time.
+     * Validate new methods as well as support for the types
+     * java.time.Local[Date][Time] and java.time.Offset[Date]Time.
      */
     public void testServPrepStmtSetObjectAndNewSupportedTypes() throws Exception {
         /*
-         * Objects java.time.Local[Date][Time] are supported via conversion to/from java.sql.[Date|Time|Timestamp].
+         * Objects java.time.Local[Date][Time] are supported via conversion to/from
+         * java.sql.[Date|Time|Timestamp].
          */
         createTable("testSetObjectSPS1", "(id INT, d DATE, t TIME, dt DATETIME, ts TIMESTAMP)");
 
@@ -3103,7 +3207,8 @@ public class StatementsTest extends BaseTestCase {
         validateTestDataLocalDTTypes("testSetObjectSPS1", insertTestDataLocalDTTypes(this.pstmt));
 
         /*
-         * Objects java.time.Offset[Date]Time are supported via conversion to *CHAR or serialization.
+         * Objects java.time.Offset[Date]Time are supported via conversion to *CHAR or
+         * serialization.
          */
         createTable("testSetObjectSPS2", "(id INT, ot1 VARCHAR(100), ot2 BLOB, odt1 VARCHAR(100), odt2 BLOB)");
 
@@ -3112,7 +3217,8 @@ public class StatementsTest extends BaseTestCase {
     }
 
     /**
-     * Test for (Server)PreparedStatement.setObject(), unsupported SQL types TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
+     * Test for (Server)PreparedStatement.setObject(), unsupported SQL types
+     * TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
      */
     public void testServPrepStmtSetObjectAndNewUnsupportedTypes() throws Exception {
         Connection testConn = getConnectionWithProps("useServerPrepStmts=true");
@@ -3122,7 +3228,8 @@ public class StatementsTest extends BaseTestCase {
 
     /**
      * Helper method for *SetObject* tests.
-     * Insert data into the given PreparedStatement, or any of its subclasses, with the following structure:
+     * Insert data into the given PreparedStatement, or any of its subclasses, with
+     * the following structure:
      * 1 - `id` INT
      * 2 - `d` DATE (or any kind of *CHAR)
      * 3 - `t` TIME (or any kind of *CHAR)
@@ -3229,14 +3336,16 @@ public class StatementsTest extends BaseTestCase {
 
     /**
      * Helper method for *SetObject* tests.
-     * Validate the test data contained in the given ResultSet with following structure:
+     * Validate the test data contained in the given ResultSet with following
+     * structure:
      * 1 - `id` INT
      * 2 - `d` DATE (or any kind of *CHAR)
      * 3 - `t` TIME (or any kind of *CHAR)
      * 4 - `dt` DATETIME (or any kind of *CHAR)
      * 5 - `ts` TIMESTAMP (or any kind of *CHAR)
      * 
-     * Additionally validate support for the types java.time.Local[Date][Time] in ResultSet.getObject().
+     * Additionally validate support for the types java.time.Local[Date][Time] in
+     * ResultSet.getObject().
      * 
      * @param tableName
      * @param expectedRowCount
@@ -3287,7 +3396,8 @@ public class StatementsTest extends BaseTestCase {
 
     /**
      * Helper method for *SetObject* tests.
-     * Insert data into the given PreparedStatement, or any of its subclasses, with the following structure:
+     * Insert data into the given PreparedStatement, or any of its subclasses, with
+     * the following structure:
      * 1 - `id` INT
      * 2 - `ot1` VARCHAR
      * 3 - `ot2` BLOB
@@ -3324,21 +3434,24 @@ public class StatementsTest extends BaseTestCase {
 
     /**
      * Helper method for *SetObject* tests.
-     * Validate the test data contained in the given ResultSet with following structure:
+     * Validate the test data contained in the given ResultSet with following
+     * structure:
      * 1 - `id` INT
      * 2 - `ot1` VARCHAR
      * 3 - `ot2` BLOB
      * 4 - `odt1` VARCHAR
      * 5 - `odt2` BLOB
      * 
-     * Additionally validate support for the types java.time.Offset[Date]Time in ResultSet.getObject().
+     * Additionally validate support for the types java.time.Offset[Date]Time in
+     * ResultSet.getObject().
      * 
      * @param tableName
      * @param expectedRowCount
      * @throws Exception
      */
     private void validateTestDataOffsetDTTypes(String tableName, int expectedRowCount) throws Exception {
-        Connection testConn = getConnectionWithProps("autoDeserialize=true"); // Offset[Date]Time are supported via object serialization too.
+        Connection testConn = getConnectionWithProps("autoDeserialize=true"); // Offset[Date]Time are supported via
+                                                                              // object serialization too.
         Statement testStmt = testConn.createStatement();
         this.rs = testStmt.executeQuery("SELECT * FROM " + tableName);
 
@@ -3365,7 +3478,8 @@ public class StatementsTest extends BaseTestCase {
 
     /**
      * Helper method for *SetObject* tests.
-     * Check unsupported types behavior for the given PreparedStatement with a single placeholder. If this is a CallableStatement then the placeholder must
+     * Check unsupported types behavior for the given PreparedStatement with a
+     * single placeholder. If this is a CallableStatement then the placeholder must
      * coincide with a parameter named `param`.
      * 
      * @param prepStmt
@@ -3376,35 +3490,39 @@ public class StatementsTest extends BaseTestCase {
         /*
          * Unsupported SQL types TIME_WITH_TIMEZONE and TIMESTAMP_WITH_TIMEZONE.
          */
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                prepStmt.setObject(1, OffsetTime.now(), JDBCType.TIME_WITH_TIMEZONE);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                prepStmt.setObject(1, OffsetDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE);
-                return null;
-            }
-        });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        prepStmt.setObject(1, OffsetTime.now(), JDBCType.TIME_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        prepStmt.setObject(1, OffsetDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
         if (cstmt != null) {
-            assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    cstmt.setObject("param", OffsetTime.now(), JDBCType.TIME_WITH_TIMEZONE);
-                    return null;
-                }
-            });
-            assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    cstmt.setObject("param", OffsetDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE);
-                    return null;
-                }
-            });
+            assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            cstmt.setObject("param", OffsetTime.now(), JDBCType.TIME_WITH_TIMEZONE);
+                            return null;
+                        }
+                    });
+            assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            cstmt.setObject("param", OffsetDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE);
+                            return null;
+                        }
+                    });
         }
         /*
          * Unsupported SQL type REF_CURSOR.
@@ -3417,13 +3535,14 @@ public class StatementsTest extends BaseTestCase {
             }
         });
         if (cstmt != null) {
-            assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: REF_CURSOR", new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-                    cstmt.setObject("param", new Object(), JDBCType.REF_CURSOR);
-                    return null;
-                }
-            });
+            assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: REF_CURSOR",
+                    new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            cstmt.setObject("param", new Object(), JDBCType.REF_CURSOR);
+                            return null;
+                        }
+                    });
         }
     }
 
@@ -3431,7 +3550,8 @@ public class StatementsTest extends BaseTestCase {
      * Test for CallableStatement.registerOutParameter().
      */
     public void testCallStmtRegisterOutParameter() throws Exception {
-        createProcedure("testRegisterOutParameterProc", "(OUT b BIT, OUT i INT, OUT c CHAR(10)) BEGIN SELECT 1, 1234, 'MySQL' INTO b, i, c; END");
+        createProcedure("testRegisterOutParameterProc",
+                "(OUT b BIT, OUT i INT, OUT c CHAR(10)) BEGIN SELECT 1, 1234, 'MySQL' INTO b, i, c; END");
         final CallableStatement testCstmt = this.conn.prepareCall("{CALL testRegisterOutParameterProc(?, ?, ?)}");
 
         // registerOutParameter by parameter index
@@ -3495,7 +3615,8 @@ public class StatementsTest extends BaseTestCase {
      * Test for CallableStatement.registerOutParameter(...MysqlType...).
      */
     public void testCallStmtRegisterOutParameterWithMysqlType() throws Exception {
-        createProcedure("testRegisterOutParameterProc", "(OUT b BIT, OUT i INT, OUT c CHAR(10)) BEGIN SELECT 1, 1234, 'MySQL' INTO b, i, c; END");
+        createProcedure("testRegisterOutParameterProc",
+                "(OUT b BIT, OUT i INT, OUT c CHAR(10)) BEGIN SELECT 1, 1234, 'MySQL' INTO b, i, c; END");
         final CallableStatement testCstmt = this.conn.prepareCall("{CALL testRegisterOutParameterProc(?, ?, ?)}");
 
         // registerOutParameter by parameter index
@@ -3556,7 +3677,8 @@ public class StatementsTest extends BaseTestCase {
     }
 
     /**
-     * Test for CallableStatement.registerOutParameter(), unsupported SQL types TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
+     * Test for CallableStatement.registerOutParameter(), unsupported SQL types
+     * TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
      */
     public void testCallStmtRegisterOutParameterNewUnsupportedTypes() throws Exception {
         createProcedure("testUnsupportedTypesProc", "(OUT param VARCHAR(20)) BEGIN SELECT 1; END");
@@ -3565,90 +3687,102 @@ public class StatementsTest extends BaseTestCase {
         /*
          * Unsupported SQL types TIME_WITH_TIMEZONE and TIMESTAMP_WITH_TIMEZONE.
          */
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter(1, JDBCType.TIME_WITH_TIMEZONE);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter(1, JDBCType.TIME_WITH_TIMEZONE, 1);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter(1, JDBCType.TIME_WITH_TIMEZONE, "dummy");
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter("param", JDBCType.TIME_WITH_TIMEZONE);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter("param", JDBCType.TIME_WITH_TIMEZONE, 1);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter("param", JDBCType.TIME_WITH_TIMEZONE, "dummy");
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter(1, JDBCType.TIMESTAMP_WITH_TIMEZONE);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter(1, JDBCType.TIMESTAMP_WITH_TIMEZONE, 1);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter(1, JDBCType.TIMESTAMP_WITH_TIMEZONE, "dummy");
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter("param", JDBCType.TIMESTAMP_WITH_TIMEZONE);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter("param", JDBCType.TIMESTAMP_WITH_TIMEZONE, 1);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                testCstmt.registerOutParameter("param", JDBCType.TIMESTAMP_WITH_TIMEZONE, "dummy");
-                return null;
-            }
-        });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter(1, JDBCType.TIME_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter(1, JDBCType.TIME_WITH_TIMEZONE, 1);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter(1, JDBCType.TIME_WITH_TIMEZONE, "dummy");
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter("param", JDBCType.TIME_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter("param", JDBCType.TIME_WITH_TIMEZONE, 1);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter("param", JDBCType.TIME_WITH_TIMEZONE, "dummy");
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter(1, JDBCType.TIMESTAMP_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter(1, JDBCType.TIMESTAMP_WITH_TIMEZONE, 1);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter(1, JDBCType.TIMESTAMP_WITH_TIMEZONE, "dummy");
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter("param", JDBCType.TIMESTAMP_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter("param", JDBCType.TIMESTAMP_WITH_TIMEZONE, 1);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        testCstmt.registerOutParameter("param", JDBCType.TIMESTAMP_WITH_TIMEZONE, "dummy");
+                        return null;
+                    }
+                });
 
         /*
          * Unsupported SQL type REF_CURSOR.

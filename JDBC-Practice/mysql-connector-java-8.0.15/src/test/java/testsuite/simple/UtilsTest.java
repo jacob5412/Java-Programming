@@ -52,7 +52,7 @@ public class UtilsTest extends BaseTestCase {
      * Creates a new UtilsTest.
      * 
      * @param name
-     *            the name of the test
+     *             the name of the test
      */
     public UtilsTest(String name) {
         super(name);
@@ -78,7 +78,8 @@ public class UtilsTest extends BaseTestCase {
         assertTrue(Util.isJdbcInterface(StatementImpl.class));
         assertTrue(Util.isJdbcInterface(JdbcStatement.class));
         assertTrue(Util.isJdbcInterface(ResultSetImpl.class));
-        JdbcStatement s = (JdbcStatement) Proxy.newProxyInstance(this.getClass().getClassLoader(), new Class<?>[] { JdbcStatement.class },
+        JdbcStatement s = (JdbcStatement) Proxy.newProxyInstance(this.getClass().getClassLoader(),
+                new Class<?>[] { JdbcStatement.class },
                 new InvocationHandler() {
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                         return null;
@@ -144,7 +145,9 @@ public class UtilsTest extends BaseTestCase {
      * Tests Util.getPackageName()
      */
     public void testGetPackageName() {
-        assertEquals(MultiHostConnectionProxy.class.getPackage().getName(), Util.getPackageName(MultiHostConnectionProxy.class));
-        assertEquals(JdbcConnection.class.getPackage().getName(), Util.getPackageName(this.conn.getClass().getInterfaces()[0]));
+        assertEquals(MultiHostConnectionProxy.class.getPackage().getName(),
+                Util.getPackageName(MultiHostConnectionProxy.class));
+        assertEquals(JdbcConnection.class.getPackage().getName(),
+                Util.getPackageName(this.conn.getClass().getInterfaces()[0]));
     }
 }

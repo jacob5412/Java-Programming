@@ -85,7 +85,7 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
             return;
         }
         String collName = "toBeCreatedAndDropped";
-        XMessageBuilder builder = (XMessageBuilder) this.session.<XMessage> getMessageBuilder();
+        XMessageBuilder builder = (XMessageBuilder) this.session.<XMessage>getMessageBuilder();
         try {
             this.session.sendMessage(builder.buildDropCollection(getTestDatabase(), collName));
         } catch (XProtocolError e) {
@@ -113,7 +113,7 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
         if (!this.isSetForXTests) {
             return;
         }
-        XMessageBuilder builder = (XMessageBuilder) this.session.<XMessage> getMessageBuilder();
+        XMessageBuilder builder = (XMessageBuilder) this.session.<XMessage>getMessageBuilder();
         ValueFactory<String> svf = new StringValueFactory();
         String collName = "test_get_objects";
         try {
@@ -126,16 +126,20 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
 
         this.session.sendMessage(builder.buildCreateCollection(getTestDatabase(), collName));
 
-        Set<String> strTypes = Arrays.stream(new DbObjectType[] { DbObjectType.COLLECTION }).map(DatabaseObject.DbObjectType::toString)
+        Set<String> strTypes = Arrays.stream(new DbObjectType[] { DbObjectType.COLLECTION })
+                .map(DatabaseObject.DbObjectType::toString)
                 .collect(Collectors.toSet());
         Predicate<com.mysql.cj.result.Row> rowFiler = r -> (strTypes).contains(r.getValue(1, svf));
         Function<com.mysql.cj.result.Row, String> rowToName = r -> r.getValue(0, svf);
 
-        List<String> collNames = this.session.query(builder.buildListObjects(getTestDatabase(), null), rowFiler, rowToName, Collectors.toList());
+        List<String> collNames = this.session.query(builder.buildListObjects(getTestDatabase(), null), rowFiler,
+                rowToName, Collectors.toList());
         assertTrue(collNames.contains(collName));
-        collNames = this.session.query(builder.buildListObjects(getTestDatabase(), "none%"), rowFiler, rowToName, Collectors.toList());
+        collNames = this.session.query(builder.buildListObjects(getTestDatabase(), "none%"), rowFiler, rowToName,
+                Collectors.toList());
         assertFalse(collNames.contains(collName));
-        collNames = this.session.query(builder.buildListObjects(getTestDatabase(), "%get_obj%"), rowFiler, rowToName, Collectors.toList());
+        collNames = this.session.query(builder.buildListObjects(getTestDatabase(), "%get_obj%"), rowFiler, rowToName,
+                Collectors.toList());
         assertTrue(collNames.contains(collName));
         this.session.sendMessage(builder.buildDropCollection(getTestDatabase(), collName));
     }
@@ -145,7 +149,7 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
         if (!this.isSetForXTests) {
             return;
         }
-        XMessageBuilder builder = (XMessageBuilder) this.session.<XMessage> getMessageBuilder();
+        XMessageBuilder builder = (XMessageBuilder) this.session.<XMessage>getMessageBuilder();
         String collName = "testInterleavedResults";
         try {
             this.session.sendMessage(builder.buildDropCollection(getTestDatabase(), collName));
@@ -168,11 +172,16 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
         FilterParams filterParams = new DocFilterParams(getTestDatabase(), collName);
         filterParams.setOrder("$._id");
 
-        DocResultImpl docs1 = this.session.find(filterParams, metadata -> (rows, task) -> new DocResultImpl(rows, task));
-        DocResultImpl docs2 = this.session.find(filterParams, metadata -> (rows, task) -> new DocResultImpl(rows, task));
-        DocResultImpl docs3 = this.session.find(filterParams, metadata -> (rows, task) -> new DocResultImpl(rows, task));
-        DocResultImpl docs4 = this.session.find(filterParams, metadata -> (rows, task) -> new DocResultImpl(rows, task));
-        DocResultImpl docs5 = this.session.find(filterParams, metadata -> (rows, task) -> new DocResultImpl(rows, task));
+        DocResultImpl docs1 = this.session.find(filterParams,
+                metadata -> (rows, task) -> new DocResultImpl(rows, task));
+        DocResultImpl docs2 = this.session.find(filterParams,
+                metadata -> (rows, task) -> new DocResultImpl(rows, task));
+        DocResultImpl docs3 = this.session.find(filterParams,
+                metadata -> (rows, task) -> new DocResultImpl(rows, task));
+        DocResultImpl docs4 = this.session.find(filterParams,
+                metadata -> (rows, task) -> new DocResultImpl(rows, task));
+        DocResultImpl docs5 = this.session.find(filterParams,
+                metadata -> (rows, task) -> new DocResultImpl(rows, task));
         assertTrue(docs5.hasNext());
         assertTrue(docs4.hasNext());
         assertTrue(docs3.hasNext());
@@ -198,8 +207,9 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
         if (!this.isSetForXTests) {
             return;
         }
-        XMessageBuilder builder = (XMessageBuilder) this.session.<XMessage> getMessageBuilder();
-        List<Integer> ints = this.session.query(builder.buildSqlStatement("select 2 union select 1"), null, r -> r.getValue(0, new IntegerValueFactory()),
+        XMessageBuilder builder = (XMessageBuilder) this.session.<XMessage>getMessageBuilder();
+        List<Integer> ints = this.session.query(builder.buildSqlStatement("select 2 union select 1"), null,
+                r -> r.getValue(0, new IntegerValueFactory()),
                 Collectors.toList());
         assertEquals(2, ints.size());
         assertEquals(new Integer(2), ints.get(0));

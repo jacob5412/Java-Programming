@@ -21,28 +21,30 @@ public class Source {
             arr2[i] = s.nextInt();
 
         // merged array
-        int merge[] = new int[n+m];
+        int merge[] = new int[n + m];
 
         // start from last element since both arrays are in ascending order
-        i = n-1; j = m-1; k = 0;
-        
-        while(i >= 0 && j >= 0){
-            if(arr1[i] > arr2[j])
+        i = n - 1;
+        j = m - 1;
+        k = 0;
+
+        while (i >= 0 && j >= 0) {
+            if (arr1[i] > arr2[j])
                 merge[k++] = arr1[i--];
             else
                 merge[k++] = arr2[j--];
         }
 
         // iterate over remaining elements
-        while(i >= 0)
+        while (i >= 0)
             merge[k++] = arr1[i--];
-        while(j >= 0)
+        while (j >= 0)
             merge[k++] = arr2[j--];
 
         // print array output
-        for(i = 0; i < merge.length; i++)
+        for (i = 0; i < merge.length; i++)
             System.out.println(merge[i]);
-        
+
         s.close();
     }
 }

@@ -49,9 +49,15 @@ public final class Minutes extends BaseSingleFieldPeriod {
     public static final Minutes TWO = new Minutes(2);
     /** Constant representing three minutes. */
     public static final Minutes THREE = new Minutes(3);
-    /** Constant representing the maximum number of minutes that can be stored in this object. */
+    /**
+     * Constant representing the maximum number of minutes that can be stored in
+     * this object.
+     */
     public static final Minutes MAX_VALUE = new Minutes(Integer.MAX_VALUE);
-    /** Constant representing the minimum number of minutes that can be stored in this object. */
+    /**
+     * Constant representing the minimum number of minutes that can be stored in
+     * this object.
+     */
     public static final Minutes MIN_VALUE = new Minutes(Integer.MIN_VALUE);
 
     /** The paser to use for this class. */
@@ -59,13 +65,13 @@ public final class Minutes extends BaseSingleFieldPeriod {
     /** Serialization version. */
     private static final long serialVersionUID = 87525275727380863L;
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Obtains an instance of <code>Minutes</code> that may be cached.
      * <code>Minutes</code> is immutable, so instances can be cached and shared.
      * This factory method provides access to shared instances.
      *
-     * @param minutes  the number of minutes to obtain an instance for
+     * @param minutes the number of minutes to obtain an instance for
      * @return the instance of Minutes
      */
     public static Minutes minutes(int minutes) {
@@ -87,13 +93,13 @@ public final class Minutes extends BaseSingleFieldPeriod {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a <code>Minutes</code> representing the number of whole minutes
      * between the two specified datetimes.
      *
-     * @param start  the start instant, must not be null
-     * @param end  the end instant, must not be null
+     * @param start the start instant, must not be null
+     * @param end   the end instant, must not be null
      * @return the period in minutes
      * @throws IllegalArgumentException if the instants are null or invalid
      */
@@ -109,13 +115,13 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * The two partials must contain the same fields, for example you can specify
      * two <code>LocalTime</code> objects.
      *
-     * @param start  the start partial date, must not be null
-     * @param end  the end partial date, must not be null
+     * @param start the start partial date, must not be null
+     * @param end   the end partial date, must not be null
      * @return the period in minutes
      * @throws IllegalArgumentException if the partials are null or invalid
      */
     public static Minutes minutesBetween(ReadablePartial start, ReadablePartial end) {
-        if (start instanceof LocalTime && end instanceof LocalTime)   {
+        if (start instanceof LocalTime && end instanceof LocalTime) {
             Chronology chrono = DateTimeUtils.getChronology(start.getChronology());
             int minutes = chrono.minutes().getDifference(
                     ((LocalTime) end).getLocalMillis(), ((LocalTime) start).getLocalMillis());
@@ -129,12 +135,12 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * Creates a <code>Minutes</code> representing the number of whole minutes
      * in the specified interval.
      *
-     * @param interval  the interval to extract minutes from, null returns zero
+     * @param interval the interval to extract minutes from, null returns zero
      * @return the period in minutes
      * @throws IllegalArgumentException if the partials are null or invalid
      */
     public static Minutes minutesIn(ReadableInterval interval) {
-        if (interval == null)   {
+        if (interval == null) {
             return Minutes.ZERO;
         }
         int amount = BaseSingleFieldPeriod.between(interval.getStart(), interval.getEnd(), DurationFieldType.minutes());
@@ -145,7 +151,8 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * Creates a new <code>Minutes</code> representing the number of complete
      * standard length minutes in the specified period.
      * <p>
-     * This factory method converts all fields from the period to minutes using standardised
+     * This factory method converts all fields from the period to minutes using
+     * standardised
      * durations for each field. Only those fields which have a precise duration in
      * the ISO UTC chronology can be converted.
      * <ul>
@@ -155,11 +162,13 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * <li>One minute consists of 60 seconds.
      * <li>One second consists of 1000 milliseconds.
      * </ul>
-     * Months and Years are imprecise and periods containing these values cannot be converted.
+     * Months and Years are imprecise and periods containing these values cannot be
+     * converted.
      *
-     * @param period  the period to get the number of minutes from, null returns zero
+     * @param period the period to get the number of minutes from, null returns zero
      * @return the period in minutes
-     * @throws IllegalArgumentException if the period contains imprecise duration values
+     * @throws IllegalArgumentException if the period contains imprecise duration
+     *                                  values
      */
     public static Minutes standardMinutesIn(ReadablePeriod period) {
         int amount = BaseSingleFieldPeriod.standardPeriodIn(period, DateTimeConstants.MILLIS_PER_MINUTE);
@@ -167,13 +176,16 @@ public final class Minutes extends BaseSingleFieldPeriod {
     }
 
     /**
-     * Creates a new <code>Minutes</code> by parsing a string in the ISO8601 format 'PTnM'.
+     * Creates a new <code>Minutes</code> by parsing a string in the ISO8601 format
+     * 'PTnM'.
      * <p>
-     * The parse will accept the full ISO syntax of PnYnMnWnDTnHnMnS however only the
-     * minutes component may be non-zero. If any other component is non-zero, an exception
+     * The parse will accept the full ISO syntax of PnYnMnWnDTnHnMnS however only
+     * the
+     * minutes component may be non-zero. If any other component is non-zero, an
+     * exception
      * will be thrown.
      *
-     * @param periodStr  the period string, null returns zero
+     * @param periodStr the period string, null returns zero
      * @return the period in minutes
      * @throws IllegalArgumentException if the string format is invalid
      */
@@ -186,13 +198,13 @@ public final class Minutes extends BaseSingleFieldPeriod {
         return Minutes.minutes(p.getMinutes());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a new instance representing a number of minutes.
      * You should consider using the factory method {@link #minutes(int)}
      * instead of the constructor.
      *
-     * @param minutes  the number of minutes to represent
+     * @param minutes the number of minutes to represent
      */
     private Minutes(int minutes) {
         super(minutes);
@@ -207,7 +219,7 @@ public final class Minutes extends BaseSingleFieldPeriod {
         return Minutes.minutes(getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the duration field type, which is <code>minutes</code>.
      *
@@ -226,7 +238,7 @@ public final class Minutes extends BaseSingleFieldPeriod {
         return PeriodType.minutes();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this period in minutes to a period in weeks assuming a
      * 7 days week, 24 hour day and 60 minute hour.
@@ -238,7 +250,8 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * be true for some unusual chronologies. However, it is included
      * as it is a useful operation for many applications and business rules.
      * 
-     * @return a period representing the number of whole weeks for this number of minutes
+     * @return a period representing the number of whole weeks for this number of
+     *         minutes
      */
     public Weeks toStandardWeeks() {
         return Weeks.weeks(getValue() / DateTimeConstants.MINUTES_PER_WEEK);
@@ -255,7 +268,8 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * be true for some unusual chronologies. However, it is included
      * as it is a useful operation for many applications and business rules.
      * 
-     * @return a period representing the number of whole days for this number of minutes
+     * @return a period representing the number of whole days for this number of
+     *         minutes
      */
     public Days toStandardDays() {
         return Days.days(getValue() / DateTimeConstants.MINUTES_PER_DAY);
@@ -287,14 +301,16 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * This may not be true for some unusual chronologies. However, it is included
      * as it is a useful operation for many applications and business rules.
      * 
-     * @return a period representing the number of seconds for this number of minutes
-     * @throws ArithmeticException if the number of seconds is too large to be represented
+     * @return a period representing the number of seconds for this number of
+     *         minutes
+     * @throws ArithmeticException if the number of seconds is too large to be
+     *                             represented
      */
     public Seconds toStandardSeconds() {
         return Seconds.seconds(FieldUtils.safeMultiply(getValue(), DateTimeConstants.SECONDS_PER_MINUTE));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Converts this period in minutes to a duration in milliseconds assuming a
      * 60 second minute.
@@ -309,11 +325,11 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * @return a duration equivalent to this number of minutes
      */
     public Duration toStandardDuration() {
-        long minutes = getValue();  // assign to a long
+        long minutes = getValue(); // assign to a long
         return new Duration(minutes * DateTimeConstants.MILLIS_PER_MINUTE);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the number of minutes that this period represents.
      *
@@ -323,13 +339,13 @@ public final class Minutes extends BaseSingleFieldPeriod {
         return getValue();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the specified number of minutes added.
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param minutes  the amount of minutes to add, may be negative
+     * @param minutes the amount of minutes to add, may be negative
      * @return the new period plus the specified number of minutes
      * @throws ArithmeticException if the result overflows an int
      */
@@ -345,7 +361,7 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param minutes  the amount of minutes to add, may be negative, null means zero
+     * @param minutes the amount of minutes to add, may be negative, null means zero
      * @return the new period plus the specified number of minutes
      * @throws ArithmeticException if the result overflows an int
      */
@@ -356,13 +372,13 @@ public final class Minutes extends BaseSingleFieldPeriod {
         return plus(minutes.getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the specified number of minutes taken away.
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param minutes  the amount of minutes to take away, may be negative
+     * @param minutes the amount of minutes to take away, may be negative
      * @return the new period minus the specified number of minutes
      * @throws ArithmeticException if the result overflows an int
      */
@@ -375,7 +391,8 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param minutes  the amount of minutes to take away, may be negative, null means zero
+     * @param minutes the amount of minutes to take away, may be negative, null
+     *                means zero
      * @return the new period minus the specified number of minutes
      * @throws ArithmeticException if the result overflows an int
      */
@@ -386,13 +403,13 @@ public final class Minutes extends BaseSingleFieldPeriod {
         return minus(minutes.getValue());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the minutes multiplied by the specified scalar.
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param scalar  the amount to multiply by, may be negative
+     * @param scalar the amount to multiply by, may be negative
      * @return the new period multiplied by the specified scalar
      * @throws ArithmeticException if the result overflows an int
      */
@@ -406,7 +423,7 @@ public final class Minutes extends BaseSingleFieldPeriod {
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param divisor  the amount to divide by, may be negative
+     * @param divisor the amount to divide by, may be negative
      * @return the new period divided by the specified divisor
      * @throws ArithmeticException if the divisor is zero
      */
@@ -417,7 +434,7 @@ public final class Minutes extends BaseSingleFieldPeriod {
         return Minutes.minutes(getValue() / divisor);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Returns a new instance with the minutes value negated.
      *
@@ -428,11 +445,11 @@ public final class Minutes extends BaseSingleFieldPeriod {
         return Minutes.minutes(FieldUtils.safeNegate(getValue()));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Is this minutes instance greater than the specified number of minutes.
      *
-     * @param other  the other period, null means zero
+     * @param other the other period, null means zero
      * @return true if this minutes instance is greater than the specified one
      */
     public boolean isGreaterThan(Minutes other) {
@@ -445,7 +462,7 @@ public final class Minutes extends BaseSingleFieldPeriod {
     /**
      * Is this minutes instance less than the specified number of minutes.
      *
-     * @param other  the other period, null means zero
+     * @param other the other period, null means zero
      * @return true if this minutes instance is less than the specified one
      */
     public boolean isLessThan(Minutes other) {
@@ -455,7 +472,7 @@ public final class Minutes extends BaseSingleFieldPeriod {
         return getValue() < other.getValue();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets this instance as a String in the ISO8601 duration format.
      * <p>

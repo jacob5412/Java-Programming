@@ -63,7 +63,9 @@ import testsuite.TestUtils;
  */
 public class InternalXBaseTestCase {
     /**
-     * The default character set used to interpret metadata. Use <i>latin1</i> - MySQL's default. This value is provided by higher layers above the protocol so
+     * The default character set used to interpret metadata. Use <i>latin1</i> -
+     * MySQL's default. This value is provided by higher layers above the protocol
+     * so
      * we avoid issues by using only ASCII characters for metadata in these tests.
      */
     protected static final String DEFAULT_METADATA_CHARSET = "latin1";
@@ -133,7 +135,7 @@ public class InternalXBaseTestCase {
         XProtocol protocol = createTestProtocol();
         XMessageBuilder messageBuilder = (XMessageBuilder) protocol.getMessageBuilder();
 
-        AuthMech authMech = protocol.getPropertySet().<AuthMech> getEnumProperty(PropertyKey.xdevapiAuth).getValue();
+        AuthMech authMech = protocol.getPropertySet().<AuthMech>getEnumProperty(PropertyKey.xdevapiAuth).getValue();
         boolean overTLS = ((XServerCapabilities) protocol.getServerSession().getCapabilities()).getTls();
 
         // Choose the best default auth mechanism.
@@ -148,16 +150,20 @@ public class InternalXBaseTestCase {
                 case SHA256_MEMORY:
                     protocol.send(messageBuilder.buildSha256MemoryAuthStart(), 0);
                     byte[] nonce = protocol.readAuthenticateContinue();
-                    protocol.send(messageBuilder.buildSha256MemoryAuthContinue(getTestUser(), getTestPassword(), nonce, getTestDatabase()), 0);
+                    protocol.send(messageBuilder.buildSha256MemoryAuthContinue(getTestUser(), getTestPassword(), nonce,
+                            getTestDatabase()), 0);
                     break;
                 case MYSQL41:
                     protocol.send(messageBuilder.buildMysql41AuthStart(), 0);
                     byte[] salt = protocol.readAuthenticateContinue();
-                    protocol.send(messageBuilder.buildMysql41AuthContinue(getTestUser(), getTestPassword(), salt, getTestDatabase()), 0);
+                    protocol.send(messageBuilder.buildMysql41AuthContinue(getTestUser(), getTestPassword(), salt,
+                            getTestDatabase()), 0);
                     break;
                 case PLAIN:
                     if (overTLS) {
-                        protocol.send(messageBuilder.buildPlainAuthStart(getTestUser(), getTestPassword(), getTestDatabase()), 0);
+                        protocol.send(
+                                messageBuilder.buildPlainAuthStart(getTestUser(), getTestPassword(), getTestDatabase()),
+                                0);
                     } else {
                         throw new XDevAPIError("PLAIN authentication is not allowed via unencrypted connection.");
                     }
@@ -214,15 +220,18 @@ public class InternalXBaseTestCase {
         return assertThrows("", throwable, null, testRoutine);
     }
 
-    protected static <EX extends Throwable> EX assertThrows(String message, Class<EX> throwable, Callable<?> testRoutine) {
+    protected static <EX extends Throwable> EX assertThrows(String message, Class<EX> throwable,
+            Callable<?> testRoutine) {
         return assertThrows(message, throwable, null, testRoutine);
     }
 
-    protected static <EX extends Throwable> EX assertThrows(Class<EX> throwable, String msgMatchesRegex, Callable<?> testRoutine) {
+    protected static <EX extends Throwable> EX assertThrows(Class<EX> throwable, String msgMatchesRegex,
+            Callable<?> testRoutine) {
         return assertThrows("", throwable, msgMatchesRegex, testRoutine);
     }
 
-    protected static <EX extends Throwable> EX assertThrows(String message, Class<EX> throwable, String msgMatchesRegex, Callable<?> testRoutine) {
+    protected static <EX extends Throwable> EX assertThrows(String message, Class<EX> throwable, String msgMatchesRegex,
+            Callable<?> testRoutine) {
         if (message.length() > 0) {
             message += " ";
         }
@@ -230,12 +239,14 @@ public class InternalXBaseTestCase {
             testRoutine.call();
         } catch (Throwable t) {
             if (!throwable.isAssignableFrom(t.getClass())) {
-                fail(message + "expected exception of type '" + throwable.getName() + "' but instead a exception of type '" + t.getClass().getName()
+                fail(message + "expected exception of type '" + throwable.getName()
+                        + "' but instead a exception of type '" + t.getClass().getName()
                         + "' was thrown.");
             }
 
             if (msgMatchesRegex != null && !t.getMessage().matches(msgMatchesRegex)) {
-                fail(message + "the error message «" + t.getMessage() + "» was expected to match «" + msgMatchesRegex + "».");
+                fail(message + "the error message «" + t.getMessage() + "» was expected to match «" + msgMatchesRegex
+                        + "».");
             }
 
             return throwable.cast(t);
@@ -247,17 +258,19 @@ public class InternalXBaseTestCase {
     }
 
     /**
-     * Checks if the MySQL version we are connected to meets the minimum {@link ServerVersion} provided.
+     * Checks if the MySQL version we are connected to meets the minimum
+     * {@link ServerVersion} provided.
      * 
      * @param version
-     *            the minimum {@link ServerVersion} accepted
+     *                the minimum {@link ServerVersion} accepted
      * @return true or false according to versions comparison
      */
     protected boolean mysqlVersionMeetsMinimum(ServerVersion version) {
         if (this.isSetForXTests) {
             if (this.mysqlVersion == null) {
                 Session session = new SessionImpl(this.testHostInfo);
-                this.mysqlVersion = ServerVersion.parseVersion(session.sql("SELECT version()").execute().fetchOne().getString(0));
+                this.mysqlVersion = ServerVersion
+                        .parseVersion(session.sql("SELECT version()").execute().fetchOne().getString(0));
                 session.close();
             }
             return this.mysqlVersion.meetsMinimum(version);

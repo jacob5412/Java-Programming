@@ -51,7 +51,7 @@ public class TestHours extends TestCase {
     protected void tearDown() throws Exception {
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testConstants() {
         assertEquals(0, Hours.ZERO.getHours());
         assertEquals(1, Hours.ONE.getHours());
@@ -66,7 +66,7 @@ public class TestHours extends TestCase {
         assertEquals(Integer.MIN_VALUE, Hours.MIN_VALUE.getHours());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactory_hours_int() {
         assertSame(Hours.ZERO, Hours.hours(0));
         assertSame(Hours.ONE, Hours.hours(1));
@@ -83,12 +83,12 @@ public class TestHours extends TestCase {
         assertEquals(9, Hours.hours(9).getHours());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testFactory_hoursBetween_RInstant() {
         DateTime start = new DateTime(2006, 6, 9, 12, 0, 0, 0, PARIS);
         DateTime end1 = new DateTime(2006, 6, 9, 15, 0, 0, 0, PARIS);
         DateTime end2 = new DateTime(2006, 6, 9, 18, 0, 0, 0, PARIS);
-        
+
         assertEquals(3, Hours.hoursBetween(start, end1).getHours());
         assertEquals(0, Hours.hoursBetween(start, start).getHours());
         assertEquals(0, Hours.hoursBetween(end1, end1).getHours());
@@ -101,7 +101,7 @@ public class TestHours extends TestCase {
         LocalTime end1 = new LocalTime(15, 0);
         @SuppressWarnings("deprecation")
         TimeOfDay end2 = new TimeOfDay(18, 0);
-        
+
         assertEquals(3, Hours.hoursBetween(start, end1).getHours());
         assertEquals(0, Hours.hoursBetween(start, start).getHours());
         assertEquals(0, Hours.hoursBetween(end1, end1).getHours());
@@ -113,7 +113,7 @@ public class TestHours extends TestCase {
         DateTime start = new DateTime(2006, 6, 9, 12, 0, 0, 0, PARIS);
         DateTime end1 = new DateTime(2006, 6, 9, 15, 0, 0, 0, PARIS);
         DateTime end2 = new DateTime(2006, 6, 9, 18, 0, 0, 0, PARIS);
-        
+
         assertEquals(0, Hours.hoursIn((ReadableInterval) null).getHours());
         assertEquals(3, Hours.hoursIn(new Interval(start, end1)).getHours());
         assertEquals(0, Hours.hoursIn(new Interval(start, start)).getHours());
@@ -160,7 +160,7 @@ public class TestHours extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testGetMethods() {
         Hours test = Hours.hours(20);
         assertEquals(20, test.getHours());
@@ -176,7 +176,7 @@ public class TestHours extends TestCase {
         assertEquals(PeriodType.hours(), test.getPeriodType());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testIsGreaterThan() {
         assertEquals(true, Hours.THREE.isGreaterThan(Hours.TWO));
         assertEquals(false, Hours.THREE.isGreaterThan(Hours.THREE));
@@ -193,34 +193,34 @@ public class TestHours extends TestCase {
         assertEquals(true, Hours.hours(-1).isLessThan(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testToString() {
         Hours test = Hours.hours(20);
         assertEquals("PT20H", test.toString());
-        
+
         test = Hours.hours(-20);
         assertEquals("PT-20H", test.toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testSerialization() throws Exception {
         Hours test = Hours.SEVEN;
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
         oos.writeObject(test);
         byte[] bytes = baos.toByteArray();
         oos.close();
-        
+
         ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
         ObjectInputStream ois = new ObjectInputStream(bais);
         Hours result = (Hours) ois.readObject();
         ois.close();
-        
+
         assertSame(test, result);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testToStandardWeeks() {
         Hours test = Hours.hours(24 * 7 * 2);
         Weeks expected = Weeks.weeks(2);
@@ -237,7 +237,7 @@ public class TestHours extends TestCase {
         Hours test = Hours.hours(3);
         Minutes expected = Minutes.minutes(3 * 60);
         assertEquals(expected, test.toStandardMinutes());
-        
+
         try {
             Hours.MAX_VALUE.toStandardMinutes();
             fail();
@@ -250,7 +250,7 @@ public class TestHours extends TestCase {
         Hours test = Hours.hours(3);
         Seconds expected = Seconds.seconds(3 * 60 * 60);
         assertEquals(expected, test.toStandardSeconds());
-        
+
         try {
             Hours.MAX_VALUE.toStandardSeconds();
             fail();
@@ -263,20 +263,20 @@ public class TestHours extends TestCase {
         Hours test = Hours.hours(20);
         Duration expected = new Duration(20L * DateTimeConstants.MILLIS_PER_HOUR);
         assertEquals(expected, test.toStandardDuration());
-        
+
         expected = new Duration(((long) Integer.MAX_VALUE) * DateTimeConstants.MILLIS_PER_HOUR);
         assertEquals(expected, Hours.MAX_VALUE.toStandardDuration());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPlus_int() {
         Hours test2 = Hours.hours(2);
         Hours result = test2.plus(3);
         assertEquals(2, test2.getHours());
         assertEquals(5, result.getHours());
-        
+
         assertEquals(1, Hours.ONE.plus(0).getHours());
-        
+
         try {
             Hours.MAX_VALUE.plus(1);
             fail();
@@ -292,10 +292,10 @@ public class TestHours extends TestCase {
         assertEquals(2, test2.getHours());
         assertEquals(3, test3.getHours());
         assertEquals(5, result.getHours());
-        
+
         assertEquals(1, Hours.ONE.plus(Hours.ZERO).getHours());
         assertEquals(1, Hours.ONE.plus((Hours) null).getHours());
-        
+
         try {
             Hours.MAX_VALUE.plus(Hours.ONE);
             fail();
@@ -309,9 +309,9 @@ public class TestHours extends TestCase {
         Hours result = test2.minus(3);
         assertEquals(2, test2.getHours());
         assertEquals(-1, result.getHours());
-        
+
         assertEquals(1, Hours.ONE.minus(0).getHours());
-        
+
         try {
             Hours.MIN_VALUE.minus(1);
             fail();
@@ -327,10 +327,10 @@ public class TestHours extends TestCase {
         assertEquals(2, test2.getHours());
         assertEquals(3, test3.getHours());
         assertEquals(-1, result.getHours());
-        
+
         assertEquals(1, Hours.ONE.minus(Hours.ZERO).getHours());
         assertEquals(1, Hours.ONE.minus((Hours) null).getHours());
-        
+
         try {
             Hours.MIN_VALUE.minus(Hours.ONE);
             fail();
@@ -345,7 +345,7 @@ public class TestHours extends TestCase {
         assertEquals(2, test.getHours());
         assertEquals(-6, test.multipliedBy(-3).getHours());
         assertSame(test, test.multipliedBy(1));
-        
+
         Hours halfMax = Hours.hours(Integer.MAX_VALUE / 2 + 1);
         try {
             halfMax.multipliedBy(2);
@@ -364,7 +364,7 @@ public class TestHours extends TestCase {
         assertEquals(2, test.dividedBy(5).getHours());
         assertEquals(2, test.dividedBy(6).getHours());
         assertSame(test, test.dividedBy(1));
-        
+
         try {
             Hours.ONE.dividedBy(0);
             fail();
@@ -377,7 +377,7 @@ public class TestHours extends TestCase {
         Hours test = Hours.hours(12);
         assertEquals(-12, test.negated().getHours());
         assertEquals(12, test.getHours());
-        
+
         try {
             Hours.MIN_VALUE.negated();
             fail();
@@ -386,7 +386,7 @@ public class TestHours extends TestCase {
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testAddToLocalDate() {
         Hours test = Hours.hours(26);
         LocalDateTime date = new LocalDateTime(2006, 6, 1, 0, 0, 0, 0);

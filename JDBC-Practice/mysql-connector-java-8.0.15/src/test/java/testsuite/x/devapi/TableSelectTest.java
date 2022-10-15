@@ -80,7 +80,8 @@ public class TableSelectTest extends BaseTableTestCase {
         Map<String, Object> params = new HashMap<>();
         params.put("name", "Saki%");
         params.put("age", 20);
-        RowResult rows = table.select("birthday, `_id`, name").where("name like :name AND age < :age").bind(params).execute();
+        RowResult rows = table.select("birthday, `_id`, name").where("name like :name AND age < :age").bind(params)
+                .execute();
 
         // verify metadata
         List<String> columnNames = rows.getColumnNames();
@@ -127,13 +128,13 @@ public class TableSelectTest extends BaseTableTestCase {
         Table table = this.schema.getTable("complexQuery");
         // Result:
         // age_group | cnt
-        // 11        | 2   <-- filtered out by where
-        // 12        | 2   <-- filtered out by limit
-        // 13        | 1   <-- filtered out by having
-        // 14        | 2   * second row in result
-        // 15        | 2   * first row in result
-        // 16        | 1   <-- filtered out by having
-        // 17        | 2   <-- filtered out by offset
+        // 11 | 2 <-- filtered out by where
+        // 12 | 2 <-- filtered out by limit
+        // 13 | 1 <-- filtered out by having
+        // 14 | 2 * second row in result
+        // 15 | 2 * first row in result
+        // 16 | 1 <-- filtered out by having
+        // 17 | 2 <-- filtered out by offset
         SelectStatement stmt = table.select("age as age_group, count(name) as cnt, something");
         stmt.where("age > 11 and 1 < 2 and 40 between 30 and 900");
         stmt.groupBy("something", "age_group");
@@ -189,7 +190,7 @@ public class TableSelectTest extends BaseTableTestCase {
      * Tests fix for Bug#22931433, GETTING VALUE OF BIT COLUMN RESULTS IN EXCEPTION.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     @Test
     public void testBug22931433() {
@@ -204,7 +205,9 @@ public class TableSelectTest extends BaseTableTestCase {
         table.insert("c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "cb1", "cb2")
                 .values("a", "ba", "cba", "dcba", "edcba", "fedcba", "gfedcba", "hgfedcba", 0x01, -1).execute();
         table.insert("c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "cb1", "cb2")
-                .values(0xcc, 0xcccc, 0xcccccc, 0xccccccccL, 0xccccccccccL, 0xccccccccccccL, 0xccccccccccccccL, 0xccccccccccccccccL, 0x00, -2).execute();
+                .values(0xcc, 0xcccc, 0xcccccc, 0xccccccccL, 0xccccccccccL, 0xccccccccccccL, 0xccccccccccccccL,
+                        0xccccccccccccccccL, 0x00, -2)
+                .execute();
 
         RowResult rows = table.select("c1, c2, c3, c4, c5, c6, c7, c8, cb1, cb2").execute();
 
@@ -268,33 +271,37 @@ public class TableSelectTest extends BaseTableTestCase {
         assertEquals(BigDecimal.valueOf(29104508263162465L).toString(), row.getString("c7"));
         assertEquals(BigDecimal.valueOf(7523094288207667809L).toString(), row.getString("c8"));
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to java.sql.Date", new Callable<Void>() {
-            public Void call() throws Exception {
-                row.getDate("c1");
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to java.sql.Date",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        row.getDate("c1");
+                        return null;
+                    }
+                });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to com.mysql.cj.xdevapi.DbDoc", new Callable<Void>() {
-            public Void call() throws Exception {
-                row.getDbDoc("c1");
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to com.mysql.cj.xdevapi.DbDoc",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        row.getDbDoc("c1");
+                        return null;
+                    }
+                });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to java.sql.Time", new Callable<Void>() {
-            public Void call() throws Exception {
-                row.getTime("c1");
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to java.sql.Time",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        row.getTime("c1");
+                        return null;
+                    }
+                });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to java.sql.Timestamp", new Callable<Void>() {
-            public Void call() throws Exception {
-                row.getTimestamp("c1");
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to java.sql.Timestamp",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        row.getTimestamp("c1");
+                        return null;
+                    }
+                });
 
         // test negative values
         Row row2 = rows.next();
@@ -342,7 +349,8 @@ public class TableSelectTest extends BaseTableTestCase {
         assertEquals(Double.valueOf(879609302220L), Double.valueOf(row2.getDouble("c5")));
         assertEquals(Double.valueOf(225179981368524L), Double.valueOf(row2.getDouble("c6")));
         assertEquals(Double.valueOf(57646075230342348L), Double.valueOf(row2.getDouble("c7")));
-        assertEquals(Double.valueOf(new BigInteger("14757395258967641292").doubleValue()), Double.valueOf(row2.getDouble("c8")));
+        assertEquals(Double.valueOf(new BigInteger("14757395258967641292").doubleValue()),
+                Double.valueOf(row2.getDouble("c8")));
 
         assertEquals(false, row2.getBoolean("c8"));
         assertEquals(false, row2.getBoolean("cb1"));
@@ -373,7 +381,8 @@ public class TableSelectTest extends BaseTableTestCase {
             Map<String, Object> params = new HashMap<>();
             params.put("name", "Saki%");
             params.put("age", 20);
-            RowResult rows = view.select("birthday, `_id`, name").where("name like :name AND age < :age").bind(params).execute();
+            RowResult rows = view.select("birthday, `_id`, name").where("name like :name AND age < :age").bind(params)
+                    .execute();
 
             // verify metadata
             List<String> columnNames = rows.getColumnNames();
@@ -433,7 +442,8 @@ public class TableSelectTest extends BaseTableTestCase {
 
         RowResult rows = table.select("*").execute();
         List<Column> metadata = rows.getColumns();
-        // assertEquals(4294967295L, metadata.get(0).getLength()); // irrelevant, we shouldn't expect any concrete value
+        // assertEquals(4294967295L, metadata.get(0).getLength()); // irrelevant, we
+        // shouldn't expect any concrete value
         assertEquals(4294967295L, metadata.get(1).getLength());
         assertEquals(4294967295L, metadata.get(2).getLength());
 
@@ -441,7 +451,8 @@ public class TableSelectTest extends BaseTableTestCase {
     }
 
     /**
-     * Tests fix for BUG#22931277, COLUMN.GETTYPE() RETURNS ERROR FOR VALID DATATYPES.
+     * Tests fix for BUG#22931277, COLUMN.GETTYPE() RETURNS ERROR FOR VALID
+     * DATATYPES.
      */
     @Test
     public void testBug22931277() {
@@ -497,7 +508,9 @@ public class TableSelectTest extends BaseTableTestCase {
             session2.startTransaction();
             table2.select("_id").where("_id = '2'").lockShared().execute(); // should return immediately
 
-            CompletableFuture<RowResult> res1 = table2.select("_id").where("_id = '1'").lockShared().executeAsync(); // should return immediately
+            CompletableFuture<RowResult> res1 = table2.select("_id").where("_id = '1'").lockShared().executeAsync(); // should
+                                                                                                                     // return
+                                                                                                                     // immediately
             res1.get(5, TimeUnit.SECONDS);
             assertTrue(res1.isDone());
 
@@ -510,7 +523,8 @@ public class TableSelectTest extends BaseTableTestCase {
 
             session2.startTransaction();
             table2.select("_id").where("_id = '2'").lockShared().execute(); // should return immediately
-            CompletableFuture<RowResult> res2 = table2.select("_id").where("_id = '1'").lockShared().executeAsync(); // session2 blocks
+            CompletableFuture<RowResult> res2 = table2.select("_id").where("_id = '1'").lockShared().executeAsync(); // session2
+                                                                                                                     // blocks
             assertThrows(TimeoutException.class, new Callable<Void>() {
                 public Void call() throws Exception {
                     res2.get(5, TimeUnit.SECONDS);
@@ -531,7 +545,8 @@ public class TableSelectTest extends BaseTableTestCase {
             session2.startTransaction();
             table2.select("_id").where("_id = '2'").lockExclusive().execute(); // should return immediately
             table2.select("_id").where("_id = '3'").lockShared().execute(); // should return immediately
-            CompletableFuture<RowResult> res3 = table2.select("_id").where("_id = '1'").lockExclusive().executeAsync(); // session2 blocks
+            CompletableFuture<RowResult> res3 = table2.select("_id").where("_id = '1'").lockExclusive().executeAsync(); // session2
+                                                                                                                        // blocks
             assertThrows(TimeoutException.class, new Callable<Void>() {
                 public Void call() throws Exception {
                     res3.get(5, TimeUnit.SECONDS);
@@ -550,7 +565,8 @@ public class TableSelectTest extends BaseTableTestCase {
 
             session2.startTransaction();
             table2.select("_id").where("_id = '2'").lockExclusive().execute(); // should return immediately
-            CompletableFuture<RowResult> res4 = table2.select("_id").where("_id = '1'").lockExclusive().executeAsync(); // session2 blocks
+            CompletableFuture<RowResult> res4 = table2.select("_id").where("_id = '1'").lockExclusive().executeAsync(); // session2
+                                                                                                                        // blocks
             assertThrows(TimeoutException.class, new Callable<Void>() {
                 public Void call() throws Exception {
                     res4.get(5, TimeUnit.SECONDS);
@@ -581,11 +597,13 @@ public class TableSelectTest extends BaseTableTestCase {
             return;
         }
 
-        Function<RowResult, List<String>> asStringList = rr -> rr.fetchAll().stream().map(r -> r.getString(0)).collect(Collectors.toList());
+        Function<RowResult, List<String>> asStringList = rr -> rr.fetchAll().stream().map(r -> r.getString(0))
+                .collect(Collectors.toList());
 
         sqlUpdate("DROP TABLE IF EXISTS testTableRowLockOptions");
         sqlUpdate("CREATE TABLE testTableRowLockOptions (_id VARCHAR(32), a VARCHAR(20))");
-        sqlUpdate("CREATE UNIQUE INDEX myIndex ON testTableRowLockOptions (_id)"); // index is required to enable row locking
+        sqlUpdate("CREATE UNIQUE INDEX myIndex ON testTableRowLockOptions (_id)"); // index is required to enable row
+                                                                                   // locking
         sqlUpdate("INSERT INTO testTableRowLockOptions VALUES ('1', '1'), ('2', '1'), ('3', '1')");
 
         Session session1 = null;
@@ -654,7 +672,8 @@ public class TableSelectTest extends BaseTableTestCase {
             session2.rollback();
 
             session2.startTransaction();
-            futRes = table2.select("_id").where("_id < '3'").lockShared(Statement.LockContention.SKIP_LOCKED).executeAsync();
+            futRes = table2.select("_id").where("_id < '3'").lockShared(Statement.LockContention.SKIP_LOCKED)
+                    .executeAsync();
             res = futRes.get(3, TimeUnit.SECONDS);
             assertTrue(futRes.isDone());
             assertEquals(2, asStringList.apply(res).size());
@@ -672,7 +691,8 @@ public class TableSelectTest extends BaseTableTestCase {
             table1.select("_id").where("_id = '1'").lockShared().execute();
 
             // session2.startTransaction();
-            // res = table2.select("_id").where("_id < '3'").lockExclusive().execute(); (Can't test)
+            // res = table2.select("_id").where("_id < '3'").lockExclusive().execute();
+            // (Can't test)
             // session2.rollback();
 
             session2.startTransaction();
@@ -695,11 +715,13 @@ public class TableSelectTest extends BaseTableTestCase {
             session2.startTransaction();
             assertThrows(XProtocolError.class,
                     "ERROR 3572 \\(HY000\\) Statement aborted because lock\\(s\\) could not be acquired immediately and NOWAIT is set\\.",
-                    () -> table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.NOWAIT).execute());
+                    () -> table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.NOWAIT)
+                            .execute());
             session2.rollback();
 
             session2.startTransaction();
-            futRes = table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.NOWAIT).executeAsync();
+            futRes = table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.NOWAIT)
+                    .executeAsync();
             final CompletableFuture<RowResult> fr2 = futRes;
             assertThrows(ExecutionException.class,
                     ".*XProtocolError: ERROR 3572 \\(HY000\\) Statement aborted because lock\\(s\\) could not be acquired immediately and NOWAIT is set\\.",
@@ -719,7 +741,8 @@ public class TableSelectTest extends BaseTableTestCase {
             session2.rollback();
 
             session2.startTransaction();
-            futRes = table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.SKIP_LOCKED).executeAsync();
+            futRes = table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.SKIP_LOCKED)
+                    .executeAsync();
             res = futRes.get(3, TimeUnit.SECONDS);
             assertTrue(futRes.isDone());
             assertEquals(1, asStringList.apply(res).size());
@@ -737,7 +760,8 @@ public class TableSelectTest extends BaseTableTestCase {
             table1.select("_id").where("_id = '1'").lockExclusive().execute();
 
             // session2.startTransaction();
-            // res = table2.select("_id").where("_id < '3'").lockShared().execute(); (Can't test)
+            // res = table2.select("_id").where("_id < '3'").lockShared().execute(); (Can't
+            // test)
             // session2.rollback();
 
             session2.startTransaction();
@@ -760,7 +784,8 @@ public class TableSelectTest extends BaseTableTestCase {
             session2.startTransaction();
             assertThrows(XProtocolError.class,
                     "ERROR 3572 \\(HY000\\) Statement aborted because lock\\(s\\) could not be acquired immediately and NOWAIT is set\\.",
-                    () -> table2.select("_id").where("_id < '3'").lockShared(Statement.LockContention.NOWAIT).execute());
+                    () -> table2.select("_id").where("_id < '3'").lockShared(Statement.LockContention.NOWAIT)
+                            .execute());
             session2.rollback();
 
             session2.startTransaction();
@@ -784,7 +809,8 @@ public class TableSelectTest extends BaseTableTestCase {
             session2.rollback();
 
             session2.startTransaction();
-            futRes = table2.select("_id").where("_id < '3'").lockShared(Statement.LockContention.SKIP_LOCKED).executeAsync();
+            futRes = table2.select("_id").where("_id < '3'").lockShared(Statement.LockContention.SKIP_LOCKED)
+                    .executeAsync();
             res = futRes.get(3, TimeUnit.SECONDS);
             assertTrue(futRes.isDone());
             assertEquals(1, asStringList.apply(res).size());
@@ -802,7 +828,8 @@ public class TableSelectTest extends BaseTableTestCase {
             table1.select("_id").where("_id = '1'").lockExclusive().execute();
 
             // session2.startTransaction();
-            // res = table2.select("_id").where("_id < '3'").lockExclusive().execute(); (Can't test)
+            // res = table2.select("_id").where("_id < '3'").lockExclusive().execute();
+            // (Can't test)
             // session2.rollback();
 
             session2.startTransaction();
@@ -825,11 +852,13 @@ public class TableSelectTest extends BaseTableTestCase {
             session2.startTransaction();
             assertThrows(XProtocolError.class,
                     "ERROR 3572 \\(HY000\\) Statement aborted because lock\\(s\\) could not be acquired immediately and NOWAIT is set\\.",
-                    () -> table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.NOWAIT).execute());
+                    () -> table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.NOWAIT)
+                            .execute());
             session2.rollback();
 
             session2.startTransaction();
-            futRes = table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.NOWAIT).executeAsync();
+            futRes = table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.NOWAIT)
+                    .executeAsync();
             final CompletableFuture<RowResult> fr6 = futRes;
             assertThrows(ExecutionException.class,
                     ".*XProtocolError: ERROR 3572 \\(HY000\\) Statement aborted because lock\\(s\\) could not be acquired immediately and NOWAIT is set\\.",
@@ -849,7 +878,8 @@ public class TableSelectTest extends BaseTableTestCase {
             session2.rollback();
 
             session2.startTransaction();
-            futRes = table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.SKIP_LOCKED).executeAsync();
+            futRes = table2.select("_id").where("_id < '3'").lockExclusive(Statement.LockContention.SKIP_LOCKED)
+                    .executeAsync();
             res = futRes.get(3, TimeUnit.SECONDS);
             assertTrue(futRes.isDone());
             assertEquals(1, asStringList.apply(res).size());

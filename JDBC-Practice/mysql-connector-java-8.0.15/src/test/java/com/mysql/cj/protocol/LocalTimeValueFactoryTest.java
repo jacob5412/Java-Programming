@@ -55,61 +55,68 @@ public class LocalTimeValueFactoryTest extends CommonAsserts {
             }
         });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from DECIMAL to java.time.LocalTime", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                vf.createFromBigDecimal(new BigDecimal("2018"));
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from DECIMAL to java.time.LocalTime",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        vf.createFromBigDecimal(new BigDecimal("2018"));
+                        return null;
+                    }
+                });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from BIGINT to java.time.LocalTime", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                vf.createFromBigInteger(new BigInteger("2018"));
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from BIGINT to java.time.LocalTime",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        vf.createFromBigInteger(new BigInteger("2018"));
+                        return null;
+                    }
+                });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to java.time.LocalTime", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                vf.createFromBit(new byte[] { 1 }, 0, 2);
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from BIT to java.time.LocalTime",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        vf.createFromBit(new byte[] { 1 }, 0, 2);
+                        return null;
+                    }
+                });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from VARCHAR/TEXT/BLOB to java.time.LocalTime", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                vf.createFromBytes(new byte[] { 1 }, 0, 2);
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class,
+                "Unsupported conversion from VARCHAR/TEXT/BLOB to java.time.LocalTime", new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        vf.createFromBytes(new byte[] { 1 }, 0, 2);
+                        return null;
+                    }
+                });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from DATE to java.time.LocalTime", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                vf.createFromDate(2018, 1, 1);
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from DATE to java.time.LocalTime",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        vf.createFromDate(2018, 1, 1);
+                        return null;
+                    }
+                });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from DOUBLE to java.time.LocalTime", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                vf.createFromDouble(new Double(2018));
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from DOUBLE to java.time.LocalTime",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        vf.createFromDouble(new Double(2018));
+                        return null;
+                    }
+                });
 
-        assertThrows(DataConversionException.class, "Unsupported conversion from LONG to java.time.LocalTime", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                vf.createFromLong(22L);
-                return null;
-            }
-        });
+        assertThrows(DataConversionException.class, "Unsupported conversion from LONG to java.time.LocalTime",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        vf.createFromLong(22L);
+                        return null;
+                    }
+                });
 
         assertNull(vf.createFromNull());
 

@@ -112,7 +112,7 @@ public class ConnectionTest extends BaseTestCase {
      * Constructor for ConnectionTest.
      * 
      * @param name
-     *            the name of the test to run
+     *             the name of the test to run
      */
     public ConnectionTest(String name) {
         super(name);
@@ -131,7 +131,7 @@ public class ConnectionTest extends BaseTestCase {
      * Tests catalog functionality
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testCatalog() throws Exception {
         String currentCatalog = this.conn.getCatalog();
@@ -211,8 +211,9 @@ public class ConnectionTest extends BaseTestCase {
 
     /**
      * @throws Exception
-     *             Old test was passing due to
-     *             http://bugs.mysql.com/bug.php?id=989 which is fixed for 5.5+
+     *                   Old test was passing due to
+     *                   http://bugs.mysql.com/bug.php?id=989 which is fixed for
+     *                   5.5+
      */
     public void testDeadlockDetection() throws Exception {
         try {
@@ -262,7 +263,8 @@ public class ConnectionTest extends BaseTestCase {
                 fail("This test requires user with process privilege");
             }
 
-            assertTrue("Can't find INNODB MONITOR in:\n\n" + sqlEx.getMessage(), sqlEx.getMessage().indexOf("INNODB MONITOR") != -1);
+            assertTrue("Can't find INNODB MONITOR in:\n\n" + sqlEx.getMessage(),
+                    sqlEx.getMessage().indexOf("INNODB MONITOR") != -1);
 
             assertTrue("Can't find thread dump in:\n\n" + sqlEx.getMessage(),
                     sqlEx.getMessage().indexOf("testsuite.simple.ConnectionTest.testDeadlockDetection") != -1);
@@ -280,7 +282,8 @@ public class ConnectionTest extends BaseTestCase {
 
         this.stmt = utfConn.createStatement();
 
-        createTable("t1", "(comment CHAR(32) ASCII NOT NULL,koi8_ru_f CHAR(32) CHARACTER SET koi8r NOT NULL) CHARSET=latin5");
+        createTable("t1",
+                "(comment CHAR(32) ASCII NOT NULL,koi8_ru_f CHAR(32) CHARACTER SET koi8r NOT NULL) CHARSET=latin5");
 
         this.stmt.executeUpdate("ALTER TABLE t1 CHANGE comment comment CHAR(32) CHARACTER SET latin2 NOT NULL");
         this.stmt.executeUpdate("ALTER TABLE t1 ADD latin5_f CHAR(32) NOT NULL");
@@ -558,23 +561,28 @@ public class ConnectionTest extends BaseTestCase {
      * Tests isolation level functionality
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testIsolationLevel() throws Exception {
         // Check initial transaction isolation level
-        ((MysqlConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.useLocalSessionState).setValue(true);
+        ((MysqlConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.useLocalSessionState)
+                .setValue(true);
         int initialTransactionIsolation = this.conn.getTransactionIsolation();
 
-        ((MysqlConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.useLocalSessionState).setValue(false);
+        ((MysqlConnection) this.conn).getPropertySet().getBooleanProperty(PropertyKey.useLocalSessionState)
+                .setValue(false);
         int actualTransactionIsolation = this.conn.getTransactionIsolation();
 
-        assertEquals("Inital transaction isolation level doesn't match the server's", actualTransactionIsolation, initialTransactionIsolation);
+        assertEquals("Inital transaction isolation level doesn't match the server's", actualTransactionIsolation,
+                initialTransactionIsolation);
 
         // Check setting all allowed transaction isolation levels
         String[] isoLevelNames = new String[] { "Connection.TRANSACTION_NONE", "Connection.TRANSACTION_READ_COMMITTED",
-                "Connection.TRANSACTION_READ_UNCOMMITTED", "Connection.TRANSACTION_REPEATABLE_READ", "Connection.TRANSACTION_SERIALIZABLE" };
+                "Connection.TRANSACTION_READ_UNCOMMITTED", "Connection.TRANSACTION_REPEATABLE_READ",
+                "Connection.TRANSACTION_SERIALIZABLE" };
 
-        int[] isolationLevels = new int[] { Connection.TRANSACTION_NONE, Connection.TRANSACTION_READ_COMMITTED, Connection.TRANSACTION_READ_UNCOMMITTED,
+        int[] isolationLevels = new int[] { Connection.TRANSACTION_NONE, Connection.TRANSACTION_READ_COMMITTED,
+                Connection.TRANSACTION_READ_UNCOMMITTED,
                 Connection.TRANSACTION_REPEATABLE_READ, Connection.TRANSACTION_SERIALIZABLE };
 
         DatabaseMetaData dbmd = this.conn.getMetaData();
@@ -585,7 +593,8 @@ public class ConnectionTest extends BaseTestCase {
                 assertTrue(
                         "Transaction isolation level that was set (" + isoLevelNames[i]
                                 + ") was not returned, nor was a more restrictive isolation level used by the server",
-                        this.conn.getTransactionIsolation() == isolationLevels[i] || this.conn.getTransactionIsolation() > isolationLevels[i]);
+                        this.conn.getTransactionIsolation() == isolationLevels[i]
+                                || this.conn.getTransactionIsolation() > isolationLevels[i]);
             }
         }
     }
@@ -594,7 +603,7 @@ public class ConnectionTest extends BaseTestCase {
      * Tests the savepoint functionality in MySQL.
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testSavepoint() throws Exception {
         DatabaseMetaData dbmd = this.conn.getMetaData();
@@ -620,9 +629,11 @@ public class ConnectionTest extends BaseTestCase {
                 assertTrue("Row count should be 0", getRowCount("testSavepoints") == 0);
                 this.conn.rollback(afterUpdate);
                 assertTrue("Row count should be 1", getRowCount("testSavepoints") == 1);
-                assertTrue("Value should be 2", "2".equals(getSingleValue("testSavepoints", "field1", null).toString()));
+                assertTrue("Value should be 2",
+                        "2".equals(getSingleValue("testSavepoints", "field1", null).toString()));
                 this.conn.rollback(afterInsert);
-                assertTrue("Value should be 1", "1".equals(getSingleValue("testSavepoints", "field1", null).toString()));
+                assertTrue("Value should be 1",
+                        "1".equals(getSingleValue("testSavepoints", "field1", null).toString()));
                 this.conn.rollback();
                 assertTrue("Row count should be 0", getRowCount("testSavepoints") == 0);
 
@@ -638,9 +649,11 @@ public class ConnectionTest extends BaseTestCase {
                 assertTrue("Row count should be 0", getRowCount("testSavepoints") == 0);
                 this.conn.rollback(afterUpdate);
                 assertTrue("Row count should be 1", getRowCount("testSavepoints") == 1);
-                assertTrue("Value should be 2", "2".equals(getSingleValue("testSavepoints", "field1", null).toString()));
+                assertTrue("Value should be 2",
+                        "2".equals(getSingleValue("testSavepoints", "field1", null).toString()));
                 this.conn.rollback(afterInsert);
-                assertTrue("Value should be 1", "1".equals(getSingleValue("testSavepoints", "field1", null).toString()));
+                assertTrue("Value should be 1",
+                        "1".equals(getSingleValue("testSavepoints", "field1", null).toString()));
                 this.conn.rollback();
 
                 this.conn.releaseSavepoint(this.conn.setSavepoint());
@@ -656,7 +669,7 @@ public class ConnectionTest extends BaseTestCase {
      * Tests the ability to set the connection collation via properties.
      * 
      * @throws Exception
-     *             if an error occurs or the test fails
+     *                   if an error occurs or the test fails
      */
     public void testNonStandardConnectionCollation() throws Exception {
         String collationToSet = "utf8_bin";
@@ -726,7 +739,7 @@ public class ConnectionTest extends BaseTestCase {
      * Tests functionality of the ConnectionPropertiesTransform interface.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testConnectionPropertiesTransform() throws Exception {
         String transformClassName = SimpleTransformer.class.getName();
@@ -735,7 +748,8 @@ public class ConnectionTest extends BaseTestCase {
 
         props.setProperty(PropertyKey.propertiesTransform.getKeyName(), transformClassName);
 
-        Properties transformedProps = ConnectionUrl.getConnectionUrlInstance(BaseTestCase.dbUrl, props).getConnectionArgumentsAsProperties();
+        Properties transformedProps = ConnectionUrl.getConnectionUrlInstance(BaseTestCase.dbUrl, props)
+                .getConnectionArgumentsAsProperties();
 
         assertTrue("albequerque".equals(transformedProps.getProperty(PropertyKey.HOST.getKeyName())));
     }
@@ -744,7 +758,7 @@ public class ConnectionTest extends BaseTestCase {
      * Tests functionality of using URLs in 'LOAD DATA LOCAL INFILE' statements.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testLocalInfileWithUrl() throws Exception {
         File infile = File.createTempFile("foo", "txt");
@@ -765,7 +779,8 @@ public class ConnectionTest extends BaseTestCase {
         Statement loadStmt = loadConn.createStatement();
 
         String charset = " CHARACTER SET " + CharsetMapping.getMysqlCharsetForJavaEncoding(
-                ((MysqlConnection) loadConn).getPropertySet().getStringProperty(PropertyKey.characterEncoding).getValue(),
+                ((MysqlConnection) loadConn).getPropertySet().getStringProperty(PropertyKey.characterEncoding)
+                        .getValue(),
                 ((JdbcConnection) loadConn).getServerVersion());
 
         try {
@@ -795,7 +810,8 @@ public class ConnectionTest extends BaseTestCase {
             escapedPath.append(c);
         }
 
-        loadStmt.execute("LOAD DATA LOCAL INFILE '" + escapedPath.toString() + "' INTO TABLE testLocalInfileWithUrl" + charset);
+        loadStmt.execute(
+                "LOAD DATA LOCAL INFILE '" + escapedPath.toString() + "' INTO TABLE testLocalInfileWithUrl" + charset);
         this.rs = this.stmt.executeQuery("SELECT * FROM testLocalInfileWithUrl");
         assertTrue(this.rs.next());
         assertTrue("Test".equals(this.rs.getString(1)));
@@ -813,7 +829,7 @@ public class ConnectionTest extends BaseTestCase {
 
         File infile = File.createTempFile("foo", "txt");
         infile.deleteOnExit();
-        //String url = infile.toURL().toExternalForm();
+        // String url = infile.toURL().toExternalForm();
         FileWriter output = new FileWriter(infile);
         output.write("Test");
         output.flush();
@@ -821,22 +837,28 @@ public class ConnectionTest extends BaseTestCase {
 
         // Test load local infile support disabled via client capabilities by default.
         assertThrows(SQLSyntaxErrorException.class, "The used command is not allowed with this MySQL version", () -> {
-            this.stmt.executeUpdate("LOAD DATA LOCAL INFILE '" + infile.getCanonicalPath() + "' INTO TABLE testLocalInfileDisabled");
+            this.stmt.executeUpdate(
+                    "LOAD DATA LOCAL INFILE '" + infile.getCanonicalPath() + "' INTO TABLE testLocalInfileDisabled");
             return null;
         });
 
-        // Test load local infile support enabled via client capabilities but disabled on the connector.
+        // Test load local infile support enabled via client capabilities but disabled
+        // on the connector.
         Properties props = new Properties();
         props.setProperty(PropertyKey.allowLoadLocalInfile.getKeyName(), "true");
         Connection loadConn = getConnectionWithProps(props);
 
         try {
             // Must be set after connect, otherwise it's the server that's enforcing it.
-            ((com.mysql.cj.jdbc.JdbcConnection) loadConn).getPropertySet().getProperty(PropertyKey.allowLoadLocalInfile).setValue(false);
+            ((com.mysql.cj.jdbc.JdbcConnection) loadConn).getPropertySet().getProperty(PropertyKey.allowLoadLocalInfile)
+                    .setValue(false);
 
-            assertThrows(SQLException.class, "Server asked for stream in response to LOAD DATA LOCAL INFILE but functionality is disabled at client by "
-                    + "'allowLoadLocalInfile' being set to 'false'\\.", () -> {
-                        loadConn.createStatement().execute("LOAD DATA LOCAL INFILE '" + infile.getCanonicalPath() + "' INTO TABLE testLocalInfileDisabled");
+            assertThrows(SQLException.class,
+                    "Server asked for stream in response to LOAD DATA LOCAL INFILE but functionality is disabled at client by "
+                            + "'allowLoadLocalInfile' being set to 'false'\\.",
+                    () -> {
+                        loadConn.createStatement().execute("LOAD DATA LOCAL INFILE '" + infile.getCanonicalPath()
+                                + "' INTO TABLE testLocalInfileDisabled");
                         return null;
                     });
 
@@ -864,9 +886,11 @@ public class ConnectionTest extends BaseTestCase {
 
                 conn2 = getConnectionWithProps(props);
 
-                assertTrue("Configuration wasn't cached", StandardLogger.getBuffer().toString().indexOf("SHOW VARIABLES") == -1);
+                assertTrue("Configuration wasn't cached",
+                        StandardLogger.getBuffer().toString().indexOf("SHOW VARIABLES") == -1);
 
-                assertTrue("Configuration wasn't cached", StandardLogger.getBuffer().toString().indexOf("SHOW COLLATION") == -1);
+                assertTrue("Configuration wasn't cached",
+                        StandardLogger.getBuffer().toString().indexOf("SHOW COLLATION") == -1);
             } finally {
                 StandardLogger.dropBuffer();
             }
@@ -886,7 +910,7 @@ public class ConnectionTest extends BaseTestCase {
      * ...' and 'show variables like tx_isolation' queries.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testUseLocalSessionState() throws Exception {
         Properties props = new Properties();
@@ -909,15 +933,16 @@ public class ConnectionTest extends BaseTestCase {
 
         String s = versionMeetsMinimum(8, 0, 3) ? "transaction_isolation" : "tx_isolation";
 
-        assertTrue(logAsString.indexOf("SET SESSION") == -1 && logAsString.indexOf("SHOW VARIABLES LIKE '" + s + "'") == -1
-                && logAsString.indexOf("SET autocommit=") == -1);
+        assertTrue(
+                logAsString.indexOf("SET SESSION") == -1 && logAsString.indexOf("SHOW VARIABLES LIKE '" + s + "'") == -1
+                        && logAsString.indexOf("SET autocommit=") == -1);
     }
 
     /**
      * Tests whether re-connect with non-read-only connection can happen.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testFailoverConnection() throws Exception {
 
@@ -931,7 +956,8 @@ public class ConnectionTest extends BaseTestCase {
             try {
                 failoverConnection = getFailoverConnection(props);
 
-                String originalConnectionId = getSingleIndexedValueWithQuery(failoverConnection, 1, "SELECT connection_id()").toString();
+                String originalConnectionId = getSingleIndexedValueWithQuery(failoverConnection, 1,
+                        "SELECT connection_id()").toString();
                 System.out.println("Original Connection Id = " + originalConnectionId);
 
                 assertTrue("Connection should not be in READ_ONLY state", !failoverConnection.isReadOnly());
@@ -954,10 +980,12 @@ public class ConnectionTest extends BaseTestCase {
 
                 failoverConnection.setAutoCommit(true);
 
-                String newConnectionId = getSingleIndexedValueWithQuery(failoverConnection, 1, "SELECT connection_id()").toString();
+                String newConnectionId = getSingleIndexedValueWithQuery(failoverConnection, 1, "SELECT connection_id()")
+                        .toString();
                 System.out.println("new Connection Id = " + newConnectionId);
 
-                assertTrue("We should have a new connection to the server in this case", !newConnectionId.equals(originalConnectionId));
+                assertTrue("We should have a new connection to the server in this case",
+                        !newConnectionId.equals(originalConnectionId));
                 assertTrue("Connection should not be read-only", !failoverConnection.isReadOnly());
             } finally {
                 if (failoverConnection != null) {
@@ -969,30 +997,33 @@ public class ConnectionTest extends BaseTestCase {
 
     public void testCannedConfigs() throws Exception {
 
-        Properties cannedProps = ConnectionUrl.getConnectionUrlInstance("jdbc:mysql:///?useConfigs=clusterBase", null).getConnectionArgumentsAsProperties();
+        Properties cannedProps = ConnectionUrl.getConnectionUrlInstance("jdbc:mysql:///?useConfigs=clusterBase", null)
+                .getConnectionArgumentsAsProperties();
 
         assertTrue("true".equals(cannedProps.getProperty(PropertyKey.autoReconnect.getKeyName())));
         assertTrue("false".equals(cannedProps.getProperty(PropertyKey.failOverReadOnly.getKeyName())));
 
         // this will fail, but we test that too
-        assertThrows(InvalidConnectionAttributeException.class, "Can't find configuration template named 'clusterBase2'", new Callable<Void>() {
-            public Void call() throws Exception {
-                try {
-                    ConnectionUrl.getConnectionUrlInstance("jdbc:mysql:///?useConfigs=clusterBase,clusterBase2", null);
-                    return null;
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                    throw t;
-                }
-            }
-        });
+        assertThrows(InvalidConnectionAttributeException.class,
+                "Can't find configuration template named 'clusterBase2'", new Callable<Void>() {
+                    public Void call() throws Exception {
+                        try {
+                            ConnectionUrl.getConnectionUrlInstance("jdbc:mysql:///?useConfigs=clusterBase,clusterBase2",
+                                    null);
+                            return null;
+                        } catch (Throwable t) {
+                            t.printStackTrace();
+                            throw t;
+                        }
+                    }
+                });
     }
 
     /**
      * Checks implementation of 'dontTrackOpenResources' property.
      * 
      * @throws Exception
-     *             if the test fails.
+     *                   if the test fails.
      */
     public void testDontTrackOpenResources() throws Exception {
         Properties props = new Properties();
@@ -1075,12 +1106,14 @@ public class ConnectionTest extends BaseTestCase {
      * Tests setting profileSQL on/off in the span of one connection.
      * 
      * @throws Exception
-     *             if an error occurs.
+     *                   if an error occurs.
      */
     public void testSetProfileSql() throws Exception {
-        ((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet().getProperty(PropertyKey.profileSQL).setValue(false);
+        ((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet().getProperty(PropertyKey.profileSQL)
+                .setValue(false);
         this.stmt.execute("SELECT 1");
-        ((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet().getProperty(PropertyKey.profileSQL).setValue(true);
+        ((com.mysql.cj.jdbc.JdbcConnection) this.conn).getPropertySet().getProperty(PropertyKey.profileSQL)
+                .setValue(true);
         this.stmt.execute("SELECT 1");
     }
 
@@ -1109,7 +1142,7 @@ public class ConnectionTest extends BaseTestCase {
      * Tests if gatherPerfMetrics works.
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testGatherPerfMetrics() throws Exception {
         try {
@@ -1136,46 +1169,52 @@ public class ConnectionTest extends BaseTestCase {
      * Tests if useCompress works.
      * 
      * @throws Exception
-     *             if the test fails
+     *                   if the test fails
      */
     public void testUseCompress() throws Exception {
 
         this.rs = this.stmt.executeQuery("SHOW VARIABLES LIKE 'max_allowed_packet'");
         this.rs.next();
         if (this.rs.getInt(2) < 4 + 1024 * 1024 * 16 - 1) {
-            fail("You need to increase max_allowed_packet to at least " + (4 + 1024 * 1024 * 16 - 1) + " before running this test!");
+            fail("You need to increase max_allowed_packet to at least " + (4 + 1024 * 1024 * 16 - 1)
+                    + " before running this test!");
         }
 
         if (versionMeetsMinimum(5, 6, 20) && !versionMeetsMinimum(5, 7)) {
             /*
-             * The 5.6.20 patch for Bug #16963396, Bug #19030353, Bug #69477 limits the size of redo log BLOB writes
-             * to 10% of the redo log file size. The 5.7.5 patch addresses the bug without imposing a limitation.
-             * As a result of the redo log BLOB write limit introduced for MySQL 5.6, innodb_log_file_size should be set to a value
-             * greater than 10 times the largest BLOB data size found in the rows of your tables plus the length of other variable length
+             * The 5.6.20 patch for Bug #16963396, Bug #19030353, Bug #69477 limits the size
+             * of redo log BLOB writes
+             * to 10% of the redo log file size. The 5.7.5 patch addresses the bug without
+             * imposing a limitation.
+             * As a result of the redo log BLOB write limit introduced for MySQL 5.6,
+             * innodb_log_file_size should be set to a value
+             * greater than 10 times the largest BLOB data size found in the rows of your
+             * tables plus the length of other variable length
              * fields (VARCHAR, VARBINARY, and TEXT type fields).
              */
             this.rs = this.stmt.executeQuery("SHOW VARIABLES LIKE 'innodb_log_file_size'");
             this.rs.next();
             if (this.rs.getInt(2) < 1024 * 1024 * 32 * 10) {
-                fail("You need to increase innodb_log_file_size to at least " + (1024 * 1024 * 32 * 10) + " before running this test!");
+                fail("You need to increase innodb_log_file_size to at least " + (1024 * 1024 * 32 * 10)
+                        + " before running this test!");
             }
         }
 
         testCompressionWith("false", 1024 * 1024 * 16 - 2); // no split
         testCompressionWith("false", 1024 * 1024 * 16 - 1); // split with additional empty packet
-        testCompressionWith("false", 1024 * 1024 * 32);   // big payload
+        testCompressionWith("false", 1024 * 1024 * 32); // big payload
 
         testCompressionWith("true", 1024 * 1024 * 16 - 2 - 3); // no split, one compressed packet
         testCompressionWith("true", 1024 * 1024 * 16 - 2 - 2); // no split, two compressed packets
-        testCompressionWith("true", 1024 * 1024 * 16 - 1);   // split with additional empty packet, two compressed packets
-        testCompressionWith("true", 1024 * 1024 * 32);     // big payload
+        testCompressionWith("true", 1024 * 1024 * 16 - 1); // split with additional empty packet, two compressed packets
+        testCompressionWith("true", 1024 * 1024 * 32); // big payload
 
     }
 
     /**
      * @param useCompression
      * @param maxUncompressedPacketSize
-     *            mysql header + payload
+     *                                  mysql header + payload
      * @throws Exception
      */
     private void testCompressionWith(String useCompression, int maxPayloadSize) throws Exception {
@@ -1186,12 +1225,14 @@ public class ConnectionTest extends BaseTestCase {
         File testBlobFile = File.createTempFile("cmj-testblob", ".dat");
         testBlobFile.deleteOnExit();
 
-        // TODO: following cleanup doesn't work correctly during concurrent execution of testsuite 
+        // TODO: following cleanup doesn't work correctly during concurrent execution of
+        // testsuite
         // cleanupTempFiles(testBlobFile, "cmj-testblob");
 
         BufferedOutputStream bOut = new BufferedOutputStream(new FileOutputStream(testBlobFile));
 
-        // generate a random sequence of letters. this ensures that no escaped characters cause packet sizes that interfere with bounds tests
+        // generate a random sequence of letters. this ensures that no escaped
+        // characters cause packet sizes that interfere with bounds tests
         Random random = new Random();
         for (int i = 0; i < requiredSize; i++) {
             bOut.write((byte) (65 + random.nextInt(26)));
@@ -1245,8 +1286,8 @@ public class ConnectionTest extends BaseTestCase {
      * off into separate threads.
      * 
      * @throws Exception
-     *             if the test can't use at least one of the local machine's
-     *             interfaces to make an outgoing connection to the server.
+     *                   if the test can't use at least one of the local machine's
+     *                   interfaces to make an outgoing connection to the server.
      */
     public void testLocalSocketAddress() throws Exception {
         Enumeration<NetworkInterface> allInterfaces = NetworkInterface.getNetworkInterfaces();
@@ -1392,7 +1433,8 @@ public class ConnectionTest extends BaseTestCase {
             this.rs.close();
 
             assertTrue("Result set threshold message not present",
-                    StandardLogger.getBuffer().toString().indexOf("larger than \"resultSetSizeThreshold\" of 4 rows") != -1);
+                    StandardLogger.getBuffer().toString()
+                            .indexOf("larger than \"resultSetSizeThreshold\" of 4 rows") != -1);
         } finally {
             StandardLogger.dropBuffer();
             System.setErr(stderr);
@@ -1464,7 +1506,8 @@ public class ConnectionTest extends BaseTestCase {
         int commitCount = 0;
         int commitPos = 0;
 
-        // space is important here, we don't want to count "autocommit" nor occurrences in stack traces
+        // space is important here, we don't want to count "autocommit" nor occurrences
+        // in stack traces
         while (commitPos != -1) {
             commitPos = searchIn.indexOf(" commit", commitPos);
 
@@ -1533,7 +1576,8 @@ public class ConnectionTest extends BaseTestCase {
         ResultSet toCheckRs = connToCheck.createStatement().executeQuery("SELECT 1");
         checkInterfaceImplemented(java.sql.ResultSet.class.getMethods(), toCheckRs.getClass(), toCheckRs);
         toCheckRs = connToCheck.createStatement().executeQuery("SELECT 1");
-        checkInterfaceImplemented(java.sql.ResultSetMetaData.class.getMethods(), toCheckRs.getMetaData().getClass(), toCheckRs.getMetaData());
+        checkInterfaceImplemented(java.sql.ResultSetMetaData.class.getMethods(), toCheckRs.getMetaData().getClass(),
+                toCheckRs.getMetaData());
 
         createProcedure("interfaceImpl", "(IN p1 INT)\nBEGIN\nSELECT 1;\nEND");
 
@@ -1543,7 +1587,8 @@ public class ConnectionTest extends BaseTestCase {
         checkInterfaceImplemented(java.sql.Connection.class.getMethods(), connToCheck.getClass(), connToCheck);
     }
 
-    private void checkInterfaceImplemented(Method[] interfaceMethods, Class<?> implementingClass, Object invokeOn) throws NoSuchMethodException {
+    private void checkInterfaceImplemented(Method[] interfaceMethods, Class<?> implementingClass, Object invokeOn)
+            throws NoSuchMethodException {
         for (int i = 0; i < interfaceMethods.length; i++) {
             Method toFind = interfaceMethods[i];
             Method toMatch = implementingClass.getMethod(toFind.getName(), toFind.getParameterTypes());
@@ -1630,7 +1675,8 @@ public class ConnectionTest extends BaseTestCase {
         Connection liConn = null;
 
         try {
-            liConn = getConnectionWithProps("connectionLifecycleInterceptors=testsuite.simple.TestLifecycleInterceptor");
+            liConn = getConnectionWithProps(
+                    "connectionLifecycleInterceptors=testsuite.simple.TestLifecycleInterceptor");
             liConn.setAutoCommit(false);
 
             liConn.createStatement().executeUpdate("INSERT INTO testLifecycleInterceptor VALUES (1)");
@@ -1659,7 +1705,8 @@ public class ConnectionTest extends BaseTestCase {
         String password = parsedProps.getProperty(PropertyKey.PASSWORD.getKeyName());
         String database = parsedProps.getProperty(PropertyKey.DBNAME.getKeyName());
 
-        String newUrl = String.format("jdbc:mysql://address=(protocol=tcp)(host=%s)(port=%s)(user=%s)(password=%s)/%s", TestUtils.encodePercent(host), port,
+        String newUrl = String.format("jdbc:mysql://address=(protocol=tcp)(host=%s)(port=%s)(user=%s)(password=%s)/%s",
+                TestUtils.encodePercent(host), port,
                 user != null ? user : "", password != null ? password : "", database);
 
         Properties props = getHostFreePropertiesFromTestsuiteUrl();
@@ -1733,9 +1780,11 @@ public class ConnectionTest extends BaseTestCase {
                 StandardLogger.startLoggingToBuffer();
                 localState.setReadOnly(true);
                 if (i == 0) {
-                    assertTrue(StandardLogger.getBuffer().toString().indexOf("set session transaction read only") != -1);
+                    assertTrue(
+                            StandardLogger.getBuffer().toString().indexOf("set session transaction read only") != -1);
                 } else {
-                    assertTrue(StandardLogger.getBuffer().toString().indexOf("set session transaction read only") == -1);
+                    assertTrue(
+                            StandardLogger.getBuffer().toString().indexOf("set session transaction read only") == -1);
                 }
                 StandardLogger.startLoggingToBuffer();
                 localState.isReadOnly();
@@ -1765,7 +1814,8 @@ public class ConnectionTest extends BaseTestCase {
     public void testIPv6() throws Exception {
         if (!versionMeetsMinimum(5, 6)) {
             return;
-            // this test could work with MySQL 5.5 but requires specific server configuration, e.g. "--bind-address=::"
+            // this test could work with MySQL 5.5 but requires specific server
+            // configuration, e.g. "--bind-address=::"
         }
 
         String testUser = "testIPv6User";
@@ -1785,7 +1835,8 @@ public class ConnectionTest extends BaseTestCase {
         for (String host : ipv6Addrs) {
             if (TestUtils.serverListening(host, port)) {
                 atLeastOne = true;
-                String ipv6Url = String.format("jdbc:mysql://address=(protocol=tcp)(host=%s)(port=%d)", TestUtils.encodePercent(host), port);
+                String ipv6Url = String.format("jdbc:mysql://address=(protocol=tcp)(host=%s)(port=%d)",
+                        TestUtils.encodePercent(host), port);
 
                 Connection testConn = null;
                 Statement testStmt = null;
@@ -1805,7 +1856,8 @@ public class ConnectionTest extends BaseTestCase {
         }
 
         if (!atLeastOne) {
-            fail("None of the tested hosts have server sockets listening on the port " + port + ". This test requires a MySQL server running in local host.");
+            fail("None of the tested hosts have server sockets listening on the port " + port
+                    + ". This test requires a MySQL server running in local host.");
         }
     }
 
@@ -1851,12 +1903,13 @@ public class ConnectionTest extends BaseTestCase {
      * - connect() properties precedence is implementation-defined.
      */
     public void testDriverConnectPropertiesPrecedence() throws Exception {
-        assertThrows(SQLException.class, "Access denied for user 'dummy'@'[^']+' \\(using password: YES\\)", new Callable<Void>() {
-            public Void call() throws Exception {
-                DriverManager.getConnection(BaseTestCase.dbUrl, "dummy", "dummy");
-                return null;
-            }
-        });
+        assertThrows(SQLException.class, "Access denied for user 'dummy'@'[^']+' \\(using password: YES\\)",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        DriverManager.getConnection(BaseTestCase.dbUrl, "dummy", "dummy");
+                        return null;
+                    }
+                });
 
         // make sure the connection string doesn't contain 'maxRows'
         String testUrl = BaseTestCase.dbUrl;
@@ -1906,11 +1959,15 @@ public class ConnectionTest extends BaseTestCase {
     }
 
     /**
-     * Test the new connection property 'enableEscapeProcessing', as well as the old connection property 'processEscapeCodesForPrepStmts' and interrelation
+     * Test the new connection property 'enableEscapeProcessing', as well as the old
+     * connection property 'processEscapeCodesForPrepStmts' and interrelation
      * between them.
      * 
-     * This test uses a QueryInterceptor to capture the query sent to the server and assert whether escape processing has been done in the client side or if
-     * the query is sent untouched and escape processing will be done at server side, according to provided connection properties and type of Statement objects
+     * This test uses a QueryInterceptor to capture the query sent to the server and
+     * assert whether escape processing has been done in the client side or if
+     * the query is sent untouched and escape processing will be done at server
+     * side, according to provided connection properties and type of Statement
+     * objects
      * in use.
      */
     public void testEnableEscapeProcessing() throws Exception {
@@ -1928,7 +1985,8 @@ public class ConnectionTest extends BaseTestCase {
             testUrl = testUrl.substring(0, b) + testUrl.substring(e, testUrl.length());
         }
         String query = "SELECT /* testEnableEscapeProcessing: (%d) */ {fn sin(pi()/2)}, {ts '2015-08-16 11:22:33'}, {fn ucase('this is mysql')}";
-        Timestamp testTimestamp = new Timestamp(TimeUtil.getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss", null, null).parse("2015-08-16 11:22:33").getTime());
+        Timestamp testTimestamp = new Timestamp(TimeUtil.getSimpleDateFormat(null, "yyyy-MM-dd HH:mm:ss", null, null)
+                .parse("2015-08-16 11:22:33").getTime());
 
         for (int tst = 0; tst < 8; tst++) {
             boolean enableEscapeProcessing = (tst & 0x1) != 0;
@@ -1936,16 +1994,20 @@ public class ConnectionTest extends BaseTestCase {
             boolean useServerPrepStmts = (tst & 0x4) != 0;
 
             Properties props = new Properties();
-            props.setProperty(PropertyKey.queryInterceptors.getKeyName(), TestEnableEscapeProcessingQueryInterceptor.class.getName());
-            props.setProperty(PropertyKey.enableEscapeProcessing.getKeyName(), Boolean.toString(enableEscapeProcessing));
-            props.setProperty(PropertyKey.processEscapeCodesForPrepStmts.getKeyName(), Boolean.toString(processEscapeCodesForPrepStmts));
+            props.setProperty(PropertyKey.queryInterceptors.getKeyName(),
+                    TestEnableEscapeProcessingQueryInterceptor.class.getName());
+            props.setProperty(PropertyKey.enableEscapeProcessing.getKeyName(),
+                    Boolean.toString(enableEscapeProcessing));
+            props.setProperty(PropertyKey.processEscapeCodesForPrepStmts.getKeyName(),
+                    Boolean.toString(processEscapeCodesForPrepStmts));
             props.setProperty(PropertyKey.useServerPrepStmts.getKeyName(), Boolean.toString(useServerPrepStmts));
 
             Connection testConn = getConnectionWithProps(testUrl, props);
             this.stmt = testConn.createStatement();
             this.rs = this.stmt.executeQuery(String.format(query, tst));
 
-            String testCase = String.format("Case: %d [ %s | %s | %s ]/Statement", tst, enableEscapeProcessing ? "enEscProc" : "-",
+            String testCase = String.format("Case: %d [ %s | %s | %s ]/Statement", tst,
+                    enableEscapeProcessing ? "enEscProc" : "-",
                     processEscapeCodesForPrepStmts ? "procEscProcPS" : "-", useServerPrepStmts ? "useSSPS" : "-");
             assertTrue(testCase, this.rs.next());
             assertEquals(testCase, 1d, this.rs.getDouble(1));
@@ -1956,7 +2018,8 @@ public class ConnectionTest extends BaseTestCase {
             this.pstmt = testConn.prepareStatement(String.format(query, tst));
             this.rs = this.pstmt.executeQuery();
 
-            testCase = String.format("Case: %d [ %s | %s | %s ]/PreparedStatement", tst, enableEscapeProcessing ? "enEscProc" : "-",
+            testCase = String.format("Case: %d [ %s | %s | %s ]/PreparedStatement", tst,
+                    enableEscapeProcessing ? "enEscProc" : "-",
                     processEscapeCodesForPrepStmts ? "procEscProcPS" : "-", useServerPrepStmts ? "useSSPS" : "-");
             assertTrue(testCase, this.rs.next());
             assertEquals(testCase, 1d, this.rs.getDouble(1));
@@ -1990,9 +2053,11 @@ public class ConnectionTest extends BaseTestCase {
                 boolean enableEscapeProcessing = (tst & 0x1) != 0;
                 boolean processEscapeCodesForPrepStmts = (tst & 0x2) != 0;
                 boolean useServerPrepStmts = (tst & 0x4) != 0;
-                boolean isPreparedStatement = interceptedQuery instanceof PreparedStatement || interceptedQuery instanceof PreparedQuery<?>;
+                boolean isPreparedStatement = interceptedQuery instanceof PreparedStatement
+                        || interceptedQuery instanceof PreparedQuery<?>;
 
-                String testCase = String.format("Case: %d [ %s | %s | %s ]/%s", tst, enableEscapeProcessing ? "enEscProc" : "-",
+                String testCase = String.format("Case: %d [ %s | %s | %s ]/%s", tst,
+                        enableEscapeProcessing ? "enEscProc" : "-",
                         processEscapeCodesForPrepStmts ? "procEscProcPS" : "-", useServerPrepStmts ? "useSSPS" : "-",
                         isPreparedStatement ? "PreparedStatement" : "Statement");
 
@@ -2031,7 +2096,8 @@ public class ConnectionTest extends BaseTestCase {
             assertEquals(DebugBufferingPacketReader.class, reader.undecorate().getClass());
             assertEquals(TracingPacketReader.class, reader.undecorate().undecorate().getClass());
             assertEquals(TimeTrackingPacketReader.class, reader.undecorate().undecorate().undecorate().getClass());
-            assertEquals(SimplePacketReader.class, reader.undecorate().undecorate().undecorate().undecorate().getClass());
+            assertEquals(SimplePacketReader.class,
+                    reader.undecorate().undecorate().undecorate().undecorate().getClass());
 
             // remove traceProtocol
             p.getPropertySet().getProperty(PropertyKey.traceProtocol).setValue(false);
@@ -2087,9 +2153,12 @@ public class ConnectionTest extends BaseTestCase {
             assertEquals(TimeTrackingPacketSender.class, p.getPacketSentTimeHolder().getClass());
             assertEquals(TimeTrackingPacketReader.class, p.getPacketReceivedTimeHolder().getClass());
 
-            // remove listener and try to enable traceProtocol, it should be missed in this case
+            // remove listener and try to enable traceProtocol, it should be missed in this
+            // case
             p.getPropertySet().getBooleanProperty(PropertyKey.traceProtocol).removeListener(p);
-            p.getPropertySet().getProperty(PropertyKey.traceProtocol).setValue(true); // please note that the property is changed anyways, see the next step
+            p.getPropertySet().getProperty(PropertyKey.traceProtocol).setValue(true); // please note that the property
+                                                                                      // is changed anyways, see the
+                                                                                      // next step
             sender = p.getPacketSender();
             reader = p.getPacketReader();
 
@@ -2106,7 +2175,8 @@ public class ConnectionTest extends BaseTestCase {
             reader = p.getPacketReader();
 
             assertEquals(DebugBufferingPacketSender.class, sender.getClass());
-            assertEquals(TracingPacketSender.class, sender.undecorate().getClass()); // it's here because we changed the traceProtocol previously
+            assertEquals(TracingPacketSender.class, sender.undecorate().getClass()); // it's here because we changed the
+                                                                                     // traceProtocol previously
             assertEquals(TimeTrackingPacketSender.class, sender.undecorate().undecorate().getClass());
             assertEquals(SimplePacketSender.class, sender.undecorate().undecorate().undecorate().getClass());
 
@@ -2114,7 +2184,8 @@ public class ConnectionTest extends BaseTestCase {
             assertEquals(DebugBufferingPacketReader.class, reader.undecorate().getClass());
             assertEquals(TracingPacketReader.class, reader.undecorate().undecorate().getClass());
             assertEquals(TimeTrackingPacketReader.class, reader.undecorate().undecorate().undecorate().getClass());
-            assertEquals(SimplePacketReader.class, reader.undecorate().undecorate().undecorate().undecorate().getClass());
+            assertEquals(SimplePacketReader.class,
+                    reader.undecorate().undecorate().undecorate().undecorate().getClass());
 
         } finally {
             if (c != null) {
@@ -2126,8 +2197,10 @@ public class ConnectionTest extends BaseTestCase {
     /**
      * Test authentication with a user that requires an SSL connection.
      * 
-     * This test requires the CA truststore and the client keystore available in src/test/config/ssl-test-certs.
-     * The server needs to be configured with the CA and server certificates from src/test/config/ssl-test-certs.
+     * This test requires the CA truststore and the client keystore available in
+     * src/test/config/ssl-test-certs.
+     * The server needs to be configured with the CA and server certificates from
+     * src/test/config/ssl-test-certs.
      */
     public void testUserRequireSSL() throws Exception {
         if (!versionMeetsMinimum(5, 7, 6)) {
@@ -2175,7 +2248,8 @@ public class ConnectionTest extends BaseTestCase {
          * SSL: server certificate validation & no client certificate.
          */
         props.setProperty(PropertyKey.verifyServerCertificate.getKeyName(), "true");
-        props.setProperty(PropertyKey.trustCertificateKeyStoreUrl.getKeyName(), "file:src/test/config/ssl-test-certs/ca-truststore");
+        props.setProperty(PropertyKey.trustCertificateKeyStoreUrl.getKeyName(),
+                "file:src/test/config/ssl-test-certs/ca-truststore");
         props.setProperty(PropertyKey.trustCertificateKeyStoreType.getKeyName(), "JKS");
         props.setProperty(PropertyKey.trustCertificateKeyStorePassword.getKeyName(), "password");
         testConn = getConnectionWithProps(props);
@@ -2188,7 +2262,8 @@ public class ConnectionTest extends BaseTestCase {
         /*
          * SSL: server certificate validation & client certificate.
          */
-        props.setProperty(PropertyKey.clientCertificateKeyStoreUrl.getKeyName(), "file:src/test/config/ssl-test-certs/client-keystore");
+        props.setProperty(PropertyKey.clientCertificateKeyStoreUrl.getKeyName(),
+                "file:src/test/config/ssl-test-certs/client-keystore");
         props.setProperty(PropertyKey.clientCertificateKeyStoreType.getKeyName(), "JKS");
         props.setProperty(PropertyKey.clientCertificateKeyStorePassword.getKeyName(), "password");
         testConn = getConnectionWithProps(props);
@@ -2214,10 +2289,13 @@ public class ConnectionTest extends BaseTestCase {
     }
 
     /**
-     * Test authentication with a user that requires an SSL connection and an authorized client certificate.
+     * Test authentication with a user that requires an SSL connection and an
+     * authorized client certificate.
      * 
-     * This test requires the CA truststore and the client keystore available in src/test/config/ssl-test-certs.
-     * The server needs to be configured with the CA and server certificates from src/test/config/ssl-test-certs.
+     * This test requires the CA truststore and the client keystore available in
+     * src/test/config/ssl-test-certs.
+     * The server needs to be configured with the CA and server certificates from
+     * src/test/config/ssl-test-certs.
      */
     public void testUserRequireX509() throws Exception {
         if (!versionMeetsMinimum(5, 7, 6)) {
@@ -2265,7 +2343,8 @@ public class ConnectionTest extends BaseTestCase {
          * SSL: server certificate validation & no client certificate.
          */
         props.setProperty(PropertyKey.verifyServerCertificate.getKeyName(), "true");
-        props.setProperty(PropertyKey.trustCertificateKeyStoreUrl.getKeyName(), "file:src/test/config/ssl-test-certs/ca-truststore");
+        props.setProperty(PropertyKey.trustCertificateKeyStoreUrl.getKeyName(),
+                "file:src/test/config/ssl-test-certs/ca-truststore");
         props.setProperty(PropertyKey.trustCertificateKeyStoreType.getKeyName(), "JKS");
         props.setProperty(PropertyKey.trustCertificateKeyStorePassword.getKeyName(), "password");
         assertThrows(SQLException.class, "Access denied for user '" + user + "'@.*", new Callable<Void>() {
@@ -2278,7 +2357,8 @@ public class ConnectionTest extends BaseTestCase {
         /*
          * SSL: server certificate validation & client certificate.
          */
-        props.setProperty(PropertyKey.clientCertificateKeyStoreUrl.getKeyName(), "file:src/test/config/ssl-test-certs/client-keystore");
+        props.setProperty(PropertyKey.clientCertificateKeyStoreUrl.getKeyName(),
+                "file:src/test/config/ssl-test-certs/client-keystore");
         props.setProperty(PropertyKey.clientCertificateKeyStoreType.getKeyName(), "JKS");
         props.setProperty(PropertyKey.clientCertificateKeyStorePassword.getKeyName(), "password");
         testConn = getConnectionWithProps(props);

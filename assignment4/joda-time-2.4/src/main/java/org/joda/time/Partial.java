@@ -29,12 +29,14 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
- * Partial is an immutable partial datetime supporting any set of datetime fields.
+ * Partial is an immutable partial datetime supporting any set of datetime
+ * fields.
  * <p>
  * A Partial instance can be used to hold any combination of fields.
  * The instance does not contain a time zone, so any datetime is local.
  * <p>
- * A Partial can be matched against an instant using {@link #isMatch(ReadableInstant)}.
+ * A Partial can be matched against an instant using
+ * {@link #isMatch(ReadableInstant)}.
  * This method compares each field on this partial with those of the instant
  * and determines if the partial matches the instant.
  * Given this definition, an empty Partial instance represents any datetime
@@ -59,7 +61,8 @@ import org.joda.time.format.ISODateTimeFormat;
  * <li>set - <code>monthOfYear().setCopy()</code>
  * </ul>
  * <p>
- * Partial is thread-safe and immutable, provided that the Chronology is as well.
+ * Partial is thread-safe and immutable, provided that the Chronology is as
+ * well.
  * All standard Chronology classes supplied are thread-safe and immutable.
  *
  * @author Stephen Colebourne
@@ -78,22 +81,26 @@ public final class Partial
     private final DateTimeFieldType[] iTypes;
     /** The values of each field in this partial. */
     private final int[] iValues;
-    /** The formatter to use, [0] may miss some fields, [1] doesn't miss any fields. */
+    /**
+     * The formatter to use, [0] may miss some fields, [1] doesn't miss any fields.
+     */
     private transient DateTimeFormatter[] iFormatter;
 
     // Constructors
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Constructs a Partial with no fields or values, which can be considered
      * to represent any date.
      * <p>
      * This is most useful when constructing partials, for example:
+     * 
      * <pre>
      * Partial p = new Partial()
-     *     .with(DateTimeFieldType.dayOfWeek(), 5)
-     *     .with(DateTimeFieldType.hourOfDay(), 12)
-     *     .with(DateTimeFieldType.minuteOfHour(), 20);
+     *         .with(DateTimeFieldType.dayOfWeek(), 5)
+     *         .with(DateTimeFieldType.hourOfDay(), 12)
+     *         .with(DateTimeFieldType.minuteOfHour(), 20);
      * </pre>
+     * 
      * Note that, although this is a clean way to write code, it is fairly
      * inefficient internally.
      * <p>
@@ -108,16 +115,18 @@ public final class Partial
      * to represent any date.
      * <p>
      * This is most useful when constructing partials, for example:
+     * 
      * <pre>
      * Partial p = new Partial(chrono)
-     *     .with(DateTimeFieldType.dayOfWeek(), 5)
-     *     .with(DateTimeFieldType.hourOfDay(), 12)
-     *     .with(DateTimeFieldType.minuteOfHour(), 20);
+     *         .with(DateTimeFieldType.dayOfWeek(), 5)
+     *         .with(DateTimeFieldType.hourOfDay(), 12)
+     *         .with(DateTimeFieldType.minuteOfHour(), 20);
      * </pre>
+     * 
      * Note that, although this is a clean way to write code, it is fairly
      * inefficient internally.
      *
-     * @param chrono  the chronology, null means ISO
+     * @param chrono the chronology, null means ISO
      */
     public Partial(Chronology chrono) {
         super();
@@ -132,7 +141,7 @@ public final class Partial
      * The constructor uses the default ISO chronology.
      * 
      * @param type  the single type to create the partial from, not null
-     * @param value  the value to store
+     * @param value the value to store
      * @throws IllegalArgumentException if the type or value is invalid
      */
     public Partial(DateTimeFieldType type, int value) {
@@ -144,9 +153,9 @@ public final class Partial
      * <p>
      * The constructor uses the specified chronology.
      * 
-     * @param type  the single type to create the partial from, not null
-     * @param value  the value to store
-     * @param chronology  the chronology, null means ISO
+     * @param type       the single type to create the partial from, not null
+     * @param value      the value to store
+     * @param chronology the chronology, null means ISO
      * @throws IllegalArgumentException if the type or value is invalid
      */
     public Partial(DateTimeFieldType type, int value, Chronology chronology) {
@@ -156,8 +165,8 @@ public final class Partial
         if (type == null) {
             throw new IllegalArgumentException("The field type must not be null");
         }
-        iTypes = new DateTimeFieldType[] {type};
-        iValues = new int[] {value};
+        iTypes = new DateTimeFieldType[] { type };
+        iValues = new int[] { value };
         chronology.validate(this, iValues);
     }
 
@@ -170,7 +179,7 @@ public final class Partial
      * The constructor uses the specified chronology.
      * 
      * @param types  the types to create the partial from, not null
-     * @param values  the values to store, not null
+     * @param values the values to store, not null
      * @throws IllegalArgumentException if the types or values are invalid
      */
     public Partial(DateTimeFieldType[] types, int[] values) {
@@ -185,9 +194,9 @@ public final class Partial
      * <p>
      * The constructor uses the specified chronology.
      * 
-     * @param types  the types to create the partial from, not null
-     * @param values  the values to store, not null
-     * @param chronology  the chronology, null means ISO
+     * @param types      the types to create the partial from, not null
+     * @param values     the values to store, not null
+     * @param chronology the chronology, null means ISO
      * @throws IllegalArgumentException if the types or values are invalid
      */
     public Partial(DateTimeFieldType[] types, int[] values, Chronology chronology) {
@@ -221,10 +230,10 @@ public final class Partial
                 if (loopUnitField.isSupported() == false) {
                     if (lastUnitField.isSupported()) {
                         throw new IllegalArgumentException("Types array must be in order largest-smallest: " +
-                                        types[i - 1].getName() + " < " + loopType.getName());
+                                types[i - 1].getName() + " < " + loopType.getName());
                     } else {
                         throw new IllegalArgumentException("Types array must not contain duplicate unsupported: " +
-                                        types[i - 1].getName() + " and " + loopType.getName());
+                                types[i - 1].getName() + " and " + loopType.getName());
                     }
                 }
                 int compare = lastUnitField.compareTo(loopUnitField);
@@ -238,7 +247,7 @@ public final class Partial
                         if (lastRangeType == null) {
                             if (loopRangeType == null) {
                                 throw new IllegalArgumentException("Types array must not contain duplicate: " +
-                                                types[i - 1].getName() + " and " + loopType.getName());
+                                        types[i - 1].getName() + " and " + loopType.getName());
                             }
                         } else {
                             if (loopRangeType == null) {
@@ -253,21 +262,21 @@ public final class Partial
                             }
                             if (lastRangeField.compareTo(loopRangeField) == 0) {
                                 throw new IllegalArgumentException("Types array must not contain duplicate: " +
-                                                types[i - 1].getName() + " and " + loopType.getName());
+                                        types[i - 1].getName() + " and " + loopType.getName());
                             }
                         }
                     } else {
                         if (lastUnitField.isSupported() && lastUnitField.getType() != DurationFieldType.YEARS_TYPE) {
                             throw new IllegalArgumentException("Types array must be in order largest-smallest," +
-                                            " for year-based fields, years is defined as being largest: " +
-                                            types[i - 1].getName() + " < " + loopType.getName());
+                                    " for year-based fields, years is defined as being largest: " +
+                                    types[i - 1].getName() + " < " + loopType.getName());
                         }
                     }
                 }
             }
             lastUnitField = loopUnitField;
         }
-        
+
         iTypes = (DateTimeFieldType[]) types.clone();
         chronology.validate(this, values);
         iValues = (int[]) values.clone();
@@ -297,7 +306,7 @@ public final class Partial
      * Constructs a Partial with the specified values.
      * This constructor assigns and performs no validation.
      * 
-     * @param partial  the partial to copy
+     * @param partial the partial to copy
      * @param values  the values to store
      * @throws IllegalArgumentException if the types or values are invalid
      */
@@ -312,9 +321,9 @@ public final class Partial
      * Constructs a Partial with the specified chronology, fields and values.
      * This constructor assigns and performs no validation.
      * 
-     * @param chronology  the chronology
-     * @param types  the types to create the partial from
-     * @param values  the values to store
+     * @param chronology the chronology
+     * @param types      the types to create the partial from
+     * @param values     the values to store
      * @throws IllegalArgumentException if the types or values are invalid
      */
     Partial(Chronology chronology, DateTimeFieldType[] types, int[] values) {
@@ -324,7 +333,7 @@ public final class Partial
         iValues = values;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the number of fields in this partial.
      * 
@@ -338,7 +347,8 @@ public final class Partial
      * Gets the chronology of the partial which is never null.
      * <p>
      * The {@link Chronology} is the calculation engine behind the partial and
-     * provides conversion and validation of the fields in a particular calendar system.
+     * provides conversion and validation of the fields in a particular calendar
+     * system.
      * 
      * @return the chronology, never null
      */
@@ -350,7 +360,7 @@ public final class Partial
      * Gets the field for a specific index in the chronology specified.
      * 
      * @param index  the index to retrieve
-     * @param chrono  the chronology to use
+     * @param chrono the chronology to use
      * @return the field
      * @throws IndexOutOfBoundsException if the index is invalid
      */
@@ -361,7 +371,7 @@ public final class Partial
     /**
      * Gets the field type at the specified index.
      *
-     * @param index  the index to retrieve
+     * @param index the index to retrieve
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
@@ -381,11 +391,11 @@ public final class Partial
         return (DateTimeFieldType[]) iTypes.clone();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the value of the field at the specified index.
      * 
-     * @param index  the index
+     * @param index the index
      * @return the value
      * @throws IndexOutOfBoundsException if the index is invalid
      */
@@ -398,7 +408,8 @@ public final class Partial
      * this partial supports.
      * <p>
      * The fields are returned largest to smallest.
-     * Each value corresponds to the same array index as <code>getFieldTypes()</code>
+     * Each value corresponds to the same array index as
+     * <code>getFieldTypes()</code>
      *
      * @return the current values of each field (cloned), largest to smallest
      */
@@ -406,7 +417,7 @@ public final class Partial
         return (int[]) iValues.clone();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Creates a new Partial instance with the specified chronology.
      * This instance is immutable and unaffected by this method call.
@@ -417,9 +428,10 @@ public final class Partial
      * The time zone of the specified chronology is ignored, as Partial
      * operates without a time zone.
      *
-     * @param newChronology  the new chronology, null means ISO
+     * @param newChronology the new chronology, null means ISO
      * @return a copy of this datetime with a different chronology
-     * @throws IllegalArgumentException if the values are invalid for the new chronology
+     * @throws IllegalArgumentException if the values are invalid for the new
+     *                                  chronology
      */
     public Partial withChronologyRetainFields(Chronology newChronology) {
         newChronology = DateTimeUtils.getChronology(newChronology);
@@ -433,7 +445,7 @@ public final class Partial
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets a copy of this date with the specified field set to a new value.
      * <p>
@@ -443,8 +455,8 @@ public final class Partial
      * For example, if the field type is <code>dayOfMonth</code> then the day
      * would be changed/added in the returned instance.
      *
-     * @param fieldType  the field type to set, not null
-     * @param value  the value to set
+     * @param fieldType the field type to set, not null
+     * @param value     the value to set
      * @return a copy of this instance with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
@@ -456,7 +468,7 @@ public final class Partial
         if (index == -1) {
             DateTimeFieldType[] newTypes = new DateTimeFieldType[iTypes.length + 1];
             int[] newValues = new int[newTypes.length];
-            
+
             // find correct insertion point to keep largest-smallest order
             int i = 0;
             DurationField unitField = fieldType.getDurationType().getField(iChronology);
@@ -509,7 +521,7 @@ public final class Partial
      * <p>
      * If this partial did not previously support the field, no error occurs.
      *
-     * @param fieldType  the field type to remove, may be null
+     * @param fieldType the field type to remove, may be null
      * @return a copy of this instance with the field removed
      */
     public Partial without(DateTimeFieldType fieldType) {
@@ -528,7 +540,7 @@ public final class Partial
         return this;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets a copy of this Partial with the specified field set to a new value.
      * <p>
@@ -538,8 +550,8 @@ public final class Partial
      * For example, if the field type is <code>dayOfMonth</code> then the day
      * would be changed in the returned instance if supported.
      *
-     * @param fieldType  the field type to set, not null
-     * @param value  the value to set
+     * @param fieldType the field type to set, not null
+     * @param value     the value to set
      * @return a copy of this instance with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
@@ -561,11 +573,11 @@ public final class Partial
      * The addition will overflow into larger fields (eg. minute to hour).
      * However, it will not wrap around if the top maximum is reached.
      *
-     * @param fieldType  the field type to add to, not null
-     * @param amount  the amount to add
+     * @param fieldType the field type to add to, not null
+     * @param amount    the amount to add
      * @return a copy of this instance with the field updated
      * @throws IllegalArgumentException if the value is null or invalid
-     * @throws ArithmeticException if the new datetime exceeds the capacity
+     * @throws ArithmeticException      if the new datetime exceeds the capacity
      */
     public Partial withFieldAdded(DurationFieldType fieldType, int amount) {
         int index = indexOfSupported(fieldType);
@@ -585,11 +597,11 @@ public final class Partial
      * The addition will overflow into larger fields (eg. minute to hour).
      * If the maximum is reached, the addition will wra.
      *
-     * @param fieldType  the field type to add to, not null
-     * @param amount  the amount to add
+     * @param fieldType the field type to add to, not null
+     * @param amount    the amount to add
      * @return a copy of this instance with the field updated
      * @throws IllegalArgumentException if the value is null or invalid
-     * @throws ArithmeticException if the new datetime exceeds the capacity
+     * @throws ArithmeticException      if the new datetime exceeds the capacity
      */
     public Partial withFieldAddWrapped(DurationFieldType fieldType, int amount) {
         int index = indexOfSupported(fieldType);
@@ -611,8 +623,8 @@ public final class Partial
      * period instances. Adding one field is best achieved using the method
      * {@link #withFieldAdded(DurationFieldType, int)}.
      * 
-     * @param period  the period to add to this one, null means zero
-     * @param scalar  the amount of times to add, such as -1 to subtract once
+     * @param period the period to add to this one, null means zero
+     * @param scalar the amount of times to add, such as -1 to subtract once
      * @return a copy of this instance with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity
      */
@@ -637,9 +649,10 @@ public final class Partial
      * <p>
      * If the amount is zero or null, then <code>this</code> is returned.
      *
-     * @param period  the duration to add to this one, null means zero
+     * @param period the duration to add to this one, null means zero
      * @return a copy of this instance with the period added
-     * @throws ArithmeticException if the new datetime exceeds the capacity of a long
+     * @throws ArithmeticException if the new datetime exceeds the capacity of a
+     *                             long
      */
     public Partial plus(ReadablePeriod period) {
         return withPeriodAdded(period, 1);
@@ -650,22 +663,23 @@ public final class Partial
      * <p>
      * If the amount is zero or null, then <code>this</code> is returned.
      *
-     * @param period  the period to reduce this instant by
+     * @param period the period to reduce this instant by
      * @return a copy of this instance with the period taken away
-     * @throws ArithmeticException if the new datetime exceeds the capacity of a long
+     * @throws ArithmeticException if the new datetime exceeds the capacity of a
+     *                             long
      */
     public Partial minus(ReadablePeriod period) {
         return withPeriodAdded(period, -1);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the property object for the specified type, which contains
      * many useful methods for getting and manipulating the partial.
      * <p>
      * See also {@link ReadablePartial#get(DateTimeFieldType)}.
      *
-     * @param type  the field type to get the property for, not null
+     * @param type the field type to get the property for, not null
      * @return the property object
      * @throws IllegalArgumentException if the field is null or unsupported
      */
@@ -673,14 +687,14 @@ public final class Partial
         return new Property(this, indexOfSupported(type));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Does this partial match the specified instant.
      * <p>
      * A match occurs when all the fields of this partial are the same as the
      * corresponding fields on the specified instant.
      *
-     * @param instant  an instant to check against, null means now in default zone
+     * @param instant an instant to check against, null means now in default zone
      * @return true if this partial matches the specified instant
      */
     public boolean isMatch(ReadableInstant instant) {
@@ -701,10 +715,11 @@ public final class Partial
      * A match occurs when all the fields of this partial are the same as the
      * corresponding fields on the specified partial.
      *
-     * @param partial  a partial to check against, must not be null
+     * @param partial a partial to check against, must not be null
      * @return true if this partial matches the specified partial
      * @throws IllegalArgumentException if the partial is null
-     * @throws IllegalArgumentException if the fields of the two partials do not match
+     * @throws IllegalArgumentException if the fields of the two partials do not
+     *                                  match
      * @since 1.5
      */
     public boolean isMatch(ReadablePartial partial) {
@@ -720,7 +735,7 @@ public final class Partial
         return true;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets a formatter suitable for the fields in this partial.
      * <p>
@@ -730,7 +745,7 @@ public final class Partial
      * fields, such as dayOfWeek and dayOfMonth.
      *
      * @return a formatter suitable for the fields in this partial, null
-     *  if none is suitable
+     *         if none is suitable
      */
     public DateTimeFormatter getFormatter() {
         DateTimeFormatter[] f = iFormatter;
@@ -753,7 +768,7 @@ public final class Partial
         return f[0];
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Output the date in an appropriate ISO8601 format.
      * <p>
@@ -810,7 +825,8 @@ public final class Partial
      * Output the date using the specified format pattern.
      * Unsupported fields will appear as special unicode characters.
      *
-     * @param pattern  the pattern specification, null means use <code>toString</code>
+     * @param pattern the pattern specification, null means use
+     *                <code>toString</code>
      * @see org.joda.time.format.DateTimeFormat
      */
     public String toString(String pattern) {
@@ -824,7 +840,8 @@ public final class Partial
      * Output the date using the specified format pattern.
      * Unsupported fields will appear as special unicode characters.
      *
-     * @param pattern  the pattern specification, null means use <code>toString</code>
+     * @param pattern the pattern specification, null means use
+     *                <code>toString</code>
      * @param locale  Locale to use, null means default
      * @see org.joda.time.format.DateTimeFormat
      */
@@ -835,7 +852,7 @@ public final class Partial
         return DateTimeFormat.forPattern(pattern).withLocale(locale).print(this);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * The property class for <code>Partial</code>.
      * <p>
@@ -857,8 +874,8 @@ public final class Partial
         /**
          * Constructs a property.
          * 
-         * @param partial  the partial instance
-         * @param fieldIndex  the index in the partial
+         * @param partial    the partial instance
+         * @param fieldIndex the index in the partial
          */
         Property(Partial partial, int fieldIndex) {
             super();
@@ -902,7 +919,7 @@ public final class Partial
             return iPartial.getValue(iFieldIndex);
         }
 
-        //-----------------------------------------------------------------------
+        // -----------------------------------------------------------------------
         /**
          * Adds to the value of this field in a copy of this Partial.
          * <p>
@@ -916,7 +933,7 @@ public final class Partial
          * The Partial attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param valueToAdd  the value to add to the field in the copy
+         * @param valueToAdd the value to add to the field in the copy
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
@@ -935,12 +952,13 @@ public final class Partial
          * Other fields are unaffected.
          * <p>
          * For example,
-         * <code>2004-12-20</code> addWrapField one month returns <code>2004-01-20</code>.
+         * <code>2004-12-20</code> addWrapField one month returns
+         * <code>2004-01-20</code>.
          * <p>
          * The Partial attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param valueToAdd  the value to add to the field in the copy
+         * @param valueToAdd the value to add to the field in the copy
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
@@ -950,14 +968,14 @@ public final class Partial
             return new Partial(iPartial, newValues);
         }
 
-        //-----------------------------------------------------------------------
+        // -----------------------------------------------------------------------
         /**
          * Sets this field in a copy of the Partial.
          * <p>
          * The Partial attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param value  the value to set the field in the copy to
+         * @param value the value to set the field in the copy to
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
@@ -973,8 +991,8 @@ public final class Partial
          * The Partial attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param text  the text value to set
-         * @param locale  optional locale to use for selecting a text symbol
+         * @param text   the text value to set
+         * @param locale optional locale to use for selecting a text symbol
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
@@ -990,7 +1008,7 @@ public final class Partial
          * The Partial attached to this property is unchanged by this call.
          * Instead, a new instance is returned.
          * 
-         * @param text  the text value to set
+         * @param text the text value to set
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
@@ -998,7 +1016,7 @@ public final class Partial
             return setCopy(text, null);
         }
 
-        //-----------------------------------------------------------------------
+        // -----------------------------------------------------------------------
         /**
          * Returns a new Partial with this field set to the maximum value
          * for this field.

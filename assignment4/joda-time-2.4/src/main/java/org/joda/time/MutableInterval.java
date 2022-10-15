@@ -36,7 +36,8 @@ import org.joda.time.format.ISOPeriodFormat;
  * To compare the length of two intervals, you should compare their durations.
  * <p>
  * An interval can also be converted to a {@link ReadablePeriod}.
- * This represents the difference between the start and end points in terms of fields
+ * This represents the difference between the start and end points in terms of
+ * fields
  * such as years and days.
  * <p>
  * If performing significant calculations on an interval, it may be faster to
@@ -56,22 +57,23 @@ public class MutableInterval
     /** Serialization version */
     private static final long serialVersionUID = -5982824024992428470L;
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Parses a {@code MutableInterval} from the specified string.
      * <p>
-     * The String formats are described by {@link ISODateTimeFormat#dateTimeParser()}
+     * The String formats are described by
+     * {@link ISODateTimeFormat#dateTimeParser()}
      * and {@link ISOPeriodFormat#standard()}, and may be 'datetime/datetime',
      * 'datetime/period' or 'period/datetime'.
      * 
-     * @param str  the string to parse, not null
+     * @param str the string to parse, not null
      * @since 2.0
      */
     public static MutableInterval parse(String str) {
         return new MutableInterval(str);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Constructs a zero length time interval from 1970-01-01 to 1970-01-01.
      */
@@ -80,10 +82,13 @@ public class MutableInterval
     }
 
     /**
-     * Constructs an interval from a start and end instant with the ISO default chronology.
+     * Constructs an interval from a start and end instant with the ISO default
+     * chronology.
      * 
-     * @param startInstant  start of this interval, as milliseconds from 1970-01-01T00:00:00Z.
-     * @param endInstant  end of this interval, as milliseconds from 1970-01-01T00:00:00Z.
+     * @param startInstant start of this interval, as milliseconds from
+     *                     1970-01-01T00:00:00Z.
+     * @param endInstant   end of this interval, as milliseconds from
+     *                     1970-01-01T00:00:00Z.
      * @throws IllegalArgumentException if the end is before the start
      */
     public MutableInterval(long startInstant, long endInstant) {
@@ -93,9 +98,11 @@ public class MutableInterval
     /**
      * Constructs an interval from a start and end instant with a chronology.
      * 
-     * @param chronology  the chronology to use, null is ISO default
-     * @param startInstant  start of this interval, as milliseconds from 1970-01-01T00:00:00Z.
-     * @param endInstant  end of this interval, as milliseconds from 1970-01-01T00:00:00Z.
+     * @param chronology   the chronology to use, null is ISO default
+     * @param startInstant start of this interval, as milliseconds from
+     *                     1970-01-01T00:00:00Z.
+     * @param endInstant   end of this interval, as milliseconds from
+     *                     1970-01-01T00:00:00Z.
      * @throws IllegalArgumentException if the end is before the start
      */
     public MutableInterval(long startInstant, long endInstant, Chronology chronology) {
@@ -107,8 +114,8 @@ public class MutableInterval
      * <p>
      * The chronology used is that of the start instant.
      * 
-     * @param start  start of this interval, null means now
-     * @param end  end of this interval, null means now
+     * @param start start of this interval, null means now
+     * @param end   end of this interval, null means now
      * @throws IllegalArgumentException if the end is before the start
      */
     public MutableInterval(ReadableInstant start, ReadableInstant end) {
@@ -118,10 +125,11 @@ public class MutableInterval
     /**
      * Constructs an interval from a start instant and a duration.
      * 
-     * @param start  start of this interval, null means now
-     * @param duration  the duration of this interval, null means zero length
+     * @param start    start of this interval, null means now
+     * @param duration the duration of this interval, null means zero length
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the end instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the end instant exceeds the capacity of a
+     *                                  long
      */
     public MutableInterval(ReadableInstant start, ReadableDuration duration) {
         super(start, duration);
@@ -130,10 +138,11 @@ public class MutableInterval
     /**
      * Constructs an interval from a millisecond duration and an end instant.
      * 
-     * @param duration  the duration of this interval, null means zero length
-     * @param end  end of this interval, null means now
+     * @param duration the duration of this interval, null means zero length
+     * @param end      end of this interval, null means now
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the start instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the start instant exceeds the capacity of
+     *                                  a long
      */
     public MutableInterval(ReadableDuration duration, ReadableInstant end) {
         super(duration, end);
@@ -146,9 +155,10 @@ public class MutableInterval
      * if present, otherwise the chronology of the period is used.
      * 
      * @param start  start of this interval, null means now
-     * @param period  the period of this interval, null means zero length
+     * @param period the period of this interval, null means zero length
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the end instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the end instant exceeds the capacity of a
+     *                                  long
      */
     public MutableInterval(ReadableInstant start, ReadablePeriod period) {
         super(start, period);
@@ -160,10 +170,11 @@ public class MutableInterval
      * When forming the interval, the chronology from the instant is used
      * if present, otherwise the chronology of the period is used.
      * 
-     * @param period  the period of this interval, null means zero length
-     * @param end  end of this interval, null means now
+     * @param period the period of this interval, null means zero length
+     * @param end    end of this interval, null means now
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the start instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the start instant exceeds the capacity of
+     *                                  a long
      */
     public MutableInterval(ReadablePeriod period, ReadableInstant end) {
         super(period, end);
@@ -175,11 +186,12 @@ public class MutableInterval
      * The recognised object types are defined in
      * {@link org.joda.time.convert.ConverterManager ConverterManager} and
      * include ReadableInterval and String.
-     * The String formats are described by {@link ISODateTimeFormat#dateTimeParser()}
+     * The String formats are described by
+     * {@link ISODateTimeFormat#dateTimeParser()}
      * and {@link ISOPeriodFormat#standard()}, and may be 'datetime/datetime',
      * 'datetime/period' or 'period/datetime'.
      * 
-     * @param interval  the time interval to copy
+     * @param interval the time interval to copy
      * @throws IllegalArgumentException if the interval is invalid
      */
     public MutableInterval(Object interval) {
@@ -193,24 +205,25 @@ public class MutableInterval
      * The recognised object types are defined in
      * {@link org.joda.time.convert.ConverterManager ConverterManager} and
      * include ReadableInterval and String.
-     * The String formats are described by {@link ISODateTimeFormat#dateTimeParser()}
+     * The String formats are described by
+     * {@link ISODateTimeFormat#dateTimeParser()}
      * and {@link ISOPeriodFormat#standard()}, and may be 'datetime/datetime',
      * 'datetime/period' or 'period/datetime'.
      * 
-     * @param interval  the time interval to copy
-     * @param chronology  the chronology to use, null means ISO default
+     * @param interval   the time interval to copy
+     * @param chronology the chronology to use, null means ISO default
      * @throws IllegalArgumentException if the interval is invalid
      */
     public MutableInterval(Object interval, Chronology chronology) {
         super(interval, chronology);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Sets this interval from two millisecond instants retaining the chronology.
      *
-     * @param startInstant  the start of the time interval
-     * @param endInstant  the start of the time interval
+     * @param startInstant the start of the time interval
+     * @param endInstant   the start of the time interval
      * @throws IllegalArgumentException if the end is before the start
      */
     public void setInterval(long startInstant, long endInstant) {
@@ -220,7 +233,7 @@ public class MutableInterval
     /**
      * Sets this interval to be the same as another.
      *
-     * @param interval  the interval to copy
+     * @param interval the interval to copy
      * @throws IllegalArgumentException if the interval is null
      */
     public void setInterval(ReadableInterval interval) {
@@ -237,8 +250,8 @@ public class MutableInterval
      * Sets this interval from two instants, replacing the chronology with
      * that from the start instant.
      *
-     * @param start  the start of the time interval
-     * @param end  the start of the time interval
+     * @param start the start of the time interval
+     * @param end   the start of the time interval
      * @throws IllegalArgumentException if the end is before the start
      */
     public void setInterval(ReadableInstant start, ReadableInstant end) {
@@ -253,11 +266,11 @@ public class MutableInterval
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Sets the chronology of this time interval.
      *
-     * @param chrono  the chronology to use, null means ISO default
+     * @param chrono the chronology to use, null means ISO default
      */
     public void setChronology(Chronology chrono) {
         super.setInterval(getStartMillis(), getEndMillis(), chrono);
@@ -266,8 +279,8 @@ public class MutableInterval
     /**
      * Sets the start of this time interval.
      *
-     * @param startInstant  the start of the time interval,
-     *  millisecond instant from 1970-01-01T00:00:00Z
+     * @param startInstant the start of the time interval,
+     *                     millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the end is before the start
      */
     public void setStartMillis(long startInstant) {
@@ -277,7 +290,7 @@ public class MutableInterval
     /**
      * Sets the start of this time interval as an Instant.
      *
-     * @param start  the start of the time interval, null means now
+     * @param start the start of the time interval, null means now
      * @throws IllegalArgumentException if the end is before the start
      */
     public void setStart(ReadableInstant start) {
@@ -285,21 +298,21 @@ public class MutableInterval
         super.setInterval(startMillis, getEndMillis(), getChronology());
     }
 
-    /** 
+    /**
      * Sets the end of this time interval.
      *
-     * @param endInstant  the end of the time interval,
-     *  millisecond instant from 1970-01-01T00:00:00Z
+     * @param endInstant the end of the time interval,
+     *                   millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the end is before the start
      */
     public void setEndMillis(long endInstant) {
         super.setInterval(getStartMillis(), endInstant, getChronology());
     }
 
-    /** 
+    /**
      * Sets the end of this time interval as an Instant.
      *
-     * @param end  the end of the time interval, null means now
+     * @param end the end of the time interval, null means now
      * @throws IllegalArgumentException if the end is before the start
      */
     public void setEnd(ReadableInstant end) {
@@ -307,13 +320,14 @@ public class MutableInterval
         super.setInterval(getStartMillis(), endMillis, getChronology());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Sets the duration of this time interval, preserving the start instant.
      *
-     * @param duration  new duration for interval
+     * @param duration new duration for interval
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the end instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the end instant exceeds the capacity of a
+     *                                  long
      */
     public void setDurationAfterStart(long duration) {
         setEndMillis(FieldUtils.safeAdd(getStartMillis(), duration));
@@ -322,21 +336,23 @@ public class MutableInterval
     /**
      * Sets the duration of this time interval, preserving the end instant.
      *
-     * @param duration  new duration for interval
+     * @param duration new duration for interval
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the start instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the start instant exceeds the capacity of
+     *                                  a long
      */
     public void setDurationBeforeEnd(long duration) {
         setStartMillis(FieldUtils.safeAdd(getEndMillis(), -duration));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Sets the duration of this time interval, preserving the start instant.
      *
-     * @param duration  new duration for interval, null means zero length
+     * @param duration new duration for interval, null means zero length
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the end instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the end instant exceeds the capacity of a
+     *                                  long
      */
     public void setDurationAfterStart(ReadableDuration duration) {
         long durationMillis = DateTimeUtils.getDurationMillis(duration);
@@ -346,23 +362,25 @@ public class MutableInterval
     /**
      * Sets the duration of this time interval, preserving the end instant.
      *
-     * @param duration  new duration for interval, null means zero length
+     * @param duration new duration for interval, null means zero length
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the start instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the start instant exceeds the capacity of
+     *                                  a long
      */
     public void setDurationBeforeEnd(ReadableDuration duration) {
         long durationMillis = DateTimeUtils.getDurationMillis(duration);
         setStartMillis(FieldUtils.safeAdd(getEndMillis(), -durationMillis));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Sets the period of this time interval, preserving the start instant
      * and using the ISOChronology in the default zone for calculations.
      *
-     * @param period  new period for interval, null means zero length
+     * @param period new period for interval, null means zero length
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the end instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the end instant exceeds the capacity of a
+     *                                  long
      */
     public void setPeriodAfterStart(ReadablePeriod period) {
         if (period == null) {
@@ -376,9 +394,10 @@ public class MutableInterval
      * Sets the period of this time interval, preserving the end instant
      * and using the ISOChronology in the default zone for calculations.
      *
-     * @param period  new period for interval, null means zero length
+     * @param period new period for interval, null means zero length
      * @throws IllegalArgumentException if the end is before the start
-     * @throws ArithmeticException if the start instant exceeds the capacity of a long
+     * @throws ArithmeticException      if the start instant exceeds the capacity of
+     *                                  a long
      */
     public void setPeriodBeforeEnd(ReadablePeriod period) {
         if (period == null) {
@@ -388,7 +407,7 @@ public class MutableInterval
         }
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Clone this object without having to cast the returned object.
      *

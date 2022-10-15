@@ -36,7 +36,7 @@ This repository contains all the java programming assignments for the CSE1007 la
     > Eg., Define a class ‘Donor’ to store the below mentioned details of  a blood donor.  Name, age, Address, Contact number, blood group, date of last donation Create ‘n’ objects of this class for all the regular donors at Vellore. Write these objects to a file. Read these objects from the file and display only those donors’ details whose blood group is ‘A+ve’ and had not donated for the recent six months.
     
     [Alternative Ans](/assignment4/src/Donor.java): 
-    _If you're running the "alternative ans", then please refer [instructions on how to run](https://jacob5412.github.io/Java-Programming/assignment4/JodaTimeDonor) if you do not know how to add the [jodatime](https://github.com/JodaOrg/joda-time/releases) jar files to your system._
+    _If you're running the "alternative ans", then please refer [instructions on how to run](/assignment4/JodaTimeDonor.md) if you do not know how to add the [jodatime](https://github.com/JodaOrg/joda-time/releases) jar files to your system._
 
     Or copy the output below:
 

@@ -39,7 +39,8 @@ import com.mysql.cj.protocol.Resultset;
 import com.mysql.cj.protocol.ServerSession;
 
 /**
- * Wraps query interceptors during driver startup so that they don't produce different result sets than we expect.
+ * Wraps query interceptors during driver startup so that they don't produce
+ * different result sets than we expect.
  */
 public class NoSubInterceptorWrapper implements QueryInterceptor {
 
@@ -66,7 +67,8 @@ public class NoSubInterceptorWrapper implements QueryInterceptor {
         return this;
     }
 
-    public <T extends Resultset> T postProcess(Supplier<String> sql, Query interceptedQuery, T originalResultSet, ServerSession serverSession) {
+    public <T extends Resultset> T postProcess(Supplier<String> sql, Query interceptedQuery, T originalResultSet,
+            ServerSession serverSession) {
         this.underlyingInterceptor.postProcess(sql, interceptedQuery, originalResultSet, serverSession);
 
         return null; // don't allow result set substitution

@@ -53,49 +53,62 @@ public class CommonChecks {
 
         // params classes
         CtClass ctClazz = pool.get(Class.class.getName());
-        //CtClass ctClob = pool.get(java.sql.Clob.class.getName());
-        //CtClass ctBindValue = pool.get(BindValue.class.getName());
+        // CtClass ctClob = pool.get(java.sql.Clob.class.getName());
+        // CtClass ctBindValue = pool.get(BindValue.class.getName());
         CtClass ctBool = pool.get(boolean.class.getName());
-        //CtClass ctBoolArray = pool.get(boolean[].class.getName());
-        //CtClass ctByteArray2 = pool.get(byte[][].class.getName());
-        //CtClass ctBuffer = pool.get(Buffer.class.getName());
-        //CtClass ctExecutor = pool.get(Executor.class.getName());
-        //CtClass ctFieldArray = pool.get(Field[].class.getName());
+        // CtClass ctBoolArray = pool.get(boolean[].class.getName());
+        // CtClass ctByteArray2 = pool.get(byte[][].class.getName());
+        // CtClass ctBuffer = pool.get(Buffer.class.getName());
+        // CtClass ctExecutor = pool.get(Executor.class.getName());
+        // CtClass ctFieldArray = pool.get(Field[].class.getName());
         CtClass ctInt = pool.get(int.class.getName());
         CtClass ctIntArray = pool.get(int[].class.getName());
-        //CtClass ctInputStreamArray = pool.get(InputStream[].class.getName());
-        //CtClass ctLong = pool.get(long.class.getName());
+        // CtClass ctInputStreamArray = pool.get(InputStream[].class.getName());
+        // CtClass ctLong = pool.get(long.class.getName());
         CtClass ctMap = pool.get(Map.class.getName());
-        //CtClass ctMysqlSavepoint = pool.get(MysqlSavepoint.class.getName());
+        // CtClass ctMysqlSavepoint = pool.get(MysqlSavepoint.class.getName());
         CtClass ctObjectArray = pool.get(Object[].class.getName());
-        //CtClass ctProperties = pool.get(Properties.class.getName());
-        //CtClass ctReader = pool.get(Reader.class.getName());
+        // CtClass ctProperties = pool.get(Properties.class.getName());
+        // CtClass ctReader = pool.get(Reader.class.getName());
         CtClass ctSavepoint = pool.get(Savepoint.class.getName());
-        //CtClass ctStatement = pool.get(Statement.class.getName());
+        // CtClass ctStatement = pool.get(Statement.class.getName());
         CtClass ctString = pool.get(String.class.getName());
         CtClass ctStringArray = pool.get(String[].class.getName());
 
         CtClass clazz = pool.get(ConnectionImpl.class.getName());
-        // addClosedCheck(clazz.getDeclaredMethod("changeUser", new CtClass[] { ctString, ctString }));
-        addClosedCheck(clazz.getDeclaredMethod("clientPrepareStatement", new CtClass[] { ctString, ctInt, ctInt, ctBool }));
+        // addClosedCheck(clazz.getDeclaredMethod("changeUser", new CtClass[] {
+        // ctString, ctString }));
+        addClosedCheck(
+                clazz.getDeclaredMethod("clientPrepareStatement", new CtClass[] { ctString, ctInt, ctInt, ctBool }));
         // addClosedCheck(clazz.getDeclaredMethod("commit", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("createStatement", new CtClass[] { ctInt, ctInt }));
-        // addClosedCheck(clazz.getDeclaredMethod("getMetaData", new CtClass[] { ctBool, ctBool }));
-        // addClosedCheck(clazz.getDeclaredMethod("getNetworkTimeout", new CtClass[] {}));
+        // addClosedCheck(clazz.getDeclaredMethod("getMetaData", new CtClass[] { ctBool,
+        // ctBool }));
+        // addClosedCheck(clazz.getDeclaredMethod("getNetworkTimeout", new CtClass[]
+        // {}));
         // addClosedCheck(clazz.getDeclaredMethod("getSchema", new CtClass[] {}));
-        // addClosedCheck(clazz.getDeclaredMethod("isAutoCommitNonDefaultOnServer", new CtClass[] {}));
+        // addClosedCheck(clazz.getDeclaredMethod("isAutoCommitNonDefaultOnServer", new
+        // CtClass[] {}));
         // addClosedCheck(clazz.getDeclaredMethod("isServerLocal", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("isWrapperFor", new CtClass[] { ctClazz }));
-        // addClosedCheck(clazz.getDeclaredMethod("prepareStatement", new CtClass[] { ctString, ctInt, ctInt }));
+        // addClosedCheck(clazz.getDeclaredMethod("prepareStatement", new CtClass[] {
+        // ctString, ctInt, ctInt }));
         // addClosedCheck(clazz.getDeclaredMethod("rollback", new CtClass[] {}));
-        // addClosedCheck(clazz.getDeclaredMethod("rollback", new CtClass[] { ctSavepoint }));
-        // addClosedCheck(clazz.getDeclaredMethod("setAutoCommit", new CtClass[] { ctBool }));
-        // addClosedCheck(clazz.getDeclaredMethod("setCatalog", new CtClass[] { ctString }));
-        // addClosedCheck(clazz.getDeclaredMethod("setNetworkTimeout", new CtClass[] { ctExecutor, ctInt }));
+        // addClosedCheck(clazz.getDeclaredMethod("rollback", new CtClass[] {
+        // ctSavepoint }));
+        // addClosedCheck(clazz.getDeclaredMethod("setAutoCommit", new CtClass[] {
+        // ctBool }));
+        // addClosedCheck(clazz.getDeclaredMethod("setCatalog", new CtClass[] { ctString
+        // }));
+        // addClosedCheck(clazz.getDeclaredMethod("setNetworkTimeout", new CtClass[] {
+        // ctExecutor, ctInt }));
         addClosedCheck(clazz.getDeclaredMethod("setReadOnly", new CtClass[] { ctBool }));
-        // addClosedCheck(clazz.getDeclaredMethod("setSavepoint", new CtClass[] { ctMysqlSavepoint }));
-        // addClosedCheck(clazz.getDeclaredMethod("setSchema", new CtClass[] { ctString }));
-        // addClosedCheck(clazz.getDeclaredMethod("setTransactionIsolation", new CtClass[] { ctInt }));
+        // addClosedCheck(clazz.getDeclaredMethod("setSavepoint", new CtClass[] {
+        // ctMysqlSavepoint }));
+        // addClosedCheck(clazz.getDeclaredMethod("setSchema", new CtClass[] { ctString
+        // }));
+        // addClosedCheck(clazz.getDeclaredMethod("setTransactionIsolation", new
+        // CtClass[] { ctInt }));
         addClosedCheck(clazz.getDeclaredMethod("versionMeetsMinimum", new CtClass[] { ctInt, ctInt, ctInt }));
         clazz.writeFile(args[0]);
 
@@ -108,7 +121,8 @@ public class CommonChecks {
         addClosedCheck(clazz.getDeclaredMethod("clientPrepareStatement", new CtClass[] { ctString, ctIntArray }));
         addClosedCheck(clazz.getDeclaredMethod("clientPrepareStatement", new CtClass[] { ctString, ctStringArray }));
         addClosedCheck(clazz.getDeclaredMethod("clientPrepareStatement", new CtClass[] { ctString, ctInt, ctInt }));
-        addClosedCheck(clazz.getDeclaredMethod("clientPrepareStatement", new CtClass[] { ctString, ctInt, ctInt, ctInt }));
+        addClosedCheck(
+                clazz.getDeclaredMethod("clientPrepareStatement", new CtClass[] { ctString, ctInt, ctInt, ctInt }));
         addClosedCheck(clazz.getDeclaredMethod("commit", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("clearWarnings", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("createArrayOf", new CtClass[] { ctString, ctObjectArray }));
@@ -127,21 +141,24 @@ public class CommonChecks {
         addClosedCheck(clazz.getDeclaredMethod("getHoldability", new CtClass[] {}));
         // addClosedCheck(clazz.getDeclaredMethod("getProcessHost", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("getMetaData", new CtClass[] {}));
-        // addClosedCheck(clazz.getDeclaredMethod("getNetworkTimeout", new CtClass[] {}));
+        // addClosedCheck(clazz.getDeclaredMethod("getNetworkTimeout", new CtClass[]
+        // {}));
         // addClosedCheck(clazz.getDeclaredMethod("getSchema", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("getTransactionIsolation", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("getTypeMap", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("getWarnings", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("isReadOnly", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("isReadOnly", new CtClass[] { ctBool }));
-        //addClosedCheck(clazz.getDeclaredMethod("isWrapperFor", new CtClass[] { ctClazz }));
+        // addClosedCheck(clazz.getDeclaredMethod("isWrapperFor", new CtClass[] {
+        // ctClazz }));
         addClosedCheck(clazz.getDeclaredMethod("nativeSQL", new CtClass[] { ctString }));
         addClosedCheck(clazz.getDeclaredMethod("prepareCall", new CtClass[] { ctString }));
         addClosedCheck(clazz.getDeclaredMethod("prepareCall", new CtClass[] { ctString, ctInt, ctInt }));
         addClosedCheck(clazz.getDeclaredMethod("prepareCall", new CtClass[] { ctString, ctInt, ctInt, ctInt }));
         addClosedCheck(clazz.getDeclaredMethod("prepareStatement", new CtClass[] { ctString }));
         addClosedCheck(clazz.getDeclaredMethod("prepareStatement", new CtClass[] { ctString, ctInt }));
-        // addClosedCheck(clazz.getDeclaredMethod("prepareStatement", new CtClass[] { ctString, ctStringArray }));
+        // addClosedCheck(clazz.getDeclaredMethod("prepareStatement", new CtClass[] {
+        // ctString, ctStringArray }));
         addClosedCheck(clazz.getDeclaredMethod("prepareStatement", new CtClass[] { ctString, ctIntArray }));
         addClosedCheck(clazz.getDeclaredMethod("prepareStatement", new CtClass[] { ctString, ctInt, ctInt }));
         addClosedCheck(clazz.getDeclaredMethod("prepareStatement", new CtClass[] { ctString, ctInt, ctInt, ctInt }));
@@ -155,26 +172,33 @@ public class CommonChecks {
         addClosedCheck(clazz.getDeclaredMethod("serverPrepareStatement", new CtClass[] { ctString, ctIntArray }));
         addClosedCheck(clazz.getDeclaredMethod("serverPrepareStatement", new CtClass[] { ctString, ctStringArray }));
         addClosedCheck(clazz.getDeclaredMethod("serverPrepareStatement", new CtClass[] { ctString, ctInt, ctInt }));
-        addClosedCheck(clazz.getDeclaredMethod("serverPrepareStatement", new CtClass[] { ctString, ctInt, ctInt, ctInt }));
+        addClosedCheck(
+                clazz.getDeclaredMethod("serverPrepareStatement", new CtClass[] { ctString, ctInt, ctInt, ctInt }));
         addClosedCheck(clazz.getDeclaredMethod("setAutoCommit", new CtClass[] { ctBool }));
         addClosedCheck(clazz.getDeclaredMethod("setCatalog", new CtClass[] { ctString }));
-        // addClosedCheck(clazz.getDeclaredMethod("setClientInfo", new CtClass[] { ctString, ctString }));
-        // addClosedCheck(clazz.getDeclaredMethod("setClientInfo", new CtClass[] { ctProperties }));
+        // addClosedCheck(clazz.getDeclaredMethod("setClientInfo", new CtClass[] {
+        // ctString, ctString }));
+        // addClosedCheck(clazz.getDeclaredMethod("setClientInfo", new CtClass[] {
+        // ctProperties }));
         addClosedCheck(clazz.getDeclaredMethod("setHoldability", new CtClass[] { ctInt }));
-        // addClosedCheck(clazz.getDeclaredMethod("setNetworkTimeout", new CtClass[] { ctExecutor, ctInt }));
+        // addClosedCheck(clazz.getDeclaredMethod("setNetworkTimeout", new CtClass[] {
+        // ctExecutor, ctInt }));
         addClosedCheck(clazz.getDeclaredMethod("setReadOnly", new CtClass[] { ctBool }));
         addClosedCheck(clazz.getDeclaredMethod("setSavepoint", new CtClass[] {}));
         addClosedCheck(clazz.getDeclaredMethod("setSavepoint", new CtClass[] { ctString }));
-        // addClosedCheck(clazz.getDeclaredMethod("setSchema", new CtClass[] { ctString }));
+        // addClosedCheck(clazz.getDeclaredMethod("setSchema", new CtClass[] { ctString
+        // }));
         addClosedCheck(clazz.getDeclaredMethod("setTransactionIsolation", new CtClass[] { ctInt }));
         addClosedCheck(clazz.getDeclaredMethod("setTypeMap", new CtClass[] { ctMap }));
         addClosedCheck(clazz.getDeclaredMethod("shutdownServer", new CtClass[] {}));
-        //addClosedCheck(clazz.getDeclaredMethod("versionMeetsMinimum", new CtClass[] { ctInt, ctInt, ctInt }));
+        // addClosedCheck(clazz.getDeclaredMethod("versionMeetsMinimum", new CtClass[] {
+        // ctInt, ctInt, ctInt }));
         clazz.writeFile(args[0]);
 
-        //clazz = pool.get(MultiHostMySQLConnection.class.getName());
-        //addClosedCheck(clazz.getDeclaredMethod("isWrapperFor", new CtClass[] { ctClazz }));
-        //clazz.writeFile(args[0]);
+        // clazz = pool.get(MultiHostMySQLConnection.class.getName());
+        // addClosedCheck(clazz.getDeclaredMethod("isWrapperFor", new CtClass[] {
+        // ctClazz }));
+        // clazz.writeFile(args[0]);
 
     }
 

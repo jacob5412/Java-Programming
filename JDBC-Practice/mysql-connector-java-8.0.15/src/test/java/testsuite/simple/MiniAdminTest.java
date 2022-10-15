@@ -43,7 +43,7 @@ public class MiniAdminTest extends BaseTestCase {
      * Creates a new test case
      * 
      * @param name
-     *            the test to run
+     *             the test to run
      */
     public MiniAdminTest(String name) {
         super(name);
@@ -64,7 +64,7 @@ public class MiniAdminTest extends BaseTestCase {
      * Only runs if SHUTDOWN_PROP is defined.
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testShutdown() throws Exception {
         if (runTestIfSysPropDefined(PropertyDefinitions.SYSP_testsuite_miniAdminTest_runShutdown)) {
@@ -76,7 +76,7 @@ public class MiniAdminTest extends BaseTestCase {
      * Tests whether or not you can construct a MiniAdmin with a JDBC URL.
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testUrlConstructor() throws Exception {
         new MiniAdmin(dbUrl);

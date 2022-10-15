@@ -81,21 +81,25 @@ public class ConnectionUrlTest {
         }
 
         private static final String[] PROTOCOL = new String[] { "jdbc:mysql:", "mysqlx:" };
-        private static final String[] USER = new String[] { "", "@", "johndoe@", "johndoe:@", "johndoe:secret@", ":secret@", ":@" };
+        private static final String[] USER = new String[] { "", "@", "johndoe@", "johndoe:@", "johndoe:secret@",
+                ":secret@", ":@" };
         private static final String[] STD_HOST = new String[] { "", "myhost", "192.168.0.1", "[1000:abcd::1]" };
         private static final String[] STD_PORT = new String[] { "", ":", ":1234" };
         private static final String[] KEY_VALUE_HOST = new String[] { "", "()", "(host=[::1],port=1234,prio=1)",
                 "(protocol=tcp,host=myhost,port=1234,key=value%28%29)", "(address=myhost:1234,prio=2)" };
         private static final String[] ADDRESS_EQUALS_HOST = new String[] { "address=", "address=()", "address=(flag)",
-                "address=(protocol=tcp)(host=myhost)(port=1234)", "address=(protocol=tcp)(host=myhost)(port=1234)(key=value%28%29)" };
+                "address=(protocol=tcp)(host=myhost)(port=1234)",
+                "address=(protocol=tcp)(host=myhost)(port=1234)(key=value%28%29)" };
         private static final String[] HOST; // Initialized below.
         private static final String[] DB = new String[] { "", "/", "/mysql" };
-        private static final String[] PARAMS = new String[] { "", "?", "?key=value&flag", "?key=value%26&flag&26", "?file=%2Fpath%2Fto%2Ffile&flag&key=value",
+        private static final String[] PARAMS = new String[] { "", "?", "?key=value&flag", "?key=value%26&flag&26",
+                "?file=%2Fpath%2Fto%2Ffile&flag&key=value",
                 "?file=(/path/to/file)&flag&key=value" };
 
         static {
             int i = 0;
-            String[] hosts = new String[STD_HOST.length * STD_PORT.length + KEY_VALUE_HOST.length + ADDRESS_EQUALS_HOST.length];
+            String[] hosts = new String[STD_HOST.length * STD_PORT.length + KEY_VALUE_HOST.length
+                    + ADDRESS_EQUALS_HOST.length];
             for (String h : STD_HOST) {
                 for (String p : STD_PORT) {
                     hosts[i++] = h + p;
@@ -118,7 +122,8 @@ public class ConnectionUrlTest {
         boolean hasNext = true;
 
         /**
-         * Create an instance of {@link ConnectionStringGenerator} and initializes internal data for the iterator.
+         * Create an instance of {@link ConnectionStringGenerator} and initializes
+         * internal data for the iterator.
          * 
          * @param numberOfHosts
          */
@@ -170,7 +175,7 @@ public class ConnectionUrlTest {
          * Increments the counter recursively for each connection string part.
          * 
          * @param i
-         *            the part where to increment the counter
+         *          the part where to increment the counter
          * @return false if the counter reaches the end, true otherwise
          */
         private boolean incrementCounter(int i) {
@@ -186,7 +191,8 @@ public class ConnectionUrlTest {
         }
 
         /**
-         * Builds a connection string with the parts corresponding to the current counter position.
+         * Builds a connection string with the parts corresponding to the current
+         * counter position.
          * 
          * @return the connection string built from the current counter position
          */
@@ -246,7 +252,7 @@ public class ConnectionUrlTest {
          * Returns the user info part for the current position and the given host.
          * 
          * @param fromHostIndex
-         *            the host from where to get user info
+         *                      the host from where to get user info
          * @return the user info part
          */
         public String getUserInfo(int fromHostIndex) {
@@ -266,7 +272,7 @@ public class ConnectionUrlTest {
          * Returns the host info part for the current position and the given host.
          * 
          * @param fromHostIndex
-         *            the host from where to get host info
+         *                      the host from where to get host info
          * @return the host info part
          */
         public String getHostInfo(int fromHostIndex) {
@@ -318,11 +324,12 @@ public class ConnectionUrlTest {
          * Checks if current host info contains the given key & value parameter.
          * 
          * @param hostIndex
-         *            the host from where the given information will be checked against
+         *                  the host from where the given information will be checked
+         *                  against
          * @param key
-         *            the key to check
+         *                  the key to check
          * @param value
-         *            the value to check
+         *                  the value to check
          * @return true if the key/value pair exists, false otherwise
          */
         public boolean hasHostParam(int hostIndex, String key, String value) {
@@ -330,14 +337,16 @@ public class ConnectionUrlTest {
             if (value != null) {
                 sbKv.append("=").append(value);
             }
-            return getHostInfo(hostIndex).contains(sbKv.toString()) || decode(getHostInfo(hostIndex)).contains(sbKv.toString());
+            return getHostInfo(hostIndex).contains(sbKv.toString())
+                    || decode(getHostInfo(hostIndex)).contains(sbKv.toString());
         }
 
         /**
-         * Returns the number of host specific parameters existing in the current position and the given host.
+         * Returns the number of host specific parameters existing in the current
+         * position and the given host.
          * 
          * @param hostIndex
-         *            the host from where to get the count
+         *                  the host from where to get the count
          * @return the number of host specific parameters
          */
         public int getHostParamsCount(int hostIndex) {
@@ -354,9 +363,9 @@ public class ConnectionUrlTest {
          * Checks if the current connection properties contain the given key & value.
          * 
          * @param key
-         *            the key to check
+         *              the key to check
          * @param value
-         *            the value to check
+         *              the value to check
          * @return true if the key/value pair exists, false otherwise
          */
         public boolean hasParam(String key, String value) {
@@ -368,7 +377,8 @@ public class ConnectionUrlTest {
         }
 
         /**
-         * Returns the number of connection parameters existing the the current position.
+         * Returns the number of connection parameters existing the the current
+         * position.
          * 
          * @return the number of connection parameters
          */
@@ -384,7 +394,7 @@ public class ConnectionUrlTest {
          * Utility method to URL decode the given string.
          * 
          * @param text
-         *            the text to decode
+         *             the text to decode
          * @return the decoded text
          */
         private String decode(String text) {
@@ -414,22 +424,28 @@ public class ConnectionUrlTest {
     }
 
     /**
-     * Checks if the values returned from {@link ConnectionUrl.Type#fromValue(String, int)} are correct.
+     * Checks if the values returned from
+     * {@link ConnectionUrl.Type#fromValue(String, int)} are correct.
      */
     @Test
     public void testTypeEnumCorrectValues() {
         assertEquals(ConnectionUrl.Type.SINGLE_CONNECTION, ConnectionUrl.Type.fromValue("jdbc:mysql:", 1));
         assertEquals(ConnectionUrl.Type.FAILOVER_CONNECTION, ConnectionUrl.Type.fromValue("jdbc:mysql:", 2));
         assertEquals(ConnectionUrl.Type.FAILOVER_CONNECTION, ConnectionUrl.Type.fromValue("jdbc:mysql:", 3));
-        assertEquals(ConnectionUrl.Type.LOADBALANCE_CONNECTION, ConnectionUrl.Type.fromValue("jdbc:mysql:loadbalance:", 1));
-        assertEquals(ConnectionUrl.Type.LOADBALANCE_CONNECTION, ConnectionUrl.Type.fromValue("jdbc:mysql:loadbalance:", 2));
-        assertEquals(ConnectionUrl.Type.REPLICATION_CONNECTION, ConnectionUrl.Type.fromValue("jdbc:mysql:replication:", 1));
-        assertEquals(ConnectionUrl.Type.REPLICATION_CONNECTION, ConnectionUrl.Type.fromValue("jdbc:mysql:replication:", 2));
+        assertEquals(ConnectionUrl.Type.LOADBALANCE_CONNECTION,
+                ConnectionUrl.Type.fromValue("jdbc:mysql:loadbalance:", 1));
+        assertEquals(ConnectionUrl.Type.LOADBALANCE_CONNECTION,
+                ConnectionUrl.Type.fromValue("jdbc:mysql:loadbalance:", 2));
+        assertEquals(ConnectionUrl.Type.REPLICATION_CONNECTION,
+                ConnectionUrl.Type.fromValue("jdbc:mysql:replication:", 1));
+        assertEquals(ConnectionUrl.Type.REPLICATION_CONNECTION,
+                ConnectionUrl.Type.fromValue("jdbc:mysql:replication:", 2));
         assertEquals(ConnectionUrl.Type.XDEVAPI_SESSION, ConnectionUrl.Type.fromValue("mysqlx:", 1));
     }
 
     /**
-     * Checks the expected exception from an incorrect usage of {@link ConnectionUrl.Type#fromValue(String, int)}.
+     * Checks the expected exception from an incorrect usage of
+     * {@link ConnectionUrl.Type#fromValue(String, int)}.
      */
     @Ignore // No longer applies.
     @Test(expected = WrongArgumentException.class)
@@ -438,7 +454,8 @@ public class ConnectionUrlTest {
     }
 
     /**
-     * Tests the {@link ConnectionUrlParser} with close to one million of different connection string variations.
+     * Tests the {@link ConnectionUrlParser} with close to one million of different
+     * connection string variations.
      */
     @Test
     public void testConnectionStringParser() {
@@ -456,11 +473,13 @@ public class ConnectionUrlTest {
                     HostInfo hi = cup.getHosts().get(hostIndex);
                     // User(n):
                     expected = testCSParserTrimTail(testCSParserTrimHead(csg.getUserInfo(hostIndex), ":"), "@", ":");
-                    actual = new StringBuilder(hi.getUser() == null ? "" : hi.getUser()).append(":").append(hi.getPassword() == null ? "" : hi.getPassword())
+                    actual = new StringBuilder(hi.getUser() == null ? "" : hi.getUser()).append(":")
+                            .append(hi.getPassword() == null ? "" : hi.getPassword())
                             .toString();
                     actual = testCSParserTrimTail(testCSParserTrimHead(actual, ":"), ":");
                     assertEquals(cs, expected, actual);
-                    if (csg.getHostInfo(hostIndex).startsWith("address=") || csg.getHostInfo(hostIndex).startsWith("(")) {
+                    if (csg.getHostInfo(hostIndex).startsWith("address=")
+                            || csg.getHostInfo(hostIndex).startsWith("(")) {
                         // Host props(n):
                         assertEquals(cs, csg.getHostParamsCount(hostIndex), hi.getHostProperties().size());
                         for (Entry<String, String> kv : hi.getHostProperties().entrySet()) {
@@ -469,7 +488,8 @@ public class ConnectionUrlTest {
                     } else {
                         // Host(n)
                         expected = testCSParserTrimTail(testCSParserTrimHead(csg.getHostInfo(hostIndex), ":"), ":");
-                        actual = new StringBuilder(hi.getHost() == null ? "" : hi.getHost()).append(":").append(hi.getPort() == -1 ? "" : hi.getPort())
+                        actual = new StringBuilder(hi.getHost() == null ? "" : hi.getHost()).append(":")
+                                .append(hi.getPort() == -1 ? "" : hi.getPort())
                                 .toString();
                         actual = testCSParserTrimTail(testCSParserTrimHead(actual, ":"), ":");
                         assertEquals(cs, expected, actual);
@@ -507,7 +527,8 @@ public class ConnectionUrlTest {
     }
 
     /**
-     * Tests the {@link ConnectionUrl#acceptsUrl(String)} method for supported and non-supported protocols.
+     * Tests the {@link ConnectionUrl#acceptsUrl(String)} method for supported and
+     * non-supported protocols.
      */
     @Test
     public void testConnectionStringAcceptsUrl() {
@@ -526,7 +547,8 @@ public class ConnectionUrlTest {
         assertTrue(ConnectionUrl.acceptsUrl("mysqlx://[fe80::250:56ff:fec0:8]:1234/db?key=value"));
         assertTrue(ConnectionUrl.acceptsUrl("mysqlx://johndoe:secret@[::1]:1234/db?key=value"));
         assertTrue(ConnectionUrl.acceptsUrl("mysqlx://johndoe:secret@[[::1]:1234]/db?key=value"));
-        assertTrue(ConnectionUrl.acceptsUrl("mysqlx://johndoe:secret@[[::1]:1234,(address=[abcd:1000::f09a]:4321,priority=100)]/db?key=value"));
+        assertTrue(ConnectionUrl.acceptsUrl(
+                "mysqlx://johndoe:secret@[[::1]:1234,(address=[abcd:1000::f09a]:4321,priority=100)]/db?key=value"));
 
         // Non-supported URLs:
         assertFalse(ConnectionUrl.acceptsUrl(""));
@@ -553,7 +575,8 @@ public class ConnectionUrlTest {
     }
 
     /**
-     * Tests the {@link ConnectionUrl} with close to one million of different connection string variations.
+     * Tests the {@link ConnectionUrl} with close to one million of different
+     * connection string variations.
      */
     @Test
     public void testConnectionUrl() {
@@ -566,7 +589,8 @@ public class ConnectionUrlTest {
                 try {
                     ConnectionUrl.getConnectionUrlInstance(cs, props);
                 } catch (WrongArgumentException e) {
-                    // X plugin connections ("mysqlx:") don't allow different credentials in different hosts and the generator doesn't account for that.
+                    // X plugin connections ("mysqlx:") don't allow different credentials in
+                    // different hosts and the generator doesn't account for that.
                     assertEquals(cs, ConnectionUrl.Type.XDEVAPI_SESSION.getScheme(), csg.getProtocol());
                     boolean first = true;
                     boolean ok = false;
@@ -588,7 +612,8 @@ public class ConnectionUrlTest {
     }
 
     /**
-     * Tests the {@link ConnectionUrlParser} and {@link ConnectionUrl} with non standard, but accepted, connection strings.
+     * Tests the {@link ConnectionUrlParser} and {@link ConnectionUrl} with non
+     * standard, but accepted, connection strings.
      * 
      * @throws Exception
      */
@@ -782,7 +807,8 @@ public class ConnectionUrlTest {
                 System.out.println(ConnectionUrl.getConnectionUrlInstance(cs, null));
                 fail(cs + ": expected to throw a " + WrongArgumentException.class.getName());
             } catch (Exception e) {
-                assertTrue(cs + ": expected to throw a " + WrongArgumentException.class.getName(), WrongArgumentException.class.isAssignableFrom(e.getClass()));
+                assertTrue(cs + ": expected to throw a " + WrongArgumentException.class.getName(),
+                        WrongArgumentException.class.isAssignableFrom(e.getClass()));
             }
         }
     }
@@ -800,7 +826,8 @@ public class ConnectionUrlTest {
         ConnectionUrl cu2 = ConnectionUrl.getConnectionUrlInstance("jdbc:mysql://localhost:3306/?param=value", props1);
         ConnectionUrl cu3 = ConnectionUrl.getConnectionUrlInstance("jdbc:mysql://localhost:3306/?param=value", props1);
         ConnectionUrl cu4 = ConnectionUrl.getConnectionUrlInstance("jdbc:mysql://localhost:3306/?param=value", props2);
-        ConnectionUrl cu5 = ConnectionUrl.getConnectionUrlInstance("jdbc:mysql://localhost:3306/?param=value&flag", props1);
+        ConnectionUrl cu5 = ConnectionUrl.getConnectionUrlInstance("jdbc:mysql://localhost:3306/?param=value&flag",
+                props1);
 
         assertNotSame(cu1, cu2);
         assertSame(cu2, cu3);
@@ -856,7 +883,8 @@ public class ConnectionUrlTest {
             ConnectionUrl connUrl = ConnectionUrl.getConnectionUrlInstance(cs, props);
 
             if (cs.indexOf("address=") == -1) {
-                // Properties from file must be found simultaneously in per connection properties and per host.
+                // Properties from file must be found simultaneously in per connection
+                // properties and per host.
                 Properties asProps = connUrl.getConnectionArgumentsAsProperties();
                 for (String key : propsFromFile.stringPropertyNames()) {
                     assertEquals(cs + "#" + key, propsFromFile.getProperty(key), asProps.getProperty(key));
@@ -887,9 +915,12 @@ public class ConnectionUrlTest {
         connStr.add("jdbc:mysql://johndoe:secret@address=(host=mysql)(port=1234)/sakila?stars=*");
         connStr.add("jdbc:mysql://johndoe:secret@mysql:1234/sakila?propertiesTransform=" + propsTransClassName);
         connStr.add("jdbc:mysql://johndoe:secret@mysql:1234/sakila?stars=*&propertiesTransform=" + propsTransClassName);
-        connStr.add("jdbc:mysql://johndoe:secret@address=(host=mysql)(port=1234)(propertiesTransform=" + propsTransClassName + ")/sakila");
-        connStr.add("jdbc:mysql://johndoe:secret@address=(host=mysql)(port=1234)(propertiesTransform=" + propsTransClassName + ")(stars=*)/sakila");
-        connStr.add("jdbc:mysql://johndoe:secret@address=(host=mysql)(port=1234)(propertiesTransform=" + propsTransClassName + ")/sakila?stars=*");
+        connStr.add("jdbc:mysql://johndoe:secret@address=(host=mysql)(port=1234)(propertiesTransform="
+                + propsTransClassName + ")/sakila");
+        connStr.add("jdbc:mysql://johndoe:secret@address=(host=mysql)(port=1234)(propertiesTransform="
+                + propsTransClassName + ")(stars=*)/sakila");
+        connStr.add("jdbc:mysql://johndoe:secret@address=(host=mysql)(port=1234)(propertiesTransform="
+                + propsTransClassName + ")/sakila?stars=*");
 
         for (String cs : connStr) {
             Properties props = new Properties();
@@ -904,13 +935,15 @@ public class ConnectionUrlTest {
             }
             ConnectionUrl connUrl = ConnectionUrl.getConnectionUrlInstance(cs, props);
 
-            // "propertiesTransform" doesn't apply when set through host internal properties.
+            // "propertiesTransform" doesn't apply when set through host internal
+            // properties.
             boolean transforms = cs.indexOf("(propertiesTransform") == -1;
 
             assertEquals(cs + "#hostProps", transforms ? "**" : "*", connUrl.getMainHost().getProperty("stars"));
             if (cs.indexOf("(stars") == -1) {
                 assertEquals(cs + "#originalProps", "*", connUrl.getOriginalProperties().get("stars"));
-                assertEquals(cs + "#connProps", transforms ? "**" : "*", connUrl.getConnectionArgumentsAsProperties().getProperty("stars"));
+                assertEquals(cs + "#connProps", transforms ? "**" : "*",
+                        connUrl.getConnectionArgumentsAsProperties().getProperty("stars"));
             } else {
                 assertNull(cs + "#originalProps", connUrl.getOriginalProperties().get("stars"));
                 assertNull(cs + "#connProps", connUrl.getConnectionArgumentsAsProperties().getProperty("stars"));
@@ -936,8 +969,10 @@ public class ConnectionUrlTest {
         int hostIdx;
 
         // Hosts sub list with "address" splitting (host3:3333) and priority value.
-        connUrl = ConnectionUrl.getConnectionUrlInstance("mysqlx://johndoe:secret@[host1:1111,address=(host=host2)(port=2222)(priority=99),"
-                + "(address=host3:3333,priority=98)]/db?address=host4:4444&priority=100", null);
+        connUrl = ConnectionUrl.getConnectionUrlInstance(
+                "mysqlx://johndoe:secret@[host1:1111,address=(host=host2)(port=2222)(priority=99),"
+                        + "(address=host3:3333,priority=98)]/db?address=host4:4444&priority=100",
+                null);
         hostIdx = 1;
         for (HostInfo hi : connUrl.getHostsList()) {
             String testCase = "Host " + hostIdx + ":";
@@ -947,13 +982,17 @@ public class ConnectionUrlTest {
             assertEquals(testCase, 1111 * hostIdx, hi.getPort());
             assertEquals(testCase, "db", hi.getDatabase());
             assertTrue(testCase, hi.getHostProperties().containsKey(PropertyKey.PRIORITY.getKeyName()));
-            assertEquals(testCase, Integer.toString(101 - hostIdx), hi.getHostProperties().get(PropertyKey.PRIORITY.getKeyName()));
+            assertEquals(testCase, Integer.toString(101 - hostIdx),
+                    hi.getHostProperties().get(PropertyKey.PRIORITY.getKeyName()));
             hostIdx++;
         }
 
-        // Hosts sub list with "address" splitting (host3:3333) and without priority value.
+        // Hosts sub list with "address" splitting (host3:3333) and without priority
+        // value.
         connUrl = ConnectionUrl.getConnectionUrlInstance(
-                "mysqlx://johndoe:secret@[host1:1111,address=(host=host2)(port=2222)," + "(address=host3:3333)]/db?address=host4:4444", null);
+                "mysqlx://johndoe:secret@[host1:1111,address=(host=host2)(port=2222),"
+                        + "(address=host3:3333)]/db?address=host4:4444",
+                null);
         hostIdx = 1;
         for (HostInfo hi : connUrl.getHostsList()) {
             String testCase = "Host " + hostIdx + ":";
@@ -967,8 +1006,10 @@ public class ConnectionUrlTest {
         }
 
         // Hosts list with "address" splitting (host3:3333) and priority value.
-        connUrl = ConnectionUrl.getConnectionUrlInstance("mysqlx://johndoe:secret@host1:1111,johndoe:secret@address=(host=host2)(port=2222)(priority=99),"
-                + "johndoe:secret@(address=host3:3333,priority=98)/db?address=host4:4444&priority=100", null);
+        connUrl = ConnectionUrl.getConnectionUrlInstance(
+                "mysqlx://johndoe:secret@host1:1111,johndoe:secret@address=(host=host2)(port=2222)(priority=99),"
+                        + "johndoe:secret@(address=host3:3333,priority=98)/db?address=host4:4444&priority=100",
+                null);
         hostIdx = 1;
         for (HostInfo hi : connUrl.getHostsList()) {
             String testCase = "Host " + hostIdx + ":";
@@ -978,13 +1019,16 @@ public class ConnectionUrlTest {
             assertEquals(testCase, 1111 * hostIdx, hi.getPort());
             assertEquals(testCase, "db", hi.getDatabase());
             assertTrue(testCase, hi.getHostProperties().containsKey(PropertyKey.PRIORITY.getKeyName()));
-            assertEquals(testCase, Integer.toString(101 - hostIdx), hi.getHostProperties().get(PropertyKey.PRIORITY.getKeyName()));
+            assertEquals(testCase, Integer.toString(101 - hostIdx),
+                    hi.getHostProperties().get(PropertyKey.PRIORITY.getKeyName()));
             hostIdx++;
         }
 
         // Hosts list with "address" splitting (host3:3333) and without priority value.
-        connUrl = ConnectionUrl.getConnectionUrlInstance("mysqlx://johndoe:secret@host1:1111,johndoe:secret@address=(host=host2)(port=2222),"
-                + "johndoe:secret@(address=host3:3333)/db?address=host4:4444", null);
+        connUrl = ConnectionUrl.getConnectionUrlInstance(
+                "mysqlx://johndoe:secret@host1:1111,johndoe:secret@address=(host=host2)(port=2222),"
+                        + "johndoe:secret@(address=host3:3333)/db?address=host4:4444",
+                null);
         hostIdx = 1;
         for (HostInfo hi : connUrl.getHostsList()) {
             String testCase = "Host " + hostIdx + ":";
@@ -1003,8 +1047,10 @@ public class ConnectionUrlTest {
         connStr = new ArrayList<>();
         connStr.add("mysqlx://johndoe:secret@host1:1111,janedoe:secret@host2:2222/db");
         connStr.add("mysqlx://johndoe:secret@host1:1111,johndoe:public@host2:2222/db");
-        connStr.add("mysqlx://johndoe:secret@host1:1111,address=(host=host2)(port=2222)(user=janedoe)(password=secret)/db");
-        connStr.add("mysqlx://johndoe:secret@host1:1111,address=(host=host2)(port=2222)(user=johndoe)(password=public)/db");
+        connStr.add(
+                "mysqlx://johndoe:secret@host1:1111,address=(host=host2)(port=2222)(user=janedoe)(password=secret)/db");
+        connStr.add(
+                "mysqlx://johndoe:secret@host1:1111,address=(host=host2)(port=2222)(user=johndoe)(password=public)/db");
         connStr.add("mysqlx://johndoe:secret@host1:1111,(host=host2,port=2222,user=janedoe,password=secret)/db");
         connStr.add("mysqlx://johndoe:secret@host1:1111,(host=host2,port=2222,user=johndoe,password=public)/db");
         for (String cs : connStr) {
@@ -1013,8 +1059,10 @@ public class ConnectionUrlTest {
                 System.out.println(connUrl);
                 fail(cs + ": expected to throw a " + WrongArgumentException.class.getName());
             } catch (Exception e) {
-                assertTrue(cs + ": expected to throw a " + WrongArgumentException.class.getName(), WrongArgumentException.class.isAssignableFrom(e.getClass()));
-                assertEquals(cs, Messages.getString("ConnectionString.14", new Object[] { ConnectionUrl.Type.XDEVAPI_SESSION.getScheme() }), e.getMessage());
+                assertTrue(cs + ": expected to throw a " + WrongArgumentException.class.getName(),
+                        WrongArgumentException.class.isAssignableFrom(e.getClass()));
+                assertEquals(cs, Messages.getString("ConnectionString.14",
+                        new Object[] { ConnectionUrl.Type.XDEVAPI_SESSION.getScheme() }), e.getMessage());
             }
         }
 
@@ -1025,15 +1073,18 @@ public class ConnectionUrlTest {
         connStr.add("mysqlx://johndoe:secret@[(address=host1:1111,priority=1),address(host=host2)(port=2222)]/db");
         connStr.add("mysqlx://johndoe:secret@[host1:1111,address=(host=host2)(port=2222)(priority=2)]/db");
         connStr.add("mysqlx://johndoe:secret@[(address=host1:1111),address=(host=host2)(port=2222)(priority=2)]/db");
-        connStr.add("mysqlx://johndoe:secret@[address=(host=host1)(port=1111),address=(host=host2)(port=2222)(priority=2)]/db");
+        connStr.add(
+                "mysqlx://johndoe:secret@[address=(host=host1)(port=1111),address=(host=host2)(port=2222)(priority=2)]/db");
         for (String cs : connStr) {
             try {
                 connUrl = ConnectionUrl.getConnectionUrlInstance(cs, null);
                 System.out.println(connUrl);
                 fail(cs + ": expected to throw a " + WrongArgumentException.class.getName());
             } catch (Exception e) {
-                assertTrue(cs + ": expected to throw a " + WrongArgumentException.class.getName(), WrongArgumentException.class.isAssignableFrom(e.getClass()));
-                assertEquals(cs, Messages.getString("ConnectionString.15", new Object[] { ConnectionUrl.Type.XDEVAPI_SESSION.getScheme() }), e.getMessage());
+                assertTrue(cs + ": expected to throw a " + WrongArgumentException.class.getName(),
+                        WrongArgumentException.class.isAssignableFrom(e.getClass()));
+                assertEquals(cs, Messages.getString("ConnectionString.15",
+                        new Object[] { ConnectionUrl.Type.XDEVAPI_SESSION.getScheme() }), e.getMessage());
             }
         }
 
@@ -1047,13 +1098,16 @@ public class ConnectionUrlTest {
                 System.out.println(connUrl);
                 fail(cs + ": expected to throw a " + WrongArgumentException.class.getName());
             } catch (Exception e) {
-                assertTrue(cs + ": expected to throw a " + WrongArgumentException.class.getName(), WrongArgumentException.class.isAssignableFrom(e.getClass()));
-                assertEquals(cs, Messages.getString("ConnectionString.16", new Object[] { ConnectionUrl.Type.XDEVAPI_SESSION.getScheme() }), e.getMessage());
+                assertTrue(cs + ": expected to throw a " + WrongArgumentException.class.getName(),
+                        WrongArgumentException.class.isAssignableFrom(e.getClass()));
+                assertEquals(cs, Messages.getString("ConnectionString.16",
+                        new Object[] { ConnectionUrl.Type.XDEVAPI_SESSION.getScheme() }), e.getMessage());
             }
         }
 
         // Sorting hosts by default priority.
-        connUrl = ConnectionUrl.getConnectionUrlInstance("mysqlx://johndoe:secret@[host2,host3,host1,host5,host4]/db", null);
+        connUrl = ConnectionUrl.getConnectionUrlInstance("mysqlx://johndoe:secret@[host2,host3,host1,host5,host4]/db",
+                null);
         assertEquals("host2", connUrl.getMainHost().getHost());
         assertEquals("host2", connUrl.getHostsList().get(0).getHost());
         assertEquals("host3", connUrl.getHostsList().get(1).getHost());
@@ -1063,8 +1117,10 @@ public class ConnectionUrlTest {
 
         // Sorting hosts by defined priority.
         connUrl = ConnectionUrl
-                .getConnectionUrlInstance("mysqlx://johndoe:secret@[(address=host1,priority=50),(address=host2,priority=100),(address=host3,priority=75),"
-                        + "(address=host4,priority=0),(address=host5,priority=25)]/db", null);
+                .getConnectionUrlInstance(
+                        "mysqlx://johndoe:secret@[(address=host1,priority=50),(address=host2,priority=100),(address=host3,priority=75),"
+                                + "(address=host4,priority=0),(address=host5,priority=25)]/db",
+                        null);
         assertEquals("host2", connUrl.getMainHost().getHost());
         assertEquals("host2", connUrl.getHostsList().get(0).getHost());
         assertEquals("host3", connUrl.getHostsList().get(1).getHost());
@@ -1075,26 +1131,32 @@ public class ConnectionUrlTest {
 
     @Test
     public void testReplaceLegacyPropertyValues() throws Exception {
-        /* Test zeroDateTimeBehavior convertToNull-> CONVERT_TO_NULL replacement (BUG#91421) */
+        /*
+         * Test zeroDateTimeBehavior convertToNull-> CONVERT_TO_NULL replacement
+         * (BUG#91421)
+         */
         List<String> connStr = new ArrayList<>();
         connStr.add("jdbc:mysql://somehost:1234/db");
         connStr.add("jdbc:mysql://somehost:1234/db?key=value&zeroDateTimeBehavior=convertToNull");
         connStr.add("jdbc:mysql://127.0.0.1:1234/db");
         connStr.add("jdbc:mysql://127.0.0.1:1234/db?key=value&zeroDateTimeBehavior=convertToNull");
         connStr.add("jdbc:mysql://(port=3306,user=root,password=pwd,zeroDateTimeBehavior=convertToNull)/test");
-        connStr.add("jdbc:mysql://address=(port=3306)(user=root)(password=pwd)(zeroDateTimeBehavior=convertToNull)/test");
+        connStr.add(
+                "jdbc:mysql://address=(port=3306)(user=root)(password=pwd)(zeroDateTimeBehavior=convertToNull)/test");
 
         Properties props = new Properties();
         props.setProperty(PropertyKey.zeroDateTimeBehavior.getKeyName(), "convertToNull");
 
         for (String cs : connStr) {
             ConnectionUrl connUrl = ConnectionUrl.getConnectionUrlInstance(cs, props);
-            assertEquals(ZeroDatetimeBehavior.CONVERT_TO_NULL.name(), connUrl.getMainHost().getProperty(PropertyKey.zeroDateTimeBehavior.getKeyName()));
+            assertEquals(ZeroDatetimeBehavior.CONVERT_TO_NULL.name(),
+                    connUrl.getMainHost().getProperty(PropertyKey.zeroDateTimeBehavior.getKeyName()));
         }
     }
 
     /**
-     * Tests fix for BUG#28150662, CONNECTOR/J 8 MALFORMED DATABASE URL EXCEPTION WHIT CORRECT URL STRING.
+     * Tests fix for BUG#28150662, CONNECTOR/J 8 MALFORMED DATABASE URL EXCEPTION
+     * WHIT CORRECT URL STRING.
      */
     @Test
     public void testBug28150662() {
@@ -1113,7 +1175,8 @@ public class ConnectionUrlTest {
             HostInfo hi = url.getMainHost();
             assertEquals("utf8mb4_unicode_ci", hi.getHostProperties().get("connectionCollation"));
             assertEquals("user1", hi.getUser());
-            assertEquals("sql_mode='IGNORE_SPACE,ANSI',FOREIGN_KEY_CHECKS=0", hi.getHostProperties().get("sessionVariables"));
+            assertEquals("sql_mode='IGNORE_SPACE,ANSI',FOREIGN_KEY_CHECKS=0",
+                    hi.getHostProperties().get("sessionVariables"));
         }
     }
 }

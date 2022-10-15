@@ -67,7 +67,7 @@ public class BlobTest extends BaseTestCase {
      * Creates a new BlobTest object.
      * 
      * @param name
-     *            the test to run
+     *             the test to run
      */
     public BlobTest(String name) {
         super(name);
@@ -86,7 +86,7 @@ public class BlobTest extends BaseTestCase {
      * Setup the test case
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     @Override
     public void setUp() throws Exception {
@@ -104,16 +104,21 @@ public class BlobTest extends BaseTestCase {
     public void testByteStreamInsert() throws Exception {
         if (versionMeetsMinimum(5, 6, 20) && !versionMeetsMinimum(5, 7)) {
             /*
-             * The 5.6.20 patch for Bug #16963396, Bug #19030353, Bug #69477 limits the size of redo log BLOB writes
-             * to 10% of the redo log file size. The 5.7.5 patch addresses the bug without imposing a limitation.
-             * As a result of the redo log BLOB write limit introduced for MySQL 5.6, innodb_log_file_size should be set to a value
-             * greater than 10 times the largest BLOB data size found in the rows of your tables plus the length of other variable length
+             * The 5.6.20 patch for Bug #16963396, Bug #19030353, Bug #69477 limits the size
+             * of redo log BLOB writes
+             * to 10% of the redo log file size. The 5.7.5 patch addresses the bug without
+             * imposing a limitation.
+             * As a result of the redo log BLOB write limit introduced for MySQL 5.6,
+             * innodb_log_file_size should be set to a value
+             * greater than 10 times the largest BLOB data size found in the rows of your
+             * tables plus the length of other variable length
              * fields (VARCHAR, VARBINARY, and TEXT type fields).
              */
             this.rs = this.stmt.executeQuery("SHOW VARIABLES LIKE 'innodb_log_file_size'");
             this.rs.next();
             if (this.rs.getInt(2) < 10 * testBlobFile.length()) {
-                fail("You need to increase innodb_log_file_size to at least " + (10 * testBlobFile.length()) + " before running this test!");
+                fail("You need to increase innodb_log_file_size to at least " + (10 * testBlobFile.length())
+                        + " before running this test!");
             }
         }
         testByteStreamInsert(this.conn);
@@ -123,7 +128,7 @@ public class BlobTest extends BaseTestCase {
      * Tests inserting blob data as a stream
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     private void testByteStreamInsert(Connection c) throws Exception {
         BufferedInputStream bIn = new BufferedInputStream(new FileInputStream(testBlobFile));
@@ -147,7 +152,8 @@ public class BlobTest extends BaseTestCase {
 
                     if (retrBytes[i] != fromFile) {
                         passed = false;
-                        System.out.println("Byte pattern differed at position " + i + " , " + retrBytes[i] + " != " + fromFile);
+                        System.out.println(
+                                "Byte pattern differed at position " + i + " , " + retrBytes[i] + " != " + fromFile);
 
                         for (int j = 0; (j < (i + 10)) /* && (j < i) */; j++) {
                             System.out.print(Integer.toHexString(retrBytes[j] & 0xff) + " ");
@@ -181,7 +187,7 @@ public class BlobTest extends BaseTestCase {
      * @deprecated
      * 
      * @throws Exception
-     *             if an error occurs retrieving the value
+     *                   if an error occurs retrieving the value
      */
     @Deprecated
     private void doRetrieval() throws Exception {
@@ -239,7 +245,8 @@ public class BlobTest extends BaseTestCase {
         testBlobFile = File.createTempFile(TEST_BLOB_FILE_PREFIX, ".dat");
         testBlobFile.deleteOnExit();
 
-        // TODO: following cleanup doesn't work correctly during concurrent execution of testsuite 
+        // TODO: following cleanup doesn't work correctly during concurrent execution of
+        // testsuite
         // cleanupTempFiles(testBlobFile, TEST_BLOB_FILE_PREFIX);
 
         BufferedOutputStream bOut = new BufferedOutputStream(new FileOutputStream(testBlobFile));

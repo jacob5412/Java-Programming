@@ -39,10 +39,13 @@ import org.joda.time.format.ISODateTimeFormat;
  * <p>
  * For example, an Instant can be used to compare two <code>DateTime</code>
  * objects irrespective of chronology or time zone.
+ * 
  * <pre>
  * boolean sameInstant = dt1.toInstant().equals(dt2.toInstant());
  * </pre>
+ * 
  * Note that the following code will also perform the same check:
+ * 
  * <pre>
  * boolean sameInstant = dt1.isEqual(dt2);
  * </pre>
@@ -62,7 +65,7 @@ public final class Instant
     /** The millis from 1970-01-01T00:00:00Z */
     private final long iMillis;
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Obtains an {@code Instant} set to the current system millisecond time.
      * 
@@ -73,13 +76,13 @@ public final class Instant
         return new Instant();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Parses a {@code Instant} from the specified string.
      * <p>
      * This uses {@link ISODateTimeFormat#dateTimeParser()}.
      * 
-     * @param str  the string to parse, not null
+     * @param str the string to parse, not null
      * @since 2.0
      */
     @FromString
@@ -90,15 +93,15 @@ public final class Instant
     /**
      * Parses a {@code Instant} from the specified string using a formatter.
      * 
-     * @param str  the string to parse, not null
-     * @param formatter  the formatter to use, not null
+     * @param str       the string to parse, not null
+     * @param formatter the formatter to use, not null
      * @since 2.0
      */
     public static Instant parse(String str, DateTimeFormatter formatter) {
         return formatter.parseDateTime(str).toInstant();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Constructs an instance set to the current system millisecond time.
      * 
@@ -112,7 +115,7 @@ public final class Instant
     /**
      * Constructs an instance set to the milliseconds from 1970-01-01T00:00:00Z.
      * 
-     * @param instant  the milliseconds from 1970-01-01T00:00:00Z
+     * @param instant the milliseconds from 1970-01-01T00:00:00Z
      */
     public Instant(long instant) {
         super();
@@ -125,7 +128,7 @@ public final class Instant
      * The recognised object types are defined in {@link ConverterManager} and
      * include String, Calendar and Date.
      *
-     * @param instant  the datetime object, null means now
+     * @param instant the datetime object, null means now
      * @throws IllegalArgumentException if the instant is invalid
      */
     public Instant(Object instant) {
@@ -134,7 +137,7 @@ public final class Instant
         iMillis = converter.getInstantMillis(instant, ISOChronology.getInstanceUTC());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get this object as an Instant by returning <code>this</code>.
      * 
@@ -144,13 +147,13 @@ public final class Instant
         return this;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets a copy of this instant with different millis.
      * <p>
      * The returned object will be either be a new Instant or <code>this</code>.
      *
-     * @param newMillis  the new millis, from 1970-01-01T00:00:00Z
+     * @param newMillis the new millis, from 1970-01-01T00:00:00Z
      * @return a copy of this instant with different millis
      */
     public Instant withMillis(long newMillis) {
@@ -162,8 +165,8 @@ public final class Instant
      * <p>
      * If the addition is zero, then <code>this</code> is returned.
      * 
-     * @param durationToAdd  the duration to add to this one
-     * @param scalar  the amount of times to add, such as -1 to subtract once
+     * @param durationToAdd the duration to add to this one
+     * @param scalar        the amount of times to add, such as -1 to subtract once
      * @return a copy of this instant with the duration added
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
@@ -180,8 +183,8 @@ public final class Instant
      * <p>
      * If the addition is zero, then <code>this</code> is returned.
      * 
-     * @param durationToAdd  the duration to add to this one, null means zero
-     * @param scalar  the amount of times to add, such as -1 to subtract once
+     * @param durationToAdd the duration to add to this one, null means zero
+     * @param scalar        the amount of times to add, such as -1 to subtract once
      * @return a copy of this instant with the duration added
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
@@ -192,13 +195,13 @@ public final class Instant
         return withDurationAdded(durationToAdd.getMillis(), scalar);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets a copy of this instant with the specified duration added.
      * <p>
      * If the amount is zero or null, then <code>this</code> is returned.
      * 
-     * @param duration  the duration to add to this one
+     * @param duration the duration to add to this one
      * @return a copy of this instant with the duration added
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
@@ -211,7 +214,7 @@ public final class Instant
      * <p>
      * If the amount is zero or null, then <code>this</code> is returned.
      * 
-     * @param duration  the duration to add to this one, null means zero
+     * @param duration the duration to add to this one, null means zero
      * @return a copy of this instant with the duration added
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
@@ -219,13 +222,13 @@ public final class Instant
         return withDurationAdded(duration, 1);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets a copy of this instant with the specified duration taken away.
      * <p>
      * If the amount is zero or null, then <code>this</code> is returned.
      * 
-     * @param duration  the duration to reduce this instant by
+     * @param duration the duration to reduce this instant by
      * @return a copy of this instant with the duration taken away
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
@@ -238,7 +241,7 @@ public final class Instant
      * <p>
      * If the amount is zero or null, then <code>this</code> is returned.
      * 
-     * @param duration  the duration to reduce this instant by
+     * @param duration the duration to reduce this instant by
      * @return a copy of this instant with the duration taken away
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
@@ -246,7 +249,7 @@ public final class Instant
         return withDurationAdded(duration, -1);
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Gets the milliseconds of the instant.
      * 
@@ -268,7 +271,7 @@ public final class Instant
         return ISOChronology.getInstanceUTC();
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * Get this object as a DateTime using ISOChronology in the default zone.
      * <p>
@@ -301,7 +304,8 @@ public final class Instant
      * <p>
      * This method is deprecated because it is a duplicate of {@link #toDateTime()}.
      * However, removing it would cause the superclass implementation to be used,
-     * which would create silent bugs in any caller depending on this implementation.
+     * which would create silent bugs in any caller depending on this
+     * implementation.
      * As such, the method itself is not currently planned to be removed.
      * <p>
      * This method definition preserves compatibility with earlier versions
@@ -345,9 +349,11 @@ public final class Instant
      * thus calling this method we really have no zone to 'retain' and
      * hence expect to switch to the default zone.
      * <p>
-     * This method is deprecated because it is a duplicate of {@link #toMutableDateTime()}.
+     * This method is deprecated because it is a duplicate of
+     * {@link #toMutableDateTime()}.
      * However, removing it would cause the superclass implementation to be used,
-     * which would create silent bugs in any caller depending on this implementation.
+     * which would create silent bugs in any caller depending on this
+     * implementation.
      * As such, the method itself is not currently planned to be removed.
      * <p>
      * This method definition preserves compatibility with earlier versions

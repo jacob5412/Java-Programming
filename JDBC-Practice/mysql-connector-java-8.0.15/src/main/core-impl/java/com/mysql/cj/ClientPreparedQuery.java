@@ -72,13 +72,14 @@ public class ClientPreparedQuery extends AbstractPreparedQuery<ClientPreparedQue
                         sizeOfParameterSet += qBindings.getBindValues()[j].getByteValue().length;
                     }
                 } else {
-                    sizeOfParameterSet += 4; // for NULL literal in SQL 
+                    sizeOfParameterSet += 4; // for NULL literal in SQL
                 }
             }
 
             //
             // Account for static part of values clause
-            // This is a little naive, because the ?s will be replaced but it gives us some padding, and is less housekeeping to ignore them. We're looking
+            // This is a little naive, because the ?s will be replaced but it gives us some
+            // padding, and is less housekeeping to ignore them. We're looking
             // for a "fuzzy" value here anyway
             //
 
@@ -100,14 +101,15 @@ public class ClientPreparedQuery extends AbstractPreparedQuery<ClientPreparedQue
 
     /**
      * @param parameterIndex
-     *            parameter index
+     *                       parameter index
      * @return bytes
      */
     public byte[] getBytesRepresentation(int parameterIndex) {
         BindValue bv = this.queryBindings.getBindValues()[parameterIndex];
 
         if (bv.isStream()) {
-            return streamToBytes(bv.getStreamValue(), false, bv.getStreamLength(), this.useStreamLengthsInPrepStmts.getValue());
+            return streamToBytes(bv.getStreamValue(), false, bv.getStreamLength(),
+                    this.useStreamLengthsInPrepStmts.getValue());
         }
 
         byte[] parameterVal = bv.getByteValue();
@@ -130,9 +132,9 @@ public class ClientPreparedQuery extends AbstractPreparedQuery<ClientPreparedQue
      * Get bytes representation for a parameter in a statement batch.
      * 
      * @param parameterIndex
-     *            parameter index
+     *                       parameter index
      * @param commandIndex
-     *            command index
+     *                       command index
      * @return bytes
      */
     public byte[] getBytesRepresentationForBatch(int parameterIndex, int commandIndex) {
@@ -143,7 +145,8 @@ public class ClientPreparedQuery extends AbstractPreparedQuery<ClientPreparedQue
 
         BindValue bv = ((ClientPreparedQueryBindings) batchedArg).getBindValues()[parameterIndex];
         if (bv.isStream()) {
-            return streamToBytes(bv.getStreamValue(), false, bv.getStreamLength(), this.useStreamLengthsInPrepStmts.getValue());
+            return streamToBytes(bv.getStreamValue(), false, bv.getStreamLength(),
+                    this.useStreamLengthsInPrepStmts.getValue());
         }
         byte parameterVal[] = bv.getByteValue();
         if (parameterVal == null) {

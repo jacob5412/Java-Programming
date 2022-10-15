@@ -93,7 +93,8 @@ public class ResultSetTest extends BaseTestCase {
             int index = ((Number) this.rs.getObject(3)).intValue();
             String charsetName = null;
             if (((ConnectionImpl) c).getSession().getProtocol().getServerSession().indexToCustomMysqlCharset != null) {
-                charsetName = ((ConnectionImpl) c).getSession().getProtocol().getServerSession().indexToCustomMysqlCharset.get(index);
+                charsetName = ((ConnectionImpl) c).getSession().getProtocol()
+                        .getServerSession().indexToCustomMysqlCharset.get(index);
             }
             if (charsetName == null) {
                 charsetName = CharsetMapping.getMysqlCharsetNameForCollationIndex(index);
@@ -156,7 +157,8 @@ public class ResultSetTest extends BaseTestCase {
         createTable("testPadding", "(" + columns.toString() + ", ord INT)");
 
         this.stmt.executeUpdate(
-                "INSERT INTO testPadding VALUES (" + emptyBuf.toString() + ", 1), (" + abcBuf.toString() + ", 2), (" + repeatBuf.toString() + ", 3)");
+                "INSERT INTO testPadding VALUES (" + emptyBuf.toString() + ", 1), (" + abcBuf.toString() + ", 2), ("
+                        + repeatBuf.toString() + ", 3)");
 
         try {
             Properties props = new Properties();
@@ -172,7 +174,8 @@ public class ResultSetTest extends BaseTestCase {
         }
     }
 
-    private void testPaddingForConnection(Connection paddedConn, int numChars, StringBuilder selectBuf) throws SQLException {
+    private void testPaddingForConnection(Connection paddedConn, int numChars, StringBuilder selectBuf)
+            throws SQLException {
 
         String query = "SELECT " + selectBuf.toString() + " FROM testPadding ORDER by ord";
 
@@ -183,7 +186,8 @@ public class ResultSetTest extends BaseTestCase {
             for (int i = 0; i < numCols; i++) {
                 assertEquals(
                         "For column '" + this.rs.getMetaData().getColumnName(i + 1) + "' of collation "
-                                + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(i + 1),
+                                + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData())
+                                        .getColumnCharacterEncoding(i + 1),
                         numChars, this.rs.getString(i + 1).length());
             }
         }
@@ -194,7 +198,8 @@ public class ResultSetTest extends BaseTestCase {
             for (int i = 0; i < numCols; i++) {
                 assertEquals(
                         "For column '" + this.rs.getMetaData().getColumnName(i + 1) + "' of collation "
-                                + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(i + 1),
+                                + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData())
+                                        .getColumnCharacterEncoding(i + 1),
                         numChars, this.rs.getString(i + 1).length());
             }
         }
@@ -205,7 +210,8 @@ public class ResultSetTest extends BaseTestCase {
             for (int i = 0; i < numCols; i++) {
                 assertEquals(
                         "For column '" + this.rs.getMetaData().getColumnName(i + 1) + "' of collation "
-                                + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(i + 1),
+                                + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData())
+                                        .getColumnCharacterEncoding(i + 1),
                         numChars, this.rs.getString(i + 1).length());
             }
         }
@@ -217,12 +223,14 @@ public class ResultSetTest extends BaseTestCase {
                 if (this.rs.getRow() != 3) {
                     assertTrue(
                             "For column '" + this.rs.getMetaData().getColumnName(i + 1) + "' of collation "
-                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(i + 1),
+                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData())
+                                            .getColumnCharacterEncoding(i + 1),
                             numChars != this.rs.getString(i + 1).length());
                 } else {
                     assertEquals(
                             "For column '" + this.rs.getMetaData().getColumnName(i + 1) + "' of collation "
-                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(i + 1),
+                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData())
+                                            .getColumnCharacterEncoding(i + 1),
                             numChars, this.rs.getString(i + 1).length());
                 }
             }
@@ -235,12 +243,14 @@ public class ResultSetTest extends BaseTestCase {
                 if (this.rs.getRow() != 3) {
                     assertTrue(
                             "For column '" + this.rs.getMetaData().getColumnName(i + 1) + "' of collation "
-                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(i + 1),
+                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData())
+                                            .getColumnCharacterEncoding(i + 1),
                             numChars != this.rs.getString(i + 1).length());
                 } else {
                     assertEquals(
                             "For column '" + this.rs.getMetaData().getColumnName(i + 1) + "' of collation "
-                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(i + 1),
+                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData())
+                                            .getColumnCharacterEncoding(i + 1),
                             numChars, this.rs.getString(i + 1).length());
                 }
             }
@@ -253,12 +263,14 @@ public class ResultSetTest extends BaseTestCase {
                 if (this.rs.getRow() != 3) {
                     assertTrue(
                             "For column '" + this.rs.getMetaData().getColumnName(i + 1) + "' of collation "
-                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(i + 1),
+                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData())
+                                            .getColumnCharacterEncoding(i + 1),
                             numChars != this.rs.getString(i + 1).length());
                 } else {
                     assertEquals(
                             "For column '" + this.rs.getMetaData().getColumnName(i + 1) + "' of collation "
-                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData()).getColumnCharacterEncoding(i + 1),
+                                    + ((com.mysql.cj.jdbc.result.ResultSetMetaData) this.rs.getMetaData())
+                                            .getColumnCharacterEncoding(i + 1),
                             numChars, this.rs.getString(i + 1).length());
                 }
             }
@@ -272,14 +284,16 @@ public class ResultSetTest extends BaseTestCase {
 
         // first warning on truncation of timestamp to date
         this.rs.getDate(1);
-        assertTrue(this.rs.getWarnings().getMessage().startsWith("Precision lost converting DATETIME/TIMESTAMP to java.sql.Date"));
+        assertTrue(this.rs.getWarnings().getMessage()
+                .startsWith("Precision lost converting DATETIME/TIMESTAMP to java.sql.Date"));
         assertNull(this.rs.getWarnings().getNextWarning());
 
         this.rs.clearWarnings();
 
         // first warning on truncation of timestamp to time
         this.rs.getTime(1);
-        assertTrue(this.rs.getWarnings().getMessage().startsWith("Precision lost converting DATETIME/TIMESTAMP to java.sql.Time"));
+        assertTrue(this.rs.getWarnings().getMessage()
+                .startsWith("Precision lost converting DATETIME/TIMESTAMP to java.sql.Time"));
         assertNull(this.rs.getWarnings().getNextWarning());
 
         this.rs.clearWarnings();
@@ -406,11 +420,13 @@ public class ResultSetTest extends BaseTestCase {
 
     /**
      * Test for (Updatable)ResultSet.[update|get]Object().
-     * Note: ResultSet.getObject() is covered in methods TestJDBC42Statemet.validateTestData[Local|Offset]DTTypes.
+     * Note: ResultSet.getObject() is covered in methods
+     * TestJDBC42Statemet.validateTestData[Local|Offset]DTTypes.
      */
     public void testUpdResultSetUpdateObjectAndNewSupportedTypes() throws Exception {
         /*
-         * Objects java.time.Local[Date][Time] are supported via conversion to/from java.sql.[Date|Time|Timestamp].
+         * Objects java.time.Local[Date][Time] are supported via conversion to/from
+         * java.sql.[Date|Time|Timestamp].
          */
         createTable("testUpdateObject1", "(id INT PRIMARY KEY, d DATE, t TIME, dt DATETIME, ts TIMESTAMP)");
 
@@ -654,12 +670,14 @@ public class ResultSetTest extends BaseTestCase {
         assertEquals(12, rowCount);
 
         /*
-         * Objects java.time.Offset[Date]Time are supported via conversion to *CHAR or serialization.
+         * Objects java.time.Offset[Date]Time are supported via conversion to *CHAR or
+         * serialization.
          */
         OffsetDateTime testOffsetDateTime = OffsetDateTime.of(2015, 8, 04, 12, 34, 56, 7890, ZoneOffset.UTC);
         OffsetTime testOffsetTime = OffsetTime.of(12, 34, 56, 7890, ZoneOffset.UTC);
 
-        createTable("testUpdateObject2", "(id INT PRIMARY KEY, ot1 VARCHAR(100), ot2 BLOB, odt1 VARCHAR(100), odt2 BLOB)");
+        createTable("testUpdateObject2",
+                "(id INT PRIMARY KEY, ot1 VARCHAR(100), ot2 BLOB, odt1 VARCHAR(100), odt2 BLOB)");
 
         this.rs = testStmt.executeQuery("SELECT * FROM testUpdateObject2");
         this.rs.moveToInsertRow();
@@ -704,7 +722,8 @@ public class ResultSetTest extends BaseTestCase {
     }
 
     /**
-     * Test for (Updatable)ResultSet.updateObject(), unsupported SQL types TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
+     * Test for (Updatable)ResultSet.updateObject(), unsupported SQL types
+     * TIME_WITH_TIMEZONE, TIMESTAMP_WITH_TIMEZONE and REF_CURSOR.
      */
     public void testUpdResultSetUpdateObjectAndNewUnsupportedTypes() throws SQLException {
         createTable("testUnsupportedTypes", "(id INT PRIMARY KEY, col VARCHAR(20))");
@@ -720,62 +739,70 @@ public class ResultSetTest extends BaseTestCase {
         assertTrue(this.rs.next());
 
         final ResultSet rsTmp = this.rs;
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                rsTmp.updateObject(2, LocalTime.now(), JDBCType.TIME_WITH_TIMEZONE);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                rsTmp.updateObject(2, LocalTime.now(), JDBCType.TIME_WITH_TIMEZONE, 8);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                rsTmp.updateObject("col", LocalTime.now(), JDBCType.TIME_WITH_TIMEZONE);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                rsTmp.updateObject("col", LocalTime.now(), JDBCType.TIME_WITH_TIMEZONE, 8);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                rsTmp.updateObject(2, LocalDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                rsTmp.updateObject(2, LocalDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE, 20);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                rsTmp.updateObject("col", LocalDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE);
-                return null;
-            }
-        });
-        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE", new Callable<Void>() {
-            @Override
-            public Void call() throws Exception {
-                rsTmp.updateObject("col", LocalDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE, 20);
-                return null;
-            }
-        });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        rsTmp.updateObject(2, LocalTime.now(), JDBCType.TIME_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        rsTmp.updateObject(2, LocalTime.now(), JDBCType.TIME_WITH_TIMEZONE, 8);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        rsTmp.updateObject("col", LocalTime.now(), JDBCType.TIME_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIME_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        rsTmp.updateObject("col", LocalTime.now(), JDBCType.TIME_WITH_TIMEZONE, 8);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        rsTmp.updateObject(2, LocalDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        rsTmp.updateObject(2, LocalDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE, 20);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        rsTmp.updateObject("col", LocalDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE);
+                        return null;
+                    }
+                });
+        assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: TIMESTAMP_WITH_TIMEZONE",
+                new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        rsTmp.updateObject("col", LocalDateTime.now(), JDBCType.TIMESTAMP_WITH_TIMEZONE, 20);
+                        return null;
+                    }
+                });
         assertThrows(SQLFeatureNotSupportedException.class, "Unsupported SQL type: REF_CURSOR", new Callable<Void>() {
             @Override
             public Void call() throws Exception {

@@ -13,7 +13,7 @@ public class separateInt {
         String s = sc.nextLine();
         sc.close();
 
-        String sep = s.replace(""," $ ");
+        String sep = s.replace("", " $ ");
 
         System.out.println("Separated digits are: " + sep);
     }

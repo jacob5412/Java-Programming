@@ -1,39 +1,38 @@
 import java.util.Scanner;
 
-class testPalindrome{
-	testPalindrome(int n){
+class testPalindrome {
+	testPalindrome(int n) {
 		int j = 0, i = 1, r;
 		boolean flag = false;
-		while(n > 0) {
-			r = n%10;
-			n = n/10;
-			j = j*i + r;
-			i = i*10;
-			
-			if(j == n)
-			{
+		while (n > 0) {
+			r = n % 10;
+			n = n / 10;
+			j = j * i + r;
+			i = i * 10;
+
+			if (j == n) {
 				System.out.println("Number is a Palindrome");
 				flag = true;
 				break;
 			}
 		}
-		if(flag == false)
+		if (flag == false)
 			System.out.println("Number is not a Palindrome");
 	}
 }
 
-class digitSum{
-	digitSum(int n){
+class digitSum {
+	digitSum(int n) {
 		int sum = 0, r;
-		while(n > 0){
-			r = n%10;
-			n = n/10;
+		while (n > 0) {
+			r = n % 10;
+			n = n / 10;
 			sum += r;
 		}
 
 		System.out.println("Sum of digits are: " + sum);
 	}
-	
+
 }
 
 public class palindrome {
@@ -42,7 +41,7 @@ public class palindrome {
 		Scanner in = new Scanner(System.in);
 		System.out.print("Enter a number: ");
 		int num = in.nextInt();
-		
+
 		new digitSum(num);
 		new testPalindrome(num);
 

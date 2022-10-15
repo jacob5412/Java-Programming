@@ -76,7 +76,8 @@ public class TableInsertTest extends BaseTableTestCase {
         try {
             sqlUpdate("drop table if exists basicInsert");
             sqlUpdate("drop view if exists basicInsertView");
-            sqlUpdate("create table basicInsert (_id varchar(32), name varchar(20) not null default 'unknown', birthday date, age int)");
+            sqlUpdate(
+                    "create table basicInsert (_id varchar(32), name varchar(20) not null default 'unknown', birthday date, age int)");
             sqlUpdate("create view basicInsertView as select * from basicInsert");
 
             Table table = this.schema.getTable("basicInsert");
@@ -166,7 +167,8 @@ public class TableInsertTest extends BaseTableTestCase {
             RowResult rows = table.select("_id, doc").orderBy("_id").execute();
             Row r = rows.next();
             assertEquals("1", r.getString("_id"));
-            assertEquals(JsonParser.parseDoc(new StringReader("{\"x\":\"1\"}")).toString(), r.getDbDoc("doc").toString());
+            assertEquals(JsonParser.parseDoc(new StringReader("{\"x\":\"1\"}")).toString(),
+                    r.getDbDoc("doc").toString());
 
             r = rows.next();
             assertEquals("2", r.getString("_id"));

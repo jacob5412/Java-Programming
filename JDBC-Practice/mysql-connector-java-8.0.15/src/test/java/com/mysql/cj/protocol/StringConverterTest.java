@@ -41,7 +41,8 @@ import com.mysql.cj.result.StringValueFactory;
 import com.mysql.cj.result.ValueFactory;
 
 /**
- * Tests for {@link StringConverter}. Here we exercise the weird/wacky ways that we and/or JDBC allow retrieving data from columns other than the matching
+ * Tests for {@link StringConverter}. Here we exercise the weird/wacky ways that
+ * we and/or JDBC allow retrieving data from columns other than the matching
  * types.
  */
 public class StringConverterTest {
@@ -105,7 +106,8 @@ public class StringConverterTest {
 
     @Test
     public void testTimestampFromString() {
-        assertEquals("2006-07-01 12:13:14", this.stringConverter.createFromBytes("2006-07-01 12:13:14".getBytes(), 0, 19));
+        assertEquals("2006-07-01 12:13:14",
+                this.stringConverter.createFromBytes("2006-07-01 12:13:14".getBytes(), 0, 19));
     }
 
     @Test

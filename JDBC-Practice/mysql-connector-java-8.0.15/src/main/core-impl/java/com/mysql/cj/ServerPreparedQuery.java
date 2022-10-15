@@ -110,7 +110,7 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
      * @param sql
      *            query string
      * @throws IOException
-     *             if an i/o error occurs
+     *                     if an i/o error occurs
      */
     public void serverPrepare(String sql) throws IOException {
         this.session.checkClosed();
@@ -125,16 +125,19 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
             boolean loadDataQuery = StringUtils.startsWithIgnoreCaseAndWs(sql, "LOAD DATA");
 
             String characterEncoding = null;
-            String connectionEncoding = this.session.getPropertySet().getStringProperty(PropertyKey.characterEncoding).getValue();
+            String connectionEncoding = this.session.getPropertySet().getStringProperty(PropertyKey.characterEncoding)
+                    .getValue();
 
             if (!loadDataQuery && (connectionEncoding != null)) {
                 characterEncoding = connectionEncoding;
             }
 
             NativePacketPayload prepareResultPacket = this.session
-                    .sendCommand(this.commandBuilder.buildComStmtPrepare(this.session.getSharedSendPacket(), sql, characterEncoding), false, 0);
+                    .sendCommand(this.commandBuilder.buildComStmtPrepare(this.session.getSharedSendPacket(), sql,
+                            characterEncoding), false, 0);
 
-            // 4.1.1 and newer use the first byte as an 'ok' or 'error' flag, so move the buffer pointer past it to start reading the statement id.
+            // 4.1.1 and newer use the first byte as an 'ok' or 'error' flag, so move the
+            // buffer pointer past it to start reading the statement id.
             prepareResultPacket.setPosition(1);
 
             this.serverStatementId = prepareResultPacket.readInteger(IntegerDataType.INT4);
@@ -147,9 +150,12 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
             this.session.incrementNumberOfPrepares();
 
             if (this.profileSQL) {
-                this.eventSink.consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_PREPARE, "", this.getCurrentCatalog(), this.session.getThreadId(),
-                        this.statementId, -1, System.currentTimeMillis(), this.session.getCurrentTimeNanosOrMillis() - begin,
-                        this.session.getQueryTimingUnits(), null, LogUtils.findCallingClassAndMethod(new Throwable()), truncateQueryToLog(sql)));
+                this.eventSink.consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_PREPARE, "",
+                        this.getCurrentCatalog(), this.session.getThreadId(),
+                        this.statementId, -1, System.currentTimeMillis(),
+                        this.session.getCurrentTimeNanosOrMillis() - begin,
+                        this.session.getQueryTimingUnits(), null, LogUtils.findCallingClassAndMethod(new Throwable()),
+                        truncateQueryToLog(sql)));
             }
 
             boolean checkEOF = !this.session.getServerSession().isEOFDeprecated();
@@ -159,13 +165,15 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
                     this.session.getProtocol().skipPacket();
                 }
 
-                this.parameterFields = this.session.getProtocol().read(ColumnDefinition.class, new ColumnDefinitionFactory(this.parameterCount, null))
+                this.parameterFields = this.session.getProtocol()
+                        .read(ColumnDefinition.class, new ColumnDefinitionFactory(this.parameterCount, null))
                         .getFields();
             }
 
             // Read in the result set column information
             if (fieldCount > 0) {
-                this.resultFields = this.session.getProtocol().read(ColumnDefinition.class, new ColumnDefinitionFactory(fieldCount, null));
+                this.resultFields = this.session.getProtocol().read(ColumnDefinition.class,
+                        new ColumnDefinitionFactory(fieldCount, null));
             }
         }
     }
@@ -178,18 +186,20 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
 
     /**
      * @param <T>
-     *            extends {@link Resultset}
+     *                                 extends {@link Resultset}
      * @param maxRowsToRetrieve
-     *            rows limit
+     *                                 rows limit
      * @param createStreamingResultSet
-     *            should c/J create a streaming result?
+     *                                 should c/J create a streaming result?
      * @param metadata
-     *            use this metadata instead of the one provided on wire
+     *                                 use this metadata instead of the one provided
+     *                                 on wire
      * @param resultSetFactory
-     *            {@link ProtocolEntityFactory}
+     *                                 {@link ProtocolEntityFactory}
      * @return T instance
      */
-    public <T extends Resultset> T serverExecute(int maxRowsToRetrieve, boolean createStreamingResultSet, ColumnDefinition metadata,
+    public <T extends Resultset> T serverExecute(int maxRowsToRetrieve, boolean createStreamingResultSet,
+            ColumnDefinition metadata,
             ProtocolEntityFactory<T, NativePacketPayload> resultSetFactory) {
         if (this.session.shouldIntercept()) {
             T interceptedResults = this.session.invokeQueryInterceptorsPre(() -> {
@@ -207,7 +217,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
 
         NativePacketPayload packet = prepareExecutePacket();
         NativePacketPayload resPacket = sendExecutePacket(packet, queryAsString);
-        T rs = readExecuteResult(resPacket, maxRowsToRetrieve, createStreamingResultSet, metadata, resultSetFactory, queryAsString);
+        T rs = readExecuteResult(resPacket, maxRowsToRetrieve, createStreamingResultSet, metadata, resultSetFactory,
+                queryAsString);
 
         return rs;
     }
@@ -225,15 +236,18 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
                 if (parameterBindings[i].isStream()) {
                     if (firstFound && boundTimeToCheck != parameterBindings[i].boundBeforeExecutionNum) {
                         throw ExceptionFactory.createException(
-                                Messages.getString("ServerPreparedStatement.11") + Messages.getString("ServerPreparedStatement.12"),
-                                MysqlErrorNumbers.SQL_STATE_DRIVER_NOT_CAPABLE, 0, true, null, this.session.getExceptionInterceptor());
+                                Messages.getString("ServerPreparedStatement.11")
+                                        + Messages.getString("ServerPreparedStatement.12"),
+                                MysqlErrorNumbers.SQL_STATE_DRIVER_NOT_CAPABLE, 0, true, null,
+                                this.session.getExceptionInterceptor());
                     }
                     firstFound = true;
                     boundTimeToCheck = parameterBindings[i].boundBeforeExecutionNum;
                 }
             }
 
-            // Okay, we've got all "newly"-bound streams, so reset server-side state to clear out previous bindings
+            // Okay, we've got all "newly"-bound streams, so reset server-side state to
+            // clear out previous bindings
 
             serverResetStatement();
         }
@@ -260,9 +274,11 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         // we only create cursor-backed result sets if
         // a) The query is a SELECT
         // b) The server supports it
-        // c) We know it is forward-only (note this doesn't preclude updatable result sets)
+        // c) We know it is forward-only (note this doesn't preclude updatable result
+        // sets)
         // d) The user has set a fetch size
-        if (this.resultFields != null && this.resultFields.getFields() != null && this.useCursorFetch && this.resultSetType == Type.FORWARD_ONLY
+        if (this.resultFields != null && this.resultFields.getFields() != null && this.useCursorFetch
+                && this.resultSetType == Type.FORWARD_ONLY
                 && this.fetchSize > 0) {
             packet.writeInteger(IntegerDataType.INT1, OPEN_CURSOR_FLAG);
         } else {
@@ -283,7 +299,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         byte[] nullBitsBuffer = new byte[nullCount];
 
         /* In case if buffers (type) altered, indicate to server */
-        packet.writeInteger(IntegerDataType.INT1, this.queryBindings.getSendTypesToServer().get() ? (byte) 1 : (byte) 0);
+        packet.writeInteger(IntegerDataType.INT1,
+                this.queryBindings.getSendTypesToServer().get() ? (byte) 1 : (byte) 0);
 
         if (this.queryBindings.getSendTypesToServer().get()) {
             /*
@@ -300,7 +317,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         for (int i = 0; i < this.parameterCount; i++) {
             if (!parameterBindings[i].isStream()) {
                 if (!parameterBindings[i].isNull()) {
-                    parameterBindings[i].storeBinding(packet, this.queryBindings.isLoadDataQuery(), this.charEncoding, this.session.getExceptionInterceptor());
+                    parameterBindings[i].storeBinding(packet, this.queryBindings.isLoadDataQuery(), this.charEncoding,
+                            this.session.getExceptionInterceptor());
                 } else {
                     nullBitsBuffer[i / 8] |= (1 << (i & 7));
                 }
@@ -318,7 +336,11 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         return packet;
     }
 
-    public NativePacketPayload sendExecutePacket(NativePacketPayload packet, String queryAsString) { // TODO queryAsString should be shared instead of passed
+    public NativePacketPayload sendExecutePacket(NativePacketPayload packet, String queryAsString) { // TODO
+                                                                                                     // queryAsString
+                                                                                                     // should be shared
+                                                                                                     // instead of
+                                                                                                     // passed
 
         long begin = 0;
 
@@ -333,7 +355,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         CancelQueryTask timeoutTask = null;
 
         try {
-            // Get this before executing to avoid a shared packet pollution in the case some other query is issued internally, such as when using I_S.
+            // Get this before executing to avoid a shared packet pollution in the case some
+            // other query is issued internally, such as when using I_S.
 
             timeoutTask = startQueryTimer(this, this.timeoutInMillis);
 
@@ -359,7 +382,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
                     if (this.useAutoSlowLog) {
                         this.queryWasSlow = elapsedTime > this.slowQueryThresholdMillis.getValue();
                     } else {
-                        this.queryWasSlow = this.session.getProtocol().getMetricsHolder().isAbonormallyLongQuery(elapsedTime);
+                        this.queryWasSlow = this.session.getProtocol().getMetricsHolder()
+                                .isAbonormallyLongQuery(elapsedTime);
 
                         this.session.getProtocol().getMetricsHolder().reportQueryTime(elapsedTime);
                     }
@@ -379,8 +403,10 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
                     mesgBuf.append("\n\n with parameters bound:\n\n");
                     mesgBuf.append(queryAsString);
 
-                    this.eventSink.consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_SLOW_QUERY, "", getCurrentCatalog(), this.session.getThreadId(),
-                            getId(), 0, System.currentTimeMillis(), elapsedTime, this.session.getQueryTimingUnits(), null,
+                    this.eventSink.consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_SLOW_QUERY, "",
+                            getCurrentCatalog(), this.session.getThreadId(),
+                            getId(), 0, System.currentTimeMillis(), elapsedTime, this.session.getQueryTimingUnits(),
+                            null,
                             LogUtils.findCallingClassAndMethod(new Throwable()), mesgBuf.toString()));
                 }
 
@@ -394,9 +420,12 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
             if (this.profileSQL) {
                 this.setEventSink(ProfilerEventHandlerFactory.getInstance(this.session));
 
-                this.eventSink.consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_EXECUTE, "", getCurrentCatalog(), this.session.getThreadId(),
-                        this.statementId, -1, System.currentTimeMillis(), this.session.getCurrentTimeNanosOrMillis() - begin,
-                        this.session.getQueryTimingUnits(), null, LogUtils.findCallingClassAndMethod(new Throwable()), truncateQueryToLog(queryAsString)));
+                this.eventSink.consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_EXECUTE, "", getCurrentCatalog(),
+                        this.session.getThreadId(),
+                        this.statementId, -1, System.currentTimeMillis(),
+                        this.session.getCurrentTimeNanosOrMillis() - begin,
+                        this.session.getQueryTimingUnits(), null, LogUtils.findCallingClassAndMethod(new Throwable()),
+                        truncateQueryToLog(queryAsString)));
             }
 
             return resultPacket;
@@ -415,8 +444,10 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         }
     }
 
-    public <T extends Resultset> T readExecuteResult(NativePacketPayload resultPacket, int maxRowsToRetrieve, boolean createStreamingResultSet,
-            ColumnDefinition metadata, ProtocolEntityFactory<T, NativePacketPayload> resultSetFactory, String queryAsString) { // TODO queryAsString should be shared instead of passed
+    public <T extends Resultset> T readExecuteResult(NativePacketPayload resultPacket, int maxRowsToRetrieve,
+            boolean createStreamingResultSet,
+            ColumnDefinition metadata, ProtocolEntityFactory<T, NativePacketPayload> resultSetFactory,
+            String queryAsString) { // TODO queryAsString should be shared instead of passed
         try {
             long fetchStartTime = 0;
 
@@ -424,7 +455,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
                 fetchStartTime = this.session.getCurrentTimeNanosOrMillis();
             }
 
-            T rs = this.session.getProtocol().readAllResults(maxRowsToRetrieve, createStreamingResultSet, resultPacket, true,
+            T rs = this.session.getProtocol().readAllResults(maxRowsToRetrieve, createStreamingResultSet, resultPacket,
+                    true,
                     metadata != null ? metadata : this.resultFields, resultSetFactory);
 
             if (this.session.shouldIntercept()) {
@@ -440,8 +472,10 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
             if (this.profileSQL) {
                 long fetchEndTime = this.session.getCurrentTimeNanosOrMillis();
 
-                this.eventSink.consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_FETCH, "", getCurrentCatalog(), this.session.getThreadId(), getId(),
-                        rs.getResultId(), System.currentTimeMillis(), (fetchEndTime - fetchStartTime), this.session.getQueryTimingUnits(), null,
+                this.eventSink.consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_FETCH, "", getCurrentCatalog(),
+                        this.session.getThreadId(), getId(),
+                        rs.getResultId(), System.currentTimeMillis(), (fetchEndTime - fetchStartTime),
+                        this.session.getQueryTimingUnits(), null,
                         LogUtils.findCallingClassAndMethod(new Throwable()), null));
             }
 
@@ -450,7 +484,7 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
             }
 
             this.queryBindings.getSendTypesToServer().set(false);
-            //this.results = rs;
+            // this.results = rs;
 
             if (this.session.hadWarnings()) {
                 this.session.getProtocol().scanForAndThrowDataTruncation();
@@ -458,8 +492,10 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
 
             return rs;
         } catch (IOException ioEx) {
-            throw ExceptionFactory.createCommunicationsException(this.session.getPropertySet(), this.session.getServerSession(),
-                    this.session.getProtocol().getPacketSentTimeHolder(), this.session.getProtocol().getPacketReceivedTimeHolder(), ioEx,
+            throw ExceptionFactory.createCommunicationsException(this.session.getPropertySet(),
+                    this.session.getServerSession(),
+                    this.session.getProtocol().getPacketSentTimeHolder(),
+                    this.session.getProtocol().getPacketReceivedTimeHolder(), ioEx,
                     this.session.getExceptionInterceptor());
         } catch (CJException sqlEx) {
             if (this.session.shouldIntercept()) {
@@ -491,9 +527,10 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
      * </pre>
      * 
      * @param parameterIndex
-     *            parameter index
+     *                       parameter index
      * @param longData
-     *            {@link ServerPreparedQueryBindValue containing long data}
+     *                       {@link ServerPreparedQueryBindValue containing long
+     *                       data}
      * 
      */
     private void serverLongData(int parameterIndex, ServerPreparedQueryBindValue longData) {
@@ -503,7 +540,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
             Object value = longData.value;
 
             if (value instanceof byte[]) {
-                this.session.sendCommand(this.commandBuilder.buildComStmtSendLongData(packet, this.serverStatementId, parameterIndex, (byte[]) value), true, 0);
+                this.session.sendCommand(this.commandBuilder.buildComStmtSendLongData(packet, this.serverStatementId,
+                        parameterIndex, (byte[]) value), true, 0);
             } else if (value instanceof InputStream) {
                 storeStream(parameterIndex, packet, (InputStream) value);
             } else if (value instanceof java.sql.Blob) {
@@ -516,7 +554,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
                 storeReader(parameterIndex, packet, (Reader) value);
             } else {
                 throw ExceptionFactory.createException(WrongArgumentException.class,
-                        Messages.getString("ServerPreparedStatement.18") + value.getClass().getName() + "'", this.session.getExceptionInterceptor());
+                        Messages.getString("ServerPreparedStatement.18") + value.getClass().getName() + "'",
+                        this.session.getExceptionInterceptor());
             }
         }
     }
@@ -564,7 +603,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
                 int bytesInPacket = 0;
                 int totalBytesRead = 0;
                 int bytesReadAtLastSend = 0;
-                int packetIsFullAt = this.session.getPropertySet().getMemorySizeProperty(PropertyKey.blobSendChunkSize).getValue();
+                int packetIsFullAt = this.session.getPropertySet().getMemorySizeProperty(PropertyKey.blobSendChunkSize)
+                        .getValue();
 
                 packet.setPosition(0);
                 packet.writeInteger(IntegerDataType.INT1, NativeConstants.COM_STMT_SEND_LONG_DATA);
@@ -602,7 +642,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
                     this.session.sendCommand(packet, true, 0);
                 }
             } catch (IOException ioEx) {
-                throw ExceptionFactory.createException(Messages.getString("ServerPreparedStatement.25") + ioEx.toString(), ioEx,
+                throw ExceptionFactory.createException(
+                        Messages.getString("ServerPreparedStatement.25") + ioEx.toString(), ioEx,
                         this.session.getExceptionInterceptor());
             } finally {
                 if (this.autoClosePStmtStreams.getValue()) {
@@ -622,9 +663,11 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
     public void storeReader(int parameterIndex, NativePacketPayload packet, Reader inStream) {
         this.session.checkClosed();
         synchronized (this.session) {
-            String forcedEncoding = this.session.getPropertySet().getStringProperty(PropertyKey.clobCharacterEncoding).getStringValue();
+            String forcedEncoding = this.session.getPropertySet().getStringProperty(PropertyKey.clobCharacterEncoding)
+                    .getStringValue();
 
-            String clobEncoding = (forcedEncoding == null ? this.session.getPropertySet().getStringProperty(PropertyKey.characterEncoding).getValue()
+            String clobEncoding = (forcedEncoding == null
+                    ? this.session.getPropertySet().getStringProperty(PropertyKey.characterEncoding).getValue()
                     : forcedEncoding);
 
             int maxBytesChar = 2;
@@ -648,7 +691,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
             int bytesInPacket = 0;
             int totalBytesRead = 0;
             int bytesReadAtLastSend = 0;
-            int packetIsFullAt = this.session.getPropertySet().getMemorySizeProperty(PropertyKey.blobSendChunkSize).getValue();
+            int packetIsFullAt = this.session.getPropertySet().getMemorySizeProperty(PropertyKey.blobSendChunkSize)
+                    .getValue();
 
             try {
                 packet.setPosition(0);
@@ -689,7 +733,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
                     this.session.sendCommand(packet, true, 0);
                 }
             } catch (IOException ioEx) {
-                throw ExceptionFactory.createException(Messages.getString("ServerPreparedStatement.24") + ioEx.toString(), ioEx,
+                throw ExceptionFactory.createException(
+                        Messages.getString("ServerPreparedStatement.24") + ioEx.toString(), ioEx,
                         this.session.getExceptionInterceptor());
             } finally {
                 if (this.autoClosePStmtStreams.getValue()) {
@@ -707,7 +752,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
 
     /**
      * @param clearServerParameters
-     *            flag indicating whether we need an additional clean up
+     *                              flag indicating whether we need an additional
+     *                              clean up
      */
     public void clearParameters(boolean clearServerParameters) {
         boolean hadLongData = false;
@@ -726,7 +772,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         this.session.checkClosed();
         synchronized (this.session) {
             try {
-                this.session.sendCommand(this.commandBuilder.buildComStmtReset(this.session.getSharedSendPacket(), this.serverStatementId), false, 0);
+                this.session.sendCommand(this.commandBuilder.buildComStmtReset(this.session.getSharedSendPacket(),
+                        this.serverStatementId), false, 0);
             } finally {
                 this.session.clearInputStream();
             }
@@ -734,7 +781,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
     }
 
     /**
-     * Computes the maximum parameter set size and the size of the entire batch given
+     * Computes the maximum parameter set size and the size of the entire batch
+     * given
      * the number of arguments in the batch.
      */
     @Override
@@ -744,7 +792,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         long maxSizeOfParameterSet = 0;
 
         for (int i = 0; i < numBatchedArgs; i++) {
-            ServerPreparedQueryBindValue[] paramArg = ((ServerPreparedQueryBindings) this.batchedArgs.get(i)).getBindValues();
+            ServerPreparedQueryBindValue[] paramArg = ((ServerPreparedQueryBindings) this.batchedArgs.get(i))
+                    .getBindValues();
 
             long sizeOfParameterSet = (this.parameterCount + 7) / 8; // for isNull
             sizeOfParameterSet += this.parameterCount * 2; // have to send types
@@ -778,7 +827,8 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
     private String truncateQueryToLog(String sql) {
         String queryStr = null;
 
-        int maxQuerySizeToLog = this.session.getPropertySet().getIntegerProperty(PropertyKey.maxQuerySizeToLog).getValue();
+        int maxQuerySizeToLog = this.session.getPropertySet().getIntegerProperty(PropertyKey.maxQuerySizeToLog)
+                .getValue();
         if (sql.length() > maxQuerySizeToLog) {
             StringBuilder queryBuf = new StringBuilder(maxQuerySizeToLog + 12);
             queryBuf.append(sql.substring(0, maxQuerySizeToLog));

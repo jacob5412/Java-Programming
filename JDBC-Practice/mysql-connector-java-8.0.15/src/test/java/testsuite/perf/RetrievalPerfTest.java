@@ -45,7 +45,7 @@ public class RetrievalPerfTest extends BaseTestCase {
      * Constructor for RetrievalPerfTest.
      * 
      * @param name
-     *            name of the test to run
+     *             name of the test to run
      */
     public RetrievalPerfTest(String name) {
         super(name);
@@ -55,7 +55,7 @@ public class RetrievalPerfTest extends BaseTestCase {
      * Runs all tests.
      * 
      * @param args
-     *            ignored
+     *             ignored
      */
     public static void main(String[] args) {
         new RetrievalPerfTest("testRetrievalMyIsam").run();
@@ -74,9 +74,11 @@ public class RetrievalPerfTest extends BaseTestCase {
 
         for (int i = 0; i < NUM_ROWS; i++) {
             this.stmt.executeUpdate(
-                    "INSERT INTO retrievalPerfTestHeap (priKey, charField) VALUES (" + i + ",'abcdefghijklmnopqrstuvqxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')");
+                    "INSERT INTO retrievalPerfTestHeap (priKey, charField) VALUES (" + i
+                            + ",'abcdefghijklmnopqrstuvqxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')");
             this.stmt.executeUpdate(
-                    "INSERT INTO retrievalPerfTestMyIsam (priKey, charField) VALUES (" + i + ",'abcdefghijklmnopqrstuvqxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')");
+                    "INSERT INTO retrievalPerfTestMyIsam (priKey, charField) VALUES (" + i
+                            + ",'abcdefghijklmnopqrstuvqxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')");
         }
     }
 
@@ -84,7 +86,7 @@ public class RetrievalPerfTest extends BaseTestCase {
      * Tests retrieval from the query cache
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testRetrievalCached() throws Exception {
         if (!((MysqlConnection) this.conn).getSession().getServerSession().isQueryCacheEnabled()) {
@@ -133,7 +135,7 @@ public class RetrievalPerfTest extends BaseTestCase {
      * Tests retrieval from HEAP tables
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testRetrievalHeap() throws Exception {
         double fullBegin = System.currentTimeMillis();
@@ -177,7 +179,7 @@ public class RetrievalPerfTest extends BaseTestCase {
      * Tests retrieval speed from MyISAM type tables
      * 
      * @throws Exception
-     *             if an error occurs
+     *                   if an error occurs
      */
     public void testRetrievalMyIsam() throws Exception {
         double fullBegin = System.currentTimeMillis();

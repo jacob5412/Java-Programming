@@ -145,8 +145,10 @@ public class CollectionAddTest extends BaseCollectionTestCase {
             assertTrue(res1.getGeneratedIds().get(0).matches("[a-f0-9]{28}"));
         } else {
             AddResult res1 = this.collection
-                    .add(this.collection.newDoc().add("_id", new JsonString().setValue("1")).add("f1", new JsonString().setValue("doc1")),
-                            this.collection.newDoc().add("_id", new JsonString().setValue("2")).add("f1", new JsonString().setValue("doc2")))
+                    .add(this.collection.newDoc().add("_id", new JsonString().setValue("1")).add("f1",
+                            new JsonString().setValue("doc1")),
+                            this.collection.newDoc().add("_id", new JsonString().setValue("2")).add("f1",
+                                    new JsonString().setValue("doc2")))
                     .execute(); // Inject _ids.
             assertEquals(0, res1.getGeneratedIds().size());
         }
@@ -155,13 +157,18 @@ public class CollectionAddTest extends BaseCollectionTestCase {
         assertEquals(2, docs.count());
 
         if (mysqlVersionMeetsMinimum(ServerVersion.parseVersion(("8.0.5")))) {
-            AddResult res2 = this.collection.add(new DbDoc[] { this.collection.newDoc().add("f1", new JsonString().setValue("doc3")),
-                    this.collection.newDoc().add("f1", new JsonString().setValue("doc4")) }).execute();
+            AddResult res2 = this.collection
+                    .add(new DbDoc[] { this.collection.newDoc().add("f1", new JsonString().setValue("doc3")),
+                            this.collection.newDoc().add("f1", new JsonString().setValue("doc4")) })
+                    .execute();
             assertTrue(res2.getGeneratedIds().get(0).matches("[a-f0-9]{28}"));
         } else {
             AddResult res2 = this.collection
-                    .add(new DbDoc[] { this.collection.newDoc().add("_id", new JsonString().setValue("3")).add("f1", new JsonString().setValue("doc3")),
-                            this.collection.newDoc().add("_id", new JsonString().setValue("4")).add("f1", new JsonString().setValue("doc4")) })
+                    .add(new DbDoc[] {
+                            this.collection.newDoc().add("_id", new JsonString().setValue("3")).add("f1",
+                                    new JsonString().setValue("doc3")),
+                            this.collection.newDoc().add("_id", new JsonString().setValue("4")).add("f1",
+                                    new JsonString().setValue("doc4")) })
                     .execute();
             assertEquals(0, res2.getGeneratedIds().size());
         }
@@ -200,7 +207,8 @@ public class CollectionAddTest extends BaseCollectionTestCase {
         int expectedAssignedIds;
         if (!mysqlVersionMeetsMinimum(ServerVersion.parseVersion("8.0.5"))) {
             res = this.collection.add(json1).execute();
-            assertThrows(XProtocolError.class, "ERROR 5115 \\(HY000\\) Document is missing a required field", () -> this.collection.add(json2).execute());
+            assertThrows(XProtocolError.class, "ERROR 5115 \\(HY000\\) Document is missing a required field",
+                    () -> this.collection.add(json2).execute());
             expectedAssignedIds = 0;
         } else {
             res = this.collection.add(json1).add(json2).execute();
@@ -210,7 +218,8 @@ public class CollectionAddTest extends BaseCollectionTestCase {
         List<String> ids = res.getGeneratedIds();
         assertEquals(expectedAssignedIds, ids.size());
 
-        for (String strId : ids) { // Although the _id="Id#1" is not returned in getGeneratedIds(), it may be in a future version from some other method.
+        for (String strId : ids) { // Although the _id="Id#1" is not returned in getGeneratedIds(), it may be in a
+                                   // future version from some other method.
             DocResult docs = this.collection.find("_id == '" + strId + "'").execute();
             DbDoc d = docs.next();
             JsonString val = (JsonString) d.get("name");
@@ -276,7 +285,8 @@ public class CollectionAddTest extends BaseCollectionTestCase {
         this.collection.add("{\"_id\": \"id1\", \"a\": 1}").execute();
 
         // new _id
-        Result res = this.collection.addOrReplaceOne("id2", this.collection.newDoc().add("a", new JsonNumber().setValue("2")));
+        Result res = this.collection.addOrReplaceOne("id2",
+                this.collection.newDoc().add("a", new JsonNumber().setValue("2")));
         assertEquals(1, res.getAffectedItemsCount());
         assertEquals(2, this.collection.count());
         assertTrue(this.collection.find("a = 1").execute().hasNext());
@@ -299,13 +309,15 @@ public class CollectionAddTest extends BaseCollectionTestCase {
         assertTrue(this.collection.find("a = 4").execute().hasNext());
 
         // a new document with _id field that doesn't match id parameter
-        assertThrows(XDevAPIError.class, "Document already has an _id that doesn't match to id parameter", new Callable<Void>() {
-            public Void call() throws Exception {
-                CollectionAddTest.this.collection.addOrReplaceOne("id2",
-                        CollectionAddTest.this.collection.newDoc().add("_id", new JsonString().setValue("id111")));
-                return null;
-            }
-        });
+        assertThrows(XDevAPIError.class, "Document already has an _id that doesn't match to id parameter",
+                new Callable<Void>() {
+                    public Void call() throws Exception {
+                        CollectionAddTest.this.collection.addOrReplaceOne("id2",
+                                CollectionAddTest.this.collection.newDoc().add("_id",
+                                        new JsonString().setValue("id111")));
+                        return null;
+                    }
+                });
 
         // null document
         assertThrows(XDevAPIError.class, "Parameter 'doc' must not be null.", new Callable<Void>() {
@@ -357,7 +369,8 @@ public class CollectionAddTest extends BaseCollectionTestCase {
     }
 
     /**
-     * Test for Bug#92264 (28594434), JSONPARSER PUTS UNNECESSARY MAXIMUM LIMIT ON JSONNUMBER TO 10 DIGITS.
+     * Test for Bug#92264 (28594434), JSONPARSER PUTS UNNECESSARY MAXIMUM LIMIT ON
+     * JSONNUMBER TO 10 DIGITS.
      * 
      * @throws Exception
      */

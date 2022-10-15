@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+
 public class Tribonacci {
     static int tri(int n) {
         if (n == 1)

@@ -30,34 +30,31 @@ public class TestMutableDateTime_Properties extends TestCase {
     // Test in 2002/03 as time zones are more well known
     // (before the late 90's they were all over the place)
 
-    //private static final DateTimeZone PARIS = DateTimeZone.forID("Europe/Paris");
+    // private static final DateTimeZone PARIS = DateTimeZone.forID("Europe/Paris");
     private static final DateTimeZone LONDON = DateTimeZone.forID("Europe/London");
-    
-    long y2002days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 
-                     366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 
-                     365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
-                     366 + 365;
-    long y2003days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 
-                     366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 
-                     365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
-                     366 + 365 + 365;
-    
+
+    long y2002days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 +
+            365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365;
+    long y2003days = 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 +
+            365 + 365 + 366 + 365 + 365 + 365 + 366 + 365 + 365 + 365 +
+            366 + 365 + 365;
+
     // 2002-06-09
-    private long TEST_TIME_NOW =
-            (y2002days + 31L + 28L + 31L + 30L + 31L + 9L -1L) * DateTimeConstants.MILLIS_PER_DAY;
-            
+    private long TEST_TIME_NOW = (y2002days + 31L + 28L + 31L + 30L + 31L + 9L - 1L) * DateTimeConstants.MILLIS_PER_DAY;
+
     // 2002-04-05 Fri
-    private long TEST_TIME1 =
-            (y2002days + 31L + 28L + 31L + 5L -1L) * DateTimeConstants.MILLIS_PER_DAY
+    private long TEST_TIME1 = (y2002days + 31L + 28L + 31L + 5L - 1L) * DateTimeConstants.MILLIS_PER_DAY
             + 12L * DateTimeConstants.MILLIS_PER_HOUR
             + 24L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
+
     // 2003-05-06 Tue
-    private long TEST_TIME2 =
-            (y2003days + 31L + 28L + 31L + 30L + 6L -1L) * DateTimeConstants.MILLIS_PER_DAY
+    private long TEST_TIME2 = (y2003days + 31L + 28L + 31L + 30L + 6L - 1L) * DateTimeConstants.MILLIS_PER_DAY
             + 14L * DateTimeConstants.MILLIS_PER_HOUR
             + 28L * DateTimeConstants.MILLIS_PER_MINUTE;
-        
+
     private DateTimeZone zone = null;
     private Locale locale = null;
 
@@ -88,14 +85,14 @@ public class TestMutableDateTime_Properties extends TestCase {
         zone = null;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testTest() {
         assertEquals("2002-06-09T00:00:00.000Z", new Instant(TEST_TIME_NOW).toString());
         assertEquals("2002-04-05T12:24:00.000Z", new Instant(TEST_TIME1).toString());
         assertEquals("2003-05-06T14:28:00.000Z", new Instant(TEST_TIME2).toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetEra() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().era(), test.era().getField());
@@ -115,7 +112,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(9, test.era().getMaximumShortTextLength(Locale.FRENCH));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetYearOfEra() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().yearOfEra(), test.yearOfEra().getField());
@@ -132,7 +129,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(9, test.yearOfEra().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetCenturyOfEra() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().centuryOfEra(), test.centuryOfEra().getField());
@@ -149,7 +146,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(7, test.centuryOfEra().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetYearOfCentury() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().yearOfCentury(), test.yearOfCentury().getField());
@@ -166,7 +163,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(2, test.yearOfCentury().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetWeekyear() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().weekyear(), test.weekyear().getField());
@@ -183,7 +180,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(9, test.weekyear().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetYear() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().year(), test.year().getField());
@@ -228,7 +225,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals("1960-06-09T00:00:00.000+01:00", test.toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetMonthOfYear() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().monthOfYear(), test.monthOfYear().getField());
@@ -278,17 +275,17 @@ public class TestMutableDateTime_Properties extends TestCase {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         test.monthOfYear().set("12");
         assertEquals("2004-12-09T00:00:00.000Z", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         test.monthOfYear().set("December");
         assertEquals("2004-12-09T00:00:00.000Z", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         test.monthOfYear().set("Dec");
         assertEquals("2004-12-09T00:00:00.000Z", test.toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetDayOfMonth() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().dayOfMonth(), test.dayOfMonth().getField());
@@ -336,7 +333,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals("2004-06-12T00:00:00.000+01:00", test.toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetDayOfYear() {
         // 31+29+31+30+31+9 = 161
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
@@ -381,21 +378,21 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals("2004-01-12T00:00:00.000Z", test.toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetWeekOfWeekyear() {
         // 2002-01-01 = Thu
         // 2002-12-31 = Thu (+364 days)
         // 2003-12-30 = Thu (+364 days)
-        // 2004-01-03 = Mon             W1
-        // 2004-01-31 = Mon (+28 days)  W5
-        // 2004-02-28 = Mon (+28 days)  W9
-        // 2004-03-27 = Mon (+28 days)  W13
-        // 2004-04-24 = Mon (+28 days)  W17
-        // 2004-05-23 = Mon (+28 days)  W21
-        // 2004-06-05 = Mon (+14 days)  W23
+        // 2004-01-03 = Mon W1
+        // 2004-01-31 = Mon (+28 days) W5
+        // 2004-02-28 = Mon (+28 days) W9
+        // 2004-03-27 = Mon (+28 days) W13
+        // 2004-04-24 = Mon (+28 days) W17
+        // 2004-05-23 = Mon (+28 days) W21
+        // 2004-06-05 = Mon (+14 days) W23
         // 2004-06-09 = Fri
-        // 2004-12-25 = Mon             W52
-        // 2005-01-01 = Mon             W1
+        // 2004-12-25 = Mon W52
+        // 2005-01-01 = Mon W1
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().weekOfWeekyear(), test.weekOfWeekyear().getField());
         assertEquals("weekOfWeekyear", test.weekOfWeekyear().getName());
@@ -438,7 +435,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals("2004-01-19T00:00:00.000Z", test.toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetDayOfWeek() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         assertSame(test.getChronology().dayOfWeek(), test.dayOfWeek().getField());
@@ -477,7 +474,7 @@ public class TestMutableDateTime_Properties extends TestCase {
     }
 
     public void testPropertyAddWrapFieldDayOfWeek() {
-        MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);  // Wed
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0); // Wed
         test.dayOfWeek().addWrapField(5);
         assertEquals("2004-06-07T00:00:00.000+01:00", test.toString());
     }
@@ -492,21 +489,21 @@ public class TestMutableDateTime_Properties extends TestCase {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         test.dayOfWeek().set("4");
         assertEquals("2004-06-10T00:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         test.dayOfWeek().set("Mon");
         assertEquals("2004-06-07T00:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         test.dayOfWeek().set("Tuesday");
         assertEquals("2004-06-08T00:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 0, 0, 0, 0);
         test.dayOfWeek().set("lundi", Locale.FRENCH);
         assertEquals("2004-06-07T00:00:00.000+01:00", test.toString());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetHourOfDay() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
         assertSame(test.getChronology().hourOfDay(), test.hourOfDay().getField());
@@ -539,11 +536,11 @@ public class TestMutableDateTime_Properties extends TestCase {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 30, 0, 0);
         test.hourOfDay().roundHalfFloor();
         assertEquals("2004-06-09T13:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 13, 30, 0, 1);
         test.hourOfDay().roundHalfFloor();
         assertEquals("2004-06-09T14:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 13, 29, 59, 999);
         test.hourOfDay().roundHalfFloor();
         assertEquals("2004-06-09T13:00:00.000+01:00", test.toString());
@@ -553,11 +550,11 @@ public class TestMutableDateTime_Properties extends TestCase {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 30, 0, 0);
         test.hourOfDay().roundHalfCeiling();
         assertEquals("2004-06-09T14:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 13, 30, 0, 1);
         test.hourOfDay().roundHalfCeiling();
         assertEquals("2004-06-09T14:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 13, 29, 59, 999);
         test.hourOfDay().roundHalfCeiling();
         assertEquals("2004-06-09T13:00:00.000+01:00", test.toString());
@@ -567,15 +564,15 @@ public class TestMutableDateTime_Properties extends TestCase {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 30, 0, 0);
         test.hourOfDay().roundHalfEven();
         assertEquals("2004-06-09T14:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 14, 30, 0, 0);
         test.hourOfDay().roundHalfEven();
         assertEquals("2004-06-09T14:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 13, 30, 0, 1);
         test.hourOfDay().roundHalfEven();
         assertEquals("2004-06-09T14:00:00.000+01:00", test.toString());
-        
+
         test = new MutableDateTime(2004, 6, 9, 13, 29, 59, 999);
         test.hourOfDay().roundHalfEven();
         assertEquals("2004-06-09T13:00:00.000+01:00", test.toString());
@@ -586,7 +583,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(30L * DateTimeConstants.MILLIS_PER_MINUTE, test.hourOfDay().remainder());
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetMinuteOfHour() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
         assertSame(test.getChronology().minuteOfHour(), test.minuteOfHour().getField());
@@ -603,7 +600,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(2, test.minuteOfHour().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetMinuteOfDay() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
         assertSame(test.getChronology().minuteOfDay(), test.minuteOfDay().getField());
@@ -620,7 +617,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(4, test.minuteOfDay().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetSecondOfMinute() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
         assertSame(test.getChronology().secondOfMinute(), test.secondOfMinute().getField());
@@ -637,7 +634,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(2, test.secondOfMinute().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetSecondOfDay() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
         assertSame(test.getChronology().secondOfDay(), test.secondOfDay().getField());
@@ -654,7 +651,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(5, test.secondOfDay().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetMillisOfSecond() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
         assertSame(test.getChronology().millisOfSecond(), test.millisOfSecond().getField());
@@ -671,7 +668,7 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(3, test.millisOfSecond().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyGetMillisOfDay() {
         MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
         assertSame(test.getChronology().millisOfDay(), test.millisOfDay().getField());
@@ -688,89 +685,89 @@ public class TestMutableDateTime_Properties extends TestCase {
         assertEquals(8, test.millisOfDay().getMaximumShortTextLength(null));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     public void testPropertyToIntervalYearOfEra() {
-      MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
-      Interval testInterval = test.yearOfEra().toInterval();
-      assertEquals(new MutableDateTime(2004, 1, 1, 0, 0, 0, 0), testInterval.getStart());
-      assertEquals(new MutableDateTime(2005, 1, 1, 0, 0, 0, 0), testInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
+        Interval testInterval = test.yearOfEra().toInterval();
+        assertEquals(new MutableDateTime(2004, 1, 1, 0, 0, 0, 0), testInterval.getStart());
+        assertEquals(new MutableDateTime(2005, 1, 1, 0, 0, 0, 0), testInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
     }
 
     public void testPropertyToIntervalYearOfCentury() {
-      MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
-      Interval testInterval = test.yearOfCentury().toInterval();
-      assertEquals(new MutableDateTime(2004, 1, 1, 0, 0, 0, 0), testInterval.getStart());
-      assertEquals(new MutableDateTime(2005, 1, 1, 0, 0, 0, 0), testInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
+        Interval testInterval = test.yearOfCentury().toInterval();
+        assertEquals(new MutableDateTime(2004, 1, 1, 0, 0, 0, 0), testInterval.getStart());
+        assertEquals(new MutableDateTime(2005, 1, 1, 0, 0, 0, 0), testInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
     }
 
     public void testPropertyToIntervalYear() {
-      MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
-      Interval testInterval = test.year().toInterval();
-      assertEquals(new MutableDateTime(2004, 1, 1, 0, 0, 0, 0), testInterval.getStart());
-      assertEquals(new MutableDateTime(2005, 1, 1, 0, 0, 0, 0), testInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
+        Interval testInterval = test.year().toInterval();
+        assertEquals(new MutableDateTime(2004, 1, 1, 0, 0, 0, 0), testInterval.getStart());
+        assertEquals(new MutableDateTime(2005, 1, 1, 0, 0, 0, 0), testInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
     }
 
     public void testPropertyToIntervalMonthOfYear() {
-      MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
-      Interval testInterval = test.monthOfYear().toInterval();
-      assertEquals(new MutableDateTime(2004, 6, 1, 0, 0, 0, 0), testInterval.getStart());
-      assertEquals(new MutableDateTime(2004, 7, 1, 0, 0, 0, 0), testInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
+        Interval testInterval = test.monthOfYear().toInterval();
+        assertEquals(new MutableDateTime(2004, 6, 1, 0, 0, 0, 0), testInterval.getStart());
+        assertEquals(new MutableDateTime(2004, 7, 1, 0, 0, 0, 0), testInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
     }
 
     public void testPropertyToIntervalDayOfMonth() {
-      MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
-      Interval testInterval = test.dayOfMonth().toInterval();
-      assertEquals(new MutableDateTime(2004, 6, 9, 0, 0, 0, 0), testInterval.getStart());
-      assertEquals(new MutableDateTime(2004, 6, 10, 0, 0, 0, 0), testInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
+        Interval testInterval = test.dayOfMonth().toInterval();
+        assertEquals(new MutableDateTime(2004, 6, 9, 0, 0, 0, 0), testInterval.getStart());
+        assertEquals(new MutableDateTime(2004, 6, 10, 0, 0, 0, 0), testInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
 
-      MutableDateTime febTest = new MutableDateTime(2004, 2, 29, 13, 23, 43, 53);
-      Interval febTestInterval = febTest.dayOfMonth().toInterval();
-      assertEquals(new MutableDateTime(2004, 2, 29, 0, 0, 0, 0), febTestInterval.getStart());
-      assertEquals(new MutableDateTime(2004, 3, 1, 0, 0, 0, 0), febTestInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 2, 29, 13, 23, 43, 53), febTest);
+        MutableDateTime febTest = new MutableDateTime(2004, 2, 29, 13, 23, 43, 53);
+        Interval febTestInterval = febTest.dayOfMonth().toInterval();
+        assertEquals(new MutableDateTime(2004, 2, 29, 0, 0, 0, 0), febTestInterval.getStart());
+        assertEquals(new MutableDateTime(2004, 3, 1, 0, 0, 0, 0), febTestInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 2, 29, 13, 23, 43, 53), febTest);
     }
 
     public void testPropertyToIntervalHourOfDay() {
-      MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
-      Interval testInterval = test.hourOfDay().toInterval();
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 0, 0, 0), testInterval.getStart());
-      assertEquals(new MutableDateTime(2004, 6, 9, 14, 0, 0, 0), testInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
+        Interval testInterval = test.hourOfDay().toInterval();
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 0, 0, 0), testInterval.getStart());
+        assertEquals(new MutableDateTime(2004, 6, 9, 14, 0, 0, 0), testInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
 
-      MutableDateTime midnightTest = new MutableDateTime(2004, 6, 9, 23, 23, 43, 53);
-      Interval midnightTestInterval = midnightTest.hourOfDay().toInterval();
-      assertEquals(new MutableDateTime(2004, 6, 9, 23, 0, 0, 0), midnightTestInterval.getStart());
-      assertEquals(new MutableDateTime(2004, 6, 10, 0, 0, 0, 0), midnightTestInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 23, 23, 43, 53), midnightTest);
+        MutableDateTime midnightTest = new MutableDateTime(2004, 6, 9, 23, 23, 43, 53);
+        Interval midnightTestInterval = midnightTest.hourOfDay().toInterval();
+        assertEquals(new MutableDateTime(2004, 6, 9, 23, 0, 0, 0), midnightTestInterval.getStart());
+        assertEquals(new MutableDateTime(2004, 6, 10, 0, 0, 0, 0), midnightTestInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 23, 23, 43, 53), midnightTest);
     }
 
     public void testPropertyToIntervalMinuteOfHour() {
-      MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
-      Interval testInterval = test.minuteOfHour().toInterval();
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 0, 0), testInterval.getStart());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 24, 0, 0), testInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
+        Interval testInterval = test.minuteOfHour().toInterval();
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 0, 0), testInterval.getStart());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 24, 0, 0), testInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
     }
 
     public void testPropertyToIntervalSecondOfMinute() {
-      MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
-      Interval testInterval = test.secondOfMinute().toInterval();
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 0), testInterval.getStart());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 44, 0), testInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
+        Interval testInterval = test.secondOfMinute().toInterval();
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 0), testInterval.getStart());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 44, 0), testInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
     }
 
     public void testPropertyToIntervalMillisOfSecond() {
-      MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
-      Interval testInterval = test.millisOfSecond().toInterval();
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), testInterval.getStart());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 54), testInterval.getEnd());
-      assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
+        MutableDateTime test = new MutableDateTime(2004, 6, 9, 13, 23, 43, 53);
+        Interval testInterval = test.millisOfSecond().toInterval();
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), testInterval.getStart());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 54), testInterval.getEnd());
+        assertEquals(new MutableDateTime(2004, 6, 9, 13, 23, 43, 53), test);
     }
 
 }

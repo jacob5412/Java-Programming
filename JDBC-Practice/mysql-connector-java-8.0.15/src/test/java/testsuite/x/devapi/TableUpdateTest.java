@@ -59,10 +59,12 @@ public class TableUpdateTest extends BaseTableTestCase {
             sqlUpdate("insert into updates values ('2', 'Shakila', '2001-06-26', 13)");
 
             Table table = this.schema.getTable("updates");
-            table.update().set("name", expr("concat(name, '-updated')")).set("age", expr("age + 1")).where("name == 'Sakila'").execute();
+            table.update().set("name", expr("concat(name, '-updated')")).set("age", expr("age + 1"))
+                    .where("name == 'Sakila'").execute();
 
             Table view = this.schema.getTable("updatesView");
-            view.update().set("name", expr("concat(name, '-updated')")).set("age", expr("age + 3")).where("name == 'Shakila'").orderBy("age", "name").execute();
+            view.update().set("name", expr("concat(name, '-updated')")).set("age", expr("age + 3"))
+                    .where("name == 'Shakila'").orderBy("age", "name").execute();
 
             RowResult rows = table.select("name, age").where("_id == :theId").bind("theId", 1).execute();
             Row r = rows.next();
@@ -81,5 +83,6 @@ public class TableUpdateTest extends BaseTableTestCase {
         }
     }
 
-    // TODO: there could be more tests, but I expect this API and implementation to change to better accommodate some "normal" use cases
+    // TODO: there could be more tests, but I expect this API and implementation to
+    // change to better accommodate some "normal" use cases
 }
