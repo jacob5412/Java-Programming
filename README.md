@@ -51,19 +51,19 @@ This repository contains all the java programming assignments for the CSE1007 la
     * Given a student name, fetch the names of all those who teach him/her.
     * if the elements of h1 are:
 
-        | Stud name | Courses registered       |
-        | ----------| -------------------------|
-        | A         | Python, Math, C          |
-        | B         | C, C++                   |
-        | C         | C++, Physics, Chemistry  |
+        | Stud name | Courses registered      |
+        | --------- | ----------------------- |
+        | A         | Python, Math, C         |
+        | B         | C, C++                  |
+        | C         | C++, Physics, Chemistry |
     * And if the elements of h2 are:
 
-        | Course Name | Faculty      |
-        | ------------| -------------|
-        | Python      | 111          |
-        | Math        | 222          |
-        | C           | 333          |
-        | C++         | 444          |
+        | Course Name | Faculty |
+        | ----------- | ------- |
+        | Python      | 111     |
+        | Math        | 222     |
+        | C           | 333     |
+        | C++         | 444     |
     * For the student “B”, faculty should be displayed as 333 and 444.
 
 ## Assignment 5
