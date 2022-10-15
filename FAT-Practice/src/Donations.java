@@ -26,7 +26,7 @@ class Donor implements Serializable {
 }
 
 public class Donations {
-    public static int getMonths(Date start, Date end){
+    public static int getMonths(Date start, Date end) {
         Calendar startCal = new GregorianCalendar();
         startCal.setTime(start);
         Calendar endCal = new GregorianCalendar();
@@ -42,52 +42,50 @@ public class Donations {
         Scanner sc = new Scanner(System.in);
         Donor donors[] = new Donor[3];
 
-        try{
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             donors[0] = new Donor("Anuradha", "2172", "O+ve", sdf.parse("13/09/2018"), 21);
-            donors[1] = new Donor("Uday", "2012", "AB+ve",sdf.parse("12/05/2018"), 21);
+            donors[1] = new Donor("Uday", "2012", "AB+ve", sdf.parse("12/05/2018"), 21);
             donors[2] = new Donor("Kaviya", "0888", "A+ve", sdf.parse("12/04/2018"), 21);
-        }catch (ParseException e){
+        } catch (ParseException e) {
             System.out.println(e);
         }
 
         String filename = "donations.txt";
-        try{
+        try {
             FileOutputStream fos = new FileOutputStream(filename);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             oos.writeObject(donors);
             oos.close();
             fos.close();
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println(e);
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println(e);
         }
 
-        try{
+        try {
             FileInputStream fis = new FileInputStream(filename);
             ObjectInputStream ois = new ObjectInputStream(fis);
 
-            Donor[] savedDonors = (Donor[])ois.readObject();
+            Donor[] savedDonors = (Donor[]) ois.readObject();
 
             fis.close();
             ois.close();
 
             System.out.println("Donors with A+ve and Last date of Donation > 6mths: ");
-            for(Donor d: savedDonors) {
-                if(getMonths(d.dold,new Date()) > 6 && d.bgroup.equals("A+ve"))
+            for (Donor d : savedDonors) {
+                if (getMonths(d.dold, new Date()) > 6 && d.bgroup.equals("A+ve"))
                     d.display();
             }
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println(e);
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println(e);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
 
     }
 }
